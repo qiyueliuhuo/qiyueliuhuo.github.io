@@ -250,7 +250,7 @@
 <h3 id="解决方法二">解决方法二</h3>
 <p>对 volatile 变量的读写操作是一个比较重的操作，所以上面的代码还可以优化一下，如下:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> SettingsDbHelper sInst = <span class="keyword">null</span>;  <span class="comment">// &lt;&lt;&lt; 这里添加了 volatile  </span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SettingsDbHelper <span class="title">getInstance</span><span class="params">(Context context)</span> </span>&#123;  </span><br><span class="line">    SettingsDbHelper inst = sInst;  <span class="comment">// &lt;&lt;&lt; 在这里创建临时变量</span></span><br><span class="line">    <span class="keyword">if</span> (inst == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (SettingsDbHelper.class) &#123;</span><br><span class="line">            inst = sInst;</span><br><span class="line">            <span class="keyword">if</span> (inst == <span class="keyword">null</span>) &#123;</span><br><span class="line">                inst = <span class="keyword">new</span> SettingsDbHelper(context);</span><br><span class="line">                sInst = inst;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> inst;  <span class="comment">// &lt;&lt;&lt; 注意这里返回的是临时变量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
 
     
@@ -331,7 +331,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E4%B8%80"><span class="nav-number">2.</span> <span class="nav-text">解决方法一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="nav-number">3.</span> <span class="nav-text">解决方法二</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E4%B8%80"><span class="nav-text">解决方法一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="nav-text">解决方法二</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -347,7 +347,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20200728201516.png">
 <meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20200728194822.png">
 <meta property="article:published_time" content="2020-07-28T11:40:17.000Z">
-<meta property="article:modified_time" content="2020-12-02T15:08:01.630Z">
+<meta property="article:modified_time" content="2021-02-22T01:43:47.317Z">
 <meta property="article:author" content="七月流火">
 <meta property="article:tag" content="学习 思考">
 <meta name="twitter:card" content="summary">
@@ -210,7 +210,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-02 23:08:01" itemprop="dateModified" datetime="2020-12-02T23:08:01+08:00">2020-12-02</time>
+                <time title="修改时间：2021-02-22 09:43:47" itemprop="dateModified" datetime="2021-02-22T09:43:47+08:00">2021-02-22</time>
               </span>
 
           
@@ -314,7 +314,7 @@
 <ol type="1">
 <li>现在计算机视觉方向cv是否需要花费大量时间去学习传统cv方向的知识和算法。</li>
 </ol>
-
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
 
     
@@ -395,7 +395,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E7%BA%B2"><span class="nav-number">1.</span> <span class="nav-text">大纲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89cv"><span class="nav-number">2.</span> <span class="nav-text">什么是计算机视觉cv</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E8%8C%83%E5%9B%B4"><span class="nav-number">3.</span> <span class="nav-text">应用范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%91%E5%87%A0%E5%B9%B4%E8%AE%BA%E6%96%87"><span class="nav-number">4.</span> <span class="nav-text">近几年论文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%9B%AE%E5%89%8D%E8%A6%81%E8%A7%A3%E5%86%B3%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">计算机视觉目前要解决哪些问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E7%AF%87%E8%AE%BA%E6%96%87%E7%9B%B8%E8%BE%83%E4%BA%8E%E4%BB%A5%E5%BE%80%E6%8F%90%E5%87%BA%E5%93%AA%E4%BA%9B%E6%96%B0%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">本篇论文相较于以往提出哪些新的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#r-cnn%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">7.</span> <span class="nav-text">R-CNN的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-number">8.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%96%91%E9%97%AE"><span class="nav-number">9.</span> <span class="nav-text">疑问</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E7%BA%B2"><span class="nav-text">大纲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89cv"><span class="nav-text">什么是计算机视觉cv</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E8%8C%83%E5%9B%B4"><span class="nav-text">应用范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%91%E5%87%A0%E5%B9%B4%E8%AE%BA%E6%96%87"><span class="nav-text">近几年论文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E7%9B%AE%E5%89%8D%E8%A6%81%E8%A7%A3%E5%86%B3%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="nav-text">计算机视觉目前要解决哪些问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E7%AF%87%E8%AE%BA%E6%96%87%E7%9B%B8%E8%BE%83%E4%BA%8E%E4%BB%A5%E5%BE%80%E6%8F%90%E5%87%BA%E5%93%AA%E4%BA%9B%E6%96%B0%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">本篇论文相较于以往提出哪些新的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#r-cnn%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-text">R-CNN的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%80%83"><span class="nav-text">思考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%96%91%E9%97%AE"><span class="nav-text">疑问</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -411,7 +411,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
