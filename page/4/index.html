@@ -173,7 +173,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/07/20/%E7%A2%8E%E7%A2%8E%E5%BF%B5/">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/12/15/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8BLasso%E5%9B%9E%E5%BD%92-%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -187,7 +187,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/20/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" class="post-title-link" itemprop="url">碎碎念</a>
+            <a href="/2020/12/15/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8BLasso%E5%9B%9E%E5%BD%92-%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA/" class="post-title-link" itemprop="url">《机器学习》课程作业之Lasso回归&稀疏表示</a>
         </h2>
 
         <div class="post-meta">
@@ -197,24 +197,15 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-07-20 18:54:10" itemprop="dateCreated datePublished" datetime="2020-07-20T18:54:10+08:00">2020-07-20</time>
+              <time title="创建时间：2020-12-15 14:12:23" itemprop="dateCreated datePublished" datetime="2020-12-15T14:12:23+08:00">2020-12-15</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-03-02 20:03:32" itemprop="dateModified" datetime="2021-03-02T20:03:32+08:00">2021-03-02</time>
+                <time title="修改时间：2020-12-22 19:10:34" itemprop="dateModified" datetime="2020-12-22T19:10:34+08:00">2020-12-22</time>
               </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%94%9F%E6%B4%BB/" itemprop="url" rel="index"><span itemprop="name">生活</span></a>
-                </span>
-            </span>
 
           
   
@@ -225,8 +216,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/07/20/%E7%A2%8E%E7%A2%8E%E5%BF%B5/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/20/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/12/15/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8BLasso%E5%9B%9E%E5%BD%92-%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/15/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8BLasso%E5%9B%9E%E5%BD%92-%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -241,12 +232,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/sunset-5455040_1920.jpg" /></p>
-<p>我变成了以前自己讨厌的那一类人了┭┮﹏┭┮</p>
-<p>2020.10.24 下午5:49</p>
+          <h2 id="第四周作业">第四周作业</h2>
+<h3 id="作业题1">作业题1</h3>
+<p>试根据授课内容，使用坐标下降法给出 Lasso 问题: <span class="math display">\[
+\min _{\boldsymbol{\beta}, \beta_{0}} \sum_{i=1}^{n}\left(y_{i}-\boldsymbol{\beta}^{T} \boldsymbol{x}_{\boldsymbol{i}}-\beta_{0}\right)^{2}+\lambda\|\boldsymbol{\beta}\|_{1}
+\]</span> 求解的详细推导步骤。
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/07/20/%E7%A2%8E%E7%A2%8E%E5%BF%B5/#more" rel="contents">
+              <a class="btn" href="/2020/12/15/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8BLasso%E5%9B%9E%E5%BD%92-%E7%A8%80%E7%96%8F%E8%A1%A8%E7%A4%BA/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -270,7 +263,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/07/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/12/11/%E6%91%B8%E7%B4%A2%E5%87%BA%E4%B8%80%E7%A7%8D%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E5%AD%A6%E4%B9%A0%E6%96%B9%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -284,7 +277,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/" class="post-title-link" itemprop="url">机器学习之支持向量机</a>
+            <a href="/2020/12/11/%E6%91%B8%E7%B4%A2%E5%87%BA%E4%B8%80%E7%A7%8D%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E5%AD%A6%E4%B9%A0%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">摸索出一种属于自己学习方式</a>
         </h2>
 
         <div class="post-meta">
@@ -293,16 +286,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-07-14 17:46:32" itemprop="dateCreated datePublished" datetime="2020-07-14T17:46:32+08:00">2020-07-14</time>
+              <time title="创建时间：2020-12-11 18:04:28 / 修改时间：20:45:08" itemprop="dateCreated datePublished" datetime="2020-12-11T18:04:28+08:00">2020-12-11</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-24 14:57:06" itemprop="dateModified" datetime="2021-01-24T14:57:06+08:00">2021-01-24</time>
-              </span>
 
           
   
@@ -313,8 +300,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/07/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/12/11/%E6%91%B8%E7%B4%A2%E5%87%BA%E4%B8%80%E7%A7%8D%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E5%AD%A6%E4%B9%A0%E6%96%B9%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/11/%E6%91%B8%E7%B4%A2%E5%87%BA%E4%B8%80%E7%A7%8D%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E5%AD%A6%E4%B9%A0%E6%96%B9%E5%BC%8F/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -329,13 +316,93 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20201203171952.png" /></p>
-<h2 id="前言">前言</h2>
-<p>支持向量机即Support Vector Machine，简称SVM。我最开始听说这个机器的时候，一头雾水，“支持”，“向量”，“机”，这三个词组合在一起让我在一开始觉得这个东西好抽象。首先，SVM实际上是一个二分类模型，也可以用来解决回归问题。了解过一些原理后，我觉得这种模型（方法）被称为Vector Support Machine更好一些，简单且不严谨的理解是: 这种模型通过某些向量（高维空间中的点）支持（支撑）而形成的一种机器（方法），或者称之为模型。</p>
-<p>引用<a target="_blank" rel="noopener" href="https://blog.pluskid.org/">Free Mind</a>在介绍SVM中一句话：<strong>“SVM 一直被认为是效果最好的现成可用的分类算法之一（其实有很多人都相信，“之一”是可以去掉的）”</strong>。刚开始接触机器学习（大半年🤦‍♂️），目前没有做太多实践，并不清楚SVM的效果有多好，后面应该多了解些SVM的实际应用。</p>
+          <p>最近一直在思考的一个问题就是：如何学习。</p>
+<p>费曼学习法。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/12/05/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="七月流火">
+      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/12/05/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/" class="post-title-link" itemprop="url">pytorch源码阅读(一)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-05 23:21:34" itemprop="dateCreated datePublished" datetime="2020-12-05T23:21:34+08:00">2020-12-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-11 15:15:59" itemprop="dateModified" datetime="2021-03-11T15:15:59+08:00">2021-03-11</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/12/05/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/05/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>阅读开源代码是提高写代码能力最好的方式之一，现在入坑机器学习领域，在众多框架中选择pytorch框架作为自己基本的深度学习框架，现在开始从最简单的pytorch代码部分阅读，学习下python技巧顺便深入学习下神经网络的代码实践。</p>
+<p>关于阅读源码，我一开始在项目中调用pytorch模块和类，通过pycharm追踪源码，在pycharm中可以直接查看依赖包torch中源码，但是这样也不方便阅读torch源码，一个原因是pycharm中查看依赖包的源码内容，查看源码文件的方式是只读模式，没法在里面注释一些自己理解的东西，另一个原因是通过单步调试阅读代码是最容易理解代码的方式，想了想pytorch源码里面应该有对源码的测试代码可以直接跑起来，然后一步步运行，这样看着更方便。</p>
+<p>从github上下载pytorch代码，通过CONTRIBUTING.md文件中指导编译源码，注意使用：<code>python setup.py develop</code> 以开发模式构建代码。这个过程在我的电脑上要跑将近两小时。。。忘了什么原因导致我跑了两次。。。四个小时没了(呜呜...) <img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20201206000548.png" /></p>
+<p>先从加载和处理数据源码了解。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/07/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/#more" rel="contents">
+              <a class="btn" href="/2020/12/05/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -359,7 +426,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/06/13/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -373,7 +440,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/06/13/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">神经网络之反向传播算法</a>
+            <a href="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/" class="post-title-link" itemprop="url">《机器学习》课程作业之支持向量机</a>
         </h2>
 
         <div class="post-meta">
@@ -383,14 +450,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-06-13 13:47:01" itemprop="dateCreated datePublished" datetime="2020-06-13T13:47:01+08:00">2020-06-13</time>
+              <time title="创建时间：2020-12-02 23:08:50" itemprop="dateCreated datePublished" datetime="2020-12-02T23:08:50+08:00">2020-12-02</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-02 18:22:36" itemprop="dateModified" datetime="2020-12-02T18:22:36+08:00">2020-12-02</time>
+                <time title="修改时间：2021-01-24 23:14:38" itemprop="dateModified" datetime="2021-01-24T23:14:38+08:00">2021-01-24</time>
               </span>
 
           
@@ -402,8 +469,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/06/13/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/06/13/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -418,12 +485,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="前言">前言</h3>
-<p>人工神经网络（Artificial Neural Network，ANN）是一门重要的机器学习技术。它是目前最为火热的研究方向--深度学习（Deep Learning）的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。</p>
-<p>四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。</p>
+          <p>基于支持向量机算法识别垃圾邮件。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/06/13/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/#more" rel="contents">
+              <a class="btn" href="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -447,7 +512,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/05/31/%E6%88%91%E4%BD%BF%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7/">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -461,7 +526,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/05/31/%E6%88%91%E4%BD%BF%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">我使用的工具</a>
+            <a href="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/" class="post-title-link" itemprop="url">《机器学习》课程作业之神经网络反向传播</a>
         </h2>
 
         <div class="post-meta">
@@ -470,16 +535,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-05-31 20:32:14" itemprop="dateCreated datePublished" datetime="2020-05-31T20:32:14+08:00">2020-05-31</time>
+              <time title="创建时间：2020-12-02 16:45:30 / 修改时间：23:09:29" itemprop="dateCreated datePublished" datetime="2020-12-02T16:45:30+08:00">2020-12-02</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-09 22:06:33" itemprop="dateModified" datetime="2021-01-09T22:06:33+08:00">2021-01-09</time>
-              </span>
 
           
   
@@ -490,8 +549,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/05/31/%E6%88%91%E4%BD%BF%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/31/%E6%88%91%E4%BD%BF%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -506,12 +565,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="一macos-应用">一、macOS 应用</h2>
-<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/office-581131_1280.jpg" /></p>
-<p>使用macbook pro已经有三年了，不得不说mac下的很多功能和操作都非常方便。下面列举下我在macOS上常使用到的软件，整理下，也借这个机会给刚开始接触macOS的朋友一个参考。
+          <p>基于神经网络手写数字识别程序</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/05/31/%E6%88%91%E4%BD%BF%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7/#more" rel="contents">
+              <a class="btn" href="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -535,7 +592,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/05/02/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-%E8%B0%B7%E6%AD%8C%E5%85%8D%E8%B4%B9%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8Google-Cloud-%E6%90%AD%E5%BB%BAv2ray%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -549,7 +606,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/05/02/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-%E8%B0%B7%E6%AD%8C%E5%85%8D%E8%B4%B9%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8Google-Cloud-%E6%90%AD%E5%BB%BAv2ray%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">科学上网:谷歌免费云服务器Google Cloud 搭建v2ray服务器详细教程</a>
+            <a href="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" class="post-title-link" itemprop="url">《机器学习》课程作业之逻辑回归</a>
         </h2>
 
         <div class="post-meta">
@@ -558,24 +615,9 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-05-02 11:00:52" itemprop="dateCreated datePublished" datetime="2020-05-02T11:00:52+08:00">2020-05-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-23 22:51:57" itemprop="dateModified" datetime="2021-02-23T22:51:57+08:00">2021-02-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-                </span>
+              <time title="创建时间：2020-12-02 11:55:54 / 修改时间：23:12:54" itemprop="dateCreated datePublished" datetime="2020-12-02T11:55:54+08:00">2020-12-02</time>
             </span>
 
           
@@ -587,8 +629,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/05/02/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-%E8%B0%B7%E6%AD%8C%E5%85%8D%E8%B4%B9%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8Google-Cloud-%E6%90%AD%E5%BB%BAv2ray%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/05/02/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-%E8%B0%B7%E6%AD%8C%E5%85%8D%E8%B4%B9%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8Google-Cloud-%E6%90%AD%E5%BB%BAv2ray%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" itemprop="commentCount"></span>
+    <a title="valine" href="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -603,491 +645,380 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="你需要准备">你需要准备</h3>
+          <p>《机器学习》课程第一周作业。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/12/02/%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E8%AF%BE%E7%A8%8B%E4%BD%9C%E4%B8%9A%E4%B9%8B%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/11/23/Yolo%E8%A7%A3%E8%AF%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="七月流火">
+      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/23/Yolo%E8%A7%A3%E8%AF%BB/" class="post-title-link" itemprop="url">Yolo解读</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-23 09:27:53" itemprop="dateCreated datePublished" datetime="2020-11-23T09:27:53+08:00">2020-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 10:15:59" itemprop="dateModified" datetime="2021-02-22T10:15:59+08:00">2021-02-22</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/11/23/Yolo%E8%A7%A3%E8%AF%BB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/11/23/Yolo%E8%A7%A3%E8%AF%BB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>学习Yolo系列论文笔记。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/23/Yolo%E8%A7%A3%E8%AF%BB/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/10/27/%E6%84%9F%E6%80%A7%E4%B8%8E%E7%90%86%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="七月流火">
+      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/27/%E6%84%9F%E6%80%A7%E4%B8%8E%E7%90%86%E6%80%A7/" class="post-title-link" itemprop="url">感性与理性</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-27 20:44:28" itemprop="dateCreated datePublished" datetime="2020-10-27T20:44:28+08:00">2020-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-10 21:41:02" itemprop="dateModified" datetime="2020-12-10T21:41:02+08:00">2020-12-10</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/10/27/%E6%84%9F%E6%80%A7%E4%B8%8E%E7%90%86%E6%80%A7/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/10/27/%E6%84%9F%E6%80%A7%E4%B8%8E%E7%90%86%E6%80%A7/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="理性">理性</h2>
+<p>记录人类思维底层所依赖的逻辑推理方式：</p>
+<ol type="1">
+<li>演绎法。</li>
+<li>归纳法。</li>
+<li>类比法。</li>
+<li>证伪法。</li>
+</ol>
+<h2 id="感性">感性</h2>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/08/01/%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="七月流火">
+      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/01/%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">《亲密关系》阅读笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-01 12:51:39" itemprop="dateCreated datePublished" datetime="2020-08-01T12:51:39+08:00">2020-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-02 18:08:45" itemprop="dateModified" datetime="2020-12-02T18:08:45+08:00">2020-12-02</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/08/01/%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/08/01/%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/digital-art-398342_1280.png" /></p>
+<blockquote>
+<p>“在最黑暗的那段人生，是我自己把自己拉出深渊。没有那个人，我就做那个人。” ——中岛美嘉</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/01/%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/07/28/R-CNN%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="七月流火">
+      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/28/R-CNN%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">R-CNN论文阅读笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-28 19:40:17" itemprop="dateCreated datePublished" datetime="2020-07-28T19:40:17+08:00">2020-07-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-22 09:43:47" itemprop="dateModified" datetime="2021-02-22T09:43:47+08:00">2021-02-22</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/07/28/R-CNN%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/07/28/R-CNN%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="大纲">大纲</h3>
+<ol type="1">
+<li>什么是计算机视觉cv</li>
+<li>应用范围</li>
+<li>计算机视觉要解决哪些问题</li>
+<li>近几年论文</li>
+<li>本篇论文相较于以往提出哪些新的方法</li>
+<li>R-CNN的流程</li>
+<li>思考</li>
+<li>疑问</li>
+</ol>
+<h3 id="什么是计算机视觉cv">什么是计算机视觉cv</h3>
+<p>三个不同的教科书给出的定义：</p>
 <ul>
-<li>一台可以翻墙的电脑。（需要的流量并不多，推荐蓝灯，目前2020.05.02还能用，速度也可以）</li>
-<li>一张全币种信用卡，谷歌云注册的时候，会从你的信用卡收取一美金证明你不是机器人。（推荐招行信用卡）</li>
-<li>linux系统命令行基础知识。
+<li><p>“the construction of explicit, meaningful descriptions of physical objects from images” (Ballard &amp; Brown, 1982)</p></li>
+<li><p>“computing properties of the 3D world from one or more digital images” (Trucco &amp; Verri, 1998)</p></li>
+<li><p>“to make useful decisions about real physical objects and scenes based on sensed images” (Sockman &amp; Shapiro, 2001)</p></li>
+</ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/05/02/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91-%E8%B0%B7%E6%AD%8C%E5%85%8D%E8%B4%B9%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8Google-Cloud-%E6%90%AD%E5%BB%BAv2ray%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/#more" rel="contents">
+              <a class="btn" href="/2020/07/28/R-CNN%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2020/04/04/hexo%E7%BC%96%E8%BE%91%E5%AE%9E%E6%97%B6%E6%B8%B8%E8%A7%88%E5%99%A8%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6browsersync/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="七月流火">
-      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="七月流火">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/04/hexo%E7%BC%96%E8%BE%91%E5%AE%9E%E6%97%B6%E6%B8%B8%E8%A7%88%E5%99%A8%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6browsersync/" class="post-title-link" itemprop="url">hexo编辑实时游览器显示插件browsersync</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-04 13:06:50" itemprop="dateCreated datePublished" datetime="2020-04-04T13:06:50+08:00">2020-04-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-02 23:34:16" itemprop="dateModified" datetime="2020-12-02T23:34:16+08:00">2020-12-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2020/04/04/hexo%E7%BC%96%E8%BE%91%E5%AE%9E%E6%97%B6%E6%B8%B8%E8%A7%88%E5%99%A8%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6browsersync/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2020/04/04/hexo%E7%BC%96%E8%BE%91%E5%AE%9E%E6%97%B6%E6%B8%B8%E8%A7%88%E5%99%A8%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6browsersync/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>用VScode编辑文章虽然很方便，但是VScode里面自带的实时显示文章（所谓的所见即所得）总觉得不怎么好看，想起来之前在公司里面偶尔修改些前端代码，好像有办法实时显示修改。现在前端开发有很多好用的工具，可以一边修改代码一边运行，实时显示在游览器。于是，网上搜索了下就找到这个插件，非常好用。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/04/hexo%E7%BC%96%E8%BE%91%E5%AE%9E%E6%97%B6%E6%B8%B8%E8%A7%88%E5%99%A8%E6%98%BE%E7%A4%BA%E6%8F%92%E4%BB%B6browsersync/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2019/05/19/%E3%80%8A%E4%BA%BA%E6%80%A7%E7%9A%84%E5%BC%B1%E7%82%B9%E3%80%8B%E7%AC%94%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="七月流火">
-      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="七月流火">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/05/19/%E3%80%8A%E4%BA%BA%E6%80%A7%E7%9A%84%E5%BC%B1%E7%82%B9%E3%80%8B%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">《人性的弱点》笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-05-19 22:41:47" itemprop="dateCreated datePublished" datetime="2019-05-19T22:41:47+08:00">2019-05-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-02 23:35:12" itemprop="dateModified" datetime="2020-12-02T23:35:12+08:00">2020-12-02</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/05/19/%E3%80%8A%E4%BA%BA%E6%80%A7%E7%9A%84%E5%BC%B1%E7%82%B9%E3%80%8B%E7%AC%94%E8%AE%B0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/05/19/%E3%80%8A%E4%BA%BA%E6%80%A7%E7%9A%84%E5%BC%B1%E7%82%B9%E3%80%8B%E7%AC%94%E8%AE%B0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/children-5411350_1280.jpg" /></p>
-<h3 id="第一章-待人处世的基本技巧"><font color=#0052ff> 第一章 待人处世的基本技巧 </font></h3>
-<blockquote>
-<p>只有那些不够明智的人才会去批评、职责和抱怨他人。的确，很多蠢人都这么做。与其抱怨、责备，不如多一些理解，设身处地地为他们想想，为什么他们会这么做，这样做比批评更加有益，而且这样，就会使我们产生同情、容忍、仁慈之心。</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/05/19/%E3%80%8A%E4%BA%BA%E6%80%A7%E7%9A%84%E5%BC%B1%E7%82%B9%E3%80%8B%E7%AC%94%E8%AE%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2019/05/04/%E4%B9%A6%E7%B1%8D/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="七月流火">
-      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="七月流火">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/05/04/%E4%B9%A6%E7%B1%8D/" class="post-title-link" itemprop="url">书籍</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-05-04 21:25:25" itemprop="dateCreated datePublished" datetime="2019-05-04T21:25:25+08:00">2019-05-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-05 01:23:20" itemprop="dateModified" datetime="2021-01-05T01:23:20+08:00">2021-01-05</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/05/04/%E4%B9%A6%E7%B1%8D/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/05/04/%E4%B9%A6%E7%B1%8D/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/tea-time-3240766_1280.jpg" /></p>
-<blockquote>
-<p>如今你的气质里，藏着你走过的路，读过的书和爱过的人。 —— 《卡萨布兰卡》</p>
-</blockquote>
-<p>闲来无事，把自己从高中、大学和毕业一年看过的书做一个统计，方便自己有空余时间可以将一些好的书籍反复看，毕竟有太多书籍值得反复研读，另外，也是对自己看书历程的记录，希望不断鞭策自己多读书，读好书，当然，也是方便别人对自己的了解。 记录必读书籍，分为已读完、正在读、未读、未读完
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/05/04/%E4%B9%A6%E7%B1%8D/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2019/03/31/%E9%98%85%E8%AF%BB%E4%B9%A6%E7%B1%8D%E5%BA%94%E8%AF%A5%E6%9C%89%E7%9A%84%E6%80%81%E5%BA%A6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="七月流火">
-      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="七月流火">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/03/31/%E9%98%85%E8%AF%BB%E4%B9%A6%E7%B1%8D%E5%BA%94%E8%AF%A5%E6%9C%89%E7%9A%84%E6%80%81%E5%BA%A6/" class="post-title-link" itemprop="url">阅读书籍应该有的态度</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-03-31 22:12:28" itemprop="dateCreated datePublished" datetime="2019-03-31T22:12:28+08:00">2019-03-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-06 19:21:31" itemprop="dateModified" datetime="2020-08-06T19:21:31+08:00">2020-08-06</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/03/31/%E9%98%85%E8%AF%BB%E4%B9%A6%E7%B1%8D%E5%BA%94%E8%AF%A5%E6%9C%89%E7%9A%84%E6%80%81%E5%BA%A6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/03/31/%E9%98%85%E8%AF%BB%E4%B9%A6%E7%B1%8D%E5%BA%94%E8%AF%A5%E6%9C%89%E7%9A%84%E6%80%81%E5%BA%A6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/person-690157_1280.jpg" /></p>
-<p>忘记在哪本书上看到的，当时保存了图片，觉得很有道理，现在摘抄下，也提醒自己。</p>
-<h3 id="慢一点你理解的越多需要记的就越少">1. 慢一点，你理解的越多，需要记的就越少</h3>
-<blockquote>
-<p>不要光是看看就行了。停下来，好好想一想。书中提出问题的时候，你不要直接去翻答案。可以假想真的有人在问你这个问题。你让大脑想得越深入，就越有可能学会并记住它。</p>
-</blockquote>
-<h3 id="做练习自己记笔记">2. 做练习，自己记笔记</h3>
-<blockquote>
-<p>不要只是坐在那里看着练习发呆。拿出笔来，写一写画一画。大量研究都证实，学习过程中如果能实际动动手，将改善你的学习。</p>
-</blockquote>
-<h3 id="阅读没有傻问题部分">3. 阅读“没有傻问题”部分</h3>
-<blockquote>
-<p>顾明思义。这些问题不是可有可无的旁注，它们绝对是核心内容的一部分！千万不要跳过去不看。</p>
-</blockquote>
-<h3 id="上床睡觉之前不要再看别的书至少不要看其他有难度的东西">4. 上床睡觉之前不要再看别的书，至少不要看其他有难度的东西</h3>
-<blockquote>
-<p>学习中有一部分是在你合上书之后完成的（特别是，要把学到的知识长久地记住，这往往无法在看书的过程中做到）。你的大脑也需要有自己的时间，这样才能再做一些处理。如果在这段处理时间内你又往大脑里灌输了新的知识。那么你刚才学的一些东西就会丢掉。</p>
-</blockquote>
-<h3 id="要喝水而且要多喝一点水">5. 要喝水，而且要多喝一点水</h3>
-<blockquote>
-<p>能提供充足的液体，你的大脑才能有最佳表现。如果缺水（可能在你感觉到口渴之前就已经缺水了），学习能力就会下降。</p>
-</blockquote>
-<h3 id="讲出来而且要大声讲出来">6. 讲出来，而且要大声讲出来</h3>
-<blockquote>
-<p>说话可以刺激大脑的另一部分。如果你想看懂什么，或者想更牢地记住它，就要大声地说出来。更好的办法是，大声地解释给别人听。这样你会学得更快，而且可能会新的发现，这是以前光看不说的时候所没有的。</p>
-</blockquote>
-<h3 id="听听你的大脑怎么说">7. 听听你的大脑怎么说</h3>
-<blockquote>
-<p>注意一下你的大脑是不是负担太重了。如果发现自己开始浮光</p>
-</blockquote>
-<h3 id="要有点感觉">8. 要有点感觉</h3>
-<blockquote>
-<p>你的大脑需要知道这是很重要的东西。要真正融入到书中的故事里。为书里的照片加上你自己的图题。你可能觉得一个笑话很蹩脚，不太让人满意，但这总比根本无动于衷要好。</p>
-</blockquote>
-<h3 id="真正做些工作">9. 真正做些工作</h3>
-<blockquote>
-<p>把这些知识应用到你的日常工作中去，利用你所学的方法完成项目决策。具体做些工作，你会得到书中练习和活动以外的经验。</p>
-</blockquote>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2019/03/23/PyCharm%E4%B9%8BMatplotlib%E4%B8%8D%E6%98%BE%E7%A4%BA%E5%9B%BE%E5%83%8F-for-Mac/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="七月流火">
-      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="七月流火">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/03/23/PyCharm%E4%B9%8BMatplotlib%E4%B8%8D%E6%98%BE%E7%A4%BA%E5%9B%BE%E5%83%8F-for-Mac/" class="post-title-link" itemprop="url">PyCharm之Matplotlib不显示图像(for Mac)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-03-23 17:47:50" itemprop="dateCreated datePublished" datetime="2019-03-23T17:47:50+08:00">2019-03-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-04 12:48:23" itemprop="dateModified" datetime="2020-04-04T12:48:23+08:00">2020-04-04</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2019/03/23/PyCharm%E4%B9%8BMatplotlib%E4%B8%8D%E6%98%BE%E7%A4%BA%E5%9B%BE%E5%83%8F-for-Mac/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2019/03/23/PyCharm%E4%B9%8BMatplotlib%E4%B8%8D%E6%98%BE%E7%A4%BA%E5%9B%BE%E5%83%8F-for-Mac/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>问题：python virtualenv创建独立环境中 Matplotlib不显示图像(for Mac) ### 系统版本 MacOS Mojave 10.14.1 ### 解决 试了上面文章的几种解决方法后还是没法解决，网上找了一大堆文章，还是没有解决，之后还是在stackoverflow中看到一种可能的问题，附上链接https://stackoverflow.com/questions/22304215/gtk-backend-requires-pygtk-to-be-installed，当看到有答主给出这个解决方式$ virtualenv --system-site-packages ~/.virtualenvs/my_env 才想起来之前创建python运行环境时运行了这个virtualenv -p /usr/bin/python --no-site-packages venv，参数--no-site-packages 代表系统Python环境中的所有第三方包都不会复制过来，删掉venv目录，重新运行 virtualenv -p /usr/bin/python --system-site-packages venv 后，再安装matplotlib库可以显示图片 ### 总结 - <strong>继承本机的pyhon环境后不用再装matplotlib了</strong><br />
-- <strong>猜测：virtualenv中如果在装matplotlib会覆盖mac预装好的matplotlib</strong> - <strong>注意：安装其他包时不要在venv环境下site-package目录下引入matplotlib</strong></p>
-<h3 id="自己维护python包版本还是太麻烦了所以最后还是安装anaconda了">自己维护python包版本还是太麻烦了，所以最后还是安装anaconda了。</h3>
-<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
       
     </div>
 
@@ -1105,7 +1036,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1173,7 +1104,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

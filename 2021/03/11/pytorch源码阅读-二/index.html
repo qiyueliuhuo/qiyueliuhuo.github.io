@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"qiyueliuhuo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6  在这篇博客文章中，我主要来写关于pytorch中transforms模块，该模块提供了对图像各种预处理方法，位于torchvision&#x2F;transforms&#x2F;transforms.py，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pytorch源码阅读(二)">
+<meta property="og:url" content="https://qiyueliuhuo.github.io/2021/03/11/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/index.html">
+<meta property="og:site_name" content="七月流火">
+<meta property="og:description" content="注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6  在这篇博客文章中，我主要来写关于pytorch中transforms模块，该模块提供了对图像各种预处理方法，位于torchvision&#x2F;transforms&#x2F;transforms.py，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/dog-4671215_1280.jpg">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/dog-150_237.jpg">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/dog-4671215_1280.jpg">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/dog-120_120.jpg">
+<meta property="article:published_time" content="2021-03-11T06:15:04.000Z">
+<meta property="article:modified_time" content="2021-03-13T16:43:34.011Z">
+<meta property="article:author" content="七月流火">
+<meta property="article:tag" content="学习 思考">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/dog-4671215_1280.jpg">
+
+<link rel="canonical" href="https://qiyueliuhuo.github.io/2021/03/11/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>pytorch源码阅读(二) | 七月流火</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?45a8b0e33cead32cd5945b033baa7255";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">七月流火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">不积跬步，无已至千里; 不积小流，无以成江海。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2021/03/11/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="七月流火">
+      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          pytorch源码阅读(二)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-11 14:15:04" itemprop="dateCreated datePublished" datetime="2021-03-11T14:15:04+08:00">2021-03-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-03-14 00:43:34" itemprop="dateModified" datetime="2021-03-14T00:43:34+08:00">2021-03-14</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/03/11/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/03/11/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6</p>
+</blockquote>
+<p>在这篇博客文章中，我主要来写关于<code>pytorch</code>中<code>transforms</code>模块，该模块提供了对图像各种预处理方法，位于<code>torchvision/transforms/transforms.py</code>，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。</p>
+<a id="more"></a>
+<blockquote>
+<p>transforms ： 读[trænsˈfɔːm]，变换、转换、移动。 eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。</p>
+</blockquote>
+<h2 id="transforms-模块相关源码分析">transforms 模块相关源码分析</h2>
+<h3 id="transforms.compose类">transforms.Compose类</h3>
+<p>先来看下<code>transforms.Compose</code>在实际代码中是如何运用的，下面代码是使用<code>pytorch</code>中的<code>Dataset</code>方式定义ImageNet数据集，也就说<code>ImageNet</code>继承自<code>data.Dataset</code>。 <figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">train_dataset</span> = torchvision.datasets.ImageNet(train_path,</span><br><span class="line">        <span class="attr">transform=transforms.Compose([</span></span><br><span class="line">            transforms.Resize((<span class="number">32</span>, <span class="number">32</span>)),  <span class="comment"># 将图片缩放到指定大小（h,w）或者保持长宽比并缩放最短的边到int大小</span></span><br><span class="line"></span><br><span class="line">            transforms.CenterCrop(<span class="number">32</span>),</span><br><span class="line">            transforms.ToTensor()])</span><br><span class="line">        )</span><br></pre></td></tr></table></figure> 从上面代码可以看出来<code>transforms</code>模块定义的对象，作为参数传入给<code>ImageNet</code>，在《pytorch源码(一)》中，了解到，通过<code>for</code>循环可以遍历<code>Dataset</code>对象获取图像数据，这篇文章介绍的<code>transforms</code>模块定义的类，一般在遍历<code>Dataset</code>获取图像前对图像进行预处理，那么通过<code>for</code>循环得到的图像就是进行处理后的图像。</p>
+<p>下面来分析<code>transforms.Compose</code>源码。 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Compose</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Composes several transforms together.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        transforms (list of ``Transform`` objects): list of transforms to compose.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Example:</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; transforms.Compose([</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt;     transforms.CenterCrop(10),</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt;     transforms.ToTensor(),</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; ])</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, transforms</span>):</span></span><br><span class="line">        self.transforms = transforms</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span>(<span class="params">self, img</span>):</span></span><br><span class="line">        <span class="keyword">for</span> t <span class="keyword">in</span> self.transforms:</span><br><span class="line">            img = t(img)</span><br><span class="line">        <span class="keyword">return</span> img</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span>(<span class="params">self</span>):</span></span><br><span class="line">        format_string = self.__class__.__name__ + <span class="string">&#x27;(&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> t <span class="keyword">in</span> self.transforms:</span><br><span class="line">            format_string += <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">            format_string += <span class="string">&#x27;    &#123;0&#125;&#x27;</span>.<span class="built_in">format</span>(t)</span><br><span class="line">        format_string += <span class="string">&#x27;\n)&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> format_string</span><br></pre></td></tr></table></figure> <code>Compose</code>是一个容器，它是对多个<code>transforms</code>模块定义转换对象transform组合，本质上是对列表的包装（装饰模式？）。</p>
+<blockquote>
+<p>这里我将这些转换对象类定义为transform，包括<code>transforms.CenterCrop</code>、<code>transforms.ToTensor</code>等等。</p>
+</blockquote>
+<p>该类的<strong>构造器(constructor)</strong>函数入参为列表类型，列表里是多个transform转换对象；在<code>__call__</code>中，通过<code>for</code>循环遍历transforms列表，对图像依次进行调用<code>t(img)</code>，可以看到每个transform都是一个可调用对象，通过依次调用这些transform，对图像进行预处理，这些处理是按照列表<strong>顺序</strong>处理。注：list是一种有序的集合。</p>
+<h3 id="transforms.resize类">transforms.Resize类</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Resize</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Resize the input PIL Image to the given size.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        size (sequence or int): Desired output size. If size is a sequence like</span></span><br><span class="line"><span class="string">            (h, w), output size will be matched to this. If size is an int,</span></span><br><span class="line"><span class="string">            smaller edge of the image will be matched to this number.</span></span><br><span class="line"><span class="string">            i.e, if height &gt; width, then image will be rescaled to</span></span><br><span class="line"><span class="string">            (size * height / width, size)</span></span><br><span class="line"><span class="string">        interpolation (int, optional): Desired interpolation. Default is</span></span><br><span class="line"><span class="string">            ``PIL.Image.BILINEAR``</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, size, interpolation=Image.BILINEAR</span>):</span></span><br><span class="line">        <span class="keyword">assert</span> <span class="built_in">isinstance</span>(size, <span class="built_in">int</span>) <span class="keyword">or</span> (<span class="built_in">isinstance</span>(size, Iterable) <span class="keyword">and</span> <span class="built_in">len</span>(size) == <span class="number">2</span>)</span><br><span class="line">        self.size = size</span><br><span class="line">        self.interpolation = interpolation</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span>(<span class="params">self, img</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            img (PIL Image): Image to be scaled.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">            PIL Image: Rescaled image.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> F.resize(img, self.size, self.interpolation)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span>(<span class="params">self</span>):</span></span><br><span class="line">        interpolate_str = _pil_interpolation_to_str[self.interpolation]</span><br><span class="line">        <span class="keyword">return</span> self.__class__.__name__ + <span class="string">&#x27;(size=&#123;0&#125;, interpolation=&#123;1&#125;)&#x27;</span>.<span class="built_in">format</span>(self.size, interpolate_str)</span><br></pre></td></tr></table></figure>
+<p>先分析<code>Resize</code>的<strong>构造器方法</strong>，参数size，为转换后的图像像素大小，如果size参数是这样的序列（h，w），输出大小将与此匹配。如果size是int，图像的较小边等于此数字。如果<code>height &gt; width</code>，则图像将被重新缩放到<span class="math inline">\(\left(\text{size} \times \frac{\text{height}}{\text{width}}, \text{size}\right)\)</span>。另一个参数为<code>interpolation</code>，翻译为插值，默认值为双线性插值，这里我猜测下，当需要将图像分辨率变大，比如<code>300*400</code>提高至<code>600*500</code>分辨率，因为分辨率乘积代表像素点的个数，分辨率增大，那么原有的图像像素点不够，需要通过<strong>插值的方式</strong>新生成一部分像素点，这个参数就是控制如何产生这部分的像素点，在后面分析源码我会详细地说明插值方法。</p>
+<p>分析<code>__call__</code>方法，它的内部的实现直接调用了<code>torchvision/transforms/functional.py</code>模块中的方法，<code>functional.py</code>模块包含了很多对图像转换的具体方法实现，比如<code>resize(img, size, interpolation=Image.BILINEAR)</code>方法的具体实现等等。</p>
+<p>下面我使用<code>Resize</code>通过代码将475 * 300大小图片转换为237 * 150大小的图片。 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from torchvision.transforms import transforms</span><br><span class="line">from PIL import Image</span><br><span class="line"></span><br><span class="line"><span class="keyword">im</span> = Image.<span class="keyword">open</span>(<span class="string">&quot;resources/dog-4671215_1280.jpg&quot;</span>)</span><br><span class="line"><span class="keyword">resize</span> = transforms.Resize((<span class="number">150</span>, <span class="number">237</span>))</span><br><span class="line"><span class="keyword">im</span> = <span class="keyword">resize</span>(<span class="keyword">im</span>)</span><br><span class="line"><span class="keyword">im</span>.show()</span><br><span class="line"><span class="keyword">im</span>.save(<span class="string">&#x27;resources/dog-150_237.jpg&#x27;</span>)</span><br></pre></td></tr></table></figure> <img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/dog-4671215_1280.jpg" alt="475 * 300" /> 缩小为 <img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/dog-150_237.jpg" alt="237 * 150" /></p>
+<p>下面我来具体分析<code>functional.py</code>模块中的<code>resize</code>方法，源码如下： <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">resize</span>(<span class="params">img, size, interpolation=Image.BILINEAR</span>):</span></span><br><span class="line">    <span class="string">r&quot;&quot;&quot;Resize the input PIL Image to the given size.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        img (PIL Image): Image to be resized.</span></span><br><span class="line"><span class="string">        size (sequence or int): Desired output size. If size is a sequence like</span></span><br><span class="line"><span class="string">            (h, w), the output size will be matched to this. If size is an int,</span></span><br><span class="line"><span class="string">            the smaller edge of the image will be matched to this number maintaing</span></span><br><span class="line"><span class="string">            the aspect ratio. i.e, if height &gt; width, then image will be rescaled to</span></span><br><span class="line"><span class="string">            :math:`\left(\text&#123;size&#125; \times \frac&#123;\text&#123;height&#125;&#125;&#123;\text&#123;width&#125;&#125;, \text&#123;size&#125;\right)`</span></span><br><span class="line"><span class="string">        interpolation (int, optional): Desired interpolation. Default is</span></span><br><span class="line"><span class="string">            ``PIL.Image.BILINEAR``</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        PIL Image: Resized image.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> _is_pil_image(img):</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">&#x27;img should be PIL Image. Got &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(<span class="built_in">type</span>(img)))</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> (<span class="built_in">isinstance</span>(size, <span class="built_in">int</span>) <span class="keyword">or</span> (<span class="built_in">isinstance</span>(size, Iterable) <span class="keyword">and</span> <span class="built_in">len</span>(size) == <span class="number">2</span>)):</span><br><span class="line">        <span class="keyword">raise</span> TypeError(<span class="string">&#x27;Got inappropriate size arg: &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(size))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(size, <span class="built_in">int</span>):</span><br><span class="line">        w, h = img.size</span><br><span class="line">        <span class="keyword">if</span> (w &lt;= h <span class="keyword">and</span> w == size) <span class="keyword">or</span> (h &lt;= w <span class="keyword">and</span> h == size):</span><br><span class="line">            <span class="keyword">return</span> img</span><br><span class="line">        <span class="keyword">if</span> w &lt; h:</span><br><span class="line">            ow = size</span><br><span class="line">            oh = <span class="built_in">int</span>(size * h / w)</span><br><span class="line">            <span class="keyword">return</span> img.resize((ow, oh), interpolation)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            oh = size</span><br><span class="line">            ow = <span class="built_in">int</span>(size * w / h)</span><br><span class="line">            <span class="keyword">return</span> img.resize((ow, oh), interpolation)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> img.resize(size[::-<span class="number">1</span>], interpolation)</span><br></pre></td></tr></table></figure> <code>resize</code>函数是定义在<code>functional.py</code>模块中的一个函数，前两个<code>if</code>语句，用来做参数类型校验，主要用到python中内置的<code>isinstance(x, A_tuple)</code>函数，返回对象是类的实例还是子类的实例，值得注意的是，第二个参数，既可以是一个类对象，也可以是一个包含多个类对象的元组。关于<code>Iterable</code>的理解可以查看这篇博客<a target="_blank" rel="noopener" href="https://www.kawabangga.com/posts/2772">理解Python的Iterable和Iterator</a>。</p>
+<p>其他部分的代码也很容易理解，<code>isinstance(size, int)</code>为<code>True</code>时，<code>size</code>为图像较小的边的输出大小,输出图像另一边的大小根据原图的比例计算得出。</p>
+<p>最后的<code>else</code>分支也很容易理解，在这里可以学习到的一点是，如何取得一个列表倒序的结果？这里用了切片的方式<code>size[::-1]</code>，来将入参是传入的<code>(h, w)</code>逆序变成<code>(w, h)</code>，再传入<code>PIL.Image</code>对象的<code>resize()</code>方法，也就是说pytorch本身没有自己实现对图像的<code>resize</code>方法，而是在底层调用的<code>PIL</code>图像库的方法。</p>
+<p>下面先插入一些对python中<strong>切片</strong>的学习，不知道为什么我每次遇到切片表达方式都要重新查一遍各种切片具体是代表的什么含义（😖） <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Last login: Wed Mar <span class="number">10</span> <span class="number">14</span>:<span class="number">19</span>:<span class="number">12</span> on ttys001</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">10</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L[::-<span class="number">1</span>]  <span class="comment"># 倒序排列并且每1个取一个</span></span><br><span class="line">[<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L[::-<span class="number">2</span>]  <span class="comment"># 倒序排列并且每2个取一个 </span></span><br><span class="line">[<span class="number">9</span>, <span class="number">7</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L[::<span class="number">2</span>]   <span class="comment"># 正序排列并且每2个取一个</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L[:]     <span class="comment"># 原样复制</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>L[<span class="number">1</span>:<span class="number">5</span>]   <span class="comment"># 取第一个到第五个</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br></pre></td></tr></table></figure> 参考：<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017269965565856">python切片</a></p>
+<p>至于<code>PIL.Image</code>对象的<code>resize()</code>方法具体分析，内部实现是比较复杂的，先暂时省略，后面再补(🤦)‍️。</p>
+<h3 id="transforms.centercrop类">transforms.CenterCrop类</h3>
+<p><code>CenterCrop</code>类的功能是依据给定的size从中心裁剪，在pytorch中的实现非常简单，这里就不贴出来源码了，简单看下它的<strong>构造器方法</strong>，参数size为<code>(h, w)</code>，代表裁剪后的图像分辨率大小，而如果size为<code>int</code>型，那么裁剪为<code>(size, size)</code>大小的正方形中心图像。例如，下面在475 * 300大小图像的中心部分裁剪出120 * 120大小的图像： <img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/dog-4671215_1280.jpg" alt="475 * 300" /> 裁剪出 <img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/dog-120_120.jpg" alt="120 * 120" /></p>
+<h3 id="transforms.totensor">transforms.ToTensor</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToTensor</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Convert a ``PIL Image`` or ``numpy.ndarray`` to tensor.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Converts a PIL Image or numpy.ndarray (H x W x C) in the range</span></span><br><span class="line"><span class="string">    [0, 255] to a torch.FloatTensor of shape (C x H x W) in the range [0.0, 1.0]</span></span><br><span class="line"><span class="string">    if the PIL Image belongs to one of the modes (L, LA, P, I, F, RGB, YCbCr, RGBA, CMYK, 1)</span></span><br><span class="line"><span class="string">    or if the numpy.ndarray has dtype = np.uint8</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    In the other cases, tensors are returned without scaling.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span>(<span class="params">self, pic</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            pic (PIL Image or numpy.ndarray): Image to be converted to tensor.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">            Tensor: Converted image.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">return</span> F.to_tensor(pic)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.__class__.__name__ + <span class="string">&#x27;()&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><code>ToTensor</code>从类名字就可以看出来这个类主要将PIL.Image对象和numpy.ndarray对象转换为torch.FloatTensor对象，值得注意的是，最终的转换得到的Tensor对象的<code>size</code>是<code>(C x H x W)</code>，通道数在前面，也就是说pytorch在处理图像时，一般情况下，将三维的图像排列是<code>(通道数，高度，宽度)</code>。另外，该类还会将原本的0~255的RGB三原色强度值进行归一化处理，统一除以255，使得值在0.0~1.0之间。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/13/2021-03-13%E6%97%A5%E8%AE%B0/" rel="prev" title="2021-03-13日记">
+      <i class="fa fa-chevron-left"></i> 2021-03-13日记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/03/10/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86/" rel="next" title="计算机视觉资料收集">
+      计算机视觉资料收集 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#transforms-%E6%A8%A1%E5%9D%97%E7%9B%B8%E5%85%B3%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-text">transforms 模块相关源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#transforms.compose%E7%B1%BB"><span class="nav-text">transforms.Compose类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transforms.resize%E7%B1%BB"><span class="nav-text">transforms.Resize类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transforms.centercrop%E7%B1%BB"><span class="nav-text">transforms.CenterCrop类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transforms.totensor"><span class="nav-text">transforms.ToTensor</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="七月流火"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">七月流火</p>
+  <div class="site-description" itemprop="description">程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">七月流火</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Bqq9R5gWyWpajSOgwN05dN2W-MdYXbMMI',
+      appKey     : '4cmz7U3V4sJdUbLTG757skov',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
