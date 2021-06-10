@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"qiyueliuhuo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="论文题目：EAST: An Efficient and Accurate Scene Text Detector Abstract Previous approaches for scene text detection have already achieved promising performances across various benchmarks. However, they usu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EAST: An Efficient and Accurate Scene Text Detector">
+<meta property="og:url" content="https://qiyueliuhuo.github.io/2021/05/19/EAST-An-Efficient-and-Accurate-Scene-Text-Detector/index.html">
+<meta property="og:site_name" content="七月流火">
+<meta property="og:description" content="论文题目：EAST: An Efficient and Accurate Scene Text Detector Abstract Previous approaches for scene text detection have already achieved promising performances across various benchmarks. However, they usu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520150428.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520150510.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520160008.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520161202.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520173929.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520174101.png">
+<meta property="article:published_time" content="2021-05-19T09:20:48.000Z">
+<meta property="article:modified_time" content="2021-05-21T08:12:44.216Z">
+<meta property="article:author" content="七月流火">
+<meta property="article:tag" content="学习 思考">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520150428.png">
+
+<link rel="canonical" href="https://qiyueliuhuo.github.io/2021/05/19/EAST-An-Efficient-and-Accurate-Scene-Text-Detector/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>EAST: An Efficient and Accurate Scene Text Detector | 七月流火</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?45a8b0e33cead32cd5945b033baa7255";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">七月流火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">不积跬步，无已至千里; 不积小流，无以成江海。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2021/05/19/EAST-An-Efficient-and-Accurate-Scene-Text-Detector/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="七月流火">
+      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          EAST: An Efficient and Accurate Scene Text Detector
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-19 17:20:48" itemprop="dateCreated datePublished" datetime="2021-05-19T17:20:48+08:00">2021-05-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-21 16:12:44" itemprop="dateModified" datetime="2021-05-21T16:12:44+08:00">2021-05-21</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/05/19/EAST-An-Efficient-and-Accurate-Scene-Text-Detector/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/05/19/EAST-An-Efficient-and-Accurate-Scene-Text-Detector/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="论文题目east-an-efficient-and-accurate-scene-text-detector">论文题目：EAST: An Efficient and Accurate Scene Text Detector</h2>
+<h3 id="abstract">Abstract</h3>
+<p>Previous approaches for scene text detection have already achieved promising performances across various benchmarks. However, they usually fall short when dealing with challenging scenarios, even when equipped with deep neural network models, because the overall performance is determined by the interplay of multiple stages and components in the pipelines. In this work, we propose a simple yet powerful pipeline that yields fast and accurate text detection in natural scenes. The pipeline directly predicts words or text lines of arbitrary orientations and quadrilateral shapes in full images, eliminating unnecessary intermediate steps (e.g., candidate aggregation and word partitioning), with a single neural network. The simplicity of our pipeline allows concentrating efforts on designing loss functions and neural network architecture. Experiments on standard datasets including ICDAR 2015, COCO-Text and MSRA-TD500 demonstrate that the proposed algorithm significantly outperforms state-of-the-art methods in terms of both accuracy and efficiency. On the ICDAR 2015 dataset, the proposed algorithm achieves an F-score of 0.7820 at 13.2fps at 720p resolution.</p>
+<a id="more"></a>
+<blockquote>
+<p>quadrilateral : 四边形的。</p>
+</blockquote>
+<h3 id="introduction">1. Introduction</h3>
+<p>Recently, extracting and understanding textual information embodied in natural scenes have become increasingly important and popular, which is evidenced by the unprecedented large numbers of participants of the ICDAR series contests [30, 16, 15] and the launch of the TRAIT 2016 evaluation by NIST [1].</p>
+<p>Text detection, as a prerequisite of the subsequent processes, plays a critical role in the whole procedure of textual information extraction and understanding. Previous text detection approaches [2, 33, 12, 7, 48] have already obtained promising performances on various benchmarks in this field. <font color=#FF0000>The core of text detection is the design of features to distinguish text from backgrounds.</font> Traditionally, features are manually designed [5, 25, 40, 10, 26, 45] to capture the properties of scene text, while in deep learning based methods [3, 13, 11, 12, 7, 48] effective features are directly learned from training data.</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520150428.png" /></p>
+<p>However, existing methods, either conventional or deep neural network based, mostly consist of several stages and components, which are probably sub-optimal and time-consuming. Therefore, the accuracy and efficiency of such methods are still far from satisfactory.</p>
+<p><font color=#FF0000>In this paper, we propose a fast and accurate scene text detection pipeline that has only two stages.</font> The pipeline utilizes a fully convolutional network (FCN) model that directly produces word or text-line level predictions, excluding redundant and slow intermediate steps. The produced text predictions, which can be either rotated rectangles or quadrangles, are sent to Non-Maximum Suppression to yield final results. Compared with existing methods, the proposed algorithm achieves significantly enhanced performance, while running much faster, according to the qualitative and quantitative experiments on standard benchmarks.</p>
+<blockquote>
+<p>qualitative and quantitative : 定性和定量的。 定量的，有个n。</p>
+</blockquote>
+<p>Specifically, the proposed algorithm achieves an F-score of 0.7820 on ICDAR 2015 [15] (0.8072 when tested in multi-scale), 0.7608 on MSRA-TD500 [40] and 0.3945 on COCO-Text [36], outperforming previous state-of-the-art algorithms in performance while taking much less time on average (13.2fps at 720p resolution on a Titan-X GPU for our best performing model, 16.8fps for our fastest model).</p>
+<p>The contributions of this work are three-fold:</p>
+<ul>
+<li>We propose a scene text detection method that consists of two stages: a Fully Convolutional Network and an NMS merging stage. The FCN directly produces text regions, excluding redundant and time-consuming intermediate steps.</li>
+<li>The pipeline is flexible to produce either word level or line level predictions, whose geometric shapes can be rotated boxes or quadrangles, depending on specific applications.</li>
+<li>The proposed algorithm significantly outperforms state-of-the-art methods in both accuracy and speed.</li>
+</ul>
+<h3 id="related-work">2. Related Work</h3>
+<p>Scene text detection and recognition have been active research topics in computer vision for a long period of time. Numerous inspiring ideas and effective approaches [5, 25, 26, 24, 27, 37, 11, 12, 7, 41, 42, 31] have been investigated. Comprehensive reviews and detailed analyses can be found in survey papers [50, 35, 43]. This section will focus on works that are mostly relevant to the proposed algorithm.</p>
+<p>Conventional approaches rely on manually designed features. Stroke Width Transform (SWT) [5] and Maximally Stable Extremal Regions (MSER) [25, 26] based methods generally seek character candidates via edge detection or extremal region extraction. Zhang et al. [47] made use of the local symmetry property of text and designed various features for text region detection. <font color=#EF696E3B>FASText [2] is a fast text detection system that adapted and modified the well-known FAST key point detector for stroke extraction. </font> However, these methods fall behind of those based on deep neural networks, in terms of both accuracy and adaptability, especially when dealing with challenging scenarios, such as low resolution and geometric distortion.</p>
+<blockquote>
+<p>symmetry : 对称性。</p>
+</blockquote>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520150510.png" /></p>
+<p>Recently, the area of scene text detection has entered a new era that deep neural network based algorithms [11, 13, 48, 7] have gradually become the mainstream. Huang et al. [11] first found candidates using MSER and then employed a deep convolutional network as a strong classifier to prune false positives. The method of Jaderberg et al. [13] scanned the image in a sliding-window fashion and produced a dense heatmap for each scale with a convolutional neural network model. Later, Jaderberg et al. [12] employed both a CNN and an ACF to hunt word candidates and further refined them using regression. Tian et al. [34] developed vertical anchors and constructed a CNN-RNN joint model to detect horizontal text lines. Different from these methods, Zhang et al. [48] proposed to utilize FCN [23] for heatmap generation and to use component projection for orientation estimation. These methods obtained excellent performance on standard benchmarks. However, as illustrated in Fig. 2(a-d), they mostly consist of multiple stages and components, such as false positive removal by post filtering, candidate aggregation, line formation and word partition. The multitude of stages and components may require exhaustive tuning, leading to sub-optimal performance, and add to processing time of the whole pipeline.</p>
+<blockquote>
+<p>prune : 修剪。</p>
+</blockquote>
+<p>In this paper, we devise a deep FCN-based pipeline that directly targets the final goal of text detection: word or text-line level detection. As depicted in Fig. 2(e), the model abandons unnecessary intermediate components and steps, and allows for end-to-end training and optimization. The resultant system, equipped with a single, light-weighted neural network, surpasses all previous methods by an obvious margin in both performance and speed.</p>
+<blockquote>
+<p>前面一段介绍以往工作的相关内容和方法，并且指出它们存在的不足。这段介绍本文提出的pipeline：deep FCN-based pipeline，优点 1）省去不必要的中间组件和阶段；2）允许端到端的训练和优化。</p>
+</blockquote>
+<h3 id="methodology">3. Methodology</h3>
+<p><font color=#FF0000>The key component of the proposed algorithm is a neural network model, which is trained to directly predict the existence of text instances and their geometries from full images. </font> The model is a fully-convolutional neural network adapted for text detection that outputs dense per-pixel predictions of words or text lines. This eliminates intermediate steps such as candidate proposal, text region formation and word partition. The post-processing steps only include thresholding and NMS on predicted geometric shapes. The detector is named as EAST, since it is an Efficient and Accuracy Scene Text detection pipeline.</p>
+<h4 id="pipeline">3.1. Pipeline</h4>
+<p>A high-level overview of our pipeline is illustrated in Fig. 2(e). The algorithm follows the general design of DenseBox [9], in which an image is fed into the FCN and multiple channels of pixel-level text score map and geometry are generated.</p>
+<p>One of the predicted channels is a score map whose pixel values are in the range of [0, 1]. The remaining channels represent geometries that encloses the word from the view of each pixel. The score stands for the confidence of the geometry shape predicted at the same location.</p>
+<p>We have experimented with two geometry shapes for text regions, rotated box (RBOX) and quadrangle (QUAD), and designed different loss functions for each geometry. Thresholding is then applied to each predicted region, where the geometries whose scores are over the predefined threshold is considered valid and saved for later non-maximum-suppression. Results after NMS are considered the final output of the pipeline.</p>
+<h4 id="network-design">3.2. Network Design</h4>
+<p>Several factors must be taken into account when designing neural networks for text detection. Since the sizes of word regions, as shown in Fig. 5, vary tremendously, determining the existence of large words would require features from late-stage of a neural network, while predicting ac- curate geometry enclosing a small word regions need low-level information in early stages. <font color=#FF0000>Therefore the network must use features from different levels to fulfill these requirements. </font> HyperNet [19] meets these conditions on features maps, but merging a large number of channels on large feature maps would significantly increase the computation overhead for later stages.</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520160008.png" /></p>
+<blockquote>
+<p>overhead : 开销。</p>
+</blockquote>
+<p>In remedy of this, we adopt the idea from U-shape [29] to merge feature maps gradually, while keeping the upsampling branches small. Together we end up with a network that can both utilize different levels of features and keep a small computation cost.</p>
+<blockquote>
+<p>remedy : 弥补。</p>
+</blockquote>
+<p>A schematic view of our model is depicted in Fig. 3. The model can be decomposed in to three parts: feature extractor stem, feature-merging branch and output layer.</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520161202.png" /></p>
+<blockquote>
+<p>schematic : 示意图。</p>
+</blockquote>
+<p>The stem can be a convolutional network pre-trained on ImageNet [4] dataset, with interleaving convolution and pooling layers. Four levels of feature maps, denoted as <span class="math inline">\(f_{i}\)</span>, are extracted from the stem, whose sizes are <span class="math inline">\(\frac{1}{32}, \frac{1}{16}, \frac{1}{8}\)</span> and <span class="math inline">\(\frac{1}{4}\)</span> of the input image, respectively. In Fig. 3, PVANet <span class="math inline">\([17]\)</span> is depicted. In our experiments, we also adopted the well-known VGG16 [32] model, where feature maps after pooling-2 to pooling-5 are extracted.</p>
+<blockquote>
+<p>interleaving : 交错的。</p>
+</blockquote>
+<p>In the feature-merging branch, we gradually merge them: <span class="math display">\[
+\begin{equation}
+g_{i}=\left\{\begin{array}{ll}
+\operatorname{unpool}\left(h_{i}\right) &amp; \text { if } \quad i \leq 3 \\
+\operatorname{conv}_{3 \times 3}\left(h_{i}\right) &amp; \text { if } \quad i=4
+\end{array}\right. \label{1}
+\end{equation}
+\]</span> <span class="math display">\[
+\begin{equation}
+h_{i}=\left\{\begin{array}{ll}
+f_{i} &amp; \text { if } i=1 \\
+\operatorname{conv}_{3 \times 3}\left(\operatorname{conv}_{1 \times 1}\left(\left[g_{i-1} ; f_{i}\right]\right)\right) &amp; \text { otherwise }
+\end{array}\right. \label{2}
+\end{equation}
+\]</span> where <span class="math inline">\(g_{i}\)</span> is the merge base, and <span class="math inline">\(h_{i}\)</span> is the merged feature map, and the operator <span class="math inline">\([\cdot ; \cdot]\)</span> represents concatenation along the channel axis. In each merging stage, the feature map from the last stage is first fed to an unpooling layer to double its size, and then concatenated with the current feature map. Next, a <span class="math inline">\(\operatorname{conv}_{1 \times 1}\)</span> bottleneck [8] cuts down the number of channels and reduces computation, followed by a <span class="math inline">\(\operatorname{conv}_{3 \times 3}\)</span> that fuses the information to finally produce the output of this merging stage. Following the last merging stage, a <span class="math inline">\(\operatorname{conv}_{3 \times 3}\)</span> layer produces the final feature map of the merging branch and feed it to the output layer.</p>
+<p>The number of output channels for each convolution is shown in Fig. 3 . We keep the number of channels for convolutions in branch small, which adds only a fraction of computation overhead over the stem, making the network computation-efficient. The final output layer contains several <span class="math inline">\(\operatorname{conv}_{1 \times 1}\)</span> operations to project 32 channels of feature maps into 1 channel of score map <span class="math inline">\(F_{\mathrm{s}}\)</span> and a multi-channel geometry <span class="math inline">\(\operatorname{map} F_{\mathrm{g}} .\)</span> The geometry output can be either one of RBOX or QUAD, summarized in Tab. 1</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520173929.png" /></p>
+<blockquote>
+<p>a fraction of : 一小部分。</p>
+</blockquote>
+<p>For RBOX, the geometry is represented by 4 channels of axis-aligned bounding box (AABB) <span class="math inline">\(\mathbf{R}\)</span> and 1 channel rotation angle <span class="math inline">\(\theta\)</span>. The formulation of <span class="math inline">\(\mathbf{R}\)</span> is the same as that in [9], where the 4 channels represents 4 distances from the pixel location to the top, right, bottom, left boundaries of the rectangle respectively.</p>
+<blockquote>
+<p>axis-aligned bounding box (AABB): 参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_22822335/article/details/50930437" class="uri">https://blog.csdn.net/qq_22822335/article/details/50930437</a></p>
+</blockquote>
+<p>For QUAD <span class="math inline">\(\mathbf{Q}\)</span>, we use 8 numbers to denote the coordinate shift from four corner vertices <span class="math inline">\(\left\{p_{i} \mid i \in\{1,2,3,4\}\right\}\)</span> of the quadrangle to the pixel location. As each distance offset contains two numbers <span class="math inline">\(\left(\Delta x_{i}, \Delta y_{i}\right)\)</span>, the geometry output contains 8 channels.</p>
+<blockquote>
+<p>这两段将如何定量确定矩形框R和四边形框Q的位置信息，前者需要四个值，后者需要八个值。</p>
+</blockquote>
+<h4 id="label-generation">3.3. Label Generation</h4>
+<h5 id="score-map-generation-for-quadrangle">3.3.1 Score Map Generation for Quadrangle</h5>
+<p>Without loss of generality, we only consider the case where the geometry is a quadrangle. The positive area of the quadrangle on the score map is designed to be roughly a shrunk version of the original one, illustrated in Fig. 4(a).</p>
+<blockquote>
+<p>shrunk version : 缩小版。</p>
+</blockquote>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520174101.png" /></p>
+<p>For a quadrangle <span class="math inline">\(\mathbf{Q}=\left\{p_{i} \mid i \in\{1,2,3,4\}\right\}\)</span>, where <span class="math inline">\(p_{i}=\)</span> <span class="math inline">\(\left\{x_{i}, y_{i}\right\}\)</span> are vertices on the quadrangle in clockwise order. To shrink <span class="math inline">\(\mathbf{Q}\)</span>, we first compute a reference length <span class="math inline">\(r_{i}\)</span> for each vertex <span class="math inline">\(p_{i}\)</span> as <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+r_{i}=\min (&amp; \mathrm{D}\left(p_{i}, p_{(i\ \bmod\ 4)+1}\right), \\
+&amp;\left.\mathrm{D}\left(p_{i}, p_{((i+2) \bmod\ 4)+1}\right)\right) \label{3}
+\end{aligned}
+\end{equation}
+\]</span> where <span class="math inline">\(\mathrm{D}\left(p_{i}, p_{j}\right)\)</span> is the <span class="math inline">\(L_{2}\)</span> distance between <span class="math inline">\(p_{i}\)</span> and <span class="math inline">\(p_{j}\)</span>.</p>
+<p>We first shrink the two longer edges of a quadrangle, and then the two shorter ones. For each pair of two opposing edges, we determine the "longer" pair by comparing the mean of their lengths. For each edge <span class="math inline">\(\left\langle p_{i}, p_{(i \bmod 4)+1}\right\rangle\)</span>, we shrink it by moving its two endpoints inward along the edge by <span class="math inline">\(0.3 r_{i}\)</span> and <span class="math inline">\(0.3 r_{(i \bmod 4)+1}\)</span> respectively.</p>
+<blockquote>
+<p>这两段讲如何收缩四边形边框，没具体看细节。</p>
+</blockquote>
+<h5 id="geometry-map-generation">3.3.2 Geometry Map Generation</h5>
+<p>As discussed in Sec. 3.2, the geometry map is either one of RBOX or QUAD. The generation process for RBOX is illustrated in Fig. 4 (c-e).</p>
+<p>For those datasets whose text regions are annotated in QUAD style (e.g., ICDAR 2015), we first generate a rotated rectangle that covers the region with minimal area. Then for each pixel which has positive score, we calculate its distances to the 4 boundaries of the text box, and put them to the 4 channels of RBOX ground truth. For the QUAD ground truth, the value of each pixel with positive score in the 8-channel geometry map is its coordinate shift from the 4 vertices of the quadrangle.</p>
+<h4 id="loss-functions">3.4. Loss Functions</h4>
+<p>The loss can be formulated as <span class="math display">\[
+\begin{equation}
+L=L_{\mathrm{s}}+\lambda_{\mathrm{g}} L_{\mathrm{g}} \label{4}
+\end{equation}
+\]</span> where <span class="math inline">\(L_{\mathrm{s}}\)</span> and <span class="math inline">\(L_{\mathrm{g}}\)</span> represents the losses for the score map and the geometry, respectively, and <span class="math inline">\(\lambda_{\mathrm{g}}\)</span> weighs the importance between two losses. In our experiment, we set <span class="math inline">\(\lambda_{\mathrm{g}}\)</span> to 1.</p>
+<h5 id="loss-for-score-map">3.4.1 Loss for Score Map</h5>
+<p>In most state-of-the-art detection pipelines, training images are carefully processed by balanced sampling and hard negative mining to tackle with the imbalanced distribution of target objects [9, 28]. Doing so would potentially improve the network performance. However, using such techniques inevitably introduces a non-differentiable stage and more parameters to tune and a more complicated pipeline, which contradicts our design principle.</p>
+<p>To facilitate a simpler training procedure, we use class-balanced cross-entropy introduced in [38], given by <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+L_{\mathrm{s}} &amp;=\text { balanced-xent }\left(\hat{\mathbf{Y}}, \mathbf{Y}^{*}\right) \\
+&amp;=-\beta \mathbf{Y}^{*} \log \hat{\mathbf{Y}}-(1-\beta)\left(1-\mathbf{Y}^{*}\right) \log (1-\hat{\mathbf{Y}})
+\end{aligned}
+\end{equation}
+\]</span> where <span class="math inline">\(\hat{\mathbf{Y}}=F_{\mathrm{s}}\)</span> is the prediction of the score map, and <span class="math inline">\(\mathbf{Y}^{*}\)</span> is the ground truth. The parameter <span class="math inline">\(\beta\)</span> is the balancing factor between positive and negative samples, given by <span class="math display">\[
+\begin{equation}
+\beta=1-\frac{\sum_{y^{*} \in \mathbf{Y}^{*}} y^{*}}{\left|\mathbf{Y}^{*}\right|}
+\end{equation}
+\]</span> This balanced cross-entropy loss is first adopted in text detection by Yao et al. [41] as the objective function for score map prediction. We find it works well in practice.</p>
+<h5 id="loss-for-geometries">3.4.2 Loss for Geometries</h5>
+<p>One challenge for text detection is that the sizes of text in natural scene images vary tremendously. Directly using L1 or L2 loss for regression would guide the loss bias towards larger and longer text regions. As we need to generate accurate text geometry prediction for both large and small text regions, the regression loss should be scale-invariant. Therefore, we adopt the IoU loss in the AABB part of RBOX regression, and a scale-normalized smoothed-L1 loss for QUAD regression.</p>
+<p><strong>RBOX</strong> For the AABB part, we adopt IoU loss in [46], since it is invariant against objects of different scales. <span class="math display">\[
+\begin{equation}
+L_{\mathrm{AABB}}=-\log \operatorname{IoU}\left(\hat{\mathbf{R}}, \mathbf{R}^{*}\right)=-\log \frac{\left|\hat{\mathbf{R}} \cap \mathbf{R}^{*}\right|}{\left|\hat{\mathbf{R}} \cup \mathbf{R}^{*}\right|}
+\end{equation}
+\]</span> where <span class="math inline">\(\hat{\mathbf{R}}\)</span> represents the predicted AABB geometry and <span class="math inline">\(\mathbf{R}^{*}\)</span> is its corresponding ground truth. It is easy to see that the width and height of the intersected rectangle <span class="math inline">\(\left|\hat{\mathbf{R}} \cap \mathbf{R}^{*}\right|\)</span> are <span class="math display">\[
+\begin{equation}
+\begin{array}{l}
+w_{\mathbf{i}}=\min \left(\hat{d}_{2}, d_{2}^{*}\right)+\min \left(\hat{d}_{4}, d_{4}^{*}\right)\\
+h_{\mathbf{i}}=\min \left(\hat{d}_{1}, d_{1}^{*}\right)+\min \left(\hat{d}_{3}, d_{3}^{*}\right)
+\end{array}
+\end{equation}
+\]</span> where <span class="math inline">\(d_{1}, d_{2}, d_{3}\)</span> and <span class="math inline">\(d_{4}\)</span> represents the distance from a pixel to the top, right, bottom and left boundary of its corresponding rectangle, respectively. The union area is given by <span class="math display">\[
+\begin{equation}
+\left|\hat{\mathbf{R}} \cup \mathbf{R}^{*}\right|=|\hat{\mathbf{R}}|+\left|\mathbf{R}^{*}\right|-\left|\hat{\mathbf{R}} \cap \mathbf{R}^{*}\right|.
+\end{equation}
+\]</span> where <span class="math inline">\(\hat{\theta}\)</span> is the prediction to the rotation angle and <span class="math inline">\(\theta^{*}\)</span> represents the ground truth. Finally, the overall geometry loss is the weighted sum of AABB loss and angle loss, given by <span class="math display">\[
+\begin{equation}
+L_{\mathrm{g}}=L_{\mathrm{AABB}}+\lambda_{\theta} L_{\theta}
+\end{equation}
+\]</span> Where <span class="math inline">\(\lambda_{\theta}\)</span> is set to 10 in our experiments.Note that we compute <span class="math inline">\(L_{\text {AABB }}\)</span> regardless of rotation angle. This can be seen as an approximation of quadrangle IoU when the angle is perfectly predicted. Although it is not the case during training, it could still impose the correct gradient for the network to learn to predict <span class="math inline">\(\hat{\mathbf{R}}\)</span>.</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/20/%E3%80%90%E8%BD%AC%E3%80%91%E7%90%86%E8%A7%A3LSTM/" rel="prev" title="【转】理解LSTM">
+      <i class="fa fa-chevron-left"></i> 【转】理解LSTM
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/18/An-End-to-End-Trainable-Neural-Network-for-Image-based-Sequence-Recognition-and-Its-Application-to-Scene-Text-Recognition/" rel="next" title="An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition">
+      An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E9%A2%98%E7%9B%AEeast-an-efficient-and-accurate-scene-text-detector"><span class="nav-text">论文题目：EAST: An Efficient and Accurate Scene Text Detector</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#abstract"><span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#introduction"><span class="nav-text">1. Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#related-work"><span class="nav-text">2. Related Work</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#methodology"><span class="nav-text">3. Methodology</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pipeline"><span class="nav-text">3.1. Pipeline</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#network-design"><span class="nav-text">3.2. Network Design</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#label-generation"><span class="nav-text">3.3. Label Generation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#score-map-generation-for-quadrangle"><span class="nav-text">3.3.1 Score Map Generation for Quadrangle</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#geometry-map-generation"><span class="nav-text">3.3.2 Geometry Map Generation</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#loss-functions"><span class="nav-text">3.4. Loss Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#loss-for-score-map"><span class="nav-text">3.4.1 Loss for Score Map</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#loss-for-geometries"><span class="nav-text">3.4.2 Loss for Geometries</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="七月流火"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">七月流火</p>
+  <div class="site-description" itemprop="description">程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">七月流火</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Bqq9R5gWyWpajSOgwN05dN2W-MdYXbMMI',
+      appKey     : '4cmz7U3V4sJdUbLTG757skov',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

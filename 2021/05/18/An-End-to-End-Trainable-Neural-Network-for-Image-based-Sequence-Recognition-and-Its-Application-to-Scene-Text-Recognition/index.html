@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"qiyueliuhuo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="论文题目：An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition Abstract Image-based sequence recognition has been a longstanding researc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition">
+<meta property="og:url" content="https://qiyueliuhuo.github.io/2021/05/18/An-End-to-End-Trainable-Neural-Network-for-Image-based-Sequence-Recognition-and-Its-Application-to-Scene-Text-Recognition/index.html">
+<meta property="og:site_name" content="七月流火">
+<meta property="og:description" content="论文题目：An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition Abstract Image-based sequence recognition has been a longstanding researc">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210518193456.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210518200352.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210519095408.png">
+<meta property="article:published_time" content="2021-05-18T06:57:42.000Z">
+<meta property="article:modified_time" content="2021-05-21T03:26:13.756Z">
+<meta property="article:author" content="七月流火">
+<meta property="article:tag" content="学习 思考">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210518193456.png">
+
+<link rel="canonical" href="https://qiyueliuhuo.github.io/2021/05/18/An-End-to-End-Trainable-Neural-Network-for-Image-based-Sequence-Recognition-and-Its-Application-to-Scene-Text-Recognition/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition | 七月流火</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?45a8b0e33cead32cd5945b033baa7255";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">七月流火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">不积跬步，无已至千里; 不积小流，无以成江海。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2021/05/18/An-End-to-End-Trainable-Neural-Network-for-Image-based-Sequence-Recognition-and-Its-Application-to-Scene-Text-Recognition/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="七月流火">
+      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-18 14:57:42" itemprop="dateCreated datePublished" datetime="2021-05-18T14:57:42+08:00">2021-05-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-21 11:26:13" itemprop="dateModified" datetime="2021-05-21T11:26:13+08:00">2021-05-21</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/05/18/An-End-to-End-Trainable-Neural-Network-for-Image-based-Sequence-Recognition-and-Its-Application-to-Scene-Text-Recognition/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/05/18/An-End-to-End-Trainable-Neural-Network-for-Image-based-Sequence-Recognition-and-Its-Application-to-Scene-Text-Recognition/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="论文题目an-end-to-end-trainable-neural-network-for-image-based-sequence-recognition-and-its-application-to-scene-text-recognition">论文题目：An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition</h2>
+<h3 id="abstract">Abstract</h3>
+<p>Image-based sequence recognition has been a longstanding research topic in computer vision. In this paper, we investigate the problem of scene text recognition, which is among the most important and challenging tasks in image-based sequence recognition. A novel neural network architecture, which integrates feature extraction, sequence modeling and transcription into a unified framework, is proposed. Compared with previous systems for scene text recognition, the proposed architecture possesses four distinctive properties: (1) It is end-to-end trainable, in contrast to most of the existing algorithms whose components are separately trained and tuned. (2) It naturally handles sequences in arbitrary lengths, involving no character segmentation or horizontal scale normalization. (3) It is not confined to any predefined lexicon and achieves remarkable performances in both lexicon-free and lexicon-based scene text recognition tasks. (4) It generates an effective yet much smaller model, which is more practical for real-world application scenarios. The experiments on standard benchmarks, including the IIIT-5K, Street View Text and ICDAR datasets, demonstrate the superiority of the proposed algorithm over the prior arts. Moreover, the proposed algorithm performs well in the task of image-based music score recognition, which evidently verifies the generality of it.</p>
+<a id="more"></a>
+<blockquote>
+<p>lexicon : 词典。<br />
+benchmarks : 基准。</p>
+</blockquote>
+<h3 id="introduction">1. Introduction</h3>
+<p>Recently, the community has seen a strong revival of neural networks, which is mainly stimulated by the great success of deep neural network models, specifically Deep Convolutional Neural Networks (DCNN), in various vision tasks. However, majority of the recent works related to deep neural networks have devoted to detection or classification of object categories [12, 25]. In this paper, we are concerned with a classic problem in computer vision: image-based sequence recognition. In real world, a stable of visual objects, such as scene text, handwriting and musical score, tend to occur in the form of sequence, not in isolation. Unlike general object recognition, recognizing such sequence-like objects often requires the system to predict a series of object labels, instead of a single label. Therefore, recognition of such objects can be naturally cast as a sequence recognition problem. Another unique property of sequence-like objects is that their lengths may vary drastically. For instance, English words can either consist of 2 characters such as “OK” or 15 characters such as “congratulations”. Consequently, the most popular deep models like DCNN [25, 26] cannot be directly applied to sequence prediction, since DCNN models often operate on inputs and outputs with fixed dimensions, and thus are incapable of producing a variable-length label sequence.</p>
+<blockquote>
+<p>revival : 复兴。</p>
+</blockquote>
+<p>Some attempts have been made to address this problem for a specific sequence-like object (e.g. scene text). For example, the algorithms in [35, 8] firstly detect individual characters and then recognize these detected characters with DCNN models, which are trained using labeled character images. Such methods often require training a strong character detector for accurately detecting and cropping each character out from the original word image. Some other approaches (such as [22]) treat scene text recognition as an image classification problem, and assign a class label to each English word (90K words in total). It turns out a large trained model with a huge number of classes, which is difficult to be generalized to other types of sequence-like objects, such as Chinese texts, musical scores, etc., because the numbers of basic combinations of such kind of sequences can be greater than 1 million. In summary, current systems based on DCNN can not be directly used for image-based sequence recognition.</p>
+<p>Recurrent neural networks (RNN) models, another important branch of the deep neural networks family, were mainly designed for handling sequences. <font color=#EF696E3B> One of the advantages of RNN is that it does not need the position of each element in a sequence object image in both training and testing. </font> However, a preprocessing step that converts an input object image into a sequence of image features, is usually essential. For example, Graves et al. [16] extract a set of geometrical or image features from handwritten texts, while Su and Lu [33] convert word images into sequential HOG features. The preprocessing step is independent of the subsequent components in the pipeline, thus the existing systems based on RNN can not be trained and optimized in an end-to-end fashion.</p>
+<blockquote>
+<p>geometrical : 几何学。<br />
+HOG : Histogram of Oriented Gradient, 方向梯度直方图。<br />
+预处理步骤与管道中的后续组件无关，因此现有的基于RNN的系统不能以端到端的方式进行训练和优化。</p>
+</blockquote>
+<p>Several conventional scene text recognition methods that are not based on neural networks also brought insightful ideas and novel representations into this field. <font color=#EF696E3B>For example, Almazan et al. [5] and Rodriguez-Serrano et al. [30] proposed to embed word images and text strings in a common vectorial subspace, and word recognition is converted into a retrieval problem. </font> Yao et al. [36] and Gordo et al. [14] used mid-level features for scene text recognition. Though achieved promising performance on standard benchmarks, these methods are generally outperformed by previous algorithms based on neural networks [8, 22], as well as the approach proposed in this paper.</p>
+<blockquote>
+<p>retrieval : 检索。</p>
+</blockquote>
+<p>The main contribution of this paper is a novel neural network model, whose network architecture is specifically designed for recognizing sequence-like objects in images. The proposed neural network model is named as Convolutional Recurrent Neural Network (CRNN), since it is a combination of DCNN and RNN. For sequence-like objects, CRNN possesses several distinctive advantages over conventional neural network models:<font color=#EF696E3B> 1) It can be directly learned from sequence labels (for instance, words), requiring no detailed annotations (for instance, characters); </font> 2) It has the same property of DCNN on learning informative representations directly from image data, requiring neither hand-craft features nor preprocessing steps, including binarization/segmentation, component localization, etc.; 3) It has the same property of RNN, being able to produce a sequence of labels; 4) It is unconstrained to the lengths of sequence-like objects, requiring only height normalization in both training and testing phases; 5) It achieves better or highly competitive performance on scene texts (word recognition) than the prior arts [23, 8]; 6) It contains much less parameters than a standard DCNN model, consuming less storage space.</p>
+<h3 id="the-proposed-network-architecture">2. The Proposed Network Architecture</h3>
+<p>The network architecture of CRNN, as shown in Fig. 1, consists of three components, including the convolutional layers, the recurrent layers, and a transcription layer, from bottom to top.</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210518193456.png" /></p>
+<p>At the bottom of CRNN, the convolutional layers automatically extract a feature sequence from each input image. On top of the convolutional network, a recurrent network is built for making prediction for each frame of the feature sequence, outputted by the convolutional layers. The transcription layer at the top of CRNN is adopted to translate the per-frame predictions by the recurrent layers into a label sequence. Though CRNN is composed of different kinds of network architectures (eg. CNN and RNN), it can be jointly trained with one loss function.</p>
+<h4 id="feature-sequence-extraction">2.1. Feature Sequence Extraction</h4>
+<p>In CRNN model, the component of convolutional layers is constructed by taking the convolutional and max-pooling layers from a standard CNN model (fully-connected layers are removed). Such component is used to extract a sequential feature representation from an input image. Before being fed into the network, all the images need to be scaled to the same height. Then a sequence of feature vectors is extracted from the feature maps produced by the component of convolutional layers, which is the input for the recurrent layers. <font color=#EF696E3B> Specifically, each feature vector of a feature sequence is generated from left to right on the feature maps by column. This means the i-th feature vector is the concatenation of the i-th columns of all the maps. The width of each column in our settings is fixed to single pixel. </font></p>
+<p>As the layers of convolution, max-pooling, and element-wise activation function operate on local regions, they are translation invariant. Therefore, each column of the feature maps corresponds to a rectangle region of the original image (termed the receptive field), and such rectangle regions are in the same order to their corresponding columns on the feature maps from left to right. As illustrated in Fig. 2, each vector in the feature sequence is associated with a receptive field, and can be considered as the image descriptor for that region.</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210518200352.png" /></p>
+<blockquote>
+<p>receptive field : 感受野。</p>
+</blockquote>
+<p>Being robust, rich and trainable, deep convolutional features have been widely adopted for different kinds of visual recognition tasks [25, 12]. Some previous approaches have employed CNN to learn a robust representation for sequence-like objects such as scene text [22]. However, these approaches usually extract holistic representation of the whole image by CNN, then the local deep features are collected for recognizing each component of a sequence-like object. Since CNN requires the input images to be scaled to a fixed size in order to satisfy with its fixed input dimension, it is not appropriate for sequence-like objects due to their large length variation. <font color=#EF696E3B> In CRNN, we convey deep features into sequential representations in order to be invariant to the length variation of sequence-like objects. </font></p>
+<blockquote>
+<p>holistic : 全面的。</p>
+</blockquote>
+<h4 id="sequence-labeling">2.2. Sequence Labeling</h4>
+<p>A deep bidirectional Recurrent Neural Network is built on the top of the convolutional layers, as the recurrent layers. The recurrent layers predict a label distribution <span class="math inline">\(y_t\)</span> for each frame <span class="math inline">\(x_t\)</span> in the feature sequence <span class="math inline">\(x = x_1,...,x_T\)</span>. The advantages of the recurrent layers are three-fold. Firstly, RNN has a strong capability of capturing contextual information within a sequence. Using contextual cues for image-based sequence recognition is more stable and helpful than treating each symbol independently. Taking scene text recognition as an example, wide characters may require several successive frames to fully describe (refer to Fig. 2). Besides, some ambiguous characters are easier to distinguish when observing their contexts, e.g. it is easier to recognize “il” by contrasting the character heights than by recognizing each of them separately. Secondly, RNN can back-propagates error differentials to its input, i.e. the con- volutional layer, allowing us to jointly train the recurrent layers and the convolutional layers in a unified network. Thirdly, RNN is able to operate on sequences of arbitrary lengths, traversing from starts to ends.</p>
+<blockquote>
+<p>bidirectional : 双向的。<br />
+ambiguous : 模棱两可的。<br />
+traverse : v. 横过; 横越。</p>
+</blockquote>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210519095408.png" /></p>
+<p>A traditional RNN unit has a self-connected hidden layer between its input and output layers. Each time it receives a frame <span class="math inline">\(x_t\)</span> in the sequence, it updates its internal state <span class="math inline">\(h_t\)</span> with a non-linear function that takes both current input <span class="math inline">\(x_t\)</span> and past state <span class="math inline">\(h_{t−1}\)</span> as its inputs: <span class="math inline">\(h_t = g(x_t, h_{t−1})\)</span>. Then the prediction <span class="math inline">\(y_t\)</span> is made based on <span class="math inline">\(h_t\)</span>. In this way, past contexts <span class="math inline">\(\{x_{t′}\}_{t′&lt;t}\)</span> are captured and utilized for prediction. Traditional RNN unit, however, suffers from the vanishing gradient problem [7], which limits the range of context it can store, and adds burden to the training process. Long-Short Term Memory [18, 11] (LSTM) is a type of RNN unit that is specially designed to address this problem. An LSTM (illustrated in Fig. 3) consists of a memory cell and three multiplicative gates, namely the input, output and forget gates. Conceptually, the memory cell stores the past contexts, and the input and output gates allow the cell to store contexts for a long period of time. Meanwhile, the memory in the cell can be cleared by the forget gate. The special design of LSTM allows it to capture long-range dependencies, which often occur in image-based sequences.</p>
+<p>LSTM is directional, it only uses past contexts. However, in image-based sequences, contexts from both directions are useful and complementary to each other. Therefore, we follow [17] and combine two LSTMs, one forward and one backward, into a bidirectional LSTM. Furthermore, multiple bidirectional LSTMs can be stacked, resulting in a deep bidirectional LSTM as illustrated in Fig. 3.b. The deep structure allows higher level of abstractions than a shallow one, and has achieved significant performance improvements in the task of speech recognition [17].</p>
+<p>In recurrent layers, error differentials are propagated in the opposite directions of the arrows shown in Fig. 3.b, i.e. Back-Propagation Through Time (BPTT). <font color=#EF696E3B> At the bottom of the recurrent layers, the sequence of propagated differentials are concatenated into maps, inverting the operation of converting feature maps into feature sequences, and fed back to the convolutional layers. In practice, we create a custom network layer, called “Map-to-Sequence”, as the bridge between convolutional layers and recurrent layers. </font></p>
+<blockquote>
+<p>理解LSTM，参考资料：<br />
+<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/95d5c461924c" class="uri">https://www.jianshu.com/p/95d5c461924c</a><br />
+<a target="_blank" rel="noopener" href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/" class="uri">https://colah.github.io/posts/2015-08-Understanding-LSTMs/</a><br />
+<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/79064602?utm_source=wechat_session" class="uri">https://zhuanlan.zhihu.com/p/79064602?utm_source=wechat_session</a><br />
+<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/51870057" class="uri">https://zhuanlan.zhihu.com/p/51870057</a><br />
+<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1dc21b622cf9" class="uri">https://www.jianshu.com/p/1dc21b622cf9</a></p>
+</blockquote>
+<h4 id="transcription">2.3. Transcription</h4>
+<p>Transcription is the process of converting the per-frame predictions made by RNN into a label sequence. Mathematically, transcription is to find the label sequence with the highest probability conditioned on the per-frame predictions. In practice, there exists two modes of transcription, namely the lexicon-free and lexicon-based transcriptions. A lexicon is a set of label sequences that prediction is constraint to, e.g. a spell checking dictionary. In lexicon-free mode, predictions are made without any lexicon. In lexicon-based mode, predictions are made by choosing the label sequence that has the highest probability.</p>
+<h5 id="probability-of-label-sequence"><font color=#EF696E3B> 2.3.1 Probability of label sequence </font></h5>
+<p>We adopt the conditional probability defined in the Connectionist Temporal Classification (CTC) layer proposed by Graves et al. [15]. The probability is defined for label sequence <strong>l</strong> conditioned on the per-frame predictions <span class="math inline">\(y=y_1,...,y_T\)</span>, and it ignores the position where each label in <strong>l</strong> is located. Consequently, when we use the negative log-likelihood of this probability as the objective to train the network, we only need images and their corresponding label sequences, avoiding the labor of labeling positions of individual characters.</p>
+<p>The formulation of the conditional probability is briefly described as follows: The input is a sequence <span class="math inline">\(y = y_1 , . . . , y_T\)</span> where <span class="math inline">\(T\)</span> is the sequence length. Here, each <span class="math inline">\(y_{t} \in \Re^{\left|\mathcal{L}^{\prime}\right|}\)</span> is a probability distribution over the set <span class="math inline">\(\mathcal{L}^{\prime}=\mathcal{L} \cup\)</span> , where <span class="math inline">\(\mathcal{L}\)</span> contains all labels in the task (e.g. all English characters), as well as a ’blank’ label denoted by . A sequence-to-sequence mapping function <span class="math inline">\(\mathcal{B}\)</span> is defined on sequence <span class="math inline">\(\boldsymbol{\pi} \in \mathcal{L}^{\prime T}\)</span>, where <span class="math inline">\(T\)</span> is the length. <span class="math inline">\(\mathcal{B}\)</span> maps <span class="math inline">\(\pi\)</span> onto <strong>l</strong> by firstly removing the repeated labels, then removing the ’blank’s. For example, <span class="math inline">\(\mathcal{B}\)</span> maps “--hh-e-l-ll-oo--” (’-’ represents ’blank’) onto “hello”. Then, the conditional probability is defined as the sum of probabilities of all <span class="math inline">\(\pi\)</span> that are mapped by <span class="math inline">\(\mathcal{B}\)</span> onto <strong>l</strong>: <span class="math display">\[
+\begin{equation}
+p(\mathbf{l} \mid \mathbf{y})=\sum_{\boldsymbol{\pi}: \mathcal{B}(\boldsymbol{\pi})=\mathbf{l}} p(\boldsymbol{\pi} \mid \mathbf{y}) \label{1}
+\end{equation}
+\]</span> where the probability of <span class="math inline">\(\boldsymbol{\pi}\)</span> is defined as <span class="math inline">\(p(\boldsymbol{\pi} \mid \mathbf{y})=\)</span> <span class="math inline">\(\prod_{t=1}^{T} y_{\pi_{t}}^{t}, y_{\pi_{t}}^{t}\)</span> is the probability of having label <span class="math inline">\(\pi_{t}\)</span> at time stamp <span class="math inline">\(t .\)</span> Directly computing Eq. 1 would be computationally infeasible due to the exponentially large number of summation items. However, Eq. 1 can be efficiently computed using the forward-backward algorithm described in [15].</p>
+<h5 id="lexicon-free-transcription">2.3.2 Lexicon-free transcription</h5>
+<p>In this mode, the sequence <span class="math inline">\(\mathbf{l}^{*}\)</span> that has the highest probability as defined in Eq. 1 is taken as the prediction. Since there exists no tractable algorithm to precisely find the solution, we use the strategy adopted in [15]. The sequence <span class="math inline">\(\mathbf{l}^{*}\)</span> is approximately found by <span class="math inline">\(\mathbf{l}^{*} \approx \mathcal{B}\left(\arg \max _{\boldsymbol{\pi}} p(\boldsymbol{\pi} \mid \mathbf{y})\right)\)</span>, i.e. taking the most probable label <span class="math inline">\(\pi_{t}\)</span> at each time stamp <span class="math inline">\(t\)</span>, and map the resulted sequence onto <span class="math inline">\(\mathbf{l}^{*}\)</span>.</p>
+<h5 id="lexicon-based-transcription">2.3.3 Lexicon-based transcription</h5>
+<p>In lexicon-based mode, each test sample is associated with a lexicon <span class="math inline">\(\mathcal{D}\)</span>. Basically, the label sequence is recognized by choosing the sequence in the lexicon that has highest conditional probability defined in Eq. 1, i.e. <span class="math inline">\(1^{*}=\)</span> <span class="math inline">\(\arg \max _{\mathbf{l} \in \mathcal{D}} p(\mathbf{l} \mid \mathbf{y})\)</span>. However, for large lexicons, <span class="math inline">\(e . g .\)</span> the 50k-words Hunspell spell-checking dictionary [1], it would be very time-consuming to perform an exhaustive search over the lexicon, i.e. to compute Equation 1 for all sequences in the lexicon and choose the one with the highest probability. To solve this problem, we observe that the label sequences predicted via lexicon-free transcription, described in 2.3.2, are often close to the ground-truth under the edit distance metric. This indicates that we can limit our search to the nearest-neighbor candidates <span class="math inline">\(\mathcal{N}_{\delta}\left(\mathbf{l}^{\prime}\right)\)</span>, where <span class="math inline">\(\delta\)</span> is the maximal edit distance and <span class="math inline">\(\mathbf{l}^{\prime}\)</span> is the sequence transcribed from <span class="math inline">\(\mathrm{y}\)</span> in lexicon-free mode: <span class="math display">\[
+\begin{equation}
+\mathbf{l}^{*}=\arg \max _{\mathbf{l} \in \mathcal{N}_{\delta}\left(\mathbf{1}^{\prime}\right)} p(\mathbf{l} \mid \mathbf{y}) \label{2}
+\end{equation}
+\]</span> The candidates <span class="math inline">\(\mathcal{N}_{\delta}\left(\mathbf{l}^{\prime}\right)\)</span> can be found efficiently with the BK-tree data structure [9], which is a metric tree specifically adapted to discrete metric spaces. The search time complexity of <span class="math inline">\(\mathrm{BK}\)</span>-tree is <span class="math inline">\(O(\log |\mathcal{D}|)\)</span>, where <span class="math inline">\(|\mathcal{D}|\)</span> is the lexicon size. Therefore this scheme readily extends to very large lexicons. In our approach, a BK-tree is constructed offline for a lexicon. Then we perform fast online search with the tree, by finding sequences that have less or equal to <span class="math inline">\(\delta\)</span> edit distance to the query sequence.</p>
+<h4 id="network-training">2.4. Network Training</h4>
+<p>Denote the training dataset by <span class="math inline">\(\mathcal{X}=\left\{I_{i}, \mathbf{l}_{i}\right\}_{i}\)</span>, where <span class="math inline">\(I_{i}\)</span> is the training image and <span class="math inline">\(\mathrm{l}_{i}\)</span> is the ground truth label sequence. The objective is to minimize the negative log-likelihood of conditional probability of ground truth: <span class="math display">\[
+\begin{equation}
+\mathcal{O}=-\sum_{I_{i}, \mathbf{l}_{i} \in \mathcal{X}} \log p\left(\mathbf{l}_{i} \mid \mathbf{y}_{i}\right) \label{3}
+\end{equation}
+\]</span> where <span class="math inline">\(\mathbf{y}_{i}\)</span> is the sequence produced by the recurrent and convolutional layers from <span class="math inline">\(I_{i} .\)</span> This objective function calculates a cost value directly from an image and its ground truth label sequence. Therefore, the network can be end-to-end trained on pairs of images and sequences, eliminating the procedure of manually labeling all individual components in training images.</p>
+<p>The network is trained with stochastic gradient descent (SGD). Gradients are calculated by the back-propagation algorithm. In particular, in the transcription layer, error differentials are back-propagated with the forward-backward algorithm, as described in [15]. In the recurrent layers, the Back-Propagation Through Time (BPTT) is applied to calculate the error differentials.</p>
+<p>For optimization, we use the ADADELTA [37] to automatically calculate per-dimension learning rates. Compared with the conventional momentum [31] method, ADADELTA requires no manual setting of a learning rate. More importantly, we find that optimization using ADADELTA converges faster than the momentum method.</p>
+<h3 id="experiments">3. Experiments</h3>
+<p>To evaluate the effectiveness of the proposed CRNN model, we conducted experiments on standard benchmarks for scene text recognition and musical score recognition, which are both challenging vision tasks. The datasets and setting for training and testing are given in Sec. 3.1, the de- tailed settings of CRNN for scene text images is provided in Sec. 3.2, and the results with the comprehensive compar- isons are reported in Sec. 3.3. To further demonstrate the generality of CRNN, we verify the proposed algorithm on a music score recognition task in Sec. 3.4.</p>
+<h4 id="datasets">3.1. Datasets</h4>
+<p>For all the experiments for scene text recognition, we use the synthetic dataset (Synth) released by Jaderberg et al. [20] as the training data. The dataset contains 8 millions training images and their corresponding ground truth words. Such images are generated by a synthetic text engine and are highly realistic. Our network is trained on the synthetic data once, and tested on all other real-world test datasets without any fine-tuning on their training data. Even though the CRNN model is purely trained with synthetic text data, it works well on real images from standard text recognition benchmarks.</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/19/EAST-An-Efficient-and-Accurate-Scene-Text-Detector/" rel="prev" title="EAST: An Efficient and Accurate Scene Text Detector">
+      <i class="fa fa-chevron-left"></i> EAST: An Efficient and Accurate Scene Text Detector
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/11/%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4Hash%E7%AE%97%E6%B3%95/" rel="next" title="分布式一致Hash算法">
+      分布式一致Hash算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E9%A2%98%E7%9B%AEan-end-to-end-trainable-neural-network-for-image-based-sequence-recognition-and-its-application-to-scene-text-recognition"><span class="nav-text">论文题目：An End-to-End Trainable Neural Network for Image-based Sequence Recognition and Its Application to Scene Text Recognition</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#abstract"><span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#introduction"><span class="nav-text">1. Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#the-proposed-network-architecture"><span class="nav-text">2. The Proposed Network Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#feature-sequence-extraction"><span class="nav-text">2.1. Feature Sequence Extraction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sequence-labeling"><span class="nav-text">2.2. Sequence Labeling</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#transcription"><span class="nav-text">2.3. Transcription</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#probability-of-label-sequence"><span class="nav-text"> 2.3.1 Probability of label sequence </span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#lexicon-free-transcription"><span class="nav-text">2.3.2 Lexicon-free transcription</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#lexicon-based-transcription"><span class="nav-text">2.3.3 Lexicon-based transcription</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#network-training"><span class="nav-text">2.4. Network Training</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#experiments"><span class="nav-text">3. Experiments</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#datasets"><span class="nav-text">3.1. Datasets</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="七月流火"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">七月流火</p>
+  <div class="site-description" itemprop="description">程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">七月流火</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Bqq9R5gWyWpajSOgwN05dN2W-MdYXbMMI',
+      appKey     : '4cmz7U3V4sJdUbLTG757skov',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210423164306.png">
 <meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210423164755.png">
 <meta property="article:published_time" content="2021-03-14T06:59:45.000Z">
-<meta property="article:modified_time" content="2021-04-25T15:22:34.381Z">
+<meta property="article:modified_time" content="2021-05-11T03:06:50.254Z">
 <meta property="article:author" content="七月流火">
 <meta property="article:tag" content="学习 思考">
 <meta name="twitter:card" content="summary">
@@ -217,7 +217,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-25 23:22:34" itemprop="dateModified" datetime="2021-04-25T23:22:34+08:00">2021-04-25</time>
+                <time title="修改时间：2021-05-11 11:06:50" itemprop="dateModified" datetime="2021-05-11T11:06:50+08:00">2021-05-11</time>
               </span>
 
           
@@ -468,7 +468,16 @@ identity mappings : 恒等映射。 这段主要讲作者的这个残差结构�
 </blockquote>
 <p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210423164306.png" /></p>
 <p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210423164755.png" /></p>
-<p><strong>Comparisons with State-of-the-art Methods.</strong> In Table 4 we compare with the previous best single-model results. Our baseline 34-layer ResNets have achieved very competitive accuracy. Our 152-layer ResNet has a single-model top-5 validation error of 4.49%. This single-model result outperforms all previous ensemble results (Table 5). We combine six models of different depth to form an ensemble (only with two 152-layer ones at the time of submitting). This leads to 3.57% top-5 error on the test set (Table 5). This entry won the 1st place in ILSVRC 2015. T &gt; State-of-the-art : 最新技术。这段对Table 5做解释。</p>
+<p><strong>Comparisons with State-of-the-art Methods.</strong> In Table 4 we compare with the previous best single-model results. Our baseline 34-layer ResNets have achieved very competitive accuracy. Our 152-layer ResNet has a single-model top-5 validation error of 4.49%. This single-model result outperforms all previous ensemble results (Table 5). We combine six models of different depth to form an ensemble (only with two 152-layer ones at the time of submitting). This leads to 3.57% top-5 error on the test set (Table 5). This entry won the 1st place in ILSVRC 2015.</p>
+<blockquote>
+<p>State-of-the-art : 最新技术。这段对Table 5做解释。</p>
+</blockquote>
+<h3 id="cifar-10-and-analysis">4.2. CIFAR-10 and Analysis</h3>
+<p>We conducted more studies on the CIFAR-10 dataset [20], which consists of 50k training images and 10k testing images in 10 classes. We present experiments trained on the training set and evaluated on the test set. Our focus is on the behaviors of extremely deep networks, but not on pushing the state-of-the-art results, so we intentionally use simple architectures as follows.</p>
+<blockquote>
+<p>CIFAR-10是一个更接近普适物体的彩色图像数据集。CIFAR-10 是由Hinton 的学生Alex Krizhevsky 和Ilya Sutskever整理的一个用于识别普适物体的小型数据集。一共包含10 个类别的RGB 彩色图片：飞机（ airplane ）、汽车（ automobile ）、鸟类（ bird ）、猫（ cat ）、鹿（ deer ）、狗（ dog ）、蛙类（ frog ）、马（ horse ）、船（ ship ）和卡车（truck）。每个图片的尺寸为32 × 32 ，每个类别有6000个图像，数据集中一共有50000张训练图片和10000张测试图片。</p>
+</blockquote>
+<p>The plain/residual architectures follow the form in Fig.3 (middle/right). The network inputs are 32×32 images, with the per-pixel mean subtracted. The first layer is 3×3 convolutions. Then we use a stack of 6n layers with 3×3 convolutions on the feature maps of sizes {32, 16, 8} respectively, with 2n layers for each feature map size. The numbers of filters are {16, 32, 64} respectively. The subsampling is performed by convolutions with a stride of 2. The network ends with a global average pooling, a 10-way fully-connected layer, and softmax. There are totally 6n+2 stacked weighted layers. The following table summarizes the architecture:</p>
 <p>参考博客： <a target="_blank" rel="noopener" href="https://blog.csdn.net/zzc15806/article/details/83540661" class="uri">https://blog.csdn.net/zzc15806/article/details/83540661</a></p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
@@ -551,7 +560,7 @@ identity mappings : 恒等映射。 这段主要讲作者的这个残差结构�
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E9%A2%98%E7%9B%AEdeep-residual-learning-for-image-recognition"><span class="nav-text">论文题目：Deep Residual Learning for Image Recognition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#abstract"><span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction"><span class="nav-text">1. Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#related-work"><span class="nav-text">2. Related Work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deep-residual-learning"><span class="nav-text">3. Deep Residual Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#residual-learning"><span class="nav-text">3.1 Residual Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#identity-mapping-by-shortcuts"><span class="nav-text">3.2. Identity Mapping by Shortcuts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#network-architectures"><span class="nav-text">3.3. Network Architectures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#implementation"><span class="nav-text">3.4. Implementation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#experiments"><span class="nav-text">4. Experiments</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#imagenet-classification"><span class="nav-text">4.1. ImageNet Classification</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BA%E6%96%87%E9%A2%98%E7%9B%AEdeep-residual-learning-for-image-recognition"><span class="nav-text">论文题目：Deep Residual Learning for Image Recognition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#abstract"><span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction"><span class="nav-text">1. Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#related-work"><span class="nav-text">2. Related Work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deep-residual-learning"><span class="nav-text">3. Deep Residual Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#residual-learning"><span class="nav-text">3.1 Residual Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#identity-mapping-by-shortcuts"><span class="nav-text">3.2. Identity Mapping by Shortcuts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#network-architectures"><span class="nav-text">3.3. Network Architectures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#implementation"><span class="nav-text">3.4. Implementation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#experiments"><span class="nav-text">4. Experiments</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#imagenet-classification"><span class="nav-text">4.1. ImageNet Classification</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cifar-10-and-analysis"><span class="nav-text">4.2. CIFAR-10 and Analysis</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -567,7 +576,7 @@ identity mappings : 恒等映射。 这段主要讲作者的这个残差结构�
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"qiyueliuhuo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文转自https:&#x2F;&#x2F;zybuluo.com&#x2F;hanbingtao&#x2F;note&#x2F;541458，膜拜大神。大神的博客的图片访问不到了，原因是用了简书的图床，在早期的博客文章我也用过简书的图床，之后可能简书对访问图片的域名进行限制，导致访问不了，目前使用gitlab作为图床，也有被限制的风险。本文手动转自hanbingtao大神的博客，一来促使自己仔细阅读循环神经网络的细节，二来对大神博客的图片不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【转】循环神经网络">
+<meta property="og:url" content="https://qiyueliuhuo.github.io/2021/05/22/%E3%80%90%E8%BD%AC%E3%80%91%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:site_name" content="七月流火">
+<meta property="og:description" content="本文转自https:&#x2F;&#x2F;zybuluo.com&#x2F;hanbingtao&#x2F;note&#x2F;541458，膜拜大神。大神的博客的图片访问不到了，原因是用了简书的图床，在早期的博客文章我也用过简书的图床，之后可能简书对访问图片的域名进行限制，导致访问不了，目前使用gitlab作为图床，也有被限制的风险。本文手动转自hanbingtao大神的博客，一来促使自己仔细阅读循环神经网络的细节，二来对大神博客的图片不">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210522193403.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210522194055.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210523143729.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210523145850.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210527183927.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210529151355.png">
+<meta property="article:published_time" content="2021-05-22T11:25:27.000Z">
+<meta property="article:modified_time" content="2021-05-29T07:20:46.446Z">
+<meta property="article:author" content="七月流火">
+<meta property="article:tag" content="学习 思考">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210522193403.png">
+
+<link rel="canonical" href="https://qiyueliuhuo.github.io/2021/05/22/%E3%80%90%E8%BD%AC%E3%80%91%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【转】循环神经网络 | 七月流火</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?45a8b0e33cead32cd5945b033baa7255";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">七月流火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">不积跬步，无已至千里; 不积小流，无以成江海。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2021/05/22/%E3%80%90%E8%BD%AC%E3%80%91%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="七月流火">
+      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【转】循环神经网络
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-22 19:25:27" itemprop="dateCreated datePublished" datetime="2021-05-22T19:25:27+08:00">2021-05-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-29 15:20:46" itemprop="dateModified" datetime="2021-05-29T15:20:46+08:00">2021-05-29</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/05/22/%E3%80%90%E8%BD%AC%E3%80%91%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/05/22/%E3%80%90%E8%BD%AC%E3%80%91%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>本文转自https://zybuluo.com/hanbingtao/note/541458，膜拜大神。大神的博客的图片访问不到了，原因是用了简书的图床，在早期的博客文章我也用过简书的图床，之后可能简书对访问图片的域名进行限制，导致访问不了，目前使用gitlab作为图床，也有被限制的风险。本文手动转自hanbingtao大神的博客，一来促使自己仔细阅读循环神经网络的细节，二来对大神博客的图片不能访问做修复，使其他人更方便阅读。三学习借鉴大神写作格式和风格。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="往期回顾">往期回顾</h2>
+<p>在前面的文章系列文章中，我们介绍了全连接神经网络和卷积神经网络，以及它们的训练和使用。他们都只能单独的取处理一个个的输入，前一个输入和后一个输入是完全没有关系的。但是，某些任务需要能够更好的处理序列的信息，即前面的输入和后面的输入是有关系的。比如，当我们在理解一句话意思时，孤立的理解这句话的每个词是不够的，我们需要处理这些词连接起来的整个序列；当我们处理视频的时候，我们也不能只单独的去分析每一帧，而要分析这些帧连接起来的整个序列。这时，就需要用到深度学习领域中另一类非常重要神经网络：<strong>循环神经网络(Recurrent Neural Network)</strong>。RNN种类很多，也比较绕脑子。不过读者不用担心，本文将一如既往的对复杂的东西剥茧抽丝，帮助您理解RNNs以及它的训练算法，并动手实现一个循环神经网络。</p>
+<h2 id="语言模型">语言模型</h2>
+<p>RNN是在<strong>自然语言处理</strong>领域中最先被用起来的，比如，RNN可以为语言模型来建模。那么，什么是语言模型呢？</p>
+<p>我们可以和电脑玩一个游戏，我们写出一个句子前面的一些词，然后，让电脑帮我们写下接下来的一个词。比如下面这句</p>
+<blockquote>
+<p>我昨天上学迟到了，老师批评了____。</p>
+</blockquote>
+<p>我们给电脑展示了这句话前面这些词，然后，让电脑写下接下来的一个词。在这个例子中，接下来的这个词最有可能是『我』，而不太可能是『小明』，甚至是『吃饭』。</p>
+<p><strong>语言模型</strong>就是这样的东西：给定一个一句话前面的部分，预测接下来最有可能的一个词是什么。</p>
+<p><strong>语言模型</strong>是对一种语言的特征进行建模，它有很多很多用处。比如在语音转文本(STT)的应用中，声学模型输出的结果，往往是若干个可能的候选词，这时候就需要<strong>语言模型</strong>来从这些候选词中选择一个最可能的。当然，它同样也可以用在图像到文本的识别中(<strong>OCR</strong>)。</p>
+<p>使用RNN之前，语言模型主要是采用<strong>N-Gram</strong>。N可以是一个自然数，比如2或者3。它的含义是，假设一个词出现的概率只与前面N个词相关。我们以2-Gram为例。首先，对前面的一句话进行切词：</p>
+<blockquote>
+<p>我 昨天 上学 迟到 了 ，老师 批评 了 ____。</p>
+</blockquote>
+<p>如果用2-Gram进行建模，那么电脑在预测的时候，只会看到前面的『了』，然后，电脑会在语料库中，搜索『了』后面最可能的一个词。不管最后电脑选的是不是『我』，我们都知道这个模型是不靠谱的，因为『了』前面说了那么一大堆实际上是没有用到的。如果是3-Gram模型呢，会搜索『批评了』后面最可能的词，感觉上比2-Gram靠谱了不少，但还是远远不够的。因为这句话最关键的信息『我』，远在9个词之前！</p>
+<p>现在读者可能会想，可以提升继续提升N的值呀，比如4-Gram、5-Gram.......。实际上，这个想法是没有实用性的。因为我们想处理任意长度的句子，N设为多少都不合适；另外，模型的大小和N的关系是指数级的，4-Gram模型就会占用海量的存储空间。</p>
+<p>所以，该轮到RNN出场了，RNN理论上可以往前看(往后看)任意多个词。</p>
+<h2 id="循环神经网络是什么">循环神经网络是什么</h2>
+<p>循环神经网络种类繁多，我们先从最简单的基本循环神经网络开始吧。</p>
+<h3 id="基本循环神经网络">基本循环神经网络</h3>
+<p>下图是一个简单的循环神经网络如，它由输入层、一个隐藏层和一个输出层组成：</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210522193403.png" /></p>
+<p>纳尼？！相信第一次看到这个玩意的读者内心和我一样是崩溃的。因为<strong>循环神经网络</strong>实在是太难画出来了，网上所有大神们都不得不用了这种抽象艺术手法。不过，静下心来仔细看看的话，其实也是很好理解的。如果把上面有<span class="math inline">\(W\)</span>的那个带箭头的圈去掉，它就变成了最普通的<strong>全连接神经网络</strong>。<span class="math inline">\(x\)</span>是一个向量，它表示输入层的值（这里面没有画出来表示神经元节点的圆圈）；<span class="math inline">\(s\)</span>是一个向量，它表示<strong>隐藏层</strong>的值（这里隐藏层面画了一个节点，你也可以想象这一层其实是多个节点，节点数与向量<span class="math inline">\(s\)</span>的维度相同）；<span class="math inline">\(U\)</span>是输入层到隐藏层的<strong>权重矩阵</strong>（读者可以回到第三篇文章零基础入门深度学习(3) - 神经网络和反向传播算法，看看我们是怎样用矩阵来表示<strong>全连接神经网络</strong>的计算的）；<span class="math inline">\(o\)</span>也是一个向量，它表示<strong>输出层</strong>的值；<span class="math inline">\(V\)</span>是隐藏层到输出层的<strong>权重矩阵</strong>。那么，现在我们来看看W是什么。<strong>循环神经网络</strong>的<strong>隐藏层</strong>的值s不仅仅取决于当前这次的输入<span class="math inline">\(x\)</span>，还取决于上一次隐藏层的值<span class="math inline">\(s\)</span>。权重矩阵<span class="math inline">\(W\)</span>就是隐藏层上一次的值作为这一次的输入的权重。</p>
+<p>如果我们把上面的图展开，<strong>循环神经网络</strong>也可以画成下面这个样子：</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210522194055.png" /></p>
+<blockquote>
+<p><span class="math inline">\(s_{t-1}\)</span>代表多个值，此处它是一个向量；<span class="math inline">\(x_{t-1}\)</span>也是一个向量，类比于全连接网络；<span class="math inline">\(U\)</span>、<span class="math inline">\(V\)</span>、<span class="math inline">\(W\)</span>都是系数矩阵。</p>
+</blockquote>
+<p>现在看上去就比较清楚了，这个网络在<span class="math inline">\(t\)</span>时刻接收到输入<span class="math inline">\(x_t\)</span>之后，隐藏层的值是<span class="math inline">\(s_t\)</span>，输出值是<span class="math inline">\(o_t\)</span>。关键一点是，<span class="math inline">\(s_t\)</span>的值不仅仅取决于<span class="math inline">\(x_t\)</span>，还取决于<span class="math inline">\(s_{t-1}\)</span>。我们可以用下面的公式来表示循环神经网络的计算方法： <span class="math display">\[
+\begin{align}
+&amp;\mathrm{o}_{t}=g\left(V \mathrm{~s}_{t}\right) \qquad  \text{(式1)}\\
+&amp;\mathrm{s}_{t}=f\left(U \mathrm{x}_{t}+W\mathrm{~s}_{t-1} \right) \qquad \text{(式2)}
+\end{align}
+\]</span></p>
+<blockquote>
+<p>latex技巧，在align环境中，每一行开&amp;代表左对齐。</p>
+</blockquote>
+<p>式1是<strong>输出层</strong>的计算公式，输出层是一个<strong>全连接层</strong>，也就是它的每个节点都和隐藏层的每个节点相连。<span class="math inline">\(V\)</span>是输出层的<strong>权重矩阵</strong>，<span class="math inline">\(g\)</span>是<strong>激活函数</strong>。式2是隐藏层的计算公式，它是循环层。<span class="math inline">\(U\)</span>是输入<span class="math inline">\(x\)</span>的<strong>权重矩阵</strong>，<span class="math inline">\(W\)</span>是上一次的值作为这一次的输入的<strong>权重矩阵</strong>，<span class="math inline">\(f\)</span>是<strong>激活函数</strong>。</p>
+<p>从上面的公式我们可以看出，<strong>循环层和全连接层</strong>的区别就是循环层多了一个<strong>权重矩阵<span class="math inline">\(W\)</span></strong>。</p>
+<p>如果反复把<strong>式2</strong>带入到<strong>式1</strong>，我们将得到： <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+\mathrm{o}_{t} &amp;=g\left(V \mathbf{s}_{t}\right) \\
+&amp;=V f\left(U \mathrm{x}_{t}+W \mathrm{~s}_{t-1}\right) \\
+&amp;=V f\left(U \mathrm{x}_{t}+W f\left(U \mathrm{x}_{t-1}+W \mathrm{~s}_{t-2}\right)\right) \\
+&amp;=V f\left(U \mathrm{x}_{t}+W f\left(U \mathrm{x}_{t-1}+W f\left(U \mathrm{x}_{t-2}+W \mathrm{~s}_{t-3}\right)\right)\right) \\
+&amp;=V f\left(U \mathrm{x}_{t}+W f\left(U \mathrm{x}_{t-1}+W f\left(U \mathrm{x}_{t-2}+W f\left(U \mathrm{x}_{t-3}+\ldots\right)\right)\right)\right)
+\end{aligned}
+\end{equation}
+\]</span> 从上面可以看出，<strong>循环神经网络</strong>的输出值<span class="math inline">\(o_t\)</span>，是受前面历次输入值<span class="math inline">\(x_t\)</span>、<span class="math inline">\(x_{t-1}\)</span>、<span class="math inline">\(x_{t-2}\)</span>、<span class="math inline">\(x_{t-3}\)</span>、...影响的，这就是为什么<strong>循环神经网络</strong>可以<strong>往前看</strong>任意多个输入值的原因。</p>
+<h3 id="双向循环神经网络">双向循环神经网络</h3>
+<p>对于<strong>语言模型</strong>来说，很多时候光看前面的词是不够的，比如下面这句话：</p>
+<blockquote>
+<p>我的手机坏了，我打算____一部新手机。</p>
+</blockquote>
+<p>可以想象，如果我们只看横线前面的词，手机坏了，那么我是打算修一修？换一部新的？还是大哭一场？这些都是无法确定的。但如果我们也看到了横线后面的词是『一部新手机』，那么，横线上的词填『买』的概率就大得多了。</p>
+<p>在上一小节中的<strong>基本循环神经网络</strong>是无法对此进行建模的，因此，我们需要<strong>双向循环神经网络</strong>，如下图所示：</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210523143729.png" /></p>
+<blockquote>
+<p>理解：将上面举例的语言当作时间序列，那么『我』编码为<span class="math inline">\(X_0\)</span>，『的』编码为<span class="math inline">\(X_1\)</span>，等等，这些都被编码为一个<strong>向量</strong>。</p>
+</blockquote>
+<p>当遇到这种从<strong>未来穿越</strong>回来的场景时，难免处于懵逼的状态。不过我们还是可以用屡试不爽的老办法：先分析一个特殊场景，然后再总结一般规律。我们先考虑上图中，<span class="math inline">\(y_2\)</span>的计算。</p>
+<p>从上图可以看出，<strong>双向卷积神经网络</strong>的隐藏层要保存两个值，一个<span class="math inline">\(A\)</span>参与正向计算，另一个值<span class="math inline">\(A&#39;\)</span>参与反向计算。最终的输出值<span class="math inline">\(y_2\)</span>取决于<span class="math inline">\(A_2\)</span>和<span class="math inline">\(A&#39;_2\)</span>。其计算方法为： <span class="math display">\[
+\begin{equation}
+\mathrm{y}_{2}=g\left(V A_{2}+V^{\prime} A_{2}^{\prime}\right)
+\end{equation}
+\]</span> <span class="math inline">\(A_{2}\)</span> 和 <span class="math inline">\(A_{2}^{\prime}\)</span> 则分别计算： <span class="math display">\[
+\begin{equation}
+\begin{array}{l}
+A_{2}=f\left(W A_{1}+U \mathrm{x}_{2}\right) \\
+A_{2}^{\prime}=f\left(W^{\prime} A_{3}^{\prime}+U^{\prime} \mathrm{x}_{2}\right)
+\end{array}
+\end{equation}
+\]</span> 现在, 我们已经可以看出一般的规律：正向计算时, 隐藏层的值 <span class="math inline">\(s_{t}\)</span> 与 <span class="math inline">\(\mathrm{s}_{t-1}\)</span> 有关; 反向计算时, 隐藏层的值 <span class="math inline">\(\mathrm{s}_{t}^{\prime}\)</span> 与 <span class="math inline">\(_{t+1}^{\prime}\)</span> 有关; 最终的输出取决于<strong>正向和反向计算的加和</strong>。现在, 我们仿照<strong>式1和式2</strong>, 写出双向循环神经网络的计算方法： <span class="math display">\[
+\begin{equation}
+\begin{array}{l}
+\mathrm{o}_{t}=g\left(V \mathrm{~s}_{t}+V^{\prime} \mathrm{s}_{t}^{\prime}\right) \\
+\mathrm{s}_{t}=f\left(U \mathrm{x}_{t}+W \mathrm{~s}_{t-1}\right) \\
+\mathrm{s}_{t}^{\prime}=f\left(U^{\prime} \mathrm{x}_{t}+W^{\prime} \mathrm{s}_{t+1}^{\prime}\right)
+\end{array}
+\end{equation}
+\]</span> 从上面三个公式我们可以看到，正向计算和反向计算不共享权重，也就是说<span class="math inline">\(U\)</span>和<span class="math inline">\(U&#39;\)</span>、<span class="math inline">\(W\)</span>和<span class="math inline">\(W&#39;\)</span>、<span class="math inline">\(V\)</span>和<span class="math inline">\(V&#39;\)</span>都是不同的权重矩阵。</p>
+<h3 id="深度循环神经网络">深度循环神经网络</h3>
+<p>前面我们介绍的<strong>循环神经网络</strong>只有一个隐藏层，我们当然也可以堆叠两个以上的隐藏层，这样就得到了深度循环神经网络。如下图所示：</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210523145850.png" /></p>
+<p>我们把第i个隐藏层的值表示为s <span class="math inline">\(_{t}^{(i)}, s_{t}^{(i)}\)</span>, 则<strong>深度循环神经网络</strong>的计算方式可以表示为: <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+\mathrm{o}_{t} &amp;=g\left(V^{(i)} \mathrm{s}_{t}^{(i)}+V^{\prime(i)} \mathrm{s}_{t}^{\prime(i)}\right) \\
+\mathrm{s}_{t}^{(i)} &amp;=f\left(U^{(i)} \mathrm{s}_{i}^{(i-1)}+W^{(i)} \mathrm{s}_{t-1}\right) \\
+\mathrm{s}_{t}^{\prime(i)} &amp;=f\left(U^{\prime(i)} \mathrm{s}_{t}^{\prime(i-1)}+W^{\prime(i)} \mathrm{s}_{t+1}^{\prime}\right) \\
+\ldots &amp; \\
+\mathrm{s}_{t}^{(1)} &amp;=f\left(U^{(1)} \mathrm{x}_{t}+W^{(1)} \mathrm{s}_{t-1}\right) \\
+\mathrm{s}_{t}^{(1)} &amp;=f\left(U^{\prime(1)} \mathrm{x}_{t}+W^{\prime(1)} \mathrm{s}_{t+1}^{\prime}\right)
+\end{aligned}
+\end{equation}
+\]</span></p>
+<blockquote>
+<p>理解：总觉得(7)式中，第二个和第三个式子最后的<span class="math inline">\(s_{t-1}\)</span>和<span class="math inline">\(s&#39;_{t+1}\)</span>应该带上右上角标<span class="math inline">\((i)\)</span>；对下面两个式子，同理。有同样疑惑的小伙伴，可以在下面评论区讨论交流。</p>
+</blockquote>
+<h2 id="循环神经网络的训练">循环神经网络的训练</h2>
+<h3 id="循环神经网络的训练算法bptt">循环神经网络的训练算法：BPTT</h3>
+<blockquote>
+<p>Backpropagation Through Time, BPTT : 随时间反向传播。</p>
+</blockquote>
+<p>BPTT算法是针对<strong>循环层</strong>的训练算法，它的基本原理和BP算法是一样的，也包含同样的三个步骤：</p>
+<ol type="1">
+<li>前向计算每个神经元的输出值；</li>
+<li>反向计算每个神经元的误差项 <span class="math inline">\(\delta_{j}\)</span> 值，它是误差函数E对神经元的加权输入 <span class="math inline">\(net_{j}\)</span> 的偏导数；?</li>
+<li>计算每个权重的梯度。</li>
+</ol>
+<p>最后再用随机梯度下降算法更新权重。</p>
+<p>循环层如下图所示：</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210527183927.png" /></p>
+<h4 id="前向计算">前向计算</h4>
+<p>使用前面的<strong>式2</strong>对循环层进行前向计算： <span class="math display">\[
+\mathrm{s}_{t}=f\left(U \mathrm{x}_{t}+W\mathrm{~s}_{t-1} \right)
+\]</span> 注意，上面的 <span class="math inline">\(\mathrm{s}_{t}, \mathrm{x}_{t}, \mathrm{~s}_{t-1}\)</span> 都是向量, 用<strong>黑体字母</strong>表示; 而U、V是矩阵，用大写字母表示。<strong>向量的下标表示时刻</strong>，例如，<span class="math inline">\(\mathrm{s}_{t}\)</span> 表示在t时刻向量的值。</p>
+<p>我们假设输入向量x的维度是m，输出向量s的维度是n, 则矩阵U的维度是 <span class="math inline">\(n \times m\)</span>, 矩阵W的维度是 <span class="math inline">\(n \times n\)</span> 。下面是上式 展开成矩阵的样子，看起来更直观一些： <span class="math display">\[
+\begin{equation}
+\left[\begin{array}{c}
+s_{1}^{t} \\
+s_{2}^{t} \\
+\cdot \\
+s_{n}^{t}
+\end{array}\right]=f\left(\left[\begin{array}{c}
+u_{11} u_{12} \ldots u_{1 m} \\
+u_{21} u_{22} \ldots u_{2 m} \\
+\cdot \\
+\cdot \\
+u_{n 1} u_{n 2} \ldots u_{n m}
+\end{array}\right]\left[\begin{array}{c}
+x_{1} \\
+x_{2} \\
+\cdot \\
+\cdot \\
+x_{m}
+\end{array}\right]+\left[\begin{array}{c}
+w_{11} w_{12} \ldots w_{1 n} \\
+w_{21} w_{22} \ldots w_{2 n} \\
+\cdot \\
+\cdot \\
+w_{n 1} w_{n 2} \ldots w_{n n}
+\end{array}\right]\left[\begin{array}{c}
+s_{1}^{t-1} \\
+s_{2}^{t-1} \\
+\cdot \\
+\cdot \\
+s_{n}^{t-1}
+\end{array}\right]\right)
+\end{equation}
+\]</span></p>
+<p>在这里我们用<strong>手写体字母</strong>表示向量的一个元素，它的下标表示它是这个向量的第几个元素，它的上标表示第几个时刻。例如, <span class="math inline">\(s_{j}^{t}\)</span> 表示向量s的第j个元素在t时刻的值。 <span class="math inline">\(u_{j i}\)</span> 表示<strong>输入层</strong>第i个神经元到<strong>循环层</strong>第j个神经元的权重。 <span class="math inline">\(w_{j i}\)</span> 表示<strong>循环层</strong>第t-1时刻的第i个神经元到<strong>循环层</strong>第t个时刻的第j个神经元的权重。</p>
+<h4 id="误差项的计算">误差项的计算</h4>
+<p>BTPP算法将第<span class="math inline">\(l\)</span>层<span class="math inline">\(t\)</span>时刻的误差项 <span class="math inline">\(\delta_{t}^{l}\)</span> 值沿两个方向传播, 一个方向是其传递到上一层网络, 得到 <span class="math inline">\(\delta_{t}^{l-1}\)</span>, 这部分只和权重矩阵<span class="math inline">\(U\)</span>有关; 另一个是方向是将其沿时间线传递到初始 <span class="math inline">\(t_{1}\)</span> 时刻，得到 <span class="math inline">\(\delta_{1}^{l}\)</span>, 这部分只和权重矩阵<span class="math inline">\(W\)</span>有关。</p>
+<p>我们用向量net<span class="math inline">\(_{t}\)</span>表示神经元在<span class="math inline">\(t\)</span>时刻的<strong>加权输入</strong>，因为： <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+\text {net}_{t} &amp;=U \mathrm{x}_{t}+W \mathrm{~s}_{t-1} \\
+\mathrm{~s}_{t-1} &amp;=f\left(\text{net}_{t-1}\right)
+\end{aligned}
+\end{equation}
+\]</span> 因此： <span class="math display">\[
+\begin{equation}
+\frac{\partial \operatorname{net}_{t}}{\partial \mathrm{net}_{t-1}}=\frac{\partial \operatorname{net}_{t}}{\partial \mathrm{s}_{t-1}} \frac{\partial \mathrm{s}_{t-1}}{\partial \operatorname{net}_{t-1}}
+\end{equation}
+\]</span> 上式的第一项是向量函数对向量求导，其结果为Jacobian矩阵： <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+\frac{\partial \operatorname{net}_{t}}{\partial \mathrm{s}_{t-1}} &amp;=\left[\begin{array}{cccc}
+\frac{\partial n e t_{1}^{t}}{\partial s_{1}^{t-1}} &amp; \frac{\partial n e t_{1}^{t}}{\partial s_{2}^{t-1}} &amp; \ldots &amp; \frac{\partial n e t_{1}^{t}}{\partial s_{n}^{t-1}} \\
+\frac{\partial n e t_{2}^{t}}{\partial s_{1}^{t-1}} &amp; \frac{\partial n e t_{2}^{t}}{\partial s_{2}^{t-1}} &amp; \ldots &amp; \frac{\partial n e t_{2}^{t}}{\partial s_{n}^{t-1}} \\
+\frac{\partial n e t_{n}^{t}}{\partial s_{1}^{t-1}} &amp; \frac{\partial n e t_{n}^{t}}{\partial s_{2}^{t-1}} &amp; \ldots &amp; \frac{\partial n e t_{n}^{t}}{\partial s_{n}^{t-1}}
+\end{array}\right] \\
+&amp;=\left[\begin{array}{cccc}
+w_{11} &amp; w_{12} &amp; \ldots &amp; w_{1 n} \\
+w_{21} &amp; w_{22} &amp; \ldots &amp; w_{2 n} \\
+&amp; \cdot &amp; &amp; \\
+w_{n 1} &amp; w_{n 2} &amp; \ldots &amp; w_{n n}
+\end{array}\right] \\
+&amp;=W
+\end{aligned}
+\end{equation}
+\]</span> 同理，上式第二项也是一个Jacobian矩阵： <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+\frac{\partial \mathrm{s}_{t-1}}{\partial \mathrm{net}_{t-1}} &amp;=\left[\begin{array}{cccc}
+\frac{\partial s_{1}^{t-1}}{\partial n e t_{1}^{t-1}} &amp; \frac{\partial s_{1}^{t-1}}{\partial n e t_{2}^{t-1}} &amp; \cdots &amp; \frac{\partial s_{1}^{t-1}}{\partial n e t_{n}^{t-1}} \\
+\frac{\partial s_{2}^{t-1}}{\partial n e t_{1}^{t-1}} &amp; \frac{\partial s_{2}^{t-1}}{\partial n e t_{2}^{t-1}} &amp; \cdots &amp; \frac{\partial s_{2}^{t-1}}{\partial n e t_{n}^{t-1}} \\
+\frac{\partial s_{n}^{t-1}}{\partial n e t_{1}^{t-1}} &amp; \frac{\partial s_{n}^{t-1}}{\partial n e t_{2}^{t-1}} &amp; \cdots &amp; \frac{\partial s_{n}^{t-1}}{\partial n e t_{n}^{t-1}}
+\end{array}\right] \\
+&amp;=\left[\begin{array}{cccc}
+f^{\prime}\left(n e t_{1}^{t-1}\right) &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; f^{\prime}\left(n e t_{2}^{t-1}\right) &amp; \ldots &amp; 0 \\
+&amp; \cdot &amp; &amp; \\
+&amp; \cdot &amp; &amp; \\
+0 &amp; 0 &amp; \ldots &amp; f^{\prime}\left(n e t_{n}^{t-1}\right)
+\end{array}\right] \\
+&amp;=\operatorname{diag}\left[f^{\prime}\left(\operatorname{net}_{t-1}\right)\right]
+\end{aligned}
+\end{equation}
+\]</span> 其中，diag[a]表示根据向量a创建一个对角矩阵，即 <span class="math display">\[
+\begin{equation}
+\operatorname{diag}(\mathrm{a})=\left[\begin{array}{cccc}
+a_{1} &amp; 0 &amp; \ldots &amp; 0 \\
+0 &amp; a_{2} &amp; \ldots &amp; 0 \\
+&amp; \cdot &amp; &amp; \\
+0 &amp; 0 &amp; \ldots &amp; a_{n}
+\end{array}\right]
+\end{equation}
+\]</span></p>
+<blockquote>
+<p>这里牵扯<strong>多元函数导数</strong>的问题，分成两类：1）因变量的某一维结果与自变量的所有维度的值相关；如<span class="math inline">\(\frac{\partial \operatorname{net}_{t}}{\partial \mathrm{s}_{t-1}}\)</span>。2）因变量的某一维结果只与自变量的对应维度的值相关；如<span class="math inline">\(\frac{\partial \mathrm{s}_{t-1}}{\partial \operatorname{net}_{t-1}}\)</span>。</p>
+</blockquote>
+<p>最后，将两项合在一起，可得： <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+\frac{\partial \operatorname{net}_{t}}{\partial \operatorname{net}_{t-1}} &amp;=\frac{\partial \operatorname{net}_{t}}{\partial \mathrm{s}_{t-1}} \frac{\partial s_{t-1}}{\partial \operatorname{net}_{t-1}} \\
+&amp;=W \operatorname{diag}\left[f^{\prime}\left(\operatorname{net}_{t-1}\right)\right] \\
+&amp;=\left[\begin{array}{llll}
+w_{11} f^{\prime}\left(\text { net }_{1}^{t-1}\right) &amp; w_{12} f^{\prime}\left(\text { net }_{2}^{t-1}\right) &amp; \ldots &amp; w_{1 n} f\left(n e t_{n}^{t-1}\right) \\
+w_{21} f^{\prime}\left(\text { net }_{1}^{t-1}\right) &amp; w_{22} f^{\prime}\left(n e t_{2}^{t-1}\right) &amp; \ldots &amp; w_{2 n} f\left(n e t_{n}^{t-1}\right) \\
+&amp; &amp; &amp; &amp; \\
+w_{n 1} f^{\prime}\left(\text { net }_{1}^{t-1}\right) &amp; w_{n 2} f^{\prime}\left(\text { net }_{2}^{t-1}\right) &amp; \ldots &amp; w_{n n} f^{\prime}\left(n e t_{n}^{t-1}\right)
+\end{array}\right]
+\end{aligned}
+\end{equation}
+\]</span> 上式描述了将 <span class="math inline">\(\delta\)</span> 沿 时 间 往 前 传 递 一 个 时 刻 的 规 律 ， 有 了 这 个 规 律 ， 我 们 就 可 以 求 得 任 意 时 刻 k 的 误 差 项 <span class="math inline">\(\delta_{k}\)</span>： <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+\delta_{k}^{T} &amp;=\frac{\partial E}{\partial \operatorname{net}_{k}} \\
+&amp;=\frac{\partial E}{\partial \operatorname{net}_{t}} \frac{\partial \mathrm{net}_{t}}{\partial \mathrm{net}_{k}} \\
+&amp;=\frac{\partial E}{\partial \operatorname{net}_{t}} \frac{\partial \mathrm{net}_{t}}{\partial \operatorname{net}_{t-1}} \frac{\partial \operatorname{net}_{t-1}}{\partial \operatorname{net}_{t-2}} \ldots \frac{\partial \operatorname{net}_{k+1}}{\partial \operatorname{net}_{k}} \\
+&amp;=W \operatorname{diag}\left[f^{\prime}\left(\operatorname{net}_{t-1}\right)\right] W \operatorname{diag}\left[f^{\prime}\left(\operatorname{net}_{t-2}\right)\right] \ldots W \operatorname{diag}\left[f^{\prime}\left(\operatorname{net}_{k}\right)\right] \delta_{t}^{l} \\
+&amp;=\delta_{t}^{T} \prod^{t-1} W \operatorname{diag}\left[f^{\prime}\left(\operatorname{net}_{i}\right)\right] \quad(\text { 式 } 3)
+\end{aligned}
+\end{equation}
+\]</span></p>
+<blockquote>
+<p>理解：等式左边<span class="math inline">\(\delta\)</span>的右上角标应该为<span class="math inline">\(l\)</span>；同理，最下面的式子<span class="math inline">\(\delta\)</span>的右上角标也应该为<span class="math inline">\(l\)</span>，代表第<span class="math inline">\(l\)</span>层。</p>
+</blockquote>
+<p><strong>式3</strong>就是将误差项沿时间反向传播的算法。</p>
+<p><strong>循环层</strong>将<strong>误差项反向传递</strong>到上一层网络，与普通的全连接层是完全一样的，这在前面的文章<strong>零基础入门深度学习(3) - 神经网络和反向传播算法</strong>中已经详细讲过了，在此仅简要描述一下。</p>
+<p>循环层的加权输入<strong><span class="math inline">\(net^{l}\)</span> </strong>与上一层的加权输入 <strong><span class="math inline">\(net^{l-1}\)</span></strong> 关系如下： <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+\mathrm{net}_{t}^{l} &amp;=U \mathrm{a}_{t}^{l-1}+W \mathrm{~s}_{t-1} \\
+\mathrm{a}_{t}^{l-1} &amp;=f^{l-1}\left(\mathrm{net}_{t}^{l-1}\right)
+\end{aligned}
+\end{equation}
+\]</span> 上式中 <span class="math inline">\(\mathrm{net}_{t}^{l}\)</span> 是第<span class="math inline">\(l\)</span>层神经元的加权输入(假设第<span class="math inline">\(l\)</span>层是循环层)；<span class="math inline">\(\operatorname{net}_{t}^{l-1}\)</span> 是第1-1层神经元的加权输入; <span class="math inline">\(\mathrm{a}_{t}^{l-1}\)</span> 是第<span class="math inline">\(l-1\)</span>层神经元的输出; <span class="math inline">\(f^{l-1}\)</span> 是第<span class="math inline">\(l-1\)</span>层的激活函数。 <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+\frac{\partial \mathrm{net}_{t}^{l}}{\partial \mathrm{net}_{t}^{l-1}} &amp;=\frac{\partial \mathrm{net}^{l}}{\partial \mathrm{a}_{t}^{l-1}} \frac{\partial \mathrm{a}_{t}^{l-1}}{\partial \mathrm{net}_{t}^{l-1}} \\
+&amp;=U \operatorname{diag}\left[f&#39;^{l-1}\left(\mathrm{net}_{t}^{l-1}\right)\right]
+\end{aligned}
+\end{equation}
+\]</span> 所以， <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+\left(\delta_{t}^{l-1}\right)^{T} &amp;=\frac{\partial E}{\partial \operatorname{net}_{t}^{l-1}} \\
+&amp;=\frac{\partial E}{\partial \operatorname{net}_{t}^{l}} \frac{\partial \mathrm{net}_{t}^{l}}{\partial \mathrm{net}_{t}^{l-1}} \\
+&amp;=\left(\delta_{t}^{l}\right)^{T} U \operatorname{diag}\left[f&#39;^{l-1}\left(\mathrm{net}_{t}^{l-1}\right)\right] \quad(\text { 式 } 4)
+\end{aligned}
+\end{equation}
+\]</span></p>
+<blockquote>
+<p>理解：没理解右上角标<span class="math inline">\(T\)</span>是什么含义？？？</p>
+</blockquote>
+<p><strong>式4</strong>就是将误差项传递到上一层算法。</p>
+<h4 id="权重梯度的计算">权重梯度的计算</h4>
+<p>现在，我们终于来到了BPTT算法的最后一步：计算每个权重的梯度。</p>
+<p>首先，我们计算误差函数<span class="math inline">\(E\)</span>对权重矩阵<span class="math inline">\(W\)</span>的梯度 <span class="math inline">\(\frac{\partial E}{\partial W}\)</span> 。</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210529151355.png" /></p>
+<p>上图展示了我们到目前为止，在前两步中已经计算得到的量，包括每个时刻<strong>循环层</strong>的输出值<span class="math inline">\(s_{t}\)</span>, 以及误差项<span class="math inline">\(\delta_{t}\)</span>。</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/27/python%E7%86%9F%E8%AE%B0/" rel="prev" title="python熟记">
+      <i class="fa fa-chevron-left"></i> python熟记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/21/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" rel="next" title="论文阅读">
+      论文阅读 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%80%E6%9C%9F%E5%9B%9E%E9%A1%BE"><span class="nav-text">往期回顾</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B"><span class="nav-text">语言模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">循环神经网络是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="nav-text">基本循环神经网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E5%90%91%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="nav-text">双向循环神经网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="nav-text">深度循环神经网络</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E8%AE%AD%E7%BB%83"><span class="nav-text">循环神经网络的训练</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E8%AE%AD%E7%BB%83%E7%AE%97%E6%B3%95bptt"><span class="nav-text">循环神经网络的训练算法：BPTT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%8D%E5%90%91%E8%AE%A1%E7%AE%97"><span class="nav-text">前向计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AF%E5%B7%AE%E9%A1%B9%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-text">误差项的计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%83%E9%87%8D%E6%A2%AF%E5%BA%A6%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="nav-text">权重梯度的计算</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="七月流火"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">七月流火</p>
+  <div class="site-description" itemprop="description">程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">七月流火</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Bqq9R5gWyWpajSOgwN05dN2W-MdYXbMMI',
+      appKey     : '4cmz7U3V4sJdUbLTG757skov',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
