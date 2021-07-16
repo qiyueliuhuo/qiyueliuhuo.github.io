@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"qiyueliuhuo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="酒是穿肠毒药，色是刮骨钢刀，财是惹祸根苗，气是雷烟火炮。 不过，无酒毕竟不成席，无色世上人渐稀，无财何人早早起，无气处处惹人欺。 饮酒不醉量为高，见色不迷真英豪，不义之财君莫取，忍气饶人祸自消。 酒色财气四堵墙，人人都在里边藏，谁若跳到墙外边，不是神仙也寿长。 君听我一言：做人，量体裁衣。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《ABCNet: Real-time Scene Text Spotting with Adaptive Bezier-Curve Network》论文学习">
+<meta property="og:url" content="https://qiyueliuhuo.github.io/2021/07/05/%E3%80%8AABCNet-Real-time-Scene-Text-Spotting-with-Adaptive-Bezier-Curve-Network%E3%80%8B%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="七月流火">
+<meta property="og:description" content="酒是穿肠毒药，色是刮骨钢刀，财是惹祸根苗，气是雷烟火炮。 不过，无酒毕竟不成席，无色世上人渐稀，无财何人早早起，无气处处惹人欺。 饮酒不醉量为高，见色不迷真英豪，不义之财君莫取，忍气饶人祸自消。 酒色财气四堵墙，人人都在里边藏，谁若跳到墙外边，不是神仙也寿长。 君听我一言：做人，量体裁衣。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210713104238.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210714212927.png">
+<meta property="article:published_time" content="2021-07-05T15:00:43.000Z">
+<meta property="article:modified_time" content="2021-07-16T04:11:45.924Z">
+<meta property="article:author" content="七月流火">
+<meta property="article:tag" content="学习 思考">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210713104238.png">
+
+<link rel="canonical" href="https://qiyueliuhuo.github.io/2021/07/05/%E3%80%8AABCNet-Real-time-Scene-Text-Spotting-with-Adaptive-Bezier-Curve-Network%E3%80%8B%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>《ABCNet: Real-time Scene Text Spotting with Adaptive Bezier-Curve Network》论文学习 | 七月流火</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?45a8b0e33cead32cd5945b033baa7255";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">七月流火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">不积跬步，无已至千里; 不积小流，无以成江海。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2021/07/05/%E3%80%8AABCNet-Real-time-Scene-Text-Spotting-with-Adaptive-Bezier-Curve-Network%E3%80%8B%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="七月流火">
+      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《ABCNet: Real-time Scene Text Spotting with Adaptive Bezier-Curve Network》论文学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-05 23:00:43" itemprop="dateCreated datePublished" datetime="2021-07-05T23:00:43+08:00">2021-07-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-16 12:11:45" itemprop="dateModified" datetime="2021-07-16T12:11:45+08:00">2021-07-16</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/07/05/%E3%80%8AABCNet-Real-time-Scene-Text-Spotting-with-Adaptive-Bezier-Curve-Network%E3%80%8B%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/07/05/%E3%80%8AABCNet-Real-time-Scene-Text-Spotting-with-Adaptive-Bezier-Curve-Network%E3%80%8B%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>酒是穿肠毒药，色是刮骨钢刀，财是惹祸根苗，气是雷烟火炮。 不过，无酒毕竟不成席，无色世上人渐稀，无财何人早早起，无气处处惹人欺。 饮酒不醉量为高，见色不迷真英豪，不义之财君莫取，忍气饶人祸自消。 酒色财气四堵墙，人人都在里边藏，谁若跳到墙外边，不是神仙也寿长。 君听我一言：做人，量体裁衣。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="作者">1. 作者</h2>
+<p>Yuliang Liu‡† , Hao Chen†, Chunhua Shen†, Tong He†, Lianwen Jin‡, Liangwei Wang<br />
+(华南理工大学、阿德莱德大学、华为诺亚方舟实验室)</p>
+<h2 id="发表期刊">2. 发表期刊</h2>
+<p><font color=#EF696E3B> CVPR 2020 </font></p>
+<h2 id="要解决了什么问题">3. 要解决了什么问题</h2>
+<p><font color=#EF696E3B> <strong>任意形状的场景文本检测</strong> </font></p>
+<h2 id="关键词">4. 关键词</h2>
+<h2 id="先导知识">5. 先导知识</h2>
+<ul>
+<li>了解：Mask R-CNN<br />
+</li>
+<li>熟悉：RoIAlign</li>
+</ul>
+<h2 id="提出了什么方法">6. 提出了什么方法</h2>
+<p><font color=#EF696E3B> <strong>首次提出了自适应贝塞尔曲线网络（ABCNet），一个端到端可训练的框架，用于任意形状的场景文本定位</strong></font></p>
+<h2 id="原有现状">7. 原有现状</h2>
+<p>本文将几种具有代表性的基于深度学习的场景文本识别方法归纳为以下两类：</p>
+<h3 id="常规的端到端场景文本识别">7.1 常规的端到端场景文本识别</h3>
+<ul>
+<li>Li et al. [18] propose the first deep-learning based end-to-end trainable scene text spotting method. The method successfully uses a RoI Pooling [34] to joint detection and recognition features via a two-stage framework, but it can only spot horizontal and focused text.</li>
+<li>Its improved version [19] significantly improves the performance, but the speed is limited.</li>
+<li>He et al. [11] and Liu et al. [24] adopt an anchor-free mechanism to improve both the training and inference speed.</li>
+</ul>
+<h4 id="缺点">缺点</h4>
+<p>上面这些方法，它们使用相似的采样策略，即文本对齐采样和RoI旋转，从四边形检测结果中提取特征。请注意，这两种方法都不能识别任意形状的场景文本。</p>
+<h3 id="任意形状的端到端场景文本定位">7.2 任意形状的端到端场景文本定位</h3>
+<ul>
+<li>To detect arbitrarily-shaped scene text, Liao et al. [30] propose a Mask TextSpotter which subtly refines Mask R-CNN and uses character-level supervision to simultaneously detect and recognize characters and instance masks.</li>
+<li>Its improved version [20] significantly alleviated the reliance for the character-level ground truth. The method relies on a region proposal network, which restricts the speed to some extent.</li>
+<li>Sun et al. [36] propose the TextNet which produces quadrilateral detection bounding boxes in advance, and then use a region proposal network to feed the detection features for recognition. Although the method can directly recognize the arbitrarily-shaped text from a quadrilateral detection, the performance is still limited.</li>
+<li>Qin et al. [33] propose to use a RoI Masking to focus on the arbitrarily-shaped text region. However, the results may easily be affected by outlier pixels. In addition, the segmentation branch increases the computation burden; the fitting polygon process also introduces extra time consumption; and the grouping result is usually jagged and not smooth.</li>
+<li>The work in [23] is the first one-stage arbitrarily-shaped scene text spotting method, requiring character-level ground truth data for training.</li>
+<li>Authors of [43] propose a novel sampling method, RoISlide, which uses fused features from the predicting segments of the text instances, and thus it is robust to long arbitrarily-shaped text.</li>
+</ul>
+<h4 id="缺点-1">缺点</h4>
+<ul>
+<li>Liao的方法显著提高了任意形状场景文本的检测性能。然而，在实际应用中，字符级的真实值代价昂贵，使用自由合成的数据很难为真实数据生成字符级的真实值。</li>
+<li>虽然Sun的方法可以直接从四边形检测中识别任意形状的文本，但其性能仍然有限。</li>
+<li>Qin的方法其结果很容易受到离群像素的影响。</li>
+</ul>
+<h2 id="具体方法">8. 具体方法</h2>
+<h3 id="关键组成">8.1 关键组成</h3>
+<p><font color=#EF696E3B> <strong>ABCNet的关键组成部分： </strong></font></p>
+<ul>
+<li>贝塞尔曲线检测；<br />
+</li>
+<li>BezierAlign和识别分支。</li>
+</ul>
+<h4 id="贝塞尔曲线检测">8.1.1 贝塞尔曲线检测</h4>
+<h5 id="贝塞尔曲线">贝塞尔曲线</h5>
+<p>贝塞尔曲线由一条参数曲线<span class="math inline">\(c(t)\)</span>表示，它以伯恩斯坦多项式[29]为基。定义如公式（1）所示： <span class="math display">\[
+\begin{equation}
+c(t)=\sum_{i=0}^{n} b_{i} B_{i, n}(t), 0 \leq t \leq 1
+\end{equation}
+\]</span> 式中，<span class="math inline">\(n\)</span>表示度数，<span class="math inline">\(b_i\)</span>表示第<span class="math inline">\(i\)</span>个控制点，<span class="math inline">\(B_{i,n}(t)\)</span>表示伯恩斯坦基多项式，如式（2）所示： <span class="math display">\[
+\begin{equation}
+B_{i, n}(t)=\left(\begin{array}{l}
+n \\
+i
+\end{array}\right) t^{i}(1-t)^{n-i}, i=0, \ldots, n
+\end{equation}
+\]</span> 式中，<span class="math inline">\(\left(\begin{array}{c}n \\ i\end{array}\right)\)</span>为二项式系数。</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210713104238.png" /></p>
+<p><strong>论文中，作者根据经验在模型中采用三次贝塞尔曲线（即n为3，在实际应用中足以拟合各种任意形状的场景文本。</strong></p>
+<h5 id="三次贝塞尔曲线">三次贝塞尔曲线</h5>
+<p><strong>公式</strong></p>
+<p>曲线的参数形式为： <span class="math display">\[
+\begin{equation}
+\mathbf{B}(t)=\mathbf{P}_{0}(1-t)^{3}+3 \mathbf{P}_{1} t(1-t)^{2}+3 \mathbf
+{P}_{2} t^{2}(1-t)+\mathbf{P}_{3} t^{3}, t \in[0,1]
+\end{equation}
+\]</span> 这里<span class="math inline">\(\mathbf{P}_0\)</span>、<span class="math inline">\(\mathbf{P}_1\)</span>、<span class="math inline">\(\mathbf{P}_2\)</span>、<span class="math inline">\(\mathbf{P}_3\)</span>表示三次贝塞尔曲线的三个控制点，可以用<span class="math inline">\((x_i, y_i)\)</span>来表示。</p>
+<h5 id="生成贝塞尔曲线ground-truth">8.1.1.1 生成贝塞尔曲线ground truth</h5>
+<p>从上面部分论文我们知道，ABCNet网络中一个图像中文本框，需要两条长边，每条边都是一个三次贝塞尔曲线，那么就需要确定8个控制点，一共16个参数；另外，我们知道目标检测中，识别区域框是通过多边形进行标注，如矩形框、多边形框，那么就需要根据已有常见的数据集标注生成ABCNet网络所需要的Ground Truth标签数据（16个参数）。</p>
+<p>给定曲线边界上的标注点<span class="math inline">\(\left\{p_{i}\right\}_{i=1}^{n}\)</span>，其中<span class="math inline">\(p_i\)</span>表示第<span class="math inline">\(i\)</span>个标注点，主要目的是获得方程（1）中三次贝塞尔曲线<span class="math inline">\(c(t)\)</span>的最佳参数。为了实现这一点，我们可以简单地应用标准最小二乘法，如等式（4）所示： <span class="math display">\[
+\begin{equation}
+\left[\begin{array}{ccc}
+B_{0,3}\left(t_{0}\right) &amp; \cdots &amp; B_{3,3}\left(t_{0}\right) \\
+B_{0,3}\left(t_{1}\right) &amp; \cdots &amp; B_{3,3}\left(t_{1}\right) \\
+\vdots &amp; \ddots &amp; \vdots \\
+B_{0,3}\left(t_{m}\right) &amp; \cdots &amp; B_{3,3}\left(t_{m}\right)
+\end{array}\right]\left[\begin{array}{cc}
+b_{x_{0}} &amp; b_{y_{0}} \\
+b_{x_{1}} &amp; b_{y_{1}} \\
+b_{x_{2}} &amp; b_{y_{2}} \\
+b_{x_{3}} &amp; b_{y_{3}}
+\end{array}\right]=\left[\begin{array}{cc}
+p_{x_{0}} &amp; p_{y_{0}} \\
+p_{x_{1}} &amp; p_{y_{1}} \\
+\vdots &amp; \vdots \\
+p_{x_{m}} &amp; p_{y_{m}}
+\end{array}\right]
+\end{equation}
+\]</span></p>
+<blockquote>
+<p>这里公式（4）是通过右边已知的标注点矩阵得到等式左边的小b矩阵，这个等式应该是作者通过三次贝塞尔曲线拟合已知标注点，然后通过最小二乘法获得最佳参数作为贝塞尔曲线控制点。</p>
+</blockquote>
+<h5 id="贝塞尔曲线综合数据集">8.1.1.2 贝塞尔曲线综合数据集</h5>
+<p>对于端到端的文本识别网络来说，大量的自由合成数据总是必不可少的，现存的 SynText dataset包含800k张样本，但这些样本都是四边形，本文使用<em>VGG synthetic method</em>合成了15万个合成数据集(94723个图像包含大部分的直文本，54327个图像包含大部分的曲线文本)，生成样本样例如下图。</p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210714212927.png" /></p>
+<h4 id="bezieralign">8.1.2 BezierAlign</h4>
+<h3 id="网络结构">8.2 网络结构</h3>
+<h3 id="生成训练标签">8.3 生成训练标签</h3>
+<h3 id="损失函数的定义">8.4 损失函数的定义</h3>
+<h2 id="改进点">9. 改进点</h2>
+<ul>
+<li>为了准确地定位图像中的定向和弯曲的场景文本，我们首次提出了一种新的基于Bezier曲线的曲线文本参数化表示方法。与标准的边界框表示方法相比，它引入的计算开销可以忽略不计。</li>
+<li>我们提出了一种精确的特征对齐的采样方法，即BezierAlign，这样识别分支就可以自然地连接到整个结构上。通过共享主干特征，识别分支可以设计成轻量级的结构。</li>
+<li>我们方法的简单性允许它实时执行推理。ABCNet在两个具有挑战性的数据集Total Text和CTW1500上实现了最先进的性能，在效率和效率方面显示出优势。</li>
+</ul>
+<h2 id="效果">10. 效果</h2>
+<h3 id="官方网上下载模型效果">10.1 官方/网上下载模型效果</h3>
+<h4 id="totaltext">10.1.1 TotalText</h4>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget -O tt_attn_R_5<span class="number">0</span>.pth https:<span class="regexp">//cloudstor</span>.aarnet.edu.au/plus/<span class="keyword">s</span>/tYsnegjTs13MwwK/download</span><br><span class="line"></span><br><span class="line">python tools/train_net.py     --config-file configs/BAText/TotalText/attn_R_5<span class="number">0</span>.yaml     --<span class="keyword">eval</span>-only     MODEL.WEIGHTS tt_attn_R_5<span class="number">0</span>.pth</span><br></pre></td></tr></table></figure>
+<p>结果： <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[<span class="symbol">07/06 10:00:50 d2.evaluation.evaluator</span>]: <span class="link">Total inference pure compute time: 0:01:28 (0.298572 s / img per device, on 1 devices)</span></span><br><span class="line">[<span class="symbol">07/06 10:00:50 adet.evaluation.text_evaluation</span>]: <span class="link">Saving results to output/batext/totaltext/attn_R_50/inference/text_results.json</span></span><br><span class="line">&quot;E2E<span class="emphasis">_RESULTS: precision: 0.6991676575505351, recall: 0.6454445664105378, hmean: 0.6712328767123288&quot;</span></span><br><span class="line"><span class="emphasis">&quot;DETECTION_</span>ONLY<span class="emphasis">_RESULTS: precision: 0.9152016546018614, recall: 0.7994579945799458, hmean: 0.853423336547734&quot;</span></span><br><span class="line"><span class="emphasis">[07/06 10:00:58 d2.engine.defaults]: Evaluation results for totaltext_</span>val in csv format:</span><br><span class="line">[<span class="symbol">07/06 10:00:58 d2.evaluation.testing</span>]: <span class="link">copypaste: Task: E2E_RESULTS</span></span><br><span class="line">[<span class="symbol">07/06 10:00:58 d2.evaluation.testing</span>]: <span class="link">copypaste: precision,recall,hmean</span></span><br><span class="line">[<span class="symbol">07/06 10:00:58 d2.evaluation.testing</span>]: <span class="link">copypaste: 0.6992,0.6454,0.6712</span></span><br><span class="line">[<span class="symbol">07/06 10:00:58 d2.evaluation.testing</span>]: <span class="link">copypaste: Task: DETECTION_ONLY_RESULTS</span></span><br><span class="line">[<span class="symbol">07/06 10:00:58 d2.evaluation.testing</span>]: <span class="link">copypaste: precision,recall,hmean</span></span><br><span class="line">[<span class="symbol">07/06 10:00:58 d2.evaluation.testing</span>]: <span class="link">copypaste: 0.9152,0.7995,0.8534</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="ctw1500">10.1.2 CTW1500</h4>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">wget</span> -O ctw<span class="number">1500</span>_attn_R_<span class="number">50</span>.pth https://universityofadelaide.box.com/shared/static/okeo<span class="number">5</span>pvul<span class="number">5</span>v<span class="number">5</span>rxqh<span class="number">4</span>yg<span class="number">8</span>pcf<span class="number">805</span>tzj<span class="number">2</span>no.pth</span><br><span class="line"><span class="attribute">python</span> tools/train_net.py     --config-file configs/BAText/CTW<span class="number">1500</span>/attn_R_<span class="number">50</span>.yaml     --eval-only     MODEL.WEIGHTS ctw<span class="number">1500</span>_attn_R_<span class="number">50</span>.pth</span><br></pre></td></tr></table></figure>
+<p>结果： <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[<span class="symbol">07/06 10:53:52 d2.evaluation.evaluator</span>]: <span class="link">Total inference time: 0:03:38.026871 (0.440458 s / img per device, on 1 devices)</span></span><br><span class="line">[<span class="symbol">07/06 10:53:52 d2.evaluation.evaluator</span>]: <span class="link">Total inference pure compute time: 0:03:35 (0.436220 s / img per device, on 1 devices)</span></span><br><span class="line">[<span class="symbol">07/06 10:53:52 adet.evaluation.text_evaluation</span>]: <span class="link">Saving results to output/batext/ctw1500/attn_R_50/inference/text_results.json</span></span><br><span class="line">Calculated!</span><br><span class="line">&quot;E2E<span class="emphasis">_RESULTS: precision: 0.5842646401430487, recall: 0.48623511904761907, hmean: 0.530761421319797&quot;</span></span><br><span class="line"><span class="emphasis">&quot;DETECTION_</span>ONLY<span class="emphasis">_RESULTS: precision: 0.9038891372373715, recall: 0.7522321428571429, hmean: 0.8211167512690355&quot;</span></span><br><span class="line"><span class="emphasis">[07/06 10:54:00 d2.engine.defaults]: Evaluation results for ctw1500_</span>word<span class="emphasis">_test in csv format:</span></span><br><span class="line"><span class="emphasis">[07/06 10:54:00 d2.evaluation.testing]: copypaste: Task: E2E_</span>RESULTS</span><br><span class="line">[<span class="symbol">07/06 10:54:00 d2.evaluation.testing</span>]: <span class="link">copypaste: precision,recall,hmean</span></span><br><span class="line">[<span class="symbol">07/06 10:54:00 d2.evaluation.testing</span>]: <span class="link">copypaste: 0.5843,0.4862,0.5308</span></span><br><span class="line">[<span class="symbol">07/06 10:54:00 d2.evaluation.testing</span>]: <span class="link">copypaste: Task: DETECTION_ONLY_RESULTS</span></span><br><span class="line">[<span class="symbol">07/06 10:54:00 d2.evaluation.testing</span>]: <span class="link">copypaste: precision,recall,hmean</span></span><br><span class="line">[<span class="symbol">07/06 10:54:00 d2.evaluation.testing</span>]: <span class="link">copypaste: 0.9039,0.7522,0.8211</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="自己训练模型效果">10.2 自己训练模型效果</h3>
+<h4 id="totaltext-1">10.2.1 TotalText</h4>
+<p>先在综合数据集（所有）上预训练，然后在TotalText微调。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python tools<span class="regexp">/train_net.py     --config-file configs/</span>BAText<span class="regexp">/TotalText/</span>attn_R_50.yaml     --eval-only     MODEL.WEIGHTS .<span class="regexp">/output/</span>batext<span class="regexp">/totaltext/</span>attn_R_50/model_final.pth</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[<span class="symbol">07/13 01:22:56 d2.evaluation.evaluator</span>]: <span class="link">Inference done 11/300. 0.1138 s / img. ETA=0:00:33</span></span><br><span class="line">[<span class="symbol">07/13 01:23:01 d2.evaluation.evaluator</span>]: <span class="link">Inference done 57/300. 0.1037 s / img. ETA=0:00:26</span></span><br><span class="line">[<span class="symbol">07/13 01:23:06 d2.evaluation.evaluator</span>]: <span class="link">Inference done 99/300. 0.1027 s / img. ETA=0:00:22</span></span><br><span class="line">[<span class="symbol">07/13 01:23:11 d2.evaluation.evaluator</span>]: <span class="link">Inference done 143/300. 0.1025 s / img. ETA=0:00:17</span></span><br><span class="line">[<span class="symbol">07/13 01:23:16 d2.evaluation.evaluator</span>]: <span class="link">Inference done 189/300. 0.1026 s / img. ETA=0:00:12</span></span><br><span class="line">[<span class="symbol">07/13 01:23:21 d2.evaluation.evaluator</span>]: <span class="link">Inference done 236/300. 0.1029 s / img. ETA=0:00:07</span></span><br><span class="line">[<span class="symbol">07/13 01:23:26 d2.evaluation.evaluator</span>]: <span class="link">Inference done 283/300. 0.1031 s / img. ETA=0:00:01</span></span><br><span class="line">[<span class="symbol">07/13 01:23:28 d2.evaluation.evaluator</span>]: <span class="link">Total inference time: 0:00:32.929448 (0.111625 s / img per device, on 1 devices)</span></span><br><span class="line">[<span class="symbol">07/13 01:23:28 d2.evaluation.evaluator</span>]: <span class="link">Total inference pure compute time: 0:00:30 (0.102855 s / img per device, on 1 devices)</span></span><br><span class="line">[<span class="symbol">07/13 01:23:28 adet.evaluation.text_evaluation</span>]: <span class="link">Saving results to output/batext/totaltext/attn_R_50/inference/text_results.json</span></span><br><span class="line">An invalid detection in temp<span class="emphasis">_det_</span>results/0000016.txt line 4 is removed ... </span><br><span class="line">Calculated!</span><br><span class="line">&quot;E2E<span class="emphasis">_RESULTS: precision: 0.6727053140096618, recall: 0.6114160263446762, hmean: 0.640598044853364&quot;</span></span><br><span class="line"><span class="emphasis">&quot;DETECTION_</span>ONLY<span class="emphasis">_RESULTS: precision: 0.9048614741244119, recall: 0.7818428184281843, hmean: 0.8388660043615217&quot;</span></span><br><span class="line"><span class="emphasis">[07/13 01:23:34 d2.engine.defaults]: Evaluation results for totaltext_</span>val in csv format:</span><br><span class="line">[<span class="symbol">07/13 01:23:34 d2.evaluation.testing</span>]: <span class="link">copypaste: Task: E2E_RESULTS</span></span><br><span class="line">[<span class="symbol">07/13 01:23:34 d2.evaluation.testing</span>]: <span class="link">copypaste: precision,recall,hmean</span></span><br><span class="line">[<span class="symbol">07/13 01:23:34 d2.evaluation.testing</span>]: <span class="link">copypaste: 0.6727,0.6114,0.6406</span></span><br><span class="line">[<span class="symbol">07/13 01:23:34 d2.evaluation.testing</span>]: <span class="link">copypaste: Task: DETECTION_ONLY_RESULTS</span></span><br><span class="line">[<span class="symbol">07/13 01:23:34 d2.evaluation.testing</span>]: <span class="link">copypaste: precision,recall,hmean</span></span><br><span class="line">[<span class="symbol">07/13 01:23:34 d2.evaluation.testing</span>]: <span class="link">copypaste: 0.9049,0.7818,0.8389</span></span><br></pre></td></tr></table></figure>
+<h2 id="存在的问题">11. 存在的问题</h2>
+<p>暂无。</p>
+<h2 id="实现代码">12. 实现代码</h2>
+<p><font color=#EF696E3B>代码使用论文中提供<a target="_blank" rel="noopener" href="https://github.com/aim-uofa/AdelaiDet" class="uri">https://github.com/aim-uofa/AdelaiDet</a> </font></p>
+<h3 id="环境搭建">12.1 环境搭建</h3>
+<blockquote>
+<p>环境搭建比较麻烦，在这里记录下。</p>
+</blockquote>
+<p><font color=#EF696E3B> 注意：</font></p>
+<ol type="1">
+<li>使用<code>nvcc --version</code>查看cuda版本。</li>
+<li>必须使python依赖的包<code>conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=10.1 -c pytorch</code>中cuda的版本与上面的nvcc查看到的版本保持一致。</li>
+<li>安装pytorch，查看官网给出的安装方式<a target="_blank" rel="noopener" href="https://pytorch.org/get-started/previous-versions/" class="uri">https://pytorch.org/get-started/previous-versions/</a> 。</li>
+</ol>
+<h2 id="相关知识点">13. 相关知识点</h2>
+<ul>
+<li>i.e. abbr. 也就是，亦即。</li>
+<li>e.g. 例如。</li>
+</ul>
+<h2 id="延伸阅读">14. 延伸阅读</h2>
+<ul>
+<li><a href="/2021/07/13/%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF/#安装" target="_blank">贝塞尔曲线</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/codehome/p/10910180.html">RoIPooling与RoIAlign的区别</a></li>
+</ul>
+<h2 id="参考资料">参考资料</h2>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39707285/article/details/108702732" class="uri">https://blog.csdn.net/qq_39707285/article/details/108702732</a></p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/08/%E6%88%91%E7%9A%84%E6%AD%8C%E5%8D%95/" rel="prev" title="我的歌单">
+      <i class="fa fa-chevron-left"></i> 我的歌单
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/03/%E7%AF%AE%E7%90%83%E8%AE%AD%E7%BB%83/" rel="next" title="篮球训练">
+      篮球训练 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E8%80%85"><span class="nav-text">1. 作者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E8%A1%A8%E6%9C%9F%E5%88%8A"><span class="nav-text">2. 发表期刊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A6%81%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="nav-text">3. 要解决了什么问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%AF%8D"><span class="nav-text">4. 关键词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E5%AF%BC%E7%9F%A5%E8%AF%86"><span class="nav-text">5. 先导知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%87%BA%E4%BA%86%E4%BB%80%E4%B9%88%E6%96%B9%E6%B3%95"><span class="nav-text">6. 提出了什么方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E6%9C%89%E7%8E%B0%E7%8A%B6"><span class="nav-text">7. 原有现状</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E7%9A%84%E7%AB%AF%E5%88%B0%E7%AB%AF%E5%9C%BA%E6%99%AF%E6%96%87%E6%9C%AC%E8%AF%86%E5%88%AB"><span class="nav-text">7.1 常规的端到端场景文本识别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E5%BD%A2%E7%8A%B6%E7%9A%84%E7%AB%AF%E5%88%B0%E7%AB%AF%E5%9C%BA%E6%99%AF%E6%96%87%E6%9C%AC%E5%AE%9A%E4%BD%8D"><span class="nav-text">7.2 任意形状的端到端场景文本定位</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9-1"><span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%96%B9%E6%B3%95"><span class="nav-text">8. 具体方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%BB%84%E6%88%90"><span class="nav-text">8.1 关键组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%E6%A3%80%E6%B5%8B"><span class="nav-text">8.1.1 贝塞尔曲线检测</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF"><span class="nav-text">贝塞尔曲线</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E6%AC%A1%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF"><span class="nav-text">三次贝塞尔曲线</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BFground-truth"><span class="nav-text">8.1.1.1 生成贝塞尔曲线ground truth</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%E7%BB%BC%E5%90%88%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-text">8.1.1.2 贝塞尔曲线综合数据集</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bezieralign"><span class="nav-text">8.1.2 BezierAlign</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="nav-text">8.2 网络结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E8%AE%AD%E7%BB%83%E6%A0%87%E7%AD%BE"><span class="nav-text">8.3 生成训练标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">8.4 损失函数的定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E7%82%B9"><span class="nav-text">9. 改进点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-text">10. 效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E7%BD%91%E4%B8%8A%E4%B8%8B%E8%BD%BD%E6%A8%A1%E5%9E%8B%E6%95%88%E6%9E%9C"><span class="nav-text">10.1 官方&#x2F;网上下载模型效果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#totaltext"><span class="nav-text">10.1.1 TotalText</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ctw1500"><span class="nav-text">10.1.2 CTW1500</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%B7%B1%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E6%95%88%E6%9E%9C"><span class="nav-text">10.2 自己训练模型效果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#totaltext-1"><span class="nav-text">10.2.1 TotalText</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">11. 存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81"><span class="nav-text">12. 实现代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">12.1 环境搭建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-text">13. 相关知识点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB"><span class="nav-text">14. 延伸阅读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="七月流火"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">七月流火</p>
+  <div class="site-description" itemprop="description">程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">七月流火</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Bqq9R5gWyWpajSOgwN05dN2W-MdYXbMMI',
+      appKey     : '4cmz7U3V4sJdUbLTG757skov',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>

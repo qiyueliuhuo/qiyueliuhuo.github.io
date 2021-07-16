@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"qiyueliuhuo.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="那时我们有梦，关于文学，关于爱情，关于穿越世界的旅行，如今我们深夜饮酒，杯子碰到一起，都是梦破碎的声音。 ——北岛">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《EAST: An Efficient and Accurate Scene Text Detector》论文学习">
+<meta property="og:url" content="https://qiyueliuhuo.github.io/2021/07/03/%E3%80%8AEAST-An-Efficient-and-Accurate-Scene-Text-Detector%E3%80%8B%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="七月流火">
+<meta property="og:description" content="那时我们有梦，关于文学，关于爱情，关于穿越世界的旅行，如今我们深夜饮酒，杯子碰到一起，都是梦破碎的声音。 ——北岛">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210703215329.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520150510.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520161202.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520174101.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210705065221.png">
+<meta property="og:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520150428.png">
+<meta property="article:published_time" content="2021-07-03T13:45:08.000Z">
+<meta property="article:modified_time" content="2021-07-09T07:08:13.991Z">
+<meta property="article:author" content="七月流火">
+<meta property="article:tag" content="学习 思考">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210703215329.png">
+
+<link rel="canonical" href="https://qiyueliuhuo.github.io/2021/07/03/%E3%80%8AEAST-An-Efficient-and-Accurate-Scene-Text-Detector%E3%80%8B%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>《EAST: An Efficient and Accurate Scene Text Detector》论文学习 | 七月流火</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?45a8b0e33cead32cd5945b033baa7255";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">七月流火</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">不积跬步，无已至千里; 不积小流，无以成江海。</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://qiyueliuhuo.github.io/2021/07/03/%E3%80%8AEAST-An-Efficient-and-Accurate-Scene-Text-Detector%E3%80%8B%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="七月流火">
+      <meta itemprop="description" content="程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七月流火">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          《EAST: An Efficient and Accurate Scene Text Detector》论文学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-03 21:45:08" itemprop="dateCreated datePublished" datetime="2021-07-03T21:45:08+08:00">2021-07-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-09 15:08:13" itemprop="dateModified" datetime="2021-07-09T15:08:13+08:00">2021-07-09</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/07/03/%E3%80%8AEAST-An-Efficient-and-Accurate-Scene-Text-Detector%E3%80%8B%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/07/03/%E3%80%8AEAST-An-Efficient-and-Accurate-Scene-Text-Detector%E3%80%8B%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>那时我们有梦，关于文学，关于爱情，关于穿越世界的旅行，如今我们深夜饮酒，杯子碰到一起，都是梦破碎的声音。 ——北岛</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="作者">1. 作者</h2>
+<p>Xinyu Zhou, Cong Yao, He Wen, Yuzhi Wang, Shuchang Zhou, Weiran He, Jiajun Liang Megvii Technology Inc（旷视科技）</p>
+<h2 id="发表期刊">2. 发表期刊</h2>
+<p><font color=#EF696E3B> CVPR 2017 </font></p>
+<h2 id="要解决了什么问题">3. 要解决了什么问题</h2>
+<p><font color=#EF696E3B> <strong>自然场景中获得更快且准确的文本检测。</strong> </font> <img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210703215329.png" /></p>
+<h2 id="提出了什么方法">4. 提出了什么方法</h2>
+<p><font color=#EF696E3B> <strong>一种FCN和NMS两阶段快且准确的场景文本检测算法。</strong></font></p>
+<h2 id="原有现状">5. 原有现状</h2>
+<h3 id="传统算法">5.1 传统算法</h3>
+<p>如Stroke Width Transform (SWT)、Maximally Stable Extremal Regions (MSER)、FASText，这些方法准确率和适应性都输给了基于深度神经网络的方法，尤其在处理具有挑战性的场景时，例如低分辨率和几何形变。</p>
+<h3 id="基于深度神经网络">5.2 基于深度神经网络</h3>
+<p>基于深度神经网络的算法逐渐成为主流；</p>
+<ul>
+<li>Huang et al. [11] first found candidates using MSER and then employed a deep convolutional network as a strong classifier to prune false positives.</li>
+<li>The method of Jaderberg et al. [13] scanned the image in a sliding-window fashion and produced a dense heatmap for each scale with a convolutional neural network model.</li>
+<li>Jaderberg et al. [12] employed both a CNN and an ACF to hunt word candidates and fur- ther refined them using regression.</li>
+<li>Tian et al. [34] developed vertical anchors and constructed a CNN-RNN joint model to detect horizontal text lines.<br />
+</li>
+<li>Zhang et al. [48] proposed to utilize FCN [23] for heatmap generation and to use component projection for orientation estimation.</li>
+</ul>
+<h4 id="缺点">缺点</h4>
+<ul>
+<li>上述方法大多包括很多步骤和模块，例如用正滤波器来删除false positive、候选区域回归、行组合和单词分割；</li>
+<li>过多的步骤和模块可能要求彻底的调试，导致次优的效果，同时增加整个算法的处理时间；</li>
+</ul>
+<h2 id="具体方法">6. 具体方法</h2>
+<p><font color=#EF696E3B> <strong>在本文中，我们设计了一种基于深度FCN的算法，直接把文本检测的最终目标作为任务：单词或文本行级的检测。</strong></font></p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520150510.png" /></p>
+<ul>
+<li><font color=#EF696E3B> 模型抛弃了不必要的中间组件和步骤，允许端对端的训练和优化；</font></li>
+<li><font color=#EF696E3B> 模型一个简单的轻量级的神经网络组成，在效果和速度上都明显优于之前的方法。</font></li>
+</ul>
+<h3 id="网络结构">6.1 网络结构</h3>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520161202.png" /></p>
+<p>网络结构分为三个部分：特征提取层、特征融合层、输出层。</p>
+<ul>
+<li>特征提取层。论文中使用了PVANet和VGG16，上图是原文的网络结构图(PVANet)网络输入一张图片，经过四个阶段的卷积层可以得到四张feature map， 分别为<span class="math inline">\(f_{4}\)</span>，<span class="math inline">\(f_{3}\)</span>，<span class="math inline">\(f_{2}\)</span>，<span class="math inline">\(f_{1}\)</span>，它们相对于输入图片分别缩小<span class="math inline">\(\frac{1}{4}\)</span>,<span class="math inline">\(\frac{1}{8}\)</span>,<span class="math inline">\(\frac{1}{16}\)</span>,<span class="math inline">\(\frac{1}{32}\)</span>。</li>
+<li>特征融合层。使用上采样、concat(串联)、卷积操作依次得到<span class="math inline">\(h_{1}\)</span>，<span class="math inline">\(h_{2}\)</span>，<span class="math inline">\(h_{3}\)</span>，<span class="math inline">\(h_{4}\)</span>，在得到<span class="math inline">\(h_{4}\)</span>这个融合的feature map后，使用大小为<span class="math inline">\(3\times3\)</span>通道数为32的卷积核卷积得到最终的feature map。</li>
+<li>输出层。得到最终的feature map后，使用一个大小为通道数为1的卷积核得到一张score map用<span class="math inline">\(F_s\)</span>表示。在feature map上使用一个大小为通道数为4的卷积核得到text boxes，使用一个大小为通道数为1的卷积核得到text rotation angle，这里text boxes和text rotation angle合起来称为geometry map用<span class="math inline">\(F_g\)</span>表示。</li>
+</ul>
+<h3 id="生成训练标签">6.2 生成训练标签</h3>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520174101.png" /></p>
+<p>训练标签由两个部分组成，一个是score map的标签，一个是geometry map标签。</p>
+<ol type="1">
+<li><p>score map标签的生成方法</p>
+<ul>
+<li>首先生成一个与图片大小一样的矩阵，值都为0；</li>
+<li>根据标定好的四边形框对该四边形框进行缩小，缩小方法下面会详细说明，得到最终结果如上图2a中的绿框；</li>
+<li>将绿框中的像素赋值1表示正样本的score，其他为负样本的score；</li>
+<li>最后按照每隔4个像素采样，得到图片<span class="math inline">\(\frac{1}{4}\)</span>大小的score map；</li>
+</ul></li>
+</ol>
+<p>缩小四边形的方法：</p>
+<ul>
+<li>首先定义四个顶点<span class="math inline">\(Q = \{p_{i}|i \epsilon \{1, 2, 3, 4\}\}\)</span>，这四个顶点按照顺时针方向排列；</li>
+<li>计算缩小的参考大小如下式所示，下式表示的是选取与顶点相连的两条边中最小的边的大小记为<span class="math inline">\(r_{i}\)</span>，<span class="math inline">\(r_{i}=min(D(p_{i},p_{(i\mod4)+1}),D(p_{i},p_{((i+2)\mod4)+1}))\)</span>，其中<span class="math inline">\(D(p_{i},p_{j})\)</span>表示点<span class="math inline">\(p_{i}\)</span>与<span class="math inline">\(p_{j}\)</span>之间的距离。</li>
+<li>对于边<span class="math inline">\(p_{i}\)</span>, <span class="math inline">\(p_{(i mod 4)+1}\)</span>，缩小<span class="math inline">\(0.3r_{i}\)</span>与<span class="math inline">\(0.3r_{(i\mod4)+1}\)</span>的和的像素大小。</li>
+</ul>
+<ol type="1">
+<li><p>geometry map标签的生成方法</p>
+<ul>
+<li>首先生成一个与图片大小一样的5通道矩阵用来制作text boxes 与 text rotation angle；</li>
+<li>根据标定的四变形生成一个面积最小的平行四边形，进而得到平行四边形的外界旋转矩形</li>
+<li>根据旋转矩形的四个点坐标，可以选择出y值最大的坐标顶点和该顶点逆时针方向的顶点(也可以称该顶点右边的顶点)，根据这两个点的连线可以求出连线与x轴的夹角，这个夹角取值在(0,90)度之间，称这个夹角为angle</li>
+<li>当angle&lt;45度时，定义y值最大的点为点，其它点按顺时针方向依次类推。当angle&gt;45度时，定义y值最大的点为点，此时angle角变换为，这样就保证了angle角度[-45,45]度</li>
+<li>上述还有一种特殊情况要考虑，当y值最大的点有两个时，说明矩形与x轴平行，angle定义为0度，这时候将x与y坐标相加最小的点定义为点，其它点依次类推</li>
+<li>根据得到的旋转矩形和angle值将geometry map的五个通道赋值，赋值方法为，对于text boxes的四个通道，每个通道表示图像中的像素点坐标到旋转矩形的四个边的距离顺序为，0通道表示点到与边的距离，1通道表示点到与边的距离，按照顺时针依次赋值四个通道，也分别称为到top、right、bottom、left边的距离，对于text rotation angle这一个通道，将旋转矩形中所有像素都赋值上述计算出的angle大小</li>
+<li>最后得到的五个通道按照每隔4个像素采样，这样就可以得到图片大小的geometry map了</li>
+</ul></li>
+</ol>
+<h3 id="损失函数的定义">6.3 损失函数的定义</h3>
+<p>损失函数定义如下 <span class="math display">\[
+L = L_{s} + \lambda_{g}L_{g}
+\]</span> 其中<span class="math inline">\(L_{s}\)</span>和<span class="math inline">\(L_{g}\)</span>分别表示score map和geometry map的损失， <span class="math inline">\(\lambda_{g}\)</span>表示两个损失的权重，文章设为1。</p>
+<h4 id="score-map的损失计算">6.3.1 score map的损失计算</h4>
+<p>这里要说明的是文章采用的是交叉熵计算该损失，但是程序实现没有采用，程序采用的是dice loss。 <span class="math display">\[
+L_{s}=1-\frac{2y_{s}p_{s}}{y_{s}+p_{s}}
+\]</span> 其中<span class="math inline">\(y_{s}\)</span>代表位置敏感图像分割(position-sensitive segmentation)的label，<span class="math inline">\(p_{s}\)</span>代表预测的分割值。</p>
+<h4 id="geometry-map的损失计算">6.3.2 geometry map的损失计算</h4>
+<p>采用IoU loss，计算方法如下 <span class="math display">\[
+L_{g} = L_{AABB} + \lambda_{\theta}L_{\theta}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(L_{AABB}=-logIoU(\hat{R},R)=-log\frac{|\hat{R}\bigcap R^{*}|}{|{\hat{R}\bigcup R^{*}}|}\)</span>，其中，<span class="math inline">\(\hat{R}\)</span>表示预测， <span class="math inline">\(R^{*}\)</span>表示真实值，<span class="math inline">\(|\hat{R}\bigcap R^{*}|=w_{i}*h_{i}\)</span>计算可以通过下述方法<span class="math inline">\(w_{i}=min(\hat{d_{2}}, d^{*}_{2})+min(\hat{d_{4}}, d^{*}_{4})\)</span>，<span class="math inline">\(h_{i}=min(\hat{d_{1}}, d^{*}_{1})+min(\hat{d_{3}}, d^{*}_{3})\)</span>，其中<span class="math inline">\(d_{1}\)</span>,<span class="math inline">\(d_{2}\)</span>,<span class="math inline">\(d_{3}\)</span>,<span class="math inline">\(d_{4}\)</span>表示点到top、right、bottom、left边的距离，<span class="math inline">\(|{\hat{R}\bigcup R^{*}}|=|\hat{R}|+|R^{*}|-|\hat{R}\bigcap R^{*}|\)</span></li>
+<li><span class="math inline">\(L_{\theta}(\hat{\theta}\)</span>, <span class="math inline">\(\theta^{*})=1-cos(\hat{\theta}-\theta^{*})\)</span>，其中<span class="math inline">\(\theta^{*}\)</span>表示预测值，<span class="math inline">\(\hat{\theta}\)</span>表示真实值</li>
+</ul>
+<h2 id="改进点">7. 改进点</h2>
+<ul>
+<li>提出了一种包括两步得场景文本检测方法：FCN和NMS合并阶段。FCN直接产生文本区域，消除了中间步骤得荣誉和耗时。</li>
+<li>算法是灵活得产生单词级别或文本行得预测，其几何形状可以是旋转的矩形或四边形，依赖于特定的应用。</li>
+<li>提出的算法在准确率和速度上明显优于现在最好的方法。</li>
+</ul>
+<h2 id="效果">8. 效果</h2>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210705065221.png" /></p>
+<p><img src="https://gitee.com/qiyueliuhuogitee/blogimages/raw/master/img/20210520150428.png" /></p>
+<h2 id="存在的问题">9. 存在的问题</h2>
+<p>暂无。</p>
+<h2 id="实现代码">10. 实现代码</h2>
+<p>https://github.com/songdejia/EAST</p>
+<h2 id="延伸阅读">11. 延伸阅读</h2>
+<p>暂无。</p>
+<h2 id="参考资料">12. 参考资料</h2>
+<p>https://www.jianshu.com/p/6e35829a38de?appinstall=0</p>
+<link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/03/%E7%AF%AE%E7%90%83%E8%AE%AD%E7%BB%83/" rel="prev" title="篮球训练">
+      <i class="fa fa-chevron-left"></i> 篮球训练
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/06/17/%E3%80%8AHow-to-Read-a-Paper%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" rel="next" title="《How to Read a Paper》阅读笔记">
+      《How to Read a Paper》阅读笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E8%80%85"><span class="nav-text">1. 作者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E8%A1%A8%E6%9C%9F%E5%88%8A"><span class="nav-text">2. 发表期刊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A6%81%E8%A7%A3%E5%86%B3%E4%BA%86%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="nav-text">3. 要解决了什么问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%87%BA%E4%BA%86%E4%BB%80%E4%B9%88%E6%96%B9%E6%B3%95"><span class="nav-text">4. 提出了什么方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E6%9C%89%E7%8E%B0%E7%8A%B6"><span class="nav-text">5. 原有现状</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E7%AE%97%E6%B3%95"><span class="nav-text">5.1 传统算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="nav-text">5.2 基于深度神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9"><span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%96%B9%E6%B3%95"><span class="nav-text">6. 具体方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="nav-text">6.1 网络结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E8%AE%AD%E7%BB%83%E6%A0%87%E7%AD%BE"><span class="nav-text">6.2 生成训练标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-text">6.3 损失函数的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#score-map%E7%9A%84%E6%8D%9F%E5%A4%B1%E8%AE%A1%E7%AE%97"><span class="nav-text">6.3.1 score map的损失计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#geometry-map%E7%9A%84%E6%8D%9F%E5%A4%B1%E8%AE%A1%E7%AE%97"><span class="nav-text">6.3.2 geometry map的损失计算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E7%82%B9"><span class="nav-text">7. 改进点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-text">8. 效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">9. 存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81"><span class="nav-text">10. 实现代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB"><span class="nav-text">11. 延伸阅读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">12. 参考资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="七月流火"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">七月流火</p>
+  <div class="site-description" itemprop="description">程序员/跑步爱好者/人工智障。 给岁月以文明，而不是给文明以岁月。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">87</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">七月流火</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Bqq9R5gWyWpajSOgwN05dN2W-MdYXbMMI',
+      appKey     : '4cmz7U3V4sJdUbLTG757skov',
+      placeholder: "Just go go",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
