@@ -30,8 +30,6 @@ transforms 模块相关源码分析 transforms.Compose类 先来看下transforms
 1 2 3 4 5 6 7 train_dataset = torchvision.datasets.ImageNet(train_path, transform=transforms.Compose([ transforms.Resize((32, 32)), # 将图片缩放到指定大小（h,w）或者保持长宽比并缩放最短的边到int大小 transforms.CenterCrop(32), transforms.ToTensor()]) ) 从上面代码可以看出来transforms模块定义的对象，作为参数传入给ImageNet，在《pytorch源码(一)》中，了解到，通过for循环可以遍历Dataset对象获取图像数据，这篇文章介绍的transforms模块定义的类，一般在遍历Dataset获取图像前对图像进行预处理，那么通过for循环得到的图像就是进行处理后的图像。
 下面来分析transforms.Compose源码。
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 class Compose(object): &amp;#34;&amp;#34;&amp;#34;Composes several transforms together.">
-    <link rel="shortcut icon" href="img/favicon.png" />
-
     </head>
     <body class="
     article-page

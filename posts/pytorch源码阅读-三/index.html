@@ -15,8 +15,6 @@
 <meta name="twitter:title" content="Pytorch源码阅读(三)：BatchNorm Module">
 <meta name="twitter:description" content="Module nn.BNReLU2d 源码：
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 class BNReLU2d(nnq.BatchNorm2d): r&amp;#34;&amp;#34;&amp;#34; A BNReLU2d module is a fused module of BatchNorm2d and ReLU We adopt the same interface as :class:`torch.nn.quantized.BatchNorm2d`. Attributes: Same as torch.nn.quantized.BatchNorm2d &amp;#34;&amp;#34;&amp;#34; _FLOAT_MODULE = torch.nn.intrinsic.BNReLU2d def __init__(self, num_features, eps=1e-5, momentum=0.1): super(BNReLU2d, self).__init__(num_features, eps=eps, momentum=momentum) def forward(self, input): # Temporarily using len(shape) instead of ndim due to JIT issue # https://github.">
-    <link rel="shortcut icon" href="img/favicon.png" />
-
     </head>
     <body class="
     article-page
