@@ -5,21 +5,30 @@
         <link>https://qiyueliuhuo.github.io/categories/</link>
         <description>Recent content in Categories on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language><atom:link href="https://qiyueliuhuo.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>技术</title>
-        <link>https://qiyueliuhuo.github.io/categories/%E6%8A%80%E6%9C%AF/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        <language>zh-cn</language>
+        <lastBuildDate>Sat, 18 Jun 2022 16:06:59 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>测试</title>
+        <link>https://qiyueliuhuo.github.io/categories/%E6%B5%8B%E8%AF%95/</link>
+        <pubDate>Sat, 18 Jun 2022 16:06:59 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/categories/%E6%8A%80%E6%9C%AF/</guid>
-        <description>&lt;img src="https://qiyueliuhuo.github.io/categories/%E6%8A%80%E6%9C%AF/luca-bravo-XJXWbfSo2f0-unsplash.jpg" alt="Featured image of post 技术" /&gt;</description>
+        <guid>https://qiyueliuhuo.github.io/categories/%E6%B5%8B%E8%AF%95/</guid>
+        <description></description>
         </item>
         <item>
         <title>算法</title>
         <link>https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
         
         <guid>https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95/</guid>
         <description>&lt;img src="https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95/jeswin-thomas-hecib2an4T4-unsplash.jpg" alt="Featured image of post 算法" /&gt;</description>
+        </item>
+        <item>
+        <title>技术</title>
+        <link>https://qiyueliuhuo.github.io/categories/%E6%8A%80%E6%9C%AF/</link>
+        <pubDate>Wed, 06 Jan 2021 22:02:52 +0000</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/categories/%E6%8A%80%E6%9C%AF/</guid>
+        <description>&lt;img src="https://qiyueliuhuo.github.io/categories/%E6%8A%80%E6%9C%AF/luca-bravo-XJXWbfSo2f0-unsplash.jpg" alt="Featured image of post 技术" /&gt;</description>
         </item>
         
     </channel>
