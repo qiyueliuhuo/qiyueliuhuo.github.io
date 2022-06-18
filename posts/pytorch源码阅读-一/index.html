@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='阅读开源代码是提高写代码能力最好的方式之一，现在入坑机器学习领域，在众多框架中选择pytorch框架作为自己基本的深度学习框架，现在开始从最简单的pytorch代码部分阅读，学习下python技巧顺便深入学习下神经网络的代码实践。
+关于阅读源码，我一开始在项目中调用pytorch模块和类，通过pycharm追踪源码，在pycharm中可以直接查看依赖包torch中源码，但是这样也不方便阅读torch源码，一个原因是pycharm中查看依赖包的源码内容，查看源码文件的方式是只读模式，没法在里面注释一些自己理解的东西，另一个原因是通过单步调试阅读代码是最容易理解代码的方式，想了想pytorch源码里面应该有对源码的测试代码可以直接跑起来，然后一步步运行，这样看着更方便。
+从github上下载pytorch代码，通过CONTRIBUTING.md文件中指导编译源码，注意使用：python setup.py develop 以开发模式构建代码。这个过程在我的电脑上要跑将近两小时。。。忘了什么原因导致我跑了两次。。。四个小时没了(呜呜&amp;hellip;) 先从加载和处理数据源码了解。
+注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6
+Dataset 相关源码 MNIST类 类继承图：
+先来看看最常用的mnist数据集的使用，下面两行使用torchvision中提供的MNIST数据集类定义了两个数据集类，分别为训练数据集和测试数据集，那么为什么需要定义两个同样的数据集呢？其中一个因为是训练和测试使用的数据集不一样；另一个原因是训练和测试时候对应的batch_size大小不一样。下面进一步分析datasets.MNIST代码。
+1 2 3 4 5 6 dataset1 = datasets.MNIST(&amp;#39;../data&amp;#39;, train=True, download=True, transform=transform) dataset2 = datasets.MNIST(&amp;#39;../data&amp;#39;, train=False, transform=transform) train_loader = torch.utils.data.DataLoader(dataset1,**train_kwargs) test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs) 下面的代码来自torchvision.datasets.mnist模块
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 from .'><title>Pytorch源码阅读(一)：Dataset和DataLoader</title>
+
+<link rel='canonical' href='https://example.com/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='Pytorch源码阅读(一)：Dataset和DataLoader'>
+<meta property='og:description' content='阅读开源代码是提高写代码能力最好的方式之一，现在入坑机器学习领域，在众多框架中选择pytorch框架作为自己基本的深度学习框架，现在开始从最简单的pytorch代码部分阅读，学习下python技巧顺便深入学习下神经网络的代码实践。
+关于阅读源码，我一开始在项目中调用pytorch模块和类，通过pycharm追踪源码，在pycharm中可以直接查看依赖包torch中源码，但是这样也不方便阅读torch源码，一个原因是pycharm中查看依赖包的源码内容，查看源码文件的方式是只读模式，没法在里面注释一些自己理解的东西，另一个原因是通过单步调试阅读代码是最容易理解代码的方式，想了想pytorch源码里面应该有对源码的测试代码可以直接跑起来，然后一步步运行，这样看着更方便。
+从github上下载pytorch代码，通过CONTRIBUTING.md文件中指导编译源码，注意使用：python setup.py develop 以开发模式构建代码。这个过程在我的电脑上要跑将近两小时。。。忘了什么原因导致我跑了两次。。。四个小时没了(呜呜&amp;hellip;) 先从加载和处理数据源码了解。
+注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6
+Dataset 相关源码 MNIST类 类继承图：
+先来看看最常用的mnist数据集的使用，下面两行使用torchvision中提供的MNIST数据集类定义了两个数据集类，分别为训练数据集和测试数据集，那么为什么需要定义两个同样的数据集呢？其中一个因为是训练和测试使用的数据集不一样；另一个原因是训练和测试时候对应的batch_size大小不一样。下面进一步分析datasets.MNIST代码。
+1 2 3 4 5 6 dataset1 = datasets.MNIST(&amp;#39;../data&amp;#39;, train=True, download=True, transform=transform) dataset2 = datasets.MNIST(&amp;#39;../data&amp;#39;, train=False, transform=transform) train_loader = torch.utils.data.DataLoader(dataset1,**train_kwargs) test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs) 下面的代码来自torchvision.datasets.mnist模块
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 from .'>
+<meta property='og:url' content='https://example.com/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/'>
+<meta property='og:site_name' content='七月流火'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Pytorch' /><meta property='article:tag' content='神经网络' /><meta property='article:tag' content='源码' /><meta property='article:tag' content='数据集' /><meta property='article:published_time' content='2020-12-05T23:21:34&#43;00:00'/><meta property='article:modified_time' content='2020-12-05T23:21:34&#43;00:00'/>
+<meta name="twitter:title" content="Pytorch源码阅读(一)：Dataset和DataLoader">
+<meta name="twitter:description" content="阅读开源代码是提高写代码能力最好的方式之一，现在入坑机器学习领域，在众多框架中选择pytorch框架作为自己基本的深度学习框架，现在开始从最简单的pytorch代码部分阅读，学习下python技巧顺便深入学习下神经网络的代码实践。
+关于阅读源码，我一开始在项目中调用pytorch模块和类，通过pycharm追踪源码，在pycharm中可以直接查看依赖包torch中源码，但是这样也不方便阅读torch源码，一个原因是pycharm中查看依赖包的源码内容，查看源码文件的方式是只读模式，没法在里面注释一些自己理解的东西，另一个原因是通过单步调试阅读代码是最容易理解代码的方式，想了想pytorch源码里面应该有对源码的测试代码可以直接跑起来，然后一步步运行，这样看着更方便。
+从github上下载pytorch代码，通过CONTRIBUTING.md文件中指导编译源码，注意使用：python setup.py develop 以开发模式构建代码。这个过程在我的电脑上要跑将近两小时。。。忘了什么原因导致我跑了两次。。。四个小时没了(呜呜&amp;hellip;) 先从加载和处理数据源码了解。
+注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6
+Dataset 相关源码 MNIST类 类继承图：
+先来看看最常用的mnist数据集的使用，下面两行使用torchvision中提供的MNIST数据集类定义了两个数据集类，分别为训练数据集和测试数据集，那么为什么需要定义两个同样的数据集呢？其中一个因为是训练和测试使用的数据集不一样；另一个原因是训练和测试时候对应的batch_size大小不一样。下面进一步分析datasets.MNIST代码。
+1 2 3 4 5 6 dataset1 = datasets.MNIST(&amp;#39;../data&amp;#39;, train=True, download=True, transform=transform) dataset2 = datasets.MNIST(&amp;#39;../data&amp;#39;, train=False, transform=transform) train_loader = torch.utils.data.DataLoader(dataset1,**train_kwargs) test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs) 下面的代码来自torchvision.datasets.mnist模块
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 from .">
+    <link rel="shortcut icon" href="img/favicon.png" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "dark");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hua0f4b74b00c6f9f868ad89474077dc58_18234_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">⭐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">七月流火</a></h1>
+            <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://example.com/en/" >English</option>
+                        
+                            <option value="https://example.com/" selected>中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%AE%97%E6%B3%95/" >
+                算法
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/">Pytorch源码阅读(一)：Dataset和DataLoader</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 05, 2020</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 15 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>阅读开源代码是提高写代码能力最好的方式之一，现在入坑机器学习领域，在众多框架中选择pytorch框架作为自己基本的深度学习框架，现在开始从最简单的pytorch代码部分阅读，学习下python技巧顺便深入学习下神经网络的代码实践。</p>
+<p>关于阅读源码，我一开始在项目中调用pytorch模块和类，通过pycharm追踪源码，在pycharm中可以直接查看依赖包torch中源码，但是这样也不方便阅读torch源码，一个原因是pycharm中查看依赖包的源码内容，查看源码文件的方式是只读模式，没法在里面注释一些自己理解的东西，另一个原因是通过单步调试阅读代码是最容易理解代码的方式，想了想pytorch源码里面应该有对源码的测试代码可以直接跑起来，然后一步步运行，这样看着更方便。</p>
+<p>从github上下载pytorch代码，通过CONTRIBUTING.md文件中指导编译源码，注意使用：<code>python setup.py develop</code> 以开发模式构建代码。这个过程在我的电脑上要跑将近两小时。。。忘了什么原因导致我跑了两次。。。四个小时没了(呜呜&hellip;)
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20201206000548.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><!-- raw HTML omitted -->先从加载和处理数据源码了解。<!-- raw HTML omitted --></p>
+<!-- raw HTML omitted -->
+<blockquote>
+<p>注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6</p>
+</blockquote>
+<h2 id="dataset-相关源码">Dataset 相关源码</h2>
+<h3 id="mnist类">MNIST类</h3>
+<p>类继承图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/torchvision.datasets.mnist.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>先来看看最常用的mnist数据集的使用，下面两行使用torchvision中提供的MNIST数据集类定义了两个数据集类，分别为训练数据集和测试数据集，那么为什么需要定义两个同样的数据集呢？其中一个因为是训练和测试使用的数据集不一样；另一个原因是训练和测试时候对应的batch_size大小不一样。下面进一步分析datasets.MNIST代码。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">dataset1</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="s1">&#39;../data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                       <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dataset2</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="s1">&#39;../data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                          <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset1</span><span class="p">,</span><span class="o">**</span><span class="n">train_kwargs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">test_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset2</span><span class="p">,</span> <span class="o">**</span><span class="n">test_kwargs</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面的代码来自<code>torchvision.datasets.mnist</code>模块</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">.vision</span> <span class="kn">import</span> <span class="n">VisionDataset</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">warnings</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os.path</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">codecs</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">string</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">download_url</span><span class="p">,</span> <span class="n">download_and_extract_archive</span><span class="p">,</span> <span class="n">extract_archive</span><span class="p">,</span> \
+</span></span><span class="line"><span class="cl">    <span class="n">verify_str_arg</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MNIST</span><span class="p">(</span><span class="n">VisionDataset</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">resources</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz&#34;</span><span class="p">,</span> <span class="s2">&#34;f68b3c2dcbeaaa9fbdd348bbdeb94873&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz&#34;</span><span class="p">,</span> <span class="s2">&#34;d53e105ee54ea40749a09fcbcd1e9432&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz&#34;</span><span class="p">,</span> <span class="s2">&#34;9fb629c4189551a2d022fa330f9573f3&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">(</span><span class="s2">&#34;http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz&#34;</span><span class="p">,</span> <span class="s2">&#34;ec29112dd5afa0611ce80d1b7f02629c&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">training_file</span> <span class="o">=</span> <span class="s1">&#39;training.pt&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">test_file</span> <span class="o">=</span> <span class="s1">&#39;test.pt&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">classes</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0 - zero&#39;</span><span class="p">,</span> <span class="s1">&#39;1 - one&#39;</span><span class="p">,</span> <span class="s1">&#39;2 - two&#39;</span><span class="p">,</span> <span class="s1">&#39;3 - three&#39;</span><span class="p">,</span> <span class="s1">&#39;4 - four&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">               <span class="s1">&#39;5 - five&#39;</span><span class="p">,</span> <span class="s1">&#39;6 - six&#39;</span><span class="p">,</span> <span class="s1">&#39;7 - seven&#39;</span><span class="p">,</span> <span class="s1">&#39;8 - eight&#39;</span><span class="p">,</span> <span class="s1">&#39;9 - nine&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">train_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&#34;train_labels has been renamed targets&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">test_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&#34;test_labels has been renamed targets&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">train_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&#34;train_data has been renamed data&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">test_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&#34;test_data has been renamed data&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>类<code>MNIST</code>继承自<code>VisionDataset</code>，从名称可以知道<code>VisionDataset</code>是对流行的视觉数据集的抽象类，我从子类开始分析，后面再阅读分析<code>VisionDataset</code>类。<code>MNIST</code>类前面定义了四个属性，其中<code>training_file</code>、<code>test_file</code>保存将原始Minst数据处理之后的tensor格式的训练和测试数据的文件名。另外有四个方法分别是<code>train_labels</code>、<code>test_labels</code>、<code>train_data</code>、<code>test_data</code>，它们都被<code>@property</code>注解所修饰，<code>@property</code>这种注解装饰器来创建<strong>只读属性</strong>，@property装饰器会将<strong>方法</strong>转换为相同名称的<strong>只读属性</strong>，可以与所定义的属性配合使用，这样可以防止属性被修改。那么我们就可以通过mnist.train_labels得到实例的私有属性，而实际上该过程调用的是train_labels()函数。上面部分除了<code>@property</code>其他的都很好理解了。下面来看这个类的其余部分：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">(</span><span class="n">MNIST</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                    <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="o">=</span> <span class="n">train</span>  <span class="c1"># training set or test set</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">download</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_exists</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Dataset not found.&#39;</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">                               <span class="s1">&#39; You can use download=True to download it&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">data_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_file</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">data_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_file</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processed_folder</span><span class="p">,</span> <span class="n">data_file</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">            index (int): Index
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">            tuple: (image, target) where target is index of the target class.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">img</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># doing this so that it is consistent with all other datasets</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># to return a PIL Image</span>
+</span></span><span class="line"><span class="cl">        <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>   <span class="c1"># @3</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>         <span class="c1"># @1     </span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_transform</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>    <span class="c1"># @2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">target</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>__init__</code>该类的<strong>构造器(constructor)<strong>函数入参<code>transform</code>和<code>target_transform</code>分别传入对数据图像和标签的预处理，在</strong>@1和@2</strong>处可以看到在每一张图像返回前分别对图像和标签进行用户自定义预处理。传入的<code>train</code>参数来决定该MNIST的dataset会返回训练集or测试集中的数据。</p>
+<p><code>__getitem__</code>根据python3中定义，如果在类中定义了<code>__getitem__()</code>方法，那么它的实例对象（假设为P）就可以以P[key]形式取值，当实例对象做P[key]运算时，就会调用类中的<code>__getitem__()</code>方法，这是一个很有意思也很有用的特性。具体到这个类的<code>key</code>为训练样本的<code>idex</code>为<code>int</code>类型代表第几个数据样本。在**@3**处将图像转成PIL图像对象，该PIL对象最终会通过transform预处理为<code>tonsor</code>对象。类<code>MNIST</code>剩余部分最主要就是下载<code>download</code>函数，如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">raw_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s1">&#39;raw&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">processed_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s1">&#39;processed&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">class_to_idx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">{</span><span class="n">_class</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_class</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">)}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_check_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processed_folder</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                            <span class="bp">self</span><span class="o">.</span><span class="n">training_file</span><span class="p">))</span> <span class="ow">and</span>
+</span></span><span class="line"><span class="cl">                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processed_folder</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                            <span class="bp">self</span><span class="o">.</span><span class="n">test_file</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;Download the MNIST data if it doesn&#39;t exist in processed_folder already.&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_exists</span><span class="p">():</span>         <span class="c1"># @4</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processed_folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># download files</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">url</span><span class="p">,</span> <span class="n">md5</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">resources</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">filename</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="n">download_and_extract_archive</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">download_root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">md5</span><span class="o">=</span><span class="n">md5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># process and save as torch files</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Processing...&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">training_set</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">read_image_file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="s1">&#39;train-images-idx3-ubyte&#39;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">read_label_file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="s1">&#39;train-labels-idx1-ubyte&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">test_set</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">read_image_file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="s1">&#39;t10k-images-idx3-ubyte&#39;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">read_label_file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_folder</span><span class="p">,</span> <span class="s1">&#39;t10k-labels-idx1-ubyte&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processed_folder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_file</span><span class="p">),</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">training_set</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processed_folder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_file</span><span class="p">),</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">test_set</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done!&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s2">&#34;Split: </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&#34;Train&#34;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="ow">is</span> <span class="kc">True</span> <span class="k">else</span> <span class="s2">&#34;Test&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>download</code>函数下载原始mnist数据并将训练图像数据、训练标签数据存储在一个<code>training_file</code>文件中，将测试图像数据、测试标签数据存在<code>test_file</code>文件中，<strong>@4</strong>处可以看到当<code>processed_folder</code>目录下存在这两个文件，那么就不会通过网络下载，直接读取本地训练测试数据文件。另外，像<code>download_and_extract_archive</code>函数的具体实现，并没有在上面给出，这个就是更加细节的代码实现，此次代码阅读会忽略很多具体细节实现，专注于大的<strong>框架实现</strong>。</p>
+<p><code>MNIST</code>类继承自<code>VisionDataset</code>类，下面我们看看这个类中抽象出了哪些功能。</p>
+<h3 id="visiondataset类">VisionDataset类</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">VisionDataset</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_repr_indent</span> <span class="o">=</span> <span class="mi">4</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">transforms</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">_six</span><span class="o">.</span><span class="n">string_classes</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">has_transforms</span> <span class="o">=</span> <span class="n">transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">        <span class="n">has_separate_transform</span> <span class="o">=</span> <span class="n">transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">target_transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">has_transforms</span> <span class="ow">and</span> <span class="n">has_separate_transform</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&#34;Only transforms or transform/target_transform can &#34;</span>
+</span></span><span class="line"><span class="cl">                             <span class="s2">&#34;be passed as argument&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># for backwards-compatibility                              @5</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">target_transform</span> <span class="o">=</span> <span class="n">target_transform</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">has_separate_transform</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">transforms</span> <span class="o">=</span> <span class="n">StandardTransform</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">target_transform</span><span class="p">)</span>   <span class="c1">#  @6</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span> <span class="o">=</span> <span class="n">transforms</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">head</span> <span class="o">=</span> <span class="s2">&#34;Dataset &#34;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+</span></span><span class="line"><span class="cl">        <span class="n">body</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;Number of datapoints: </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__len__</span><span class="p">())]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&#34;Root location: </span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">body</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_repr</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&#34;transforms&#34;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">body</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">head</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&#34; &#34;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_repr_indent</span> <span class="o">+</span> <span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">body</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_format_transform_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">head</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lines</span> <span class="o">=</span> <span class="n">transform</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">([</span><span class="s2">&#34;</span><span class="si">{}{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span> <span class="o">+</span>
+</span></span><span class="line"><span class="cl">                <span class="p">[</span><span class="s2">&#34;</span><span class="si">{}{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&#34; &#34;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">head</span><span class="p">),</span> <span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">extra_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="s2">&#34;&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>VisionDataset</code>类中在**@5<strong>处注释向后兼容，可以看到在</strong>构造器（constructor）<strong>的入参有<code>transforms</code>、<code>transform</code>、<code>target_transform</code>三个预处理变量，那么哪一种是方式是重构后新引入的预处理方式呢？其实从</strong>@6**处就可以知道，为了兼容<code>transform</code>、<code>target_transform</code>传入方式，将它们两个构造为<code>StandardTransform</code>，也就是说重构后，希望用<code>transforms</code>(注意有个s)入参取代原有的方式。并且，机智的我（嘿嘿）通过查看该文件的修改历史，如下图，就可以看到源码作者的重构的意图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20201210142514.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>再来看看<code>VisionDataset</code>类中<code>__repr__()</code>的作用，简单理解就是，python中定义当输出<code>print(instance)</code>时，等同于执行<code>print(instance.__repr__())</code>，这样用户就可以通过实现自己的<code>__repr__</code>函数来控制我们想要的信息。默认情况下，<code>__repr__()</code> 会返回和调用者有关的 “类名+object at+内存地址”信息。另外，若调用<code>repr(instance)</code>也会执行<code>__repr__()</code>函数。</p>
+<p><code>VisionDataset</code>类继承自<code>data.Dataset</code>类，下面我们看看这个类中有哪些属性和方法。</p>
+<h3 id="dataset">Dataset</h3>
+<p><code>torch.utils.data.dataset</code>模块中定义了几个数据类，是对pytorch搭建神经网络<strong>训练和测试</strong>所需要的数据集的<strong>封装和抽象</strong>。其中<code>Dataset</code>类是所有数据集类的父类，那么来看看这个类中定义了什么内容吧~</p>
+<p>下面代码是我从pytorch源代码中拷贝过来的，省略了一些模块和类的导入。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-mysql" data-lang="mysql"><span class="line"><span class="cl"><span class="n">T_co</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">TypeVar</span><span class="p">(</span><span class="s1">&#39;T_co&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">covariant</span><span class="o">=</span><span class="no">True</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">class</span><span class="w"> </span><span class="nf">Dataset</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T_co</span><span class="p">]):</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">r</span><span class="s2">&#34;&#34;&#34;An abstract class representing a :class:`Dataset`.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    All datasets that represent a map from keys to data samples should subclass
+</span></span></span><span class="line"><span class="cl"><span class="s2">    it. All subclasses should overwrite :meth:`__getitem__`, supporting fetching a
+</span></span></span><span class="line"><span class="cl"><span class="s2">    data sample for a given key. Subclasses could also optionally overwrite
+</span></span></span><span class="line"><span class="cl"><span class="s2">    :meth:`__len__`, which is expected to return the size of the dataset by many
+</span></span></span><span class="line"><span class="cl"><span class="s2">    :class:`~torch.utils.data.Sampler` implementations and the default options
+</span></span></span><span class="line"><span class="cl"><span class="s2">    of :class:`~torch.utils.data.DataLoader`.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    .. note::
+</span></span></span><span class="line"><span class="cl"><span class="s2">      :class:`~torch.utils.data.DataLoader` by default constructs a index
+</span></span></span><span class="line"><span class="cl"><span class="s2">      sampler that yields integral indices.  To make it work with a map-style
+</span></span></span><span class="line"><span class="cl"><span class="s2">      dataset with non-integral indices/keys, a custom sampler must be provided.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">def</span><span class="w"> </span><span class="nf">__getitem__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="k">index</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">T_co</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">raise</span><span class="w"> </span><span class="n">NotImplementedError</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">def</span><span class="w"> </span><span class="nf">__add__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">other</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;Dataset[T_co]&#39;</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s1">&#39;ConcatDataset[T_co]&#39;</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nf">ConcatDataset</span><span class="p">([</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">other</span><span class="p">])</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>前两行定义两个用户自定义泛型，这种泛型编程自python3.5起开始引入到python中，有点类似于c++中泛型编程（不怎么用，忘得差不多了），c++中泛型会在编译器做类型检查和替换，属于强制类型检查，而在python中因为python类型都是弱类型，所以这种泛型编程更多的是给静态类型检测工具提供说明，帮助我们在代码编写阶段正确使用和传递python变量。目前，先忽略这些泛型类型。</p>
+<p>在<code>Dataset</code>类中定义了两个基本函数，<code>__getitem__</code>实现key-value结构，<code>__add__</code>定义两个数据集叠加的操作。</p>
+<p>下来我们来看看<code>torchvision</code>中其他的<code>dataset</code>。</p>
+<p>类继承图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/torchvision.datasets.imagenet.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="imagefolder">ImageFolder</h3>
+<p>下面源码摘抄自<code>torchvision.datasets.folder</code>模块。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ImageFolder</span><span class="p">(</span><span class="n">DatasetFolder</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;A generic data loader where the images are arranged in this way: ::
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        root/dog/xxx.png
+</span></span></span><span class="line"><span class="cl"><span class="s2">        root/dog/xxy.png
+</span></span></span><span class="line"><span class="cl"><span class="s2">        root/dog/xxz.png
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        root/cat/123.png
+</span></span></span><span class="line"><span class="cl"><span class="s2">        root/cat/nsdf3.png
+</span></span></span><span class="line"><span class="cl"><span class="s2">        root/cat/asd932_.png
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        root (string): Root directory path.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        transform (callable, optional): A function/transform that  takes in an PIL image
+</span></span></span><span class="line"><span class="cl"><span class="s2">            and returns a transformed version. E.g, ``transforms.RandomCrop``
+</span></span></span><span class="line"><span class="cl"><span class="s2">        target_transform (callable, optional): A function/transform that takes in the
+</span></span></span><span class="line"><span class="cl"><span class="s2">            target and transforms it.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        loader (callable, optional): A function to load an image given its path.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        is_valid_file (callable, optional): A function that takes path of an Image file
+</span></span></span><span class="line"><span class="cl"><span class="s2">            and check if the file is a valid file (used to check of corrupt files)
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">     Attributes:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        classes (list): List of the class names.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        class_to_idx (dict): Dict with items (class_name, class_index).
+</span></span></span><span class="line"><span class="cl"><span class="s2">        imgs (list): List of (image path, class_index) tuples
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">loader</span><span class="o">=</span><span class="n">default_loader</span><span class="p">,</span> <span class="n">is_valid_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">(</span><span class="n">ImageFolder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">IMG_EXTENSIONS</span> <span class="k">if</span> <span class="n">is_valid_file</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">target_transform</span><span class="o">=</span><span class="n">target_transform</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                          <span class="n">is_valid_file</span><span class="o">=</span><span class="n">is_valid_file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">imgs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>ImageFolder</code>是一个通用的图像数据集类，它要求数据按照：</p>
+<ul>
+<li>
+<p>root/label01/xxx.png</p>
+</li>
+<li>
+<p>root/label01/xxy.png</p>
+</li>
+<li>
+<p>root/label01/xxz.png</p>
+</li>
+<li>
+<p>root/label02/123.png</p>
+</li>
+<li>
+<p>root/label02/nsdf3.png</p>
+</li>
+<li>
+<p>root/label02/asd932_.png</p>
+</li>
+</ul>
+<p>的格式存放。这是分类数据集的数据和标签表示的另一种方式，通过<strong>目录名</strong>当作标签来存放图像数据，对于制作<strong>自定义数据集</strong>还是挺方便的。</p>
+<p><code>ImageFolder</code>继承自<code>DatasetFolder</code>，从名称就可以知道<code>ImageFolder</code>是类<code>DatasetFolder</code>的具体化，它只用来处理图像数据集，一般处理<code>IMG_EXTENSIONS = ('.jpg', '.jpeg', '.png', '.ppm', '.bmp', '.pgm', '.tif', '.tiff', '.webp') </code>中的图像格式。<code>ImageFolder</code>读取数据集后，得到三个属性：<code>classes、class_to_idx、imgs</code>。</p>
+<h2 id="sampler-相关源码">Sampler 相关源码</h2>
+<p>源码位于 <code>torch/utils/data/sampler.py</code>，那么为什么要有<code>Sampler</code>相关类呢？我觉得可以这样理解：Dataset是为数据的总体，每次训练或者测试要从总体中随机或顺序抽取一个样本或者一批样本，那么不同的<code>Sampler</code>子类就表示从数据集中不同的抽取方式。</p>
+<ul>
+<li><code>Sampler</code>：所有Sampler的父类。</li>
+<li><code>SequentialSampler</code>：顺序依次获取下标。</li>
+<li><code>RandomSampler</code>：乱序获取下标。</li>
+<li><code>SubsetRandomSampler</code>：某个子集内乱序获取下标。</li>
+<li><code>WeightedRandomSampler</code>：为每个样本设置权重，权重大表示获取概率高。</li>
+<li><code>BatchSampler</code>：即将若干个样本形成一个batch。</li>
+</ul>
+<h3 id="sampler">Sampler</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-mysql" data-lang="mysql"><span class="line"><span class="cl"><span class="n">class</span><span class="w"> </span><span class="nf">Sampler</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T_co</span><span class="p">]):</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">r</span><span class="s2">&#34;&#34;&#34;Base class for all Samplers.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Every Sampler subclass has to provide an :meth:`__iter__` method, providing a
+</span></span></span><span class="line"><span class="cl"><span class="s2">    way to iterate over indices of dataset elements, and a :meth:`__len__` method
+</span></span></span><span class="line"><span class="cl"><span class="s2">    that returns the length of the returned iterators.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    .. note:: The :meth:`__len__` method isn&#39;t strictly required by
+</span></span></span><span class="line"><span class="cl"><span class="s2">              :class:`~torch.utils.data.DataLoader`, but is expected in any
+</span></span></span><span class="line"><span class="cl"><span class="s2">              calculation involving the length of a :class:`~torch.utils.data.DataLoader`.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">def</span><span class="w"> </span><span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="w"> </span><span class="n">data_source</span><span class="p">:</span><span class="w"> </span><span class="n">Optional</span><span class="p">[</span><span class="n">Sized</span><span class="p">])</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">None</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">pass</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">def</span><span class="w"> </span><span class="nf">__iter__</span><span class="p">(</span><span class="n">self</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Iterator</span><span class="p">[</span><span class="n">T_co</span><span class="p">]:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">raise</span><span class="w"> </span><span class="n">NotImplementedError</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1"># NOTE [ Lack of Default `__len__` in Python Abstract Base Classes ]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1"># Many times we have an abstract class representing a collection/iterable of
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1"># data, e.g., `torch.utils.data.Sampler`, with its subclasses optionally
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1"># implementing a `__len__` method. In such cases, we must make sure to not
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1"># provide a default implementation, because both straightforward default
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1"># implementations have their issues:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#   + `return NotImplemented`:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#     Calling `len(subclass_instance)` raises:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#       TypeError: &#39;NotImplementedType&#39; object cannot be interpreted as an integer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#   + `raise NotImplementedError()`:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#     This prevents triggering some fallback behavior. E.g., the built-in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#     `list(X)` tries to call `len(X)` first, and executes a different code
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#     path if the method is not found or `NotImplemented` is returned, while
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#     raising an `NotImplementedError` will propagate and and make the call
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#     fail where it could have use `__iter__` to complete the call.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1"># Thus, the only two sensible things to do are
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#   + **not** provide a default `__len__`.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#   + raise a `TypeError` instead, which is what Python uses when users call
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#     a method that is not defined on an object.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">#     (@ssnl verifies that this works on at least Python 3.7.)
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Sampler</code>类是所有Sampler的父类，类中<code>__init__</code>该类的构造器(constructor)函数，<code>__iter__</code>提供迭代数据集元素索引的方法。</p>
+<h2 id="dataloader相关源码">DataLoader相关源码</h2>
+<p>源码位于<code>pytorch</code>源码目录的<code>torch/utils/data/dataloader.py</code>，<code>DataLoader</code>类非常重要，它是我们作为深度学习模型训练与开发过程中直接用到的类，也就是说我们一般情况下，通过它来将我们的数据集数据加载到程序中，通常是用一个<code>for</code>循环遍历它，<code>DataLoader</code>类依赖<code>Dataset</code>类和<code>Sampler</code>类在内部为我们实现了很多数据集遍历的方式，方便于多种场景下使用。</p>
+<p>分析<code>DataLoader</code>类之前，我先在之前学习<code>pytorch</code>的学习材料中，摘抄了一部分使用<code>DataLoader</code>的代码，先看看具体如何使用。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">trainset</span> <span class="o">=</span> <span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">trainloader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">trainset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ... 省略部分代码</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 训练网络</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>  <span class="c1"># loop over the dataset multiple times</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">trainloader</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># get the inputs</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># zero the parameter gradients</span>
+</span></span><span class="line"><span class="cl">        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># forward + backward + optimize</span>
+</span></span><span class="line"><span class="cl">        <span class="n">outputs</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># print statistics</span>
+</span></span><span class="line"><span class="cl">        <span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2000</span> <span class="o">==</span> <span class="mi">1999</span><span class="p">:</span>    <span class="c1"># print every 2000 mini-batches</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;[</span><span class="si">%d</span><span class="s1">, </span><span class="si">%5d</span><span class="s1">] loss: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="mi">2000</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Finished Training&#39;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面代码是一个简单的训练过程，我们可以看到使用<code>Dataset</code>和<code>DataLoader</code>很方便地为模型训练提供数据加载、打乱、预处理、甚至是多进程加载。作为<code>pytorch</code>的使用者，准确详细的了解<code>pytorch</code>各种包，可以熟练快速开发我们自己的训练程序，下面先具体分析下<code>DataLoader</code>的接口。</p>
+<p><!-- raw HTML omitted -->源码比较长，我分析这样比较长的源码，将比较简单部分的代码解释直接写在源码里，作为注释；将复杂部分通过@符号标注，然后在源码后面部分分析。<!-- raw HTML omitted --></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">DataLoader</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T_co</span><span class="p">]):</span>
+</span></span><span class="line"><span class="cl">    <span class="sa">r</span><span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    原注释省略。
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">[</span><span class="n">T_co</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pin_memory</span><span class="p">:</span> <span class="nb">bool</span>
+</span></span><span class="line"><span class="cl">    <span class="n">drop_last</span><span class="p">:</span> <span class="nb">bool</span>
+</span></span><span class="line"><span class="cl">    <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sampler</span><span class="p">:</span> <span class="n">Sampler</span>
+</span></span><span class="line"><span class="cl">    <span class="n">prefetch_factor</span><span class="p">:</span> <span class="nb">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_iterator</span> <span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;_BaseDataLoaderIter&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__initialized</span> <span class="o">=</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">[</span><span class="n">T_co</span><span class="p">],</span> <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">shuffle</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sampler</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">batch_sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sampler</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">collate_fn</span><span class="p">:</span> <span class="n">_collate_fn_t</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">pin_memory</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">drop_last</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">worker_init_fn</span><span class="p">:</span> <span class="n">_worker_init_fn_t</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">multiprocessing_context</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">generator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="o">*</span><span class="p">,</span> <span class="n">prefetch_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">persistent_workers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_log_api_usage_once</span><span class="p">(</span><span class="s2">&#34;python.data_loader&#34;</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">num_workers</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;num_workers option should be non-negative; &#39;</span>
+</span></span><span class="line"><span class="cl">                             <span class="s1">&#39;use num_workers=0 to disable multiprocessing.&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">timeout</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;timeout option should be non-negative&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">num_workers</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">prefetch_factor</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;prefetch_factor option could only be specified in multiprocessing.&#39;</span>
+</span></span><span class="line"><span class="cl">                             <span class="s1">&#39;let num_workers &gt; 0 to enable multiprocessing.&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">assert</span> <span class="n">prefetch_factor</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">persistent_workers</span> <span class="ow">and</span> <span class="n">num_workers</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;persistent_workers option needs num_workers &gt; 0&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">prefetch_factor</span> <span class="o">=</span> <span class="n">prefetch_factor</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">pin_memory</span> <span class="o">=</span> <span class="n">pin_memory</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">worker_init_fn</span> <span class="o">=</span> <span class="n">worker_init_fn</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">multiprocessing_context</span> <span class="o">=</span> <span class="n">multiprocessing_context</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Arg-check dataset related before checking samplers because we want to</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># tell users that iterable-style datasets are incompatible with custom</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># samplers first, so that they don&#39;t learn that this combo doesn&#39;t work</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># after spending time fixing the custom sampler errors.</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">IterableDataset</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_kind</span> <span class="o">=</span> <span class="n">_DatasetKind</span><span class="o">.</span><span class="n">Iterable</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># NOTE [ Custom Samplers and IterableDataset ]</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># `IterableDataset` does not support custom `batch_sampler` or</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># `sampler` since the key is irrelevant (unless we support</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># generator-style dataset one day...).</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># For `sampler`, we always create a dummy sampler. This is an</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># infinite sampler even when the dataset may have an implemented</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># finite `__len__` because in multi-process data loading, naive</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># settings will return duplicated data (which may be desired), and</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># thus using a sampler with length matching that of dataset will</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># cause data lost (you may have duplicates of the first couple</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># batches, but never see anything afterwards). Therefore,</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># `Iterabledataset` always uses an infinite sampler, an instance of</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># `_InfiniteConstantSampler` defined above.</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># A custom `batch_sampler` essentially only controls the batch size.</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># However, it is unclear how useful it would be since an iterable-style</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># dataset can handle that within itself. Moreover, it is pointless</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># in multi-process data loading as the assignment order of batches</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># to workers is an implementation detail so users can not control</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># how to batchify each worker&#39;s iterable. Thus, we disable this</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># option. If this turns out to be useful in future, we can re-enable</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># this, and support custom samplers that specify the assignments to</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># specific workers.</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">shuffle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;DataLoader with IterableDataset: expected unspecified &#34;</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;shuffle option, but got shuffle=</span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shuffle</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">elif</span> <span class="n">sampler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># See NOTE [ Custom Samplers and IterableDataset ]</span>
+</span></span><span class="line"><span class="cl">                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;DataLoader with IterableDataset: expected unspecified &#34;</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;sampler option, but got sampler=</span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sampler</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">elif</span> <span class="n">batch_sampler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># See NOTE [ Custom Samplers and IterableDataset ]</span>
+</span></span><span class="line"><span class="cl">                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;DataLoader with IterableDataset: expected unspecified &#34;</span>
+</span></span><span class="line"><span class="cl">                    <span class="s2">&#34;batch_sampler option, but got batch_sampler=</span><span class="si">{}</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">batch_sampler</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_kind</span> <span class="o">=</span> <span class="n">_DatasetKind</span><span class="o">.</span><span class="n">Map</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">sampler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">shuffle</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;sampler option is mutually exclusive with &#39;</span>
+</span></span><span class="line"><span class="cl">                             <span class="s1">&#39;shuffle&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">batch_sampler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># auto_collation with custom batch_sampler</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">batch_size</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">shuffle</span> <span class="ow">or</span> <span class="n">sampler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">drop_last</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;batch_sampler option is mutually exclusive &#39;</span>
+</span></span><span class="line"><span class="cl">                                 <span class="s1">&#39;with batch_size, shuffle, sampler, and &#39;</span>
+</span></span><span class="line"><span class="cl">                                 <span class="s1">&#39;drop_last&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">batch_size</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">            <span class="n">drop_last</span> <span class="o">=</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">batch_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># no auto_collation</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">drop_last</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;batch_size=None option disables auto-batching &#39;</span>
+</span></span><span class="line"><span class="cl">                                 <span class="s1">&#39;and is mutually exclusive with drop_last&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">sampler</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># give default samplers</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_kind</span> <span class="o">==</span> <span class="n">_DatasetKind</span><span class="o">.</span><span class="n">Iterable</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># See NOTE [ Custom Samplers and IterableDataset ]</span>
+</span></span><span class="line"><span class="cl">                <span class="n">sampler</span> <span class="o">=</span> <span class="n">_InfiniteConstantSampler</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>  <span class="c1"># map-style</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># Cannot statically verify that dataset is Sized</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># Somewhat related: see NOTE [ Lack of Default `__len__` in Python Abstract Base Classes ]</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">sampler</span> <span class="o">=</span> <span class="n">RandomSampler</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">generator</span><span class="o">=</span><span class="n">generator</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">sampler</span> <span class="o">=</span> <span class="n">SequentialSampler</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">batch_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">batch_sampler</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># auto_collation without custom batch_sampler</span>
+</span></span><span class="line"><span class="cl">            <span class="n">batch_sampler</span> <span class="o">=</span> <span class="n">BatchSampler</span><span class="p">(</span><span class="n">sampler</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">drop_last</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">drop_last</span> <span class="o">=</span> <span class="n">drop_last</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span> <span class="o">=</span> <span class="n">sampler</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">batch_sampler</span> <span class="o">=</span> <span class="n">batch_sampler</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">generator</span> <span class="o">=</span> <span class="n">generator</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">collate_fn</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auto_collation</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">collate_fn</span> <span class="o">=</span> <span class="n">_utils</span><span class="o">.</span><span class="n">collate</span><span class="o">.</span><span class="n">default_collate</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">collate_fn</span> <span class="o">=</span> <span class="n">_utils</span><span class="o">.</span><span class="n">collate</span><span class="o">.</span><span class="n">default_convert</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">collate_fn</span> <span class="o">=</span> <span class="n">collate_fn</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">persistent_workers</span> <span class="o">=</span> <span class="n">persistent_workers</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">__initialized</span> <span class="o">=</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">_IterableDataset_len_called</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># See NOTE [ IterableDataset and __len__ ]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">_iterator</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_get_iterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;_BaseDataLoaderIter&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">_SingleProcessDataLoaderIter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">_MultiProcessingDataLoaderIter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">multiprocessing_context</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__multiprocessing_context</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@multiprocessing_context</span><span class="o">.</span><span class="n">setter</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">multiprocessing_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">multiprocessing_context</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">multiprocessing_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="ow">not</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">_supports_context</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;multiprocessing_context relies on Python &gt;= 3.4, with &#39;</span>
+</span></span><span class="line"><span class="cl">                                     <span class="s1">&#39;support for different start methods&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">multiprocessing_context</span><span class="p">,</span> <span class="n">string_classes</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">valid_start_methods</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">get_all_start_methods</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="n">multiprocessing_context</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_start_methods</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">(</span><span class="s1">&#39;multiprocessing_context option &#39;</span>
+</span></span><span class="line"><span class="cl">                             <span class="s1">&#39;should specify a valid start method in </span><span class="si">{!r}</span><span class="s1">, but got &#39;</span>
+</span></span><span class="line"><span class="cl">                             <span class="s1">&#39;multiprocessing_context=</span><span class="si">{!r}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">valid_start_methods</span><span class="p">,</span> <span class="n">multiprocessing_context</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># error: Argument 1 to &#34;get_context&#34; has incompatible type &#34;Union[str, bytes]&#34;; expected &#34;str&#34;  [arg-type]</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">multiprocessing_context</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">get_context</span><span class="p">(</span><span class="n">multiprocessing_context</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">multiprocessing_context</span><span class="p">,</span> <span class="n">python_multiprocessing</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">BaseContext</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">((</span><span class="s1">&#39;multiprocessing_context option should be a valid context &#39;</span>
+</span></span><span class="line"><span class="cl">                                     <span class="s1">&#39;object or a string specifying the start method, but got &#39;</span>
+</span></span><span class="line"><span class="cl">                                     <span class="s1">&#39;multiprocessing_context=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">multiprocessing_context</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s1">&#39;multiprocessing_context can only be used with &#39;</span>
+</span></span><span class="line"><span class="cl">                                  <span class="s1">&#39;multi-process loading (num_workers &gt; 0), but got &#39;</span>
+</span></span><span class="line"><span class="cl">                                  <span class="s1">&#39;num_workers=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">__multiprocessing_context</span> <span class="o">=</span> <span class="n">multiprocessing_context</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__initialized</span> <span class="ow">and</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;batch_size&#39;</span><span class="p">,</span> <span class="s1">&#39;batch_sampler&#39;</span><span class="p">,</span> <span class="s1">&#39;sampler&#39;</span><span class="p">,</span> <span class="s1">&#39;drop_last&#39;</span><span class="p">,</span> <span class="s1">&#39;dataset&#39;</span><span class="p">,</span> <span class="s1">&#39;persistent_workers&#39;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> attribute should not be set after </span><span class="si">{}</span><span class="s1"> is &#39;</span>
+</span></span><span class="line"><span class="cl">                             <span class="s1">&#39;initialized&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">(</span><span class="n">DataLoader</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># We quote &#39;_BaseDataLoaderIter&#39; since it isn&#39;t defined yet and the definition can&#39;t be moved up</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># since &#39;_BaseDataLoaderIter&#39; references &#39;DataLoader&#39;.</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;_BaseDataLoaderIter&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># When using a single worker the returned iterator should be</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># created everytime to avoid reseting its state</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># However, in the case of a multiple workers iterator</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># the iterator is only created once in the lifetime of the</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># DataLoader object so that workers can be reused</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">persistent_workers</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">_iterator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">_iterator</span><span class="o">.</span><span class="n">_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterator</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_auto_collation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_sampler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_index_sampler</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># The actual sampler used for generating indices for `_DatasetFetcher`</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># (see _utils/fetch.py) to read data at each time. This would be</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># `.batch_sampler` if in auto-collation mode, and `.sampler` otherwise.</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># We can&#39;t change `.sampler` and `.batch_sampler` attributes for BC</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># reasons.</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_auto_collation</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_sampler</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_kind</span> <span class="o">==</span> <span class="n">_DatasetKind</span><span class="o">.</span><span class="n">Iterable</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># NOTE [ IterableDataset and __len__ ]</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># For `IterableDataset`, `__len__` could be inaccurate when one naively</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># does multi-processing data loading, since the samples will be duplicated.</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># However, no real use case should be actually using that behavior, so</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># it should count as a user error. We should generally trust user</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># code to do the proper thing (e.g., configure each replica differently</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># in `__iter__`), and give us the correct `__len__` if they choose to</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># implement it (this will still throw if the dataset does not implement</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># a `__len__`).</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">#</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># To provide a further warning, we track if `__len__` was called on the</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># `DataLoader`, save the returned value in `self._len_called`, and warn</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># if the iterator ends up yielding more than this number of samples.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="c1"># Cannot statically verify that dataset is Sized</span>
+</span></span><span class="line"><span class="cl">            <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_IterableDataset_len_called</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># IterableDataset doesn&#39;t allow custom sampler or batch_sampler</span>
+</span></span><span class="line"><span class="cl">                <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_last</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">length</span> <span class="o">=</span> <span class="n">length</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">length</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">length</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">length</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_index_sampler</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pytorch/">Pytorch</a>
+        
+            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>
+        
+            <a href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
+        
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/">数据集</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(三)：BatchNorm Module</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(二)：transforms模块</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">神经网络之反向传播算法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习之支持向量机</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2018 - 
+        
+        2022 七月流火
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#dataset-相关源码">Dataset 相关源码</a>
+      <ol>
+        <li><a href="#mnist类">MNIST类</a></li>
+        <li><a href="#visiondataset类">VisionDataset类</a></li>
+        <li><a href="#dataset">Dataset</a></li>
+        <li><a href="#imagefolder">ImageFolder</a></li>
+      </ol>
+    </li>
+    <li><a href="#sampler-相关源码">Sampler 相关源码</a>
+      <ol>
+        <li><a href="#sampler">Sampler</a></li>
+      </ol>
+    </li>
+    <li><a href="#dataloader相关源码">DataLoader相关源码</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

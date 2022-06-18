@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6
+前言 在这篇博客文章中，我主要来写关于pytorch中transforms模块，该模块提供了对图像各种预处理方法，位于torchvision/transforms/transforms.py，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。
+transforms ： 读[trænsˈfɔːm]，变换、转换、移动。 eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。
+transforms 模块相关源码分析 transforms.Compose类 先来看下transforms.Compose在实际代码中是如何运用的，下面代码是使用pytorch中的Dataset方式定义ImageNet数据集，也就说ImageNet继承自data.Dataset。
+1 2 3 4 5 6 7 train_dataset = torchvision.datasets.ImageNet(train_path, transform=transforms.Compose([ transforms.Resize((32, 32)), # 将图片缩放到指定大小（h,w）或者保持长宽比并缩放最短的边到int大小 transforms.CenterCrop(32), transforms.ToTensor()]) ) 从上面代码可以看出来transforms模块定义的对象，作为参数传入给ImageNet，在《pytorch源码(一)》中，了解到，通过for循环可以遍历Dataset对象获取图像数据，这篇文章介绍的transforms模块定义的类，一般在遍历Dataset获取图像前对图像进行预处理，那么通过for循环得到的图像就是进行处理后的图像。
+下面来分析transforms.Compose源码。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 class Compose(object): &amp;#34;&amp;#34;&amp;#34;Composes several transforms together.'><title>Pytorch源码阅读(二)：transforms模块</title>
+
+<link rel='canonical' href='https://example.com/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='Pytorch源码阅读(二)：transforms模块'>
+<meta property='og:description' content='注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6
+前言 在这篇博客文章中，我主要来写关于pytorch中transforms模块，该模块提供了对图像各种预处理方法，位于torchvision/transforms/transforms.py，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。
+transforms ： 读[trænsˈfɔːm]，变换、转换、移动。 eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。
+transforms 模块相关源码分析 transforms.Compose类 先来看下transforms.Compose在实际代码中是如何运用的，下面代码是使用pytorch中的Dataset方式定义ImageNet数据集，也就说ImageNet继承自data.Dataset。
+1 2 3 4 5 6 7 train_dataset = torchvision.datasets.ImageNet(train_path, transform=transforms.Compose([ transforms.Resize((32, 32)), # 将图片缩放到指定大小（h,w）或者保持长宽比并缩放最短的边到int大小 transforms.CenterCrop(32), transforms.ToTensor()]) ) 从上面代码可以看出来transforms模块定义的对象，作为参数传入给ImageNet，在《pytorch源码(一)》中，了解到，通过for循环可以遍历Dataset对象获取图像数据，这篇文章介绍的transforms模块定义的类，一般在遍历Dataset获取图像前对图像进行预处理，那么通过for循环得到的图像就是进行处理后的图像。
+下面来分析transforms.Compose源码。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 class Compose(object): &amp;#34;&amp;#34;&amp;#34;Composes several transforms together.'>
+<meta property='og:url' content='https://example.com/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/'>
+<meta property='og:site_name' content='七月流火'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Pytorch' /><meta property='article:tag' content='神经网络' /><meta property='article:tag' content='源码' /><meta property='article:tag' content='数据集' /><meta property='article:published_time' content='2021-03-11T14:15:04&#43;00:00'/><meta property='article:modified_time' content='2021-03-11T14:15:04&#43;00:00'/>
+<meta name="twitter:title" content="Pytorch源码阅读(二)：transforms模块">
+<meta name="twitter:description" content="注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6
+前言 在这篇博客文章中，我主要来写关于pytorch中transforms模块，该模块提供了对图像各种预处理方法，位于torchvision/transforms/transforms.py，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。
+transforms ： 读[trænsˈfɔːm]，变换、转换、移动。 eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。
+transforms 模块相关源码分析 transforms.Compose类 先来看下transforms.Compose在实际代码中是如何运用的，下面代码是使用pytorch中的Dataset方式定义ImageNet数据集，也就说ImageNet继承自data.Dataset。
+1 2 3 4 5 6 7 train_dataset = torchvision.datasets.ImageNet(train_path, transform=transforms.Compose([ transforms.Resize((32, 32)), # 将图片缩放到指定大小（h,w）或者保持长宽比并缩放最短的边到int大小 transforms.CenterCrop(32), transforms.ToTensor()]) ) 从上面代码可以看出来transforms模块定义的对象，作为参数传入给ImageNet，在《pytorch源码(一)》中，了解到，通过for循环可以遍历Dataset对象获取图像数据，这篇文章介绍的transforms模块定义的类，一般在遍历Dataset获取图像前对图像进行预处理，那么通过for循环得到的图像就是进行处理后的图像。
+下面来分析transforms.Compose源码。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 class Compose(object): &amp;#34;&amp;#34;&amp;#34;Composes several transforms together.">
+    <link rel="shortcut icon" href="img/favicon.png" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "dark");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hua0f4b74b00c6f9f868ad89474077dc58_18234_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">⭐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">七月流火</a></h1>
+            <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://example.com/en/" >English</option>
+                        
+                            <option value="https://example.com/" selected>中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%AE%97%E6%B3%95/" >
+                算法
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/">Pytorch源码阅读(二)：transforms模块</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 11, 2021</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <blockquote>
+<p>注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6</p>
+</blockquote>
+<h2 id="前言">前言</h2>
+<p>在这篇博客文章中，我主要来写关于<code>pytorch</code>中<code>transforms</code>模块，该模块提供了对图像各种预处理方法，位于<code>torchvision/transforms/transforms.py</code>，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。</p>
+<!-- raw HTML omitted -->
+<blockquote>
+<p>transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。</p>
+</blockquote>
+<h2 id="transforms-模块相关源码分析">transforms 模块相关源码分析</h2>
+<h3 id="transformscompose类">transforms.Compose类</h3>
+<p>先来看下<code>transforms.Compose</code>在实际代码中是如何运用的，下面代码是使用<code>pytorch</code>中的<code>Dataset</code>方式定义ImageNet数据集，也就说<code>ImageNet</code>继承自<code>data.Dataset</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">train_dataset = torchvision.datasets.ImageNet(train_path,
+</span></span><span class="line"><span class="cl">        transform=transforms.Compose([
+</span></span><span class="line"><span class="cl">            transforms.Resize((32, 32)),  # 将图片缩放到指定大小（h,w）或者保持长宽比并缩放最短的边到int大小
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            transforms.CenterCrop(32),
+</span></span><span class="line"><span class="cl">            transforms.ToTensor()])
+</span></span><span class="line"><span class="cl">        )
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>从上面代码可以看出来<code>transforms</code>模块定义的对象，作为参数传入给<code>ImageNet</code>，在《pytorch源码(一)》中，了解到，通过<code>for</code>循环可以遍历<code>Dataset</code>对象获取图像数据，这篇文章介绍的<code>transforms</code>模块定义的类，一般在遍历<code>Dataset</code>获取图像前对图像进行预处理，那么通过<code>for</code>循环得到的图像就是进行处理后的图像。</p>
+<p>下面来分析<code>transforms.Compose</code>源码。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Compose</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Composes several transforms together.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        transforms (list of ``Transform`` objects): list of transforms to compose.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Example:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt; transforms.Compose([
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt;     transforms.CenterCrop(10),
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt;     transforms.ToTensor(),
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt; ])
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transforms</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span> <span class="o">=</span> <span class="n">transforms</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">img</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">img</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">format_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;(&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transforms</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">format_string</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">format_string</span> <span class="o">+=</span> <span class="s1">&#39;    </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">format_string</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">)&#39;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">format_string</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Compose</code>是一个容器，它是对多个<code>transforms</code>模块定义转换对象transform组合，本质上是对列表的包装（装饰模式？）。</p>
+<blockquote>
+<p>这里我将这些转换对象类定义为transform，包括<code>transforms.CenterCrop</code>、<code>transforms.ToTensor</code>等等。</p>
+</blockquote>
+<p>该类的<strong>构造器(constructor)<strong>函数入参为列表类型，列表里是多个transform转换对象；在<code>__call__</code>中，通过<code>for</code>循环遍历transforms列表，对图像依次进行调用<code>t(img)</code>，可以看到每个transform都是一个可调用对象，通过依次调用这些transform，对图像进行预处理，这些处理是按照列表</strong>顺序</strong>处理。注：list是一种有序的集合。</p>
+<h3 id="transformsresize类">transforms.Resize类</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Resize</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Resize the input PIL Image to the given size.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        size (sequence or int): Desired output size. If size is a sequence like
+</span></span></span><span class="line"><span class="cl"><span class="s2">            (h, w), output size will be matched to this. If size is an int,
+</span></span></span><span class="line"><span class="cl"><span class="s2">            smaller edge of the image will be matched to this number.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            i.e, if height &gt; width, then image will be rescaled to
+</span></span></span><span class="line"><span class="cl"><span class="s2">            (size * height / width, size)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        interpolation (int, optional): Desired interpolation. Default is
+</span></span></span><span class="line"><span class="cl"><span class="s2">            ``PIL.Image.BILINEAR``
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span> <span class="o">=</span> <span class="n">interpolation</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">            img (PIL Image): Image to be scaled.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">            PIL Image: Rescaled image.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">interpolate_str</span> <span class="o">=</span> <span class="n">_pil_interpolation_to_str</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;(size=</span><span class="si">{0}</span><span class="s1">, interpolation=</span><span class="si">{1}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">interpolate_str</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>先分析<code>Resize</code>的<strong>构造器方法</strong>，参数size，为转换后的图像像素大小，如果size参数是这样的序列（h，w），输出大小将与此匹配。如果size是int，图像的较小边等于此数字。如果<code>height &gt; width</code>，则图像将被重新缩放到$\left(\text{size} \times \frac{\text{height}}{\text{width}}, \text{size}\right)$。另一个参数为<code>interpolation</code>，翻译为插值，默认值为双线性插值，这里我猜测下，当需要将图像分辨率变大，比如<code>300*400</code>提高至<code>600*500</code>分辨率，因为分辨率乘积代表像素点的个数，分辨率增大，那么原有的图像像素点不够，需要通过<strong>插值的方式</strong>新生成一部分像素点，这个参数就是控制如何产生这部分的像素点，在后面分析源码我会详细地说明插值方法。</p>
+<p>分析<code>__call__</code>方法，它的内部的实现直接调用了<code>torchvision/transforms/functional.py</code>模块中的方法，<code>functional.py</code>模块包含了很多对图像转换的具体方法实现，比如<code>resize(img, size, interpolation=Image.BILINEAR)</code>方法的具体实现等等。</p>
+<p>下面我使用<code>Resize</code>通过代码将475 * 300大小图片转换为237 * 150大小的图片。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">from torchvision.transforms import transforms
+</span></span><span class="line"><span class="cl">from PIL import Image
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">im = Image.open(&#34;resources/dog-4671215_1280.jpg&#34;)
+</span></span><span class="line"><span class="cl">resize = transforms.Resize((150, 237))
+</span></span><span class="line"><span class="cl">im = resize(im)
+</span></span><span class="line"><span class="cl">im.show()
+</span></span><span class="line"><span class="cl">im.save(&#39;resources/dog-150_237.jpg&#39;)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/dog-4671215_1280.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="475 * 300"
+	
+	
+>
+缩小为
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/dog-150_237.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="237 * 150"
+	
+	
+></p>
+<p>下面我来具体分析<code>functional.py</code>模块中的<code>resize</code>方法，源码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">BILINEAR</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="sa">r</span><span class="s2">&#34;&#34;&#34;Resize the input PIL Image to the given size.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        img (PIL Image): Image to be resized.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        size (sequence or int): Desired output size. If size is a sequence like
+</span></span></span><span class="line"><span class="cl"><span class="s2">            (h, w), the output size will be matched to this. If size is an int,
+</span></span></span><span class="line"><span class="cl"><span class="s2">            the smaller edge of the image will be matched to this number maintaing
+</span></span></span><span class="line"><span class="cl"><span class="s2">            the aspect ratio. i.e, if height &gt; width, then image will be rescaled to
+</span></span></span><span class="line"><span class="cl"><span class="s2">            :math:`\left(\text</span><span class="si">{size}</span><span class="s2"> \times \frac{\text</span><span class="si">{height}</span><span class="s2">}{\text</span><span class="si">{width}</span><span class="s2">}, \text</span><span class="si">{size}</span><span class="s2">\right)`
+</span></span></span><span class="line"><span class="cl"><span class="s2">        interpolation (int, optional): Desired interpolation. Default is
+</span></span></span><span class="line"><span class="cl"><span class="s2">            ``PIL.Image.BILINEAR``
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        PIL Image: Resized image.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_pil_image</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;img should be PIL Image. Got </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">img</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Got inappropriate size arg: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">size</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">w</span> <span class="o">&lt;=</span> <span class="n">h</span> <span class="ow">and</span> <span class="n">w</span> <span class="o">==</span> <span class="n">size</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">h</span> <span class="o">&lt;=</span> <span class="n">w</span> <span class="ow">and</span> <span class="n">h</span> <span class="o">==</span> <span class="n">size</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">img</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">h</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ow</span> <span class="o">=</span> <span class="n">size</span>
+</span></span><span class="line"><span class="cl">            <span class="n">oh</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span> <span class="o">*</span> <span class="n">h</span> <span class="o">/</span> <span class="n">w</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">ow</span><span class="p">,</span> <span class="n">oh</span><span class="p">),</span> <span class="n">interpolation</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">oh</span> <span class="o">=</span> <span class="n">size</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ow</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span> <span class="o">*</span> <span class="n">w</span> <span class="o">/</span> <span class="n">h</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">ow</span><span class="p">,</span> <span class="n">oh</span><span class="p">),</span> <span class="n">interpolation</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">size</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">interpolation</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>resize</code>函数是定义在<code>functional.py</code>模块中的一个函数，前两个<code>if</code>语句，用来做参数类型校验，主要用到python中内置的<code>isinstance(x, A_tuple)</code>函数，返回对象是类的实例还是子类的实例，值得注意的是，第二个参数，既可以是一个类对象，也可以是一个包含多个类对象的元组。关于<code>Iterable</code>的理解可以查看这篇博客<a class="link" href="https://www.kawabangga.com/posts/2772"  target="_blank" rel="noopener"
+    >理解Python的Iterable和Iterator</a>。</p>
+<p>其他部分的代码也很容易理解，<code>isinstance(size, int)</code>为<code>True</code>时，<code>size</code>为图像较小的边的输出大小,输出图像另一边的大小根据原图的比例计算得出。</p>
+<p>最后的<code>else</code>分支也很容易理解，在这里可以学习到的一点是，如何取得一个列表倒序的结果？这里用了切片的方式<code>size[::-1]</code>，来将入参是传入的<code>(h, w)</code>逆序变成<code>(w, h)</code>，再传入<code>PIL.Image</code>对象的<code>resize()</code>方法，也就是说pytorch本身没有自己实现对图像的<code>resize</code>方法，而是在底层调用的<code>PIL</code>图像库的方法。</p>
+<p>下面先插入一些对python中<strong>切片</strong>的学习，不知道为什么我每次遇到切片表达方式都要重新查一遍各种切片具体是代表的什么含义（😖）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">Last</span> <span class="n">login</span><span class="p">:</span> <span class="n">Wed</span> <span class="n">Mar</span> <span class="mi">10</span> <span class="mi">14</span><span class="p">:</span><span class="mi">19</span><span class="p">:</span><span class="mi">12</span> <span class="n">on</span> <span class="n">ttys001</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">L</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">L</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">L</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># 倒序排列并且每1个取一个</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">L</span><span class="p">[::</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># 倒序排列并且每2个取一个 </span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">L</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>   <span class="c1"># 正序排列并且每2个取一个</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">L</span><span class="p">[:]</span>     <span class="c1"># 原样复制</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">L</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>   <span class="c1"># 取第一个到第五个</span>
+</span></span><span class="line"><span class="cl"><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>参考：<a class="link" href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017269965565856"  target="_blank" rel="noopener"
+    >python切片</a></p>
+<p>至于<code>PIL.Image</code>对象的<code>resize()</code>方法具体分析，内部实现是比较复杂的，先暂时省略，后面再补(🤦)‍️。</p>
+<h3 id="transformscentercrop类">transforms.CenterCrop类</h3>
+<p><code>CenterCrop</code>类的功能是依据给定的size从中心裁剪，在pytorch中的实现非常简单，这里就不贴出来源码了，简单看下它的<strong>构造器方法</strong>，参数size为<code>(h, w)</code>，代表裁剪后的图像分辨率大小，而如果size为<code>int</code>型，那么裁剪为<code>(size, size)</code>大小的正方形中心图像。例如，下面在475 * 300大小图像的中心部分裁剪出120 * 120大小的图像：
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/dog-4671215_1280.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="475 * 300"
+	
+	
+>
+裁剪出
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/dog-120_120.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="120 * 120"
+	
+	
+></p>
+<h3 id="transformstotensor">transforms.ToTensor</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ToTensor</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Convert a ``PIL Image`` or ``numpy.ndarray`` to tensor.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Converts a PIL Image or numpy.ndarray (H x W x C) in the range
+</span></span></span><span class="line"><span class="cl"><span class="s2">    [0, 255] to a torch.FloatTensor of shape (C x H x W) in the range [0.0, 1.0]
+</span></span></span><span class="line"><span class="cl"><span class="s2">    if the PIL Image belongs to one of the modes (L, LA, P, I, F, RGB, YCbCr, RGBA, CMYK, 1)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    or if the numpy.ndarray has dtype = np.uint8
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    In the other cases, tensors are returned without scaling.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pic</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">            pic (PIL Image or numpy.ndarray): Image to be converted to tensor.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Tensor: Converted image.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">to_tensor</span><span class="p">(</span><span class="n">pic</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39;()&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>ToTensor</code>从类名字就可以看出来这个类主要将PIL.Image对象和numpy.ndarray对象转换为torch.FloatTensor对象，值得注意的是，最终的转换得到的Tensor对象的<code>size</code>是<code>(C x H x W)</code>，通道数在前面，也就是说pytorch在处理图像时，一般情况下，将三维的图像排列是<code>(通道数，高度，宽度)</code>。另外，该类还会将原本的0~255的RGB三原色强度值进行归一化处理，统一除以255，使得值在0.0~1.0之间。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/pytorch/">Pytorch</a>
+        
+            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>
+        
+            <a href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
+        
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/">数据集</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(三)：BatchNorm Module</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(一)：Dataset和DataLoader</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">神经网络之反向传播算法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习之支持向量机</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2018 - 
+        
+        2022 七月流火
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#transforms-模块相关源码分析">transforms 模块相关源码分析</a>
+      <ol>
+        <li><a href="#transformscompose类">transforms.Compose类</a></li>
+        <li><a href="#transformsresize类">transforms.Resize类</a></li>
+        <li><a href="#transformscentercrop类">transforms.CenterCrop类</a></li>
+        <li><a href="#transformstotensor">transforms.ToTensor</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
