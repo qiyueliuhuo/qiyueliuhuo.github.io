@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>算法 on 七月流火</title>
-        <link>https://example.com/tags/%E7%AE%97%E6%B3%95/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95/</link>
         <description>Recent content in 算法 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 13 Jun 2020 13:47:01 +0000</lastBuildDate><atom:link href="https://example.com/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 13 Jun 2020 13:47:01 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>神经网络之反向传播算法</title>
-        <link>https://example.com/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/</link>
+        <link>https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/</link>
         <pubDate>Sat, 13 Jun 2020 13:47:01 +0000</pubDate>
         
-        <guid>https://example.com/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/</guid>
+        <guid>https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/</guid>
         <description>&lt;h3 id=&#34;前言&#34;&gt;前言&lt;/h3&gt;
 &lt;p&gt;人工神经网络（Artificial Neural Network，ANN）是一门重要的机器学习技术。它是目前最为火热的研究方向&amp;ndash;深度学习（Deep Learning）的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。&lt;/p&gt;
 &lt;p&gt;四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。&lt;/p&gt;

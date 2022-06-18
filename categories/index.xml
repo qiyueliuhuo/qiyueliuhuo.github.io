@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Categories on 七月流火</title>
-        <link>https://example.com/categories/</link>
+        <link>https://qiyueliuhuo.github.io/categories/</link>
         <description>Recent content in Categories on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 14 Mar 2021 15:53:39 +0000</lastBuildDate><atom:link href="https://example.com/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 14 Mar 2021 15:53:39 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>算法</title>
-        <link>https://example.com/categories/%E7%AE%97%E6%B3%95/</link>
+        <link>https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95/</link>
         <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
         
-        <guid>https://example.com/categories/%E7%AE%97%E6%B3%95/</guid>
+        <guid>https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95/</guid>
         <description></description>
         </item>
         

@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>数据集 on 七月流火</title>
-        <link>https://example.com/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</link>
         <description>Recent content in 数据集 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 14 Mar 2021 15:53:39 +0000</lastBuildDate><atom:link href="https://example.com/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 14 Mar 2021 15:53:39 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Pytorch源码阅读(三)：BatchNorm Module</title>
-        <link>https://example.com/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/</link>
+        <link>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/</link>
         <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
         
-        <guid>https://example.com/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/</guid>
+        <guid>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/</guid>
         <description>&lt;h2 id=&#34;module&#34;&gt;Module&lt;/h2&gt;
 &lt;h3 id=&#34;nnbnrelu2d&#34;&gt;nn.BNReLU2d&lt;/h3&gt;
 &lt;p&gt;源码：&lt;/p&gt;
@@ -112,10 +112,10 @@ $$
         </item>
         <item>
         <title>Pytorch源码阅读(二)：transforms模块</title>
-        <link>https://example.com/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</link>
+        <link>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</link>
         <pubDate>Thu, 11 Mar 2021 14:15:04 +0000</pubDate>
         
-        <guid>https://example.com/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</guid>
+        <guid>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</guid>
         <description>&lt;blockquote&gt;
 &lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -532,10 +532,10 @@ $$
         </item>
         <item>
         <title>Pytorch源码阅读(一)：Dataset和DataLoader</title>
-        <link>https://example.com/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/</link>
+        <link>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/</link>
         <pubDate>Sat, 05 Dec 2020 23:21:34 +0000</pubDate>
         
-        <guid>https://example.com/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/</guid>
+        <guid>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/</guid>
         <description>&lt;p&gt;阅读开源代码是提高写代码能力最好的方式之一，现在入坑机器学习领域，在众多框架中选择pytorch框架作为自己基本的深度学习框架，现在开始从最简单的pytorch代码部分阅读，学习下python技巧顺便深入学习下神经网络的代码实践。&lt;/p&gt;
 &lt;p&gt;关于阅读源码，我一开始在项目中调用pytorch模块和类，通过pycharm追踪源码，在pycharm中可以直接查看依赖包torch中源码，但是这样也不方便阅读torch源码，一个原因是pycharm中查看依赖包的源码内容，查看源码文件的方式是只读模式，没法在里面注释一些自己理解的东西，另一个原因是通过单步调试阅读代码是最容易理解代码的方式，想了想pytorch源码里面应该有对源码的测试代码可以直接跑起来，然后一步步运行，这样看着更方便。&lt;/p&gt;
 &lt;p&gt;从github上下载pytorch代码，通过CONTRIBUTING.md文件中指导编译源码，注意使用：&lt;code&gt;python setup.py develop&lt;/code&gt; 以开发模式构建代码。这个过程在我的电脑上要跑将近两小时。。。忘了什么原因导致我跑了两次。。。四个小时没了(呜呜&amp;hellip;)

@@ -2,72 +2,72 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Tags on 七月流火</title>
-        <link>https://example.com/tags/</link>
+        <link>https://qiyueliuhuo.github.io/tags/</link>
         <description>Recent content in Tags on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 14 Mar 2021 15:53:39 +0000</lastBuildDate><atom:link href="https://example.com/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 14 Mar 2021 15:53:39 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Pytorch</title>
-        <link>https://example.com/tags/pytorch/</link>
+        <link>https://qiyueliuhuo.github.io/tags/pytorch/</link>
         <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
         
-        <guid>https://example.com/tags/pytorch/</guid>
+        <guid>https://qiyueliuhuo.github.io/tags/pytorch/</guid>
         <description></description>
         </item>
         <item>
         <title>神经网络</title>
-        <link>https://example.com/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
         <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
         
-        <guid>https://example.com/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
+        <guid>https://qiyueliuhuo.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
         <description></description>
         </item>
         <item>
         <title>数据集</title>
-        <link>https://example.com/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</link>
         <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
         
-        <guid>https://example.com/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</guid>
+        <guid>https://qiyueliuhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</guid>
         <description></description>
         </item>
         <item>
         <title>源码</title>
-        <link>https://example.com/tags/%E6%BA%90%E7%A0%81/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%BA%90%E7%A0%81/</link>
         <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
         
-        <guid>https://example.com/tags/%E6%BA%90%E7%A0%81/</guid>
+        <guid>https://qiyueliuhuo.github.io/tags/%E6%BA%90%E7%A0%81/</guid>
         <description></description>
         </item>
         <item>
         <title>分类算法</title>
-        <link>https://example.com/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/</link>
         <pubDate>Tue, 14 Jul 2020 17:46:32 +0000</pubDate>
         
-        <guid>https://example.com/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/</guid>
+        <guid>https://qiyueliuhuo.github.io/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/</guid>
         <description></description>
         </item>
         <item>
         <title>支持向量机</title>
-        <link>https://example.com/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</link>
         <pubDate>Tue, 14 Jul 2020 17:46:32 +0000</pubDate>
         
-        <guid>https://example.com/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</guid>
+        <guid>https://qiyueliuhuo.github.io/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</guid>
         <description></description>
         </item>
         <item>
         <title>机器学习</title>
-        <link>https://example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Sat, 13 Jun 2020 13:47:01 +0000</pubDate>
         
-        <guid>https://example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+        <guid>https://qiyueliuhuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
         <description></description>
         </item>
         <item>
         <title>算法</title>
-        <link>https://example.com/tags/%E7%AE%97%E6%B3%95/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95/</link>
         <pubDate>Sat, 13 Jun 2020 13:47:01 +0000</pubDate>
         
-        <guid>https://example.com/tags/%E7%AE%97%E6%B3%95/</guid>
+        <guid>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95/</guid>
         <description></description>
         </item>
         

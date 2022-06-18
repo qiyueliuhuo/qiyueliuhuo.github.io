@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>qiyueliuhuo</title>
-        <link>https://example.com/en/</link>
+        <link>https://qiyueliuhuo.github.io/en/</link>
         <description>Recent content on qiyueliuhuo</description>
         <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language><atom:link href="https://example.com/en/index.xml" rel="self" type="application/rss+xml" />
+        <language>zh-cn</language><atom:link href="https://qiyueliuhuo.github.io/en/index.xml" rel="self" type="application/rss+xml" />
     </channel>
 </rss>

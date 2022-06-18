@@ -5,13 +5,13 @@
 四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。
 '><title>神经网络之反向传播算法</title>
 
-<link rel='canonical' href='https://example.com/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
+<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
 
 <link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='神经网络之反向传播算法'>
 <meta property='og:description' content='前言 人工神经网络（Artificial Neural Network，ANN）是一门重要的机器学习技术。它是目前最为火热的研究方向&amp;ndash;深度学习（Deep Learning）的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。
 四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。
 '>
-<meta property='og:url' content='https://example.com/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
+<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
 <meta property='og:site_name' content='七月流火'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='算法' /><meta property='article:tag' content='神经网络' /><meta property='article:tag' content='机器学习' /><meta property='article:published_time' content='2020-06-13T13:47:01&#43;00:00'/><meta property='article:modified_time' content='2020-06-13T13:47:01&#43;00:00'/>
 <meta name="twitter:title" content="神经网络之反向传播算法">
@@ -179,9 +179,9 @@
 
                     <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
                         
-                            <option value="https://example.com/en/" >English</option>
+                            <option value="https://qiyueliuhuo.github.io/en/" >English</option>
                         
-                            <option value="https://example.com/" selected>中文</option>
+                            <option value="https://qiyueliuhuo.github.io/" selected>中文</option>
                         
                     </select>
                 </li>
@@ -286,7 +286,7 @@
 <h3 id="感知机">感知机</h3>
 <h4 id="感知机介绍">感知机介绍</h4>
 <p>首先让我们先来了解下神经网络中最简单也是最基础的一种结构——感知机（Perceptron），如下图：
-<img src="https://qiyueliuhuo.github.io/images/Ncell.png"
+<img src="/images/Ncell.png"
 	
 	
 	
@@ -299,7 +299,7 @@
 <p>研究者模拟生物神经网络中的一个简单的<strong>神经元</strong>的行为——神经元兴奋过程，与之对应的感知机基础概念被提出，这里我们可以把<strong>权重</strong>当作突触、把<strong>偏置</strong>当作阈值以及把<strong>激活函数</strong>当作细胞体，当经过突触的信号总和超过了某个阈值（偏置项），细胞体就会兴奋（激活函数），产生电脉冲（输出 1），而当信号量总和未超过阈值，不产生电脉冲（输出 0）。它可以被视为一种最简单形式的前馈神经网络，是一种二元线性分类器。感知机（单个神经元）代表了从输入空间到输出空间的如下函数：
 $$ y = f(\sum_{i=1}^{n}w_ix_i + b) $$
 理想中的激活函数 $f(·)$ 是下图 a 所示的阶跃函数，输出“1”对应神经元兴奋，输出“0”对应神经元抑制，然而阶跃函数具有不连续、不光滑等不太好的数学性质，因此实际常用 Sigmoid 函数作为激活函数，如下图 b 所示，该函数将实域范围的输出挤压到（0，1）范围输出，也被称为“挤压函数”。
-<img src="https://qiyueliuhuo.github.io/images/20200614130934.png"
+<img src="/images/20200614130934.png"
 	
 	
 	
@@ -331,7 +331,7 @@ $$ b \leftarrow b + \eta y_i $$</p>
 <h3 id="神经网络">神经网络</h3>
 <h4 id="神经网络介绍">神经网络介绍</h4>
 <p>考虑到感知机模型存在的问题，即只能解决线性可分问题，我们将感知机进行连接，形成多层感知机——神经网络，如下图</p>
-<p><img src="https://qiyueliuhuo.github.io/images/20200625230159.png"
+<p><img src="/images/20200625230159.png"
 	
 	
 	
@@ -449,7 +449,7 @@ $$ \frac{\partial f(x_1, x_2, x_3&hellip;x_i&hellip;)}{\partial x_i}  = \lim_{h 
 </div><p>上面程序实现的偏导数方式和上面公式稍有不同，使用中心差分，误差比<strong>前向差分</strong>小，学过微积分的同学应该能够明白。**虽然上面求偏导数看着很方便很简单，但是根据上面的方式计算梯度在面对神经网络这种具有很大规模输入和很大规模参数时，计算效率相当慢。**下面将重点介绍反向传播算法计算梯度。（介绍完反向传播算法后，还会再介绍两者求解方式差异，为什么上面方式求解梯度速度在神经网络应用上效率太慢）</p>
 <h3 id="计算图">计算图</h3>
 <p>为了更精确地描述反向传播算法，我们使用计算图（computational graph）语言来描述一系列操作。《深度学习》花书和斯坦福李飞飞 cs231n 课程对于计算图表示上有些区别，但都表示同一个含义，即用图的方式形式化地将操作次序表示出来，方便理解。这里我们介绍 cs231n 课程对于计算图的画法。
-<img src="https://qiyueliuhuo.github.io/images/simple_compute_graph.png"
+<img src="/images/simple_compute_graph.png"
 	
 	
 	
@@ -476,7 +476,7 @@ $$ \frac{\partial f}{\partial y} = \frac{\partial f}{\partial q}\frac{\partial q
 结合上面计算图和求导的链式法则可以有以下结论：
 “$输出结果对某一变量的偏导 = 反向传播时上游传递下来的偏导数 \times 本地偏导数（该变量输入的计算节点偏导数）$”
 下面介绍稍微复杂的计算图，如下图。
-<img src="https://qiyueliuhuo.github.io/images/compute_graph.png"
+<img src="/images/compute_graph.png"
 	
 	
 	
@@ -493,7 +493,7 @@ $$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \fra
 </blockquote>
 <h4 id="矩阵形式反向传播算法">矩阵形式反向传播算法</h4>
 <p>下面介绍矩阵形式计算图及反向传播公式，如下图神经网络 Affine 层。
-<img src="https://qiyueliuhuo.github.io/images/20200628140209.png"
+<img src="/images/20200628140209.png"
 	
 	
 	
@@ -516,7 +516,7 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
 这里的$L$表示$loss function$，也即是$E$。根据上面的神经网络反向传播算法逐层传播梯度，即可以高效地求解损失函数对参数的梯度，再根据随机梯度下降法，不断更新权重参数$W$，最小化目标函数，完成简单神经网络的训练学习。</p>
 <h3 id="反向传播算法特别之处">反向传播算法特别之处</h3>
 <p>现代的神经网络规模和层数不断增加，一个复杂的深度学习模型，可能每一层有成百量级神经元，有上百层深度，下图显示一个较复杂的神经网络。
-<img src="https://qiyueliuhuo.github.io/images/Snipaste_2020-06-28_15-24-37.png"
+<img src="/images/Snipaste_2020-06-28_15-24-37.png"
 	
 	
 	
