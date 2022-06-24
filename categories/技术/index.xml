@@ -15,7 +15,7 @@
         <description>&lt;blockquote&gt;
 &lt;p&gt;vue学习记录。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;!-- more --&gt;
 &lt;p&gt;注：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;ol&gt;
@@ -28,13 +28,13 @@
 &lt;h3 id=&#34;认识vuejs&#34;&gt;认识Vuejs&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;Vue在国内相比于React使用更加广泛、更火。&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;Vue在国内相比于React使用更加广泛、更火。&lt;/br&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;三大框架：VueJs、AngularJs、React。 &lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;三大框架：VueJs、AngularJs、React。 &lt;/br&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Vue：读音/vju:/，类似于view。 &lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;Vue：读音/vju:/，类似于view。 &lt;/br&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Vue是一个渐进式框架：&lt;/p&gt;
@@ -778,7 +778,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Vue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;component&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;cpn&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cpnC&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;在Vue实例创建时，注册的组件为局部组件。 &lt;!-- raw HTML omitted --&gt;用的最多的还是局部组件。&lt;!-- raw HTML omitted --&gt; ※ ※&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;在Vue实例创建时，注册的组件为局部组件。 &lt;span style=&#34;color:#773098;font-weight:bold;&#34;&gt;用的最多的还是局部组件。&lt;/span&gt; ※ ※&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1

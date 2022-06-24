@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://qiyueliuhuo.github.io/</loc>
-    <lastmod>2022-06-18T16:06:59+08:00</lastmod>
+    <lastmod>2022-06-23T11:17:44+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://qiyueliuhuo.github.io/categories/</loc>
-    <lastmod>2022-06-18T16:06:59+08:00</lastmod>
+    <lastmod>2022-06-23T11:17:44+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -29,25 +29,10 @@
                 />
   </url><url>
     <loc>https://qiyueliuhuo.github.io/posts/</loc>
-    <lastmod>2022-06-18T16:06:59+08:00</lastmod>
-  </url><url>
-    <loc>https://qiyueliuhuo.github.io/categories/%E6%B5%8B%E8%AF%95/</loc>
-    <lastmod>2022-06-18T16:06:59+08:00</lastmod>
-  </url><url>
-    <loc>https://qiyueliuhuo.github.io/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</loc>
-    <lastmod>2022-06-18T16:06:59+08:00</lastmod>
-  </url><url>
-    <loc>https://qiyueliuhuo.github.io/posts/my-first-hugo-post/</loc>
-    <lastmod>2022-06-03T17:22:13+08:00</lastmod>
-  </url><url>
-    <loc>https://qiyueliuhuo.github.io/tags/pytorch/</loc>
-    <lastmod>2021-03-14T15:53:39+00:00</lastmod>
-  </url><url>
-    <loc>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/</loc>
-    <lastmod>2021-03-14T15:53:39+00:00</lastmod>
+    <lastmod>2022-06-23T11:17:44+08:00</lastmod>
   </url><url>
     <loc>https://qiyueliuhuo.github.io/tags/</loc>
-    <lastmod>2021-03-14T15:53:39+00:00</lastmod>
+    <lastmod>2022-06-23T11:17:44+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -59,16 +44,61 @@
                 href="https://qiyueliuhuo.github.io/tags/"
                 />
   </url><url>
+    <loc>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</loc>
+    <lastmod>2022-06-23T11:17:44+08:00</lastmod>
+  </url><url>
     <loc>https://qiyueliuhuo.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2022-06-23T11:17:44+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2022-06-23T11:17:44+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2022-06-23T11:17:44+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/tags/faster-r-cnn/</loc>
+    <lastmod>2022-06-18T17:14:15+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/tags/mmdetection/</loc>
+    <lastmod>2022-06-18T17:14:15+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/</loc>
+    <lastmod>2022-06-18T17:14:15+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</loc>
+    <lastmod>2022-06-18T17:14:15+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</loc>
+    <lastmod>2022-06-18T17:14:15+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/tags/%E6%BA%90%E7%A0%81/</loc>
+    <lastmod>2022-06-18T17:14:15+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/posts/my-first-hugo-post/</loc>
+    <lastmod>2022-06-03T17:22:13+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/categories/%E6%B5%8B%E8%AF%95/</loc>
+    <lastmod>2021-06-23T11:17:44+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</loc>
+    <lastmod>2021-06-23T11:17:44+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/tags/map/</loc>
+    <lastmod>2021-06-21T10:45:26+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/</loc>
+    <lastmod>2021-06-21T10:45:26+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/</loc>
+    <lastmod>2021-06-21T10:45:26+08:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/tags/pytorch/</loc>
+    <lastmod>2021-03-14T15:53:39+00:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/</loc>
     <lastmod>2021-03-14T15:53:39+00:00</lastmod>
   </url><url>
     <loc>https://qiyueliuhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</loc>
-    <lastmod>2021-03-14T15:53:39+00:00</lastmod>
-  </url><url>
-    <loc>https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-03-14T15:53:39+00:00</lastmod>
-  </url><url>
-    <loc>https://qiyueliuhuo.github.io/tags/%E6%BA%90%E7%A0%81/</loc>
     <lastmod>2021-03-14T15:53:39+00:00</lastmod>
   </url><url>
     <loc>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</loc>
@@ -92,13 +122,16 @@
     <loc>https://qiyueliuhuo.github.io/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</loc>
     <lastmod>2020-07-14T17:46:32+00:00</lastmod>
   </url><url>
-    <loc>https://qiyueliuhuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://qiyueliuhuo.github.io/tags/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/</loc>
+    <lastmod>2020-06-13T13:47:01+00:00</lastmod>
+  </url><url>
+    <loc>https://qiyueliuhuo.github.io/tags/%E6%84%9F%E7%9F%A5%E6%9C%BA/</loc>
     <lastmod>2020-06-13T13:47:01+00:00</lastmod>
   </url><url>
     <loc>https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2020-06-13T13:47:01+00:00</lastmod>
   </url><url>
-    <loc>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95/</loc>
+    <loc>https://qiyueliuhuo.github.io/tags/%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97/</loc>
     <lastmod>2020-06-13T13:47:01+00:00</lastmod>
   </url><url>
     <loc>https://qiyueliuhuo.github.io/archives/</loc>

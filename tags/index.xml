@@ -6,7 +6,79 @@
         <description>Recent content in Tags on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 14 Mar 2021 15:53:39 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 23 Jun 2022 11:17:44 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>神经网络</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
+        <pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>最优化</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</link>
+        <pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Faster R-CNN</title>
+        <link>https://qiyueliuhuo.github.io/tags/faster-r-cnn/</link>
+        <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/faster-r-cnn/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>mmdetection</title>
+        <link>https://qiyueliuhuo.github.io/tags/mmdetection/</link>
+        <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/mmdetection/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>计算机视觉</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</link>
+        <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>目标检测</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</link>
+        <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>源码</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%BA%90%E7%A0%81/</link>
+        <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/%E6%BA%90%E7%A0%81/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>mAP</title>
+        <link>https://qiyueliuhuo.github.io/tags/map/</link>
+        <pubDate>Mon, 21 Jun 2021 10:45:26 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/map/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>模型评估</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/</link>
+        <pubDate>Mon, 21 Jun 2021 10:45:26 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Pytorch</title>
         <link>https://qiyueliuhuo.github.io/tags/pytorch/</link>
         <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
@@ -15,27 +87,11 @@
         <description></description>
         </item>
         <item>
-        <title>神经网络</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
-        <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
-        
-        <guid>https://qiyueliuhuo.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
-        <description></description>
-        </item>
-        <item>
         <title>数据集</title>
         <link>https://qiyueliuhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</link>
         <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
         
         <guid>https://qiyueliuhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>源码</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E6%BA%90%E7%A0%81/</link>
-        <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
-        
-        <guid>https://qiyueliuhuo.github.io/tags/%E6%BA%90%E7%A0%81/</guid>
         <description></description>
         </item>
         <item>
@@ -55,19 +111,27 @@
         <description></description>
         </item>
         <item>
-        <title>机器学习</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+        <title>反向传播</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/</link>
         <pubDate>Sat, 13 Jun 2020 13:47:01 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+        <guid>https://qiyueliuhuo.github.io/tags/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/</guid>
         <description></description>
         </item>
         <item>
-        <title>算法</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95/</link>
+        <title>感知机</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%84%9F%E7%9F%A5%E6%9C%BA/</link>
         <pubDate>Sat, 13 Jun 2020 13:47:01 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95/</guid>
+        <guid>https://qiyueliuhuo.github.io/tags/%E6%84%9F%E7%9F%A5%E6%9C%BA/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>梯度计算</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97/</link>
+        <pubDate>Sat, 13 Jun 2020 13:47:01 +0000</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97/</guid>
         <description></description>
         </item>
         

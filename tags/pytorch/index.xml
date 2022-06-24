@@ -121,7 +121,7 @@ $$
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 &lt;p&gt;在这篇博客文章中，我主要来写关于&lt;code&gt;pytorch&lt;/code&gt;中&lt;code&gt;transforms&lt;/code&gt;模块，该模块提供了对图像各种预处理方法，位于&lt;code&gt;torchvision/transforms/transforms.py&lt;/code&gt;，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;!-- more --&gt;
 &lt;blockquote&gt;
 &lt;p&gt;transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -547,8 +547,8 @@ $$
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;&lt;!-- raw HTML omitted --&gt;先从加载和处理数据源码了解。&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;span style=&#34;color:#35b378;font-weight:bold;&#34;&gt;先从加载和处理数据源码了解。&lt;/span&gt;&lt;/p&gt;
+&lt;!-- more --&gt;
 &lt;blockquote&gt;
 &lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1342,7 +1342,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;上面代码是一个简单的训练过程，我们可以看到使用&lt;code&gt;Dataset&lt;/code&gt;和&lt;code&gt;DataLoader&lt;/code&gt;很方便地为模型训练提供数据加载、打乱、预处理、甚至是多进程加载。作为&lt;code&gt;pytorch&lt;/code&gt;的使用者，准确详细的了解&lt;code&gt;pytorch&lt;/code&gt;各种包，可以熟练快速开发我们自己的训练程序，下面先具体分析下&lt;code&gt;DataLoader&lt;/code&gt;的接口。&lt;/p&gt;
-&lt;p&gt;&lt;!-- raw HTML omitted --&gt;源码比较长，我分析这样比较长的源码，将比较简单部分的代码解释直接写在源码里，作为注释；将复杂部分通过@符号标注，然后在源码后面部分分析。&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style=&#34;color:#35b378;font-weight:bold;&#34;&gt;源码比较长，我分析这样比较长的源码，将比较简单部分的代码解释直接写在源码里，作为注释；将复杂部分通过@符号标注，然后在源码后面部分分析。&lt;/span&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;  1

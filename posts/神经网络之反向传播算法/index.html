@@ -1,23 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='前言 人工神经网络（Artificial Neural Network，ANN）是一门重要的机器学习技术。它是目前最为火热的研究方向&amp;ndash;深度学习（Deep Learning）的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。
-四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。
-'><title>神经网络之反向传播算法</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='现代神经网络算法中最重要的底层算法——反向传播算法解析。'><title>神经网络之反向传播算法</title>
 
 <link rel='canonical' href='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
 
-<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='神经网络之反向传播算法'>
-<meta property='og:description' content='前言 人工神经网络（Artificial Neural Network，ANN）是一门重要的机器学习技术。它是目前最为火热的研究方向&amp;ndash;深度学习（Deep Learning）的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。
-四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。
-'>
+<link rel="stylesheet" href="/scss/style.min.7fe7d5d31a33a315633c5517a2449f67c5394c702ebc19ee4db48c9724892ae4.css"><meta property='og:title' content='神经网络之反向传播算法'>
+<meta property='og:description' content='现代神经网络算法中最重要的底层算法——反向传播算法解析。'>
 <meta property='og:url' content='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
 <meta property='og:site_name' content='七月流火'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='算法' /><meta property='article:tag' content='神经网络' /><meta property='article:tag' content='机器学习' /><meta property='article:published_time' content='2020-06-13T13:47:01&#43;00:00'/><meta property='article:modified_time' content='2020-06-13T13:47:01&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='反向传播' /><meta property='article:tag' content='梯度计算' /><meta property='article:tag' content='感知机' /><meta property='article:published_time' content='2020-06-13T13:47:01&#43;00:00'/><meta property='article:modified_time' content='2020-06-13T13:47:01&#43;00:00'/>
 <meta name="twitter:title" content="神经网络之反向传播算法">
-<meta name="twitter:description" content="前言 人工神经网络（Artificial Neural Network，ANN）是一门重要的机器学习技术。它是目前最为火热的研究方向&amp;ndash;深度学习（Deep Learning）的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。
-四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。
-">
+<meta name="twitter:description" content="现代神经网络算法中最重要的底层算法——反向传播算法解析。">
     </head>
     <body class="
     article-page
@@ -61,7 +55,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hua0f4b74b00c6f9f868ad89474077dc58_18234_300x0_resize_box_3.png" width="300"
+                        <img src="/img/avatar_hue994540323acb8c9c7b6610dea0fdfcd_296259_300x0_resize_box_3.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -272,6 +266,10 @@
         </h2>
     
         
+        <h3 class="article-subtitle">
+            现代神经网络算法中最重要的底层算法——反向传播算法解析。
+        </h3>
+        
     </div>
 
     
@@ -316,17 +314,17 @@
     <section class="article-content">
     
     
-    <h3 id="前言">前言</h3>
+    <h2 id="前言">前言</h2>
 <p>人工神经网络（Artificial Neural Network，ANN）是一门重要的机器学习技术。它是目前最为火热的研究方向&ndash;深度学习（Deep Learning）的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。</p>
 <p>四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。</p>
 <p>这篇文章试图介绍深度学习中很重要的技术——神经网络，并重点介绍神经网络中运用到反向传播算法。</p>
 <blockquote>
 <p>在笔者大学期间，除了两场围棋人机大战外，还有一场比较有意思的大型实验：大贝尔实验——关于验证基础物理量子力学中非常有名且重要的贝尔不等式的实验。所谓“遇事不决，量子力学”，这个梗就表示了量子力学中存在一些无法解释（宏观世界难以理解）的现象，若有兴趣可以再了解下。</p>
 </blockquote>
-<h3 id="感知机">感知机</h3>
-<h4 id="感知机介绍">感知机介绍</h4>
-<p>首先让我们先来了解下神经网络中最简单也是最基础的一种结构——感知机（Perceptron），如下图：
-<img src="/images/Ncell.png"
+<h2 id="感知机">感知机</h2>
+<h3 id="感知机介绍">感知机介绍</h3>
+<p>首先让我们先来了解下神经网络中最简单也是最基础的一种结构——感知机（Perceptron），如下图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/Ncell.png"
 	
 	
 	
@@ -338,8 +336,8 @@
 ></p>
 <p>研究者模拟生物神经网络中的一个简单的<strong>神经元</strong>的行为——神经元兴奋过程，与之对应的感知机基础概念被提出，这里我们可以把<strong>权重</strong>当作突触、把<strong>偏置</strong>当作阈值以及把<strong>激活函数</strong>当作细胞体，当经过突触的信号总和超过了某个阈值（偏置项），细胞体就会兴奋（激活函数），产生电脉冲（输出 1），而当信号量总和未超过阈值，不产生电脉冲（输出 0）。它可以被视为一种最简单形式的前馈神经网络，是一种二元线性分类器。感知机（单个神经元）代表了从输入空间到输出空间的如下函数：
 $$ y = f(\sum_{i=1}^{n}w_ix_i + b) $$
-理想中的激活函数 $f(·)$ 是下图 a 所示的阶跃函数，输出“1”对应神经元兴奋，输出“0”对应神经元抑制，然而阶跃函数具有不连续、不光滑等不太好的数学性质，因此实际常用 Sigmoid 函数作为激活函数，如下图 b 所示，该函数将实域范围的输出挤压到（0，1）范围输出，也被称为“挤压函数”。
-<img src="/images/20200614130934.png"
+理想中的激活函数$f(·)$是下图 a 所示的阶跃函数，输出“1”对应神经元兴奋，输出“0”对应神经元抑制，然而阶跃函数具有不连续、不光滑等不太好的数学性质，因此实际常用 Sigmoid 函数作为激活函数，如下图 b 所示，该函数将实域范围的输出挤压到（0，1）范围输出，也被称为“挤压函数”。
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20200614130934.png"
 	
 	
 	
@@ -350,7 +348,7 @@ $$ y = f(\sum_{i=1}^{n}w_ix_i + b) $$
 	
 >
 对于<strong>感知机模型</strong>的<strong>理解</strong>：感知机模型的假设空间（容量）是定义在特征空间中的所有线性分类模型或线性分类器。感知机对应函数值为 0，即$w·x + b = 0$，对应于特征空间$R^n$中的一个超平面$S$，其中$w$是超平面的法向量，$b$是超平面的截距，这个超平面将特征空间划分为两个部分，位于两部分空间中的点分别被分为正、负两类。</p>
-<h4 id="感知机学习策略">感知机学习策略</h4>
+<h3 id="感知机学习策略">感知机学习策略</h3>
 <p>感知机学习以<strong>最小化</strong>误分类点到超平面$S$的总距离为<strong>目标</strong>，因此感知机学习算法是<strong>误分类驱动</strong>的，具体使用时采用<strong>随机梯度下降法</strong>。
 误分类点到超平面的总距离为
 $$ -\frac{1}{||w||}\sum_{x_i\in M}y_i(w·x_i + b) $$
@@ -365,13 +363,13 @@ $$ w \leftarrow w + \eta y_ix_i $$
 $$ b \leftarrow b + \eta y_i $$</p>
 <p>具体推导过程及算法迭代过程参见李航《统计学习方法》，代码实现参见<a class="link" href="https://github.com/fengdu78/lihang-code/blob/master/%E7%AC%AC02%E7%AB%A0%20%E6%84%9F%E7%9F%A5%E6%9C%BA/2.Perceptron.ipynb"  target="_blank" rel="noopener"
     >此 github</a>。</p>
-<h4 id="感知机模型存在的问题">感知机模型存在的问题</h4>
+<h3 id="感知机模型存在的问题">感知机模型存在的问题</h3>
 <p>感知机的学习能力非常有限，与、或、非问题都是线性可分的，所以感知机可以处理，但是感知机却不能解决异或简单的非线性可分问题。
 异或问题暴露出这样一个问题，即在现实任务中，原始样本空间内也许并不存在一个能正确划分两类样本的超平面，对于这样的问题，一种方法，<strong>1)</strong> 可将样本从原始空间<strong>映射</strong>到一个<strong>更高维</strong>的特征空间（或者不用更高维也可以），所谓的核函数$\phi$，使得样本在这个特征空间内线性可分，幸运的是，如果原始空间是有限维，那么一定存在一个高维特征空间使得样本线性可分。<strong>2)</strong> 另一种方法，通过增加感知机的层数，使得形成一个神经网络，其中输入层神经元接受外界输入，隐层与输出层神经元对信号进行加工，最终结果由输出层神经元输出。（花书理解：深层神经网络中的隐藏层即代表输入经过了一个核函数$\phi$变换，那么以上两种方式都是在寻找一个<strong>恰当的核函数$\phi$</strong>，神经网络的方式是通过网络自主学习学到恰当的核函数）</p>
-<h3 id="神经网络">神经网络</h3>
-<h4 id="神经网络介绍">神经网络介绍</h4>
+<h2 id="神经网络">神经网络</h2>
+<h3 id="神经网络介绍">神经网络介绍</h3>
 <p>考虑到感知机模型存在的问题，即只能解决线性可分问题，我们将感知机进行连接，形成多层感知机——神经网络，如下图</p>
-<p><img src="/images/20200625230159.png"
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20200625230159.png"
 	
 	
 	
@@ -410,12 +408,12 @@ $$ Y = softmax(A^{(2)}) $$
 \right]
 $$</p>
 <p>代表第一个样本预测为第二个分类概率为 0.7349123，大于 0.5，可以认为预测为第二个分类；最后一个样本预测为第一个分类概率为 0.8987211，可以认为预测为第一个分类。（当然只有两个样本的情况下一般看作正类和负类，只需要一个输出神经元，使用 sigmoid 函数激活即可。）<strong>该模型使用 softmax 函数作为激活函数，可以推广到多分类情况下</strong>。</p>
-<h4 id="神经网络学习策略">神经网络学习策略</h4>
+<h3 id="神经网络学习策略">神经网络学习策略</h3>
 <p>神经网络的学习中使用的指标为<strong>损失函数（loss function）</strong>，即以最小化损失函数为目标，理论上，损失函数可以使用任意函数，但实际中一般用<strong>均方误差</strong>和<strong>交叉熵误差</strong>等。
 均方误差为
 $$ E = \frac{1}{2}\sum_{k}(y_k - t_k)^2 $$
 交叉熵误差为
-$$ E = -\sum_{k}t_k\log_ey_k $$
+$$ E = -\sum_{k}t_k\log_e{y_k} $$
 其中$y_k$表示神经网络的输出，$t_k$表示监督数据，k 表示数据的维度，如在手写数字识别例子中，$y_k$、$t_k$如下 10 个元素构成的数据：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -435,7 +433,7 @@ $$ w_{hj} \leftarrow w_{hj} + \Delta w_{hj} $$
 采用梯度下降法，有
 $$ w_{hj} \leftarrow w_{hj} - \eta  \frac{\partial E}{\partial w_{hj}} $$
 对于梯度求解，一般有<strong>解析法</strong>和<strong>数值法</strong>两种方法，随着神经网络神经元增加和层数增加，直接求上万，甚至上亿个参数的解析导数变得不现实，计算量非常大。下面将介绍两种数值方式计算梯度方法：<strong>导数定义法和反向传播法</strong>。</p>
-<h3 id="梯度计算">梯度计算</h3>
+<h2 id="梯度计算">梯度计算</h2>
 <p>梯度在直角坐标系下计算公式为
 $$ \nabla f(x) = (\frac{\partial f(x)}{\partial x_1}, \frac{\partial f(x)}{\partial x_2}, &hellip;) $$
 梯度计算的结果是一个向量，并且可以看到计算梯度需要求函数对于各个自变量的偏导数。
@@ -487,9 +485,9 @@ $$ \frac{\partial f(x_1, x_2, x_3&hellip;x_i&hellip;)}{\partial x_i}  = \lim_{h 
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>上面程序实现的偏导数方式和上面公式稍有不同，使用中心差分，误差比<strong>前向差分</strong>小，学过微积分的同学应该能够明白。**虽然上面求偏导数看着很方便很简单，但是根据上面的方式计算梯度在面对神经网络这种具有很大规模输入和很大规模参数时，计算效率相当慢。**下面将重点介绍反向传播算法计算梯度。（介绍完反向传播算法后，还会再介绍两者求解方式差异，为什么上面方式求解梯度速度在神经网络应用上效率太慢）</p>
-<h3 id="计算图">计算图</h3>
+<h2 id="计算图">计算图</h2>
 <p>为了更精确地描述反向传播算法，我们使用计算图（computational graph）语言来描述一系列操作。《深度学习》花书和斯坦福李飞飞 cs231n 课程对于计算图表示上有些区别，但都表示同一个含义，即用图的方式形式化地将操作次序表示出来，方便理解。这里我们介绍 cs231n 课程对于计算图的画法。
-<img src="/images/simple_compute_graph.png"
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/simple_compute_graph.png"
 	
 	
 	
@@ -500,8 +498,8 @@ $$ \frac{\partial f(x_1, x_2, x_3&hellip;x_i&hellip;)}{\partial x_i}  = \lim_{h 
 	
 >
 使用圆圈代表操作节点，指向节点的箭头代表输入变量，从节点指出的箭头代表操作完后输出的变量。上面计算图即表示了$f(x,y,z) = (x + y)z$。</p>
-<h3 id="反向传播算法">反向传播算法</h3>
-<h4 id="简单标量反向传播算法">简单标量反向传播算法</h4>
+<h2 id="反向传播算法">反向传播算法</h2>
+<h3 id="简单标量反向传播算法">简单标量反向传播算法</h3>
 <p>上面计算图真实值计算线路展示了计算的视觉化过程。前向传播从输入计算到输出（绿色），反向传播从尾部开始，根据链式法则递归地向前计算梯度（显示为红色），一直到网络的输入端。可以认为，梯度是从计算链路中回流。
 如上图计算过程，可以用下面几个中间过程合成：
 $$ q = x + y $$
@@ -516,7 +514,7 @@ $$ \frac{\partial f}{\partial y} = \frac{\partial f}{\partial q}\frac{\partial q
 结合上面计算图和求导的链式法则可以有以下结论：
 “$输出结果对某一变量的偏导 = 反向传播时上游传递下来的偏导数 \times 本地偏导数（该变量输入的计算节点偏导数）$”
 下面介绍稍微复杂的计算图，如下图。
-<img src="/images/compute_graph.png"
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/compute_graph.png"
 	
 	
 	
@@ -531,9 +529,9 @@ $$ \frac{\partial f}{\partial y} = \frac{\partial f}{\partial q}\frac{\partial q
 <p>定理：若函数$u=\varphi(t), v=\psi(t)$在点 t 可导，$z=f(u,v)$在点(u,v)处偏导连续，则复合函数$z=f(\varphi(t),\psi(t))$在点 t 可导，则有链式法则
 $$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \frac{\mathrm{d} u }{\mathrm{d} t} + \frac{\partial z}{\partial v} \cdot \frac{\mathrm{d} v }{\mathrm{d} t} $$</p>
 </blockquote>
-<h4 id="矩阵形式反向传播算法">矩阵形式反向传播算法</h4>
+<h3 id="矩阵形式反向传播算法">矩阵形式反向传播算法</h3>
 <p>下面介绍矩阵形式计算图及反向传播公式，如下图神经网络 Affine 层。
-<img src="/images/20200628140209.png"
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20200628140209.png"
 	
 	
 	
@@ -554,9 +552,9 @@ $$ loss \ function = \psi(\textbf{W}) $$
 根据梯度下降法，需要求得
 $$ \frac{\partial L}{\partial \textbf{W}} $$
 这里的$L$表示$loss function$，也即是$E$。根据上面的神经网络反向传播算法逐层传播梯度，即可以高效地求解损失函数对参数的梯度，再根据随机梯度下降法，不断更新权重参数$W$，最小化目标函数，完成简单神经网络的训练学习。</p>
-<h3 id="反向传播算法特别之处">反向传播算法特别之处</h3>
+<h2 id="反向传播算法特别之处">反向传播算法特别之处</h2>
 <p>现代的神经网络规模和层数不断增加，一个复杂的深度学习模型，可能每一层有成百量级神经元，有上百层深度，下图显示一个较复杂的神经网络。
-<img src="/images/Snipaste_2020-06-28_15-24-37.png"
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/Snipaste_2020-06-28_15-24-37.png"
 	
 	
 	
@@ -567,22 +565,22 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
 	
 >
 如果采用导数定义方式，即$\frac{\partial L(w)}{\partial w} = \lim_{w \to 0} \frac{f(w + h)}{w}$求解，那么在求解每一个权重（即一条连接边）参数的偏导数时神经网络都需要向前传递一次，可以看到因为越靠后的神经元被重复计算的次数就越多，随着神经元个数和层数的增加，这将会是个<strong>指数增加</strong>的<strong>时间复杂度</strong>。然而，利用了函数求导的链式法则，从输出层到输入层逐层计算模型参数的梯度值，可以看到按照这个方向计算梯度，各个神经单元只计算了一次，没有重复计算。这个计算方向能够高效的根本原因是：在计算梯度时前面的单元是依赖后面的单元的计算，而“从后向前”的计算顺序正好“解耦”了这种依赖关系，先算后面的单元，并且<strong>记住后面单元的梯度值</strong>，计算前面单元的梯度时就可以充分利用已经计算出来的结果，避免了重复计算。</p>
-<h3 id="总结与思考">总结与思考</h3>
+<h2 id="总结与思考">总结与思考</h2>
 <p>如今人工智能领域中最重要的算法——反向传播算法其主要思想本质也是利用了<strong>动态规划</strong>，这种方法结合了<strong>解析法</strong>计算梯度和<strong>数值法</strong>计算梯度，利用空间换取时间，缩短求解大量参数梯度的时间，从而加速神经网络的训练。反向传播算法看上去高大上，但也不见得是用了多高级的方法和高深的知识。</p>
 <p>参考资料：<br>
 <a class="link" href="https://zh.wikipedia.org/wiki/%E6%84%9F%E7%9F%A5%E5%99%A8"  target="_blank" rel="noopener"
-    >https://zh.wikipedia.org/wiki/%E6%84%9F%E7%9F%A5%E5%99%A8</a><br>
+    >维基百度-感知器</a><br>
 <a class="link" href="https://zh.wikipedia.org/wiki/%E4%BA%BA%E5%B7%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"  target="_blank" rel="noopener"
-    >https://zh.wikipedia.org/wiki/%E4%BA%BA%E5%B7%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C</a><br>
+    >维基百度-人工神经网络</a><br>
 <a class="link" href="https://www.cnblogs.com/subconscious/p/5058741.html"  target="_blank" rel="noopener"
-    >https://www.cnblogs.com/subconscious/p/5058741.html</a><br>
+    >计算机的潜意识</a><br>
 《Deep Learning form Scratch》<br>
 《深度学习》<br>
 周志华《机器学习》<br>
 《深度学习[花书]》<br>
 李航《统计学习方法》<br>
 <a class="link" href="https://www.zybuluo.com/hanbingtao/note/476663"  target="_blank" rel="noopener"
-    >https://www.zybuluo.com/hanbingtao/note/476663</a>(牛逼)</p>
+    >零基础入门深度学习(3) - 神经网络和反向传播算法</a>(牛逼)</p>
 </section>
 
 
@@ -590,11 +588,11 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
     
     <section class="article-tags">
         
-            <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+            <a href="/tags/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/">反向传播</a>
         
-            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>
+            <a href="/tags/%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97/">梯度计算</a>
         
-            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
+            <a href="/tags/%E6%84%9F%E7%9F%A5%E6%9C%BA/">感知机</a>
         
     </section>
 
@@ -651,6 +649,45 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
             
                 
 <article class="">
+    <a href="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习中的优化方法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于mmdetection源码:Faster R-CNN算法解读</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">目标检测模型的评估方法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
     <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/">
         
         
@@ -670,32 +707,6 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
 
         <div class="article-details">
             <h2 class="article-title">Pytorch源码阅读(二)：transforms模块</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Pytorch源码阅读(一)：Dataset和DataLoader</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">机器学习之支持向量机</h2>
         </div>
     </a>
 </article>
@@ -869,34 +880,30 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#感知机">感知机</a>
       <ol>
-        <li><a href="#前言">前言</a></li>
-        <li><a href="#感知机">感知机</a>
-          <ol>
-            <li><a href="#感知机介绍">感知机介绍</a></li>
-            <li><a href="#感知机学习策略">感知机学习策略</a></li>
-            <li><a href="#感知机模型存在的问题">感知机模型存在的问题</a></li>
-          </ol>
-        </li>
-        <li><a href="#神经网络">神经网络</a>
-          <ol>
-            <li><a href="#神经网络介绍">神经网络介绍</a></li>
-            <li><a href="#神经网络学习策略">神经网络学习策略</a></li>
-          </ol>
-        </li>
-        <li><a href="#梯度计算">梯度计算</a></li>
-        <li><a href="#计算图">计算图</a></li>
-        <li><a href="#反向传播算法">反向传播算法</a>
-          <ol>
-            <li><a href="#简单标量反向传播算法">简单标量反向传播算法</a></li>
-            <li><a href="#矩阵形式反向传播算法">矩阵形式反向传播算法</a></li>
-          </ol>
-        </li>
-        <li><a href="#反向传播算法特别之处">反向传播算法特别之处</a></li>
-        <li><a href="#总结与思考">总结与思考</a></li>
+        <li><a href="#感知机介绍">感知机介绍</a></li>
+        <li><a href="#感知机学习策略">感知机学习策略</a></li>
+        <li><a href="#感知机模型存在的问题">感知机模型存在的问题</a></li>
       </ol>
     </li>
+    <li><a href="#神经网络">神经网络</a>
+      <ol>
+        <li><a href="#神经网络介绍">神经网络介绍</a></li>
+        <li><a href="#神经网络学习策略">神经网络学习策略</a></li>
+      </ol>
+    </li>
+    <li><a href="#梯度计算">梯度计算</a></li>
+    <li><a href="#计算图">计算图</a></li>
+    <li><a href="#反向传播算法">反向传播算法</a>
+      <ol>
+        <li><a href="#简单标量反向传播算法">简单标量反向传播算法</a></li>
+        <li><a href="#矩阵形式反向传播算法">矩阵形式反向传播算法</a></li>
+      </ol>
+    </li>
+    <li><a href="#反向传播算法特别之处">反向传播算法特别之处</a></li>
+    <li><a href="#总结与思考">总结与思考</a></li>
   </ol>
 </nav>
         </div>
