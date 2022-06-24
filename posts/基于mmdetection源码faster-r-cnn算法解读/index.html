@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Faster R-CNN算法源码解读'><title>基于mmdetection源码:Faster R-CNN算法解读</title>
+
+<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='基于mmdetection源码:Faster R-CNN算法解读'>
+<meta property='og:description' content='Faster R-CNN算法源码解读'>
+<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/'>
+<meta property='og:site_name' content='七月流火'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Faster R-CNN' /><meta property='article:tag' content='mmdetection' /><meta property='article:tag' content='源码' /><meta property='article:tag' content='目标检测' /><meta property='article:tag' content='计算机视觉' /><meta property='article:published_time' content='2022-06-18T17:14:15&#43;08:00'/><meta property='article:modified_time' content='2022-06-18T17:14:15&#43;08:00'/>
+<meta name="twitter:title" content="基于mmdetection源码:Faster R-CNN算法解读">
+<meta name="twitter:description" content="Faster R-CNN算法源码解读">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "dark");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu8d4b235d4d79942b70ca31d91c98dd00_21409_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">⭐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">七月流火</a></h1>
+            <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/qiyueliuhuo'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://qiyueliuhuo.github.io/en/" >English</option>
+                        
+                            <option value="https://qiyueliuhuo.github.io/" selected>中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%AE%97%E6%B3%95/" style="background-color: #2a9d8f; color: #fff;">
+                算法
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/">基于mmdetection源码:Faster R-CNN算法解读</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Faster R-CNN算法源码解读
+        </h3>
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 18, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 13 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="前言">前言</h2>
+<p>OpenMMLab学习资料：<a class="link" href="https://www.bilibili.com/video/BV19Z4y1q7Q5?spm_id_from=333.999.0.0&amp;vd_source=b29b63fd496fceb0b963804f6a1853e1"  target="_blank" rel="noopener"
+    >OpenMMLab 模块化设计背后的功臣</a></p>
+<p>对于mmdetection的学习，可以<strong>直接阅读官方的文档</strong>，现在官方提供了中文文档，非常详细，点击<a class="link" href="https://mmdetection.readthedocs.io/zh_CN/latest/"  target="_blank" rel="noopener"
+    >mmdetection中文文档</a>阅读。</p>
+<p>关于基于mmdetection框架实现Faster R-CNN算法，可以先阅读官方在知乎上发布的文章，<a class="link" href="https://zhuanlan.zhihu.com/p/349807581"  target="_blank" rel="noopener"
+    >轻松掌握 MMDetection 中常用算法(二)：Faster R-CNN|Mask R-CNN</a>，本篇博客是对其进行从<strong>源码实现层面进行补充解读。</strong></p>
+<h2 id="mmdetection代码框架">mmdetection代码框架</h2>
+<p>通过下面命令拉取最新的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone git@github.com:open-mmlab/mmdetection.git
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>代码仓库主分支为master分支，目前计算机视觉领域中目标检测算法正在快速发展，mmdetection也不断地实现新的算法，最新实现的算法查看<a class="link" href="https://mmdetection.readthedocs.io/en/stable/changelog.html"  target="_blank" rel="noopener"
+    >CHANGELOG</a>。</p>
+<p>如果觉得master代码更新比较频繁，影响自己基于mmdetection的算法实现，也可以基于最新发布的版本创建自己的分支，如下命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git checkout -b newbranch v2.25.0 <span class="c1"># 截止2022.06.19发布的最新稳定版</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>目前还是推荐<strong>直接使用master代码</strong>，并且要经常 <code>git pull</code> 拉取最新的代码，这样最新的一些组件也会更新，方便基于最新的组件搭建自己的网络算法。</p>
+<p>之前阅读的YOLO v4论文中，作者将目标检测抽象为下面几个部分，mmdetection的代码也是这样抽象的：</p>
+<p><img src="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector.png"
+	width="1540"
+	height="808"
+	srcset="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu3a00ba6be2eee45efab26a8a93cf425a_170296_480x0_resize_box_3.png 480w, /posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu3a00ba6be2eee45efab26a8a93cf425a_170296_1024x0_resize_box_3.png 1024w"
+	loading="lazy"
+	
+		alt="现代基于卷积神经网络目标检测框架"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="190"
+		data-flex-basis="457px"
+	
+></p>
+<p><strong>下面代码分析基于mmdetection的源码当前最近commit: ca11860f4f3c3ca2ce8340e2686eeaec05b29111 ，时间 2022.06.20。</strong></p>
+<p>下面是mmdetection代码框架的结构：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="o">.</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">CITATION</span><span class="o">.</span><span class="n">cff</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">LICENSE</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">MANIFEST</span><span class="o">.</span><span class="ow">in</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">README_zh</span><span class="o">-</span><span class="n">CN</span><span class="o">.</span><span class="n">md</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">andy_README</span><span class="o">.</span><span class="n">md</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">configs</span> <span class="c1"># 存放所有的配置文件，可以自己写配置文件，也可以继承自_base_下的四种配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">demo</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">docker</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">docs</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">mmdet</span> <span class="c1"># mmdeteetion的核心代码部分，其他工具都依赖于该部分的代码</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">model</span><span class="o">-</span><span class="n">index</span><span class="o">.</span><span class="n">yml</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">requirements</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">resources</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">setup</span><span class="o">.</span><span class="n">cfg</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">tests</span> <span class="c1"># 集成测试相关代码</span>
+</span></span><span class="line"><span class="cl"><span class="err">└──</span> <span class="n">tools</span> <span class="c1"># 提供训练、测试等工具代码</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以下是configs目录下的配置文件说明：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">configs</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">_base_</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">datasets</span> <span class="c1"># 数据集加载，不同的数据集格式获取数据代码。</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">default_runtime</span><span class="o">.</span><span class="n">py</span> <span class="c1"># 默认的运行时配置文件，主要配置包括权重保存频率、日志频率，日志等级等信息。</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">models</span> <span class="c1"># 不同的目标检测模型配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">└──</span> <span class="n">schedules</span> <span class="c1"># 各种训练策略配置文件</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">albu_example</span>  <span class="c1"># ...其他目录文件：1）继承自上面的四种文件，并做一些针对性修改；2）可以自己写配置文件，配置所有参数。</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">└──</span> <span class="n">mask_rcnn_r50_fpn_albu_1x_coco</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">atss</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">atss_r101_fpn_1x_coco</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">atss_r50_fpn_1x_coco</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">└──</span> <span class="n">metafile</span><span class="o">.</span><span class="n">yml</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">autoassign</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以下是mmdet（核心代码）目录下的代码说明：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">mmdet</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span> <span class="c1"># 判断配置的mmcv是否符合要求</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">apis</span> <span class="c1"># 训练和测试相关依赖的函数，有随机种子生成、训练、单GPU测试、多GPU测试等</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">inference</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">└──</span> <span class="n">train</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">core</span> <span class="c1"># 内核代码，包括锚框生成、边界框计算、结果评估、数据结构、掩码生成、可视化、钩子函数等等核心代码</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">anchor</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">bbox</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">data_structures</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">evaluation</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">export</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">hook</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">mask</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">optimizers</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">post_processing</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">utils</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">└──</span> <span class="n">visualization</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">datasets</span> <span class="c1"># 数据加载器的具体实现，对应configs/datasets</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">api_wrappers</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">builder</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">cityscapes</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">coco</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">coco_panoptic</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">custom</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">dataset_wrappers</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">deepfashion</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">lvis</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">openimages</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">pipelines</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">samplers</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">utils</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">voc</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">wider_face</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">└──</span> <span class="n">xml_style</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">models</span> <span class="c1"># 不同模型的具体实现，分为不同的主干、颈部、头部、损失函数等等，对应 configs/models</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">backbones</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">builder</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">dense_heads</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">detectors</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">losses</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">necks</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">plugins</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">roi_heads</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">seg_heads</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">└──</span> <span class="n">utils</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">utils</span> <span class="c1"># 通用工具</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">collect_env</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">compat_config</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">contextmanagers</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">logger</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">memory</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">misc</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">profiling</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">replace_cfg_vals</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">setup_env</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">split_batch</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">util_distribution</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">├──</span> <span class="n">util_mixins</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">│</span>   <span class="err">└──</span> <span class="n">util_random</span><span class="o">.</span><span class="n">py</span>
+</span></span><span class="line"><span class="cl"><span class="err">└──</span> <span class="n">version</span><span class="o">.</span><span class="n">py</span> <span class="c1"># 记录mmdetection 的版本</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以下是tools目录下的代码说明：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">tools</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">analysis_tools</span> <span class="c1"># 分析日志和预测效果</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">dataset_converters</span> <span class="c1"># 数据集转换</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">deployment</span> <span class="c1"># 部署工具</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">dist_test</span><span class="o">.</span><span class="n">sh</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">dist_train</span><span class="o">.</span><span class="n">sh</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">misc</span> <span class="c1"># 杂项，下载数据集、打印配置信息等工具</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">model_converters</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">slurm_test</span><span class="o">.</span><span class="n">sh</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">slurm_train</span><span class="o">.</span><span class="n">sh</span>
+</span></span><span class="line"><span class="cl"><span class="err">├──</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span> <span class="c1"># 测试模型</span>
+</span></span><span class="line"><span class="cl"><span class="err">└──</span> <span class="n">train</span><span class="o">.</span><span class="n">py</span> <span class="c1"># 根据配置文件进行训练</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="faster-r-cnn-模型训练">Faster R-CNN 模型训练</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">data</span>
+</span></span><span class="line"><span class="cl"><span class="err">└──</span> <span class="n">VOCdevkit</span>
+</span></span><span class="line"><span class="cl">    <span class="err">├──</span> <span class="n">VOC2007</span>
+</span></span><span class="line"><span class="cl">    <span class="err">│</span>   <span class="err">├──</span> <span class="n">Annotations</span>
+</span></span><span class="line"><span class="cl">    <span class="err">│</span>   <span class="err">├──</span> <span class="n">ImageSets</span>
+</span></span><span class="line"><span class="cl">    <span class="err">│</span>   <span class="err">├──</span> <span class="n">JPEGImages</span>
+</span></span><span class="line"><span class="cl">    <span class="err">│</span>   <span class="err">├──</span> <span class="n">SegmentationClass</span>
+</span></span><span class="line"><span class="cl">    <span class="err">│</span>   <span class="err">└──</span> <span class="n">SegmentationObject</span>
+</span></span><span class="line"><span class="cl">    <span class="err">└──</span> <span class="n">VOC2012</span>
+</span></span><span class="line"><span class="cl">        <span class="err">├──</span> <span class="n">Annotations</span>
+</span></span><span class="line"><span class="cl">        <span class="err">├──</span> <span class="n">ImageSets</span>
+</span></span><span class="line"><span class="cl">        <span class="err">├──</span> <span class="n">JPEGImages</span>
+</span></span><span class="line"><span class="cl">        <span class="err">├──</span> <span class="n">SegmentationClass</span>
+</span></span><span class="line"><span class="cl">        <span class="err">└──</span> <span class="n">SegmentationObject</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>根据官方文档，配置相关环境，下载VOC数据集（这里选择相对较小的VOC数据进行训练），并且组织好数据集目录结构，如上所示，然后就可以使用下面命令进行训练：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">python</span> <span class="n">tools</span><span class="o">/</span><span class="n">train</span><span class="o">.</span><span class="n">py</span> <span class="n">configs</span><span class="o">/</span><span class="n">pascal_voc</span><span class="o">/</span><span class="n">faster_rcnn_r50_fpn_1x_voc0712</span><span class="o">.</span><span class="n">py</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>笔者训练得到的结果是：mAP 78.8，该结果和官方给的<a class="link" href="https://github.com/open-mmlab/mmdetection/tree/master/configs/pascal_voc"  target="_blank" rel="noopener"
+    >代码结果</a>差将近两个点，可能是训练时候的参数设置不一样导致的。</p>
+<h2 id="faster-r-cnn-模型测试">Faster R-CNN 模型测试</h2>
+<p>使用下面命令进行测试：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">python</span> <span class="n">tools</span><span class="o">/</span><span class="n">test</span><span class="o">.</span><span class="n">py</span> <span class="n">configs</span><span class="o">/</span><span class="n">pascal_voc</span><span class="o">/</span><span class="n">faster_rcnn_r50_fpn_1x_voc0712</span><span class="o">.</span><span class="n">py</span> <span class="n">checkpoints</span><span class="o">/</span><span class="n">faster_rcnn_r50_fpn_1x_voc0712_20220320_192712</span><span class="o">-</span><span class="mi">54</span><span class="n">bef0f3</span><span class="o">.</span><span class="n">pth</span> <span class="o">--</span><span class="nb">eval</span> <span class="n">mAP</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里的checkpoints目录下的模型文件是我下载mmdetection训练好的模型文件，可以替换成自己训练好的文件，进行测试。</p>
+<h2 id="faster-r-cnn-配置文件解读">Faster R-CNN 配置文件解读</h2>
+<p>上面训练和测试使用的<strong>模型配置文件</strong>都是<code>configs/pascal_voc/faster_rcnn_r50_fpn_1x_voc0712.py</code>，内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">_base_</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;../_base_/models/faster_rcnn_r50_fpn.py&#39;</span><span class="p">,</span> <span class="s1">&#39;../_base_/datasets/voc0712.py&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;../_base_/default_runtime.py&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">roi_head</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">bbox_head</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">20</span><span class="p">)))</span>  <span class="c1"># 修改类别个数</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># optimizer</span>
+</span></span><span class="line"><span class="cl"><span class="n">optimizer</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;SGD&#39;</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">optimizer_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">grad_clip</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># 不进行梯度截断</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># learning policy</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># actual epoch = 3 * 3 = 9</span>
+</span></span><span class="line"><span class="cl"><span class="n">lr_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">policy</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># runtime settings</span>
+</span></span><span class="line"><span class="cl"><span class="n">runner</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;EpochBasedRunner&#39;</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># actual epoch = 4 * 3 = 12</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看到上面的配置文件，继承自三个配置文件，下面解读<code>configs/_base_/models/faster_rcnn_r50_fpn.py</code>模型配置文件，内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># model settings</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;FasterRCNN&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">backbone</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;ResNet&#39;</span><span class="p">,</span>  <span class="c1"># 骨架网络类名</span>
+</span></span><span class="line"><span class="cl">        <span class="n">depth</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>  <span class="c1"># 表示使用 ResNet50</span>
+</span></span><span class="line"><span class="cl">        <span class="n">num_stages</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># ResNet 系列包括 stem + 4个 stage 输出</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 表示本模块输出的特征图索引，(0, 1, 2, 3),表示4个 stage 输出都需要，</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 其 stride 为 (4,8,16,32)，channel 为 (256, 512, 1024, 2048)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">out_indices</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">frozen_stages</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># 表示固定 stem 加上第一个 stage 的权重，不进行训练</span>
+</span></span><span class="line"><span class="cl">        <span class="n">norm_cfg</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;BN&#39;</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>   <span class="c1"># BN 层</span>
+</span></span><span class="line"><span class="cl">        <span class="n">norm_eval</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># backbone 所有的 BN 层的均值和方差都直接采用全局预训练值，不进行更新</span>
+</span></span><span class="line"><span class="cl">        <span class="n">style</span><span class="o">=</span><span class="s1">&#39;pytorch&#39;</span><span class="p">,</span>  <span class="c1"># 默认采用 pytorch 模式</span>
+</span></span><span class="line"><span class="cl">        <span class="n">init_cfg</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Pretrained&#39;</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="s1">&#39;torchvision://resnet50&#39;</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">neck</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;FPN&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">in_channels</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span>  <span class="c1"># ResNet 模块输出的4个尺度特征图通道数</span>
+</span></span><span class="line"><span class="cl">        <span class="n">out_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>  <span class="c1"># FPN 输出的每个尺度输出特征图通道</span>
+</span></span><span class="line"><span class="cl">        <span class="n">num_outs</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>  <span class="c1"># FPN 输出特征图个数，将最高层特征图再进行一个pooling操作，产生更高层特征图</span>
+</span></span><span class="line"><span class="cl">    <span class="n">rpn_head</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;RPNHead&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">in_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>  <span class="c1"># FPN 层输出特征图通道数</span>
+</span></span><span class="line"><span class="cl">        <span class="n">feat_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>  <span class="c1"># 中间特征图通道数</span>
+</span></span><span class="line"><span class="cl">        <span class="n">anchor_generator</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;AnchorGenerator&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 相当于 octave_base_scale，表示每个特征图的 base scales ???</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># FPN 已经有多尺度操作，所以这里尺度只有一个8x8</span>
+</span></span><span class="line"><span class="cl">            <span class="n">scales</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 然后通过控制不同的长宽比去产生不同比列的提议框</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ratios</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span>  <span class="c1"># 每个特征图有 3 个高宽比例</span>
+</span></span><span class="line"><span class="cl">            <span class="n">strides</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">]),</span>  <span class="c1"># 特征图对应的 stride，必须和特征图 stride 一致，不可以随意更改 ???</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">bbox_coder</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>  <span class="c1"># 常用！ 对边界框回归的目标值进行一个编码</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;DeltaXYWHBBoxCoder&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">target_means</span><span class="o">=</span><span class="p">[</span><span class="mf">.0</span><span class="p">,</span> <span class="mf">.0</span><span class="p">,</span> <span class="mf">.0</span><span class="p">,</span> <span class="mf">.0</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="n">target_stds</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss_cls</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;CrossEntropyLoss&#39;</span><span class="p">,</span> <span class="n">use_sigmoid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">loss_weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss_bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;L1Loss&#39;</span><span class="p">,</span> <span class="n">loss_weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">roi_head</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>  <span class="c1"># roi_head会基于rpn_head产生的提议框，以及原图的特征图进行预测</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;StandardRoIHead&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bbox_roi_extractor</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>  <span class="c1"># 把提议框区域内的特征图从全图特征图中裁剪下来</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;SingleRoIExtractor&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">roi_layer</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;RoIAlign&#39;</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">sampling_ratio</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">out_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">featmap_strides</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">]),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">bbox_head</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>  <span class="c1"># 使用上面裁剪下来的特征送入</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Shared2FCBBoxHead&#39;</span><span class="p">,</span>  <span class="c1"># 2 个共享 FC 模块</span>
+</span></span><span class="line"><span class="cl">            <span class="n">in_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>  <span class="c1"># 输入通道数，相等于 FPN 输出通道</span>
+</span></span><span class="line"><span class="cl">            <span class="n">fc_out_channels</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>  <span class="c1"># 中间 FC 层节点个数</span>
+</span></span><span class="line"><span class="cl">            <span class="n">roi_feat_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>  <span class="c1"># RoIAlign 或 RoIPool 输出的特征图大小</span>
+</span></span><span class="line"><span class="cl">            <span class="n">num_classes</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>   <span class="c1"># 类别个数</span>
+</span></span><span class="line"><span class="cl">            <span class="n">bbox_coder</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>  <span class="c1"># bbox 编解码策略？？？，除了参数外和 RPN 相同</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;DeltaXYWHBBoxCoder&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">target_means</span><span class="o">=</span><span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">                <span class="n">target_stds</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]),</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 影响 bbox 分支的通道数，True 表示 4 通道输出，False 表示 4×num_classes 通道输出</span>
+</span></span><span class="line"><span class="cl">            <span class="n">reg_class_agnostic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loss_cls</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 80类分类问题，没有使用sigmoid激活函数</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;CrossEntropyLoss&#39;</span><span class="p">,</span> <span class="n">use_sigmoid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">loss_weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">loss_bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;L1Loss&#39;</span><span class="p">,</span> <span class="n">loss_weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">))),</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># model training and testing settings</span>
+</span></span><span class="line"><span class="cl">    <span class="n">train_cfg</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rpn</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">assigner</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;MaxIoUAssigner&#39;</span><span class="p">,</span>  <span class="c1"># 最大 IoU 原则分配器</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pos_iou_thr</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>  <span class="c1"># 正样本阈值</span>
+</span></span><span class="line"><span class="cl">                <span class="n">neg_iou_thr</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>  <span class="c1"># 负样本阈值</span>
+</span></span><span class="line"><span class="cl">                <span class="n">min_pos_iou</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>  <span class="c1"># 正样本阈值下限 ???</span>
+</span></span><span class="line"><span class="cl">                <span class="n">match_low_quality</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ignore_iof_thr</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>  <span class="c1"># 忽略 bboxes 的阈值，-1 表示不忽略</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sampler</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;RandomSampler&#39;</span><span class="p">,</span>  <span class="c1"># 随机采样</span>
+</span></span><span class="line"><span class="cl">                <span class="n">num</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>  <span class="c1"># 产生1000个框，只采样256个进行训练，采样后每张图片的训练样本总数，不包括忽略样本</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pos_fraction</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>  <span class="c1"># 正样本比例</span>
+</span></span><span class="line"><span class="cl">                <span class="n">neg_pos_ub</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># 正负样本比例，用于确定负样本采样个数上界</span>
+</span></span><span class="line"><span class="cl">                <span class="n">add_gt_as_proposals</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>  <span class="c1"># 是否加入 gt 作为 proposals 以增加高质量正样本数</span>
+</span></span><span class="line"><span class="cl">            <span class="n">allowed_border</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pos_weight</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rpn_proposal</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nms_pre</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>  <span class="c1"># nms之前</span>
+</span></span><span class="line"><span class="cl">            <span class="n">max_per_img</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>  <span class="c1"># nms之后</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nms</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;nms&#39;</span><span class="p">,</span> <span class="n">iou_threshold</span><span class="o">=</span><span class="mf">0.7</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">min_bbox_size</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rcnn</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">assigner</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;MaxIoUAssigner&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pos_iou_thr</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">neg_iou_thr</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">min_pos_iou</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">match_low_quality</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ignore_iof_thr</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sampler</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;RandomSampler&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">num</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">pos_fraction</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">neg_pos_ub</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">add_gt_as_proposals</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pos_weight</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">test_cfg</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rpn</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nms_pre</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">max_per_img</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nms</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;nms&#39;</span><span class="p">,</span> <span class="n">iou_threshold</span><span class="o">=</span><span class="mf">0.7</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">min_bbox_size</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rcnn</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">score_thr</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nms</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;nms&#39;</span><span class="p">,</span> <span class="n">iou_threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">max_per_img</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># soft-nms is also supported for rcnn testing</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># e.g., nms=dict(type=&#39;soft_nms&#39;, iou_threshold=0.5, min_score=0.05)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面对<code>configs/_base_/datasets/voc0712.py</code>数据集配置文件进行解读，其内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">_base_</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;../_base_/models/faster_rcnn_r50_fpn.py&#39;</span><span class="p">,</span> <span class="s1">&#39;../_base_/datasets/voc0712.py&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;../_base_/default_runtime.py&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">roi_head</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">bbox_head</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">20</span><span class="p">)))</span>  <span class="c1"># 修改类别个数</span>
+</span></span><span class="line"><span class="cl"><span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">samples_per_gpu</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>  <span class="c1"># 修改GPU的batch_size，注意不能让其超过显存</span>
+</span></span><span class="line"><span class="cl">    <span class="n">workers_per_gpu</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>  <span class="c1"># 修改GPU的workers</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># optimizer</span>
+</span></span><span class="line"><span class="cl"><span class="n">optimizer</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;SGD&#39;</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">optimizer_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">grad_clip</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># 不进行梯度截断</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># learning policy</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 有误 actual epoch = 3 * 3 = 9</span>
+</span></span><span class="line"><span class="cl"><span class="n">lr_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">policy</span><span class="o">=</span><span class="s1">&#39;step&#39;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">11</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># runtime settings</span>
+</span></span><span class="line"><span class="cl"><span class="n">runner</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;EpochBasedRunner&#39;</span><span class="p">,</span> <span class="n">max_epochs</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>  <span class="c1"># 有误  actual epoch = 4 * 3 = 12</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>笔者在源码基础上做了一些修改，将<code>samples_per_gpu</code>修改为<code>8</code>，<code>workers_per_gpu</code>修改为<code>8</code>，<code>lr_config</code>修改为<code>dict(policy='step', step=[8, 11])</code>，<code>runner</code>修改为<code>dict(type='EpochBasedRunner', max_epochs=12)</code>，注意实际训练时候<code>batch_size</code>为<code>samples_per_gpu x gpus</code>，我这里训练时候只用了一个GPU，所以<code>batch_size</code>为 8。</p>
+<h2 id="训练代码解读">训练代码解读</h2>
+<p>首先从tools里面的train.py入手，官方源码文件<a class="link" href="https://github.com/open-mmlab/mmdetection/blob/master/tools/train.py"  target="_blank" rel="noopener"
+    >train.py</a>。</p>
+<p>该python文件中main函数其实就做了四件事，这也是训练神经网络通用的步骤：</p>
+<ol>
+<li>设定和读取各种配置；</li>
+<li>创建模型；</li>
+<li>创建数据集；</li>
+<li>将模型，数据集和配置传进训练函数，进行训练；</li>
+</ol>
+<p>下面截取tools/train.py中main函数的代码片段进行解读，其内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 第一件事</span>
+</span></span><span class="line"><span class="cl">    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">cfg</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>  <span class="c1"># 省略部分代码，该部分代码对训练时上下文进行设置和校验</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 第二件事　创建模型</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 第一个参数cfg.model</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#      模型配置里面必须要有一个种类type，包括经典的算法如Faster RCNN, MaskRCNN等</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#      其次，还包含几个部分，如backbone, neck, head</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#      backbone有深度，stage等信息，如resnet50对应着3,4,6,3四个重复stages</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#      neck一般FPN(feature pyramid network)，需要指定num_outs几个输出之类的信息（之后会看到）</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#      head 就是具体到上层rpn_head,　shared_head，　bbox_head之类的</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span> <span class="o">=</span> <span class="n">build_detector</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">train_cfg</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">train_cfg</span><span class="p">,</span> <span class="n">test_cfg</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">test_cfg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">.</span><span class="n">init_weights</span><span class="p">()</span>  <span class="c1"># 初始化模型参数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 第三件事</span>
+</span></span><span class="line"><span class="cl">    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[</span><span class="n">build_dataset</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">train</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">workflow</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1">#是否添加验证集</span>
+</span></span><span class="line"><span class="cl">        <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">val_dataset</span><span class="o">.</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">pipeline</span>
+</span></span><span class="line"><span class="cl">        <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">build_dataset</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">checkpoint_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># save mmdet version, config file content and class names in</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># checkpoints as meta data</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cfg</span><span class="o">.</span><span class="n">checkpoint_config</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mmdet_version</span><span class="o">=</span><span class="n">__version__</span> <span class="o">+</span> <span class="n">get_git_hash</span><span class="p">()[:</span><span class="mi">7</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="n">CLASSES</span><span class="o">=</span><span class="n">datasets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">CLASSES</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># add an attribute for visualization convenience</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">.</span><span class="n">CLASSES</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">CLASSES</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 第四件事</span>
+</span></span><span class="line"><span class="cl">    <span class="n">train_detector</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">model</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">datasets</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cfg</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">distributed</span><span class="o">=</span><span class="n">distributed</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">validate</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">validate</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>让我们继续阅读build_detector函数的代码片段，其内容如下，该代码在mmdect/models/builder.py中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Copyright (c) OpenMMLab. All rights reserved.</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">warnings</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">mmcv.cnn</span> <span class="kn">import</span> <span class="n">MODELS</span> <span class="k">as</span> <span class="n">MMCV_MODELS</span>  <span class="c1"># mmdet中MODELS继承自该MMCV_MODELS</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">mmcv.utils</span> <span class="kn">import</span> <span class="n">Registry</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">MODELS</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s1">&#39;models&#39;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">MMCV_MODELS</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">BACKBONES</span> <span class="o">=</span> <span class="n">MODELS</span>
+</span></span><span class="line"><span class="cl"><span class="n">NECKS</span> <span class="o">=</span> <span class="n">MODELS</span>
+</span></span><span class="line"><span class="cl"><span class="n">ROI_EXTRACTORS</span> <span class="o">=</span> <span class="n">MODELS</span>
+</span></span><span class="line"><span class="cl"><span class="n">SHARED_HEADS</span> <span class="o">=</span> <span class="n">MODELS</span>
+</span></span><span class="line"><span class="cl"><span class="n">HEADS</span> <span class="o">=</span> <span class="n">MODELS</span>
+</span></span><span class="line"><span class="cl"><span class="n">LOSSES</span> <span class="o">=</span> <span class="n">MODELS</span>
+</span></span><span class="line"><span class="cl"><span class="n">DETECTORS</span> <span class="o">=</span> <span class="n">MODELS</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">...</span> <span class="c1"># 省略部分代码</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">build_detector</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">train_cfg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_cfg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Build detector.&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">train_cfg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">test_cfg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;train_cfg and test_cfg is deprecated, &#39;</span>
+</span></span><span class="line"><span class="cl">            <span class="s1">&#39;please specify them in model&#39;</span><span class="p">,</span> <span class="ne">UserWarning</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">assert</span> <span class="n">cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;train_cfg&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">train_cfg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> \
+</span></span><span class="line"><span class="cl">        <span class="s1">&#39;train_cfg specified in both outer field and model field &#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">assert</span> <span class="n">cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;test_cfg&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">test_cfg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> \
+</span></span><span class="line"><span class="cl">        <span class="s1">&#39;test_cfg specified in both outer field and model field &#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">DETECTORS</span><span class="o">.</span><span class="n">build</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cfg</span><span class="p">,</span> <span class="n">default_args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">train_cfg</span><span class="o">=</span><span class="n">train_cfg</span><span class="p">,</span> <span class="n">test_cfg</span><span class="o">=</span><span class="n">test_cfg</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里采用了Registry方式，即在mmdet/models/builder.py中实例化了一个Registry对象，该对象的父类是MMCV_MODELS，该类是mmcv中的一个类，其作用是用来管理多个模型，其中有一个build函数，该函数的作用是根据模型的配置信息，创建模型，并返回模型对象。</p>
+<p><strong>下面代码来自mmcv，版本为1.5.2。</strong></p>
+<p>从上面代码可以看到，mmdet中创建模型的函数<code>build_model_from_cfg</code>继承自mmcv/cnn/builder.py中的<code>build_model_from_cfg</code>函数，其内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Copyright (c) OpenMMLab. All rights reserved.</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">..runner</span> <span class="kn">import</span> <span class="n">Sequential</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">Registry</span><span class="p">,</span> <span class="n">build_from_cfg</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">build_model_from_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">registry</span><span class="p">,</span> <span class="n">default_args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Build a PyTorch model from config dict(s). Different from
+</span></span></span><span class="line"><span class="cl"><span class="s2">    ``build_from_cfg``, if cfg is a list, a ``nn.Sequential`` will be built.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        cfg (dict, list[dict]): The config of modules, is is either a config
+</span></span></span><span class="line"><span class="cl"><span class="s2">            dict or a list of config dicts. If cfg is a list, a
+</span></span></span><span class="line"><span class="cl"><span class="s2">            the built modules will be wrapped with ``nn.Sequential``.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        registry (:obj:`Registry`): A registry the module belongs to.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        default_args (dict, optional): Default arguments to build the module.
+</span></span></span><span class="line"><span class="cl"><span class="s2">            Defaults to None.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        nn.Module: A built nn module.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">modules</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">            <span class="n">build_from_cfg</span><span class="p">(</span><span class="n">cfg_</span><span class="p">,</span> <span class="n">registry</span><span class="p">,</span> <span class="n">default_args</span><span class="p">)</span> <span class="k">for</span> <span class="n">cfg_</span> <span class="ow">in</span> <span class="n">cfg</span>
+</span></span><span class="line"><span class="cl">        <span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">modules</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">build_from_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">registry</span><span class="p">,</span> <span class="n">default_args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">MODELS</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">build_func</span><span class="o">=</span><span class="n">build_model_from_cfg</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面我们在mmcv/utils/registry.py中查看<code>build_from_cfg</code>代码，如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">build_from_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">registry</span><span class="p">,</span> <span class="n">default_args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Build a module from config dict when it is a class configuration, or
+</span></span></span><span class="line"><span class="cl"><span class="s2">    call a function from config dict when it is a function configuration.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Example:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt; MODELS = Registry(&#39;models&#39;)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt; @MODELS.register_module()
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt; class ResNet:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt;     pass
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt; resnet = build_from_cfg(dict(type=&#39;Resnet&#39;), MODELS)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt; # Returns an instantiated object
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt; @MODELS.register_module()
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt; def resnet50():
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt;     pass
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt; resnet = build_from_cfg(dict(type=&#39;resnet50&#39;), MODELS)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &gt;&gt;&gt; # Return a result of the calling function
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        cfg (dict): Config dict. It should at least contain the key &#34;type&#34;.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        registry (:obj:`Registry`): The registry to search the type from.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        default_args (dict, optional): Default initialization arguments.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        object: The constructed object.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cfg must be a dict, but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="s1">&#39;type&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">:</span>  <span class="c1"># type必须在配置文件里</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">default_args</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="s1">&#39;type&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">default_args</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="s1">&#39;`cfg` or `default_args` must contain the key &#34;type&#34;, &#39;</span>
+</span></span><span class="line"><span class="cl">                <span class="sa">f</span><span class="s1">&#39;but got </span><span class="si">{</span><span class="n">cfg</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">default_args</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">registry</span><span class="p">,</span> <span class="n">Registry</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;registry must be an mmcv.Registry object, &#39;</span>
+</span></span><span class="line"><span class="cl">                        <span class="sa">f</span><span class="s1">&#39;but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">registry</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">default_args</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="n">default_args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;default_args must be a dict or None, &#39;</span>
+</span></span><span class="line"><span class="cl">                        <span class="sa">f</span><span class="s1">&#39;but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">default_args</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">args</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">default_args</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">default_args</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">            <span class="n">args</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">obj_type</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">)</span>  <span class="c1"># 取出type的值</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj_type</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">obj_cls</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">obj_type</span><span class="p">)</span>  <span class="c1">#　从注册器里面取出type，注册过才能用</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">obj_cls</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">obj_type</span><span class="si">}</span><span class="s1"> is not in the </span><span class="si">{</span><span class="n">registry</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> registry&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">obj_type</span><span class="p">)</span> <span class="ow">or</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">(</span><span class="n">obj_type</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">obj_cls</span> <span class="o">=</span> <span class="n">obj_type</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="sa">f</span><span class="s1">&#39;type must be a str or valid type, but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">obj_type</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 根据配置参数实例化模型，就是type定义的那个类（FasterRCNN）的实例化，返回了这个类的对象。</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 后面会再分析具体模型类（FasterRCNN）的定义。</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">obj_cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Normal TypeError does not print class name.</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">obj_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>mmcv源码查看，到此为止。</strong></p>
+<p>本篇博客分析Faster R-CNN，该算法在mmdet中模型注册type为FasterRCNN，我们找到该类的实现，位置为mmdet/models/detectors/faster_rcnn.py，如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@DETECTORS</span><span class="o">.</span><span class="n">register_module</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">FasterRCNN</span><span class="p">(</span><span class="n">TwoStageDetector</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Implementation of `Faster R-CNN &lt;https://arxiv.org/abs/1506.01497&gt;`_&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">backbone</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">rpn_head</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">roi_head</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">train_cfg</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">test_cfg</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">neck</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">pretrained</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">init_cfg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">(</span><span class="n">FasterRCNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">backbone</span><span class="o">=</span><span class="n">backbone</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">neck</span><span class="o">=</span><span class="n">neck</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rpn_head</span><span class="o">=</span><span class="n">rpn_head</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">roi_head</span><span class="o">=</span><span class="n">roi_head</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">train_cfg</span><span class="o">=</span><span class="n">train_cfg</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">test_cfg</span><span class="o">=</span><span class="n">test_cfg</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pretrained</span><span class="o">=</span><span class="n">pretrained</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">init_cfg</span><span class="o">=</span><span class="n">init_cfg</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>那么核心功能肯定都在TwoStageDetector里了。看代码之前首先回顾一下一个经典的双阶段检测Faster R-CNN的流程。</p>
+<p><img src="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54.jpg"
+	width="1807"
+	height="726"
+	srcset="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu4d00a60f032c5753b25d3114a66f076c_144484_480x0_resize_q75_box.jpg 480w, /posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu4d00a60f032c5753b25d3114a66f076c_144484_1024x0_resize_q75_box.jpg 1024w"
+	loading="lazy"
+	
+		alt="经典双阶段Faster R-CNN流程"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="248"
+		data-flex-basis="597px"
+	
+></p>
+<p>下面我们来分析下/mmdet/models/detectors/two_stage.py文件，如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@DETECTORS</span><span class="o">.</span><span class="n">register_module</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TwoStageDetector</span><span class="p">(</span><span class="n">BaseDetector</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Base class for two-stage detectors.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Two-stage detectors typically consisting of a region proposal network and a
+</span></span></span><span class="line"><span class="cl"><span class="s2">    task-specific regression head.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">backbone</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">neck</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">rpn_head</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">roi_head</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">train_cfg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">test_cfg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">pretrained</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">init_cfg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">(</span><span class="n">TwoStageDetector</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">init_cfg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">pretrained</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;DeprecationWarning: pretrained is deprecated, &#39;</span>
+</span></span><span class="line"><span class="cl">                          <span class="s1">&#39;please use &#34;init_cfg&#34; instead&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">backbone</span><span class="o">.</span><span class="n">pretrained</span> <span class="o">=</span> <span class="n">pretrained</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span> <span class="o">=</span> <span class="n">build_backbone</span><span class="p">(</span><span class="n">backbone</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">neck</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">neck</span> <span class="o">=</span> <span class="n">build_neck</span><span class="p">(</span><span class="n">neck</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">rpn_head</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rpn_train_cfg</span> <span class="o">=</span> <span class="n">train_cfg</span><span class="o">.</span><span class="n">rpn</span> <span class="k">if</span> <span class="n">train_cfg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rpn_head_</span> <span class="o">=</span> <span class="n">rpn_head</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rpn_head_</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">train_cfg</span><span class="o">=</span><span class="n">rpn_train_cfg</span><span class="p">,</span> <span class="n">test_cfg</span><span class="o">=</span><span class="n">test_cfg</span><span class="o">.</span><span class="n">rpn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">rpn_head</span> <span class="o">=</span> <span class="n">build_head</span><span class="p">(</span><span class="n">rpn_head_</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">roi_head</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># update train and test cfg here for now</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># TODO: refactor assigner &amp; sampler</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rcnn_train_cfg</span> <span class="o">=</span> <span class="n">train_cfg</span><span class="o">.</span><span class="n">rcnn</span> <span class="k">if</span> <span class="n">train_cfg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">            <span class="n">roi_head</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">train_cfg</span><span class="o">=</span><span class="n">rcnn_train_cfg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">roi_head</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">test_cfg</span><span class="o">=</span><span class="n">test_cfg</span><span class="o">.</span><span class="n">rcnn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">roi_head</span><span class="o">.</span><span class="n">pretrained</span> <span class="o">=</span> <span class="n">pretrained</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">roi_head</span> <span class="o">=</span> <span class="n">build_head</span><span class="p">(</span><span class="n">roi_head</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">train_cfg</span> <span class="o">=</span> <span class="n">train_cfg</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">test_cfg</span> <span class="o">=</span> <span class="n">test_cfg</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">with_rpn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;bool: whether the detector has RPN&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;rpn_head&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpn_head</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@property</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">with_roi_head</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;bool: whether the detector has a RoI head&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;roi_head&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_head</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">extract_feat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;Directly extract features from the backbone+neck.&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_neck</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neck</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward_dummy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;Used for computing network flops.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        See `mmdetection/tools/analysis_tools/get_flops.py`
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">outs</span> <span class="o">=</span> <span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># backbone</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_feat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># rpn</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_rpn</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rpn_outs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpn_head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">outs</span> <span class="o">=</span> <span class="n">outs</span> <span class="o">+</span> <span class="p">(</span><span class="n">rpn_outs</span><span class="p">,</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">proposals</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># roi_head</span>
+</span></span><span class="line"><span class="cl">        <span class="n">roi_outs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_head</span><span class="o">.</span><span class="n">forward_dummy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">proposals</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">outs</span> <span class="o">=</span> <span class="n">outs</span> <span class="o">+</span> <span class="p">(</span><span class="n">roi_outs</span><span class="p">,</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">outs</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">img</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">img_metas</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">gt_bboxes</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">gt_labels</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">gt_bboxes_ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">gt_masks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="n">proposals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                      <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Args:
+</span></span></span><span class="line"><span class="cl"><span class="s2">            img (Tensor): of shape (N, C, H, W) encoding input images.
+</span></span></span><span class="line"><span class="cl"><span class="s2">                Typically these should be mean centered and std scaled.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">            img_metas (list[dict]): list of image info dict where each dict
+</span></span></span><span class="line"><span class="cl"><span class="s2">                has: &#39;img_shape&#39;, &#39;scale_factor&#39;, &#39;flip&#39;, and may also contain
+</span></span></span><span class="line"><span class="cl"><span class="s2">                &#39;filename&#39;, &#39;ori_shape&#39;, &#39;pad_shape&#39;, and &#39;img_norm_cfg&#39;.
+</span></span></span><span class="line"><span class="cl"><span class="s2">                For details on the values of these keys see
+</span></span></span><span class="line"><span class="cl"><span class="s2">                `mmdet/datasets/pipelines/formatting.py:Collect`.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">            gt_bboxes (list[Tensor]): Ground truth bboxes for each image with
+</span></span></span><span class="line"><span class="cl"><span class="s2">                shape (num_gts, 4) in [tl_x, tl_y, br_x, br_y] format.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">            gt_labels (list[Tensor]): class indices corresponding to each box
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">            gt_bboxes_ignore (None | list[Tensor]): specify which bounding
+</span></span></span><span class="line"><span class="cl"><span class="s2">                boxes can be ignored when computing the loss.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">            gt_masks (None | Tensor) : true segmentation masks for each box
+</span></span></span><span class="line"><span class="cl"><span class="s2">                used if the architecture supports a segmentation task.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">            proposals : override rpn proposals with custom proposals. Use when
+</span></span></span><span class="line"><span class="cl"><span class="s2">                `with_rpn` is False.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">            dict[str, Tensor]: a dictionary of loss components
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_feat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">losses</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># RPN forward and loss</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_rpn</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">proposal_cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;rpn_proposal&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                              <span class="bp">self</span><span class="o">.</span><span class="n">test_cfg</span><span class="o">.</span><span class="n">rpn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">rpn_losses</span><span class="p">,</span> <span class="n">proposal_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpn_head</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">x</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">img_metas</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">gt_bboxes</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">gt_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">gt_bboxes_ignore</span><span class="o">=</span><span class="n">gt_bboxes_ignore</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">proposal_cfg</span><span class="o">=</span><span class="n">proposal_cfg</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">losses</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">rpn_losses</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">proposal_list</span> <span class="o">=</span> <span class="n">proposals</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">roi_losses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_head</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">,</span> <span class="n">proposal_list</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                 <span class="n">gt_bboxes</span><span class="p">,</span> <span class="n">gt_labels</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                 <span class="n">gt_bboxes_ignore</span><span class="p">,</span> <span class="n">gt_masks</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">losses</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">roi_losses</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">losses</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl"><span class="o">...</span> <span class="c1"># 省略部分代码</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>关于上面代码，我画了一个示意图，可以方便理解两阶段检测的架构。
+<img src="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31.jpg"
+	width="1724"
+	height="624"
+	srcset="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu7b3b396d2dfd872bb26772c0dddeb38f_87656_480x0_resize_q75_box.jpg 480w, /posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu7b3b396d2dfd872bb26772c0dddeb38f_87656_1024x0_resize_q75_box.jpg 1024w"
+	loading="lazy"
+	
+		alt="目标检测两阶段架构"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="276"
+		data-flex-basis="663px"
+	
+></p>
+<h2 id="参考文章">参考文章</h2>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/82503146"  target="_blank" rel="noopener"
+    >入门mmdetection（壹）</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/faster-r-cnn/">Faster R-CNN</a>
+        
+            <a href="/tags/mmdetection/">mmdetection</a>
+        
+            <a href="/tags/%E6%BA%90%E7%A0%81/">源码</a>
+        
+            <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>
+        
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">目标检测模型的评估方法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(三)：BatchNorm Module</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(二)：transforms模块</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(一)：Dataset和DataLoader</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习中的优化方法</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2018 - 
+        
+        2022 七月流火
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#mmdetection代码框架">mmdetection代码框架</a></li>
+    <li><a href="#faster-r-cnn-模型训练">Faster R-CNN 模型训练</a></li>
+    <li><a href="#faster-r-cnn-模型测试">Faster R-CNN 模型测试</a></li>
+    <li><a href="#faster-r-cnn-配置文件解读">Faster R-CNN 配置文件解读</a></li>
+    <li><a href="#训练代码解读">训练代码解读</a></li>
+    <li><a href="#参考文章">参考文章</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='梯度下降法和牛顿迭代法公式推导。'><title>机器学习中的优化方法</title>
+
+<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='机器学习中的优化方法'>
+<meta property='og:description' content='梯度下降法和牛顿迭代法公式推导。'>
+<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/'>
+<meta property='og:site_name' content='七月流火'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='最优化' /><meta property='article:tag' content='神经网络' /><meta property='article:published_time' content='2022-06-23T11:17:44&#43;08:00'/><meta property='article:modified_time' content='2022-06-23T11:17:44&#43;08:00'/>
+<meta name="twitter:title" content="机器学习中的优化方法">
+<meta name="twitter:description" content="梯度下降法和牛顿迭代法公式推导。">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "dark");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu8d4b235d4d79942b70ca31d91c98dd00_21409_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">⭐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">七月流火</a></h1>
+            <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/qiyueliuhuo'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://qiyueliuhuo.github.io/en/" >English</option>
+                        
+                            <option value="https://qiyueliuhuo.github.io/" selected>中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%AE%97%E6%B3%95/" style="background-color: #2a9d8f; color: #fff;">
+                算法
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">机器学习中的优化方法</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            梯度下降法和牛顿迭代法公式推导。
+        </h3>
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jun 23, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="梯度下降法推导">梯度下降法推导</h2>
+<h3 id="什么是梯度">什么是梯度？</h3>
+<p><strong>梯度</strong>的本意是一个向量（矢量），表示某一函数在该点处的方向导数沿着该方向取得最大值，即函数在该点处沿着该方向（此梯度的方向）变化最快，变化率最大（为该梯度的模）。</p>
+<p>通俗来说，梯度就是表示某一函数在该点处的方向导数沿着该方向取得（模）较大值，即函数在当前位置的导数。<strong>笔者理解</strong>：在高维空间中参数 $\boldsymbol{\theta}$ 和 $f(\boldsymbol{\theta})$ 形成超曲面上，当 $\boldsymbol{\theta}$ 移动相同的 $\lVert\nabla\boldsymbol{\theta}\lVert$ 模值（超距离）时，沿着梯度的方向，可以使得 $f(\boldsymbol{\theta})$ 变化量（增加）最大。梯度表示为如下：
+$$
+\nabla f(\boldsymbol{\theta})=\frac{\partial f(\boldsymbol{\theta})}{\partial \boldsymbol{\theta}}
+$$
+其中，$\boldsymbol{\theta}$为矢量（向量），大小为 $1 \times n$；$f(\boldsymbol{\theta})$为标量，该函数称为目标函数，也叫做损失函数，有时候也用 $L$ 或者 $J$ 表示；$\nabla f(\boldsymbol{\theta})$ 为矢量，大小为 $n \times 1$。</p>
+<p>如果函数 $f(\boldsymbol{\theta})$ 是<strong>凸函数</strong>，那么就可以使用梯度下降算法进行优化。
+$$
+\boldsymbol{\theta} = \boldsymbol{\theta_0} - \eta \cdot \nabla f(\boldsymbol{\theta_0})
+$$
+其中，$\boldsymbol{\theta_0}$ 是自变量参数，代表当前参数位置坐标；$\eta$ 是学习因子（学习率），用来<strong>调整</strong>下降时步进长度；$\boldsymbol{\theta}$ 是更新后的参数值，即通过一次梯度下降法之后的参数坐标位置。</p>
+<h3 id="推导梯度下降法公式">推导梯度下降法公式</h3>
+<p>我们对 $f(\boldsymbol{\theta})$ 进行一阶泰勒展开，如下：
+$$
+f(\boldsymbol{\theta}) = f\left(\boldsymbol{\theta_{0}}\right)+\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right) + o\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)
+$$
+注意，上面等式当 $f(\boldsymbol{\theta})$ 在 $\boldsymbol{\theta_{0}}$ 可导时，恒成立；其中，$ o\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) $ 为余项（或者称为线性近似误差）。而且，这里只有 $\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \rightarrow 0$时，$o\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)$ 才为无穷小量，此时，可以用前两项近似 $f(\boldsymbol{\theta})$ 值，所以如果 $\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)$ 太大，误差会比较大。</p>
+<p>那么，当我们使用 $f\left(\boldsymbol{\theta_{0}}\right)+\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right)$ 来近似 $f(\boldsymbol{\theta})$时，我们需要计算 $\nabla f\left(\boldsymbol{\theta_{0}}\right)$，即为目标函数在当前参数位置 $f(\boldsymbol{\theta_{0}})$ 处的梯度。
+$$
+f(\boldsymbol{\theta}) \approx f\left(\boldsymbol{\theta_{0}}\right)+\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right)
+$$
+这里，$\boldsymbol{\theta}-\boldsymbol{\theta_{0}}$ 是一个微小量，我们令 $\lVert\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\lVert$ 为 $\eta$，$\eta$ 为标量，令单位向量 $\frac{\boldsymbol{\theta}-\boldsymbol{\theta_{0}}}{\lVert\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\rVert}$ 为 $\boldsymbol{v}$ 表示，则
+$$
+\boldsymbol{\theta}-\boldsymbol{\theta_{0}} = \eta \boldsymbol{v}
+$$
+代入到上面的表达式后：
+$$
+f(\boldsymbol{\theta}) \approx f\left(\boldsymbol{\theta_{0}}\right)+\eta \boldsymbol{v} \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right)
+$$
+此处是<strong>重点！！!</strong> 局部下降的目的是希望每次 $\boldsymbol{\theta}$ 更新，都能让函数值 $f(\boldsymbol{\theta})$ 变小。也就是说，希望上式 $f(\boldsymbol{\theta})&lt;f\left(\boldsymbol{\theta_{0}}\right)$。那么，希望下面式子每次更新都可以成立：
+$$
+f(\boldsymbol{\theta})-f\left(\boldsymbol{\theta_{0}}\right) \approx \eta \boldsymbol{v} \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right)&lt;0
+$$
+因为 $\eta$ 为标量，且一般设定为正值，所以可以忽略，不等式等价于：
+$$
+\boldsymbol{v} \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right)&lt;0
+$$
+其中，$\boldsymbol{v}$ 和 $\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 都是向量，$\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 是当前位置的梯度，$\boldsymbol{v}$ 表示下一步前进的单位向量，是需要<strong>求解</strong>的, 从而就能根据 $\boldsymbol{\theta}-\boldsymbol{\theta_{0}}=\eta \boldsymbol{v}$ 确定 $\boldsymbol{\theta}$ 的值了。</p>
+<p>让我们来<strong>分析</strong>，当 $\boldsymbol{v}$ 和 $\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 互为反向，即 $\boldsymbol{v}$ 为当前梯度方向的<strong>负方向</strong>的时候，能让 $\lvert \boldsymbol{v} \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right) \rvert$ 最大，从而使得 $f(\boldsymbol{\theta})$ 最大程度地减小，也就保证了 $\boldsymbol{v}$ 的方向是局部<strong>最大程度</strong>下降的方向。那么：
+$$
+\boldsymbol{v}=-\frac{\left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T}}{\lVert\nabla f\left(\boldsymbol{\theta_{0}}\right)\lVert}
+$$
+再根据 $\boldsymbol{\theta}-\boldsymbol{\theta_{0}} = \eta \boldsymbol{v}$ 得到：
+$$
+\boldsymbol{\theta} = \boldsymbol{\theta_{0}} - \eta \frac{\left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T}}{\lVert\nabla f\left(\boldsymbol{\theta_{0}}\right)\lVert}
+$$
+一般地，因为 $\lVert\nabla f\left(\boldsymbol{\theta_{0}}\right)\lVert$ 是标量，可以并入到因子 $\eta$ 中，即简化为
+$$
+\boldsymbol{\theta} = \boldsymbol{\theta_{0}} - \eta^{\prime} \left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T}
+$$
+一般 $\eta^{\prime}$ 为学习率，是一个微小常量，通常取0.01，0.001，0.0001等值。</p>
+<h3 id="梯度下降法分析">梯度下降法分析</h3>
+<p>如果将 $f(\boldsymbol{\theta})$ 在 $\boldsymbol{\theta_{0}}$ 处进行二阶泰勒展开：
+$$
+f(\boldsymbol{\theta}) = f\left(\boldsymbol{\theta_{0}}\right)+\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right) + \frac{1}{2}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)\boldsymbol{H}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)^{T} + o\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)
+$$
+其中，$\boldsymbol{H}$ 为<strong>Hessian矩阵</strong>，其展开形式为：</p>
+<p>$$
+H=\left(\begin{array}{cccc}
+\frac{\partial^{2}}{\partial \theta_{1} \partial \theta_{1}} f(\boldsymbol{\theta}) &amp; \frac{\partial^{2}}{\partial \theta_{1} \partial \theta_{2}} f(\boldsymbol{\theta}) &amp; \cdots &amp; \frac{\partial^{2}}{\partial \theta_{1} \partial \theta_{n}} f(\boldsymbol{\theta}) \\
+\frac{\partial^{2}}{\partial \theta_{2} \partial \theta_{1}} f(\boldsymbol{\theta}) &amp; \frac{\partial^{2}}{\partial \theta_{2} \partial \theta_{2}} f(\boldsymbol{\theta}) &amp; \cdots &amp; \frac{\partial^{2}}{\partial \theta_{2} \partial \theta_{n}} f(\boldsymbol{\theta}) \\
+\vdots &amp; \vdots &amp; &amp; \vdots \\
+\frac{\partial^{2}}{\partial \theta_{n} \partial \theta_{1}} f(\boldsymbol{\theta}) &amp; \frac{\partial^{2}}{\partial \theta_{n} \partial \theta_{2}} f(\boldsymbol{\theta}) &amp; \cdots &amp; \frac{\partial^{2}}{\partial \theta_{n} \partial \theta_{n}} f(\boldsymbol{\theta})
+\end{array}\right)
+$$</p>
+<p>我们将梯度下降法的迭代公式 $\boldsymbol{\theta} = \boldsymbol{\theta_{0}} - \eta^{\prime} \left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T}$ 代入到二阶泰勒展开式中，并且忽略二阶余项误差，得到：
+$$
+f(\boldsymbol{\theta})-f\left(\boldsymbol{\theta_{0}}\right) \approx -\eta^{\prime}\left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T} \nabla f\left(\boldsymbol{\theta_{0}}\right)+\frac{1}{2} \eta^{\prime2} \left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)
+$$
+上面式子右边是梯度下降法一步迭代后引起目标函数 $f(\boldsymbol{\theta})$ 的变化量，<strong>每次迭代的变化量其实不一定是负的</strong>，使得 $f(\boldsymbol{\theta})$ 减小，也可能引起 $f(\boldsymbol{\theta})$ 增加。</p>
+<p><strong>原因分析</strong>：</p>
+<ol>
+<li>理论分析来讲，当 $\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \rightarrow 0$时候，即当学习率 $\eta^{\prime}$ 足够小时，一阶展开余项 $o\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)$ 趋近于0，不会使得上式右边为负，也就可以保证迭代可以<strong>成功下降</strong>，但是，这样会导致达到极小值需要的迭代次数增加，使得学习过慢，增加计算和时间成本。</li>
+<li>如果<strong>Hessian矩阵</strong>是负定的，可以保证 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 项为负，那么也可以保证一次梯度下降迭代后，使得目标函数下降。</li>
+<li>当学习率 $\eta^{\prime}$过大时，二阶余项误差变大，二阶泰勒展开的准确性也就不高了，因此可以用<strong>启发式</strong>寻找合适的学习率。【知识延伸】</li>
+</ol>
+<p>下面对于 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 为<strong>正</strong>进行分析讨论。</p>
+<p>如果我们使上面式子右边小于0，即：
+$$
+-\eta^{\prime}\left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T} \nabla f\left(\boldsymbol{\theta_{0}}\right)+\frac{1}{2} \eta^{\prime2} \left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right) &lt; 0
+$$
+整理 $\eta^{\prime}$ 得到：
+$$
+\eta^{\prime} &lt; \frac{\left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T} \nabla f\left(\boldsymbol{\theta_{0}}\right)}{\left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T} \boldsymbol{H} \nabla f\left(\boldsymbol{\theta_{0}}\right)}
+$$
+那么，<strong>当学习率满足上面式子时，总可以梯度下降</strong>。不过上面式子也是在泰勒二阶展开下的近似分析。</p>
+<p>下面使用参数只有一维情况下的特例情况下，画图说明上面的情况：</p>
+<h2 id="牛顿迭代法推导">牛顿迭代法推导</h2>
+<p>通过上面泰勒展开式分析梯度下降法，我们可以知道梯度下降法仅<strong>使用梯度信息</strong>进行迭代下降，在大多数情况下效果还可以，并且由于目前神经网络中反向传播算法可以高效求解梯度，所以当前对于神经网络的优化普通采用梯度下降法。关于反向传播算法可以在我的<a class="link" href="../%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e4%b9%8b%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad%e7%ae%97%e6%b3%95" >神经网络之反向传播算法</a>文章中了解。</p>
+<h3 id="牛顿法迭代公式">牛顿法迭代公式</h3>
+<p>二阶泰勒展开近似公式为：
+$$
+f(\boldsymbol{\theta}) \approx f\left(\boldsymbol{\theta_{0}}\right)+\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right) + \frac{1}{2}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)\boldsymbol{H}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)^{T}
+$$
+我们对式子右边求极值点，则可以得到：</p>
+<h2 id="参考">参考</h2>
+<p><a class="link" href="https://blog.csdn.net/iflink/article/details/122388904"  target="_blank" rel="noopener"
+    >梯度下降法的推导</a><br>
+<a class="link" href="https://zhuanlan.zhihu.com/p/59873169"  target="_blank" rel="noopener"
+    >相信我你没真明白牛顿法与梯度下降法</a>
+<a class="link" href="https://zhuanlan.zhihu.com/p/367243426"  target="_blank" rel="noopener"
+    >优化理论——梯度下降法与牛顿法</a></p>
+<h2 id="延伸阅读">延伸阅读</h2>
+<h3 id="论文">论文</h3>
+<ul>
+<li>《A stochastic quasi-Newton method for large-scale optimization 》</li>
+<li>《A Linearly-Convergent Stochastic L-BFGS Algorithm》</li>
+<li>《A Multi-Batch L-BFGS Method for Machine Learning》</li>
+<li>《Fast Exact Multiplication by the Hessian》</li>
+</ul>
+<h2 id="疑问">疑问</h2>
+<p>为什么神经网络每一层的学习率一样，应该是前面层学习率小，后面层学习率大。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%9C%80%E4%BC%98%E5%8C%96/">最优化</a>
+        
+            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(三)：BatchNorm Module</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(二)：transforms模块</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(一)：Dataset和DataLoader</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">基于mmdetection源码:Faster R-CNN算法解读</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">目标检测模型的评估方法</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2018 - 
+        
+        2022 七月流火
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#梯度下降法推导">梯度下降法推导</a>
+      <ol>
+        <li><a href="#什么是梯度">什么是梯度？</a></li>
+        <li><a href="#推导梯度下降法公式">推导梯度下降法公式</a></li>
+        <li><a href="#梯度下降法分析">梯度下降法分析</a></li>
+      </ol>
+    </li>
+    <li><a href="#牛顿迭代法推导">牛顿迭代法推导</a>
+      <ol>
+        <li><a href="#牛顿法迭代公式">牛顿法迭代公式</a></li>
+      </ol>
+    </li>
+    <li><a href="#参考">参考</a></li>
+    <li><a href="#延伸阅读">延伸阅读</a>
+      <ol>
+        <li><a href="#论文">论文</a></li>
+      </ol>
+    </li>
+    <li><a href="#疑问">疑问</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
