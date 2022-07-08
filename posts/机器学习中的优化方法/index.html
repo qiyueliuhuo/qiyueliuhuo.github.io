@@ -390,7 +390,7 @@ $$
 <ol>
 <li>理论分析来讲，当 $\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \rightarrow 0$时候，即当学习率 $\eta^{\prime}$ 足够小时，一阶展开余项 $o\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)$ 趋近于0，不会使得上式右边为负，也就可以保证迭代可以<strong>成功下降</strong>，但是，这样会导致达到极小值需要的迭代次数增加，使得学习过慢，增加计算和时间成本。</li>
 <li>如果<strong>Hessian矩阵</strong>是负定的，可以保证 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 项为负，那么也可以保证一次梯度下降迭代后，使得目标函数下降。</li>
-<li>当学习率 $\eta^{\prime}$过大时，二阶余项误差变大，二阶泰勒展开的准确性也就不高了，因此可以用<strong>启发式</strong>寻找合适的学习率。【知识延伸】</li>
+<li>当学习率 $\eta^{\prime}$过大时，二阶余项误差变大，二阶泰勒展开的准确性也就不高了，因此可以用<strong>启发式</strong>寻找合适的学习率。【延伸阅读】</li>
 </ol>
 <p>下面对于 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 为<strong>正</strong>进行分析讨论。</p>
 <p>如果我们使上面式子右边小于0，即：
@@ -411,13 +411,20 @@ $$
 f(\boldsymbol{\theta}) \approx f\left(\boldsymbol{\theta_{0}}\right)+\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right) + \frac{1}{2}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)\boldsymbol{H}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)^{T}
 $$
 我们对式子右边求极值点，则可以得到：</p>
+<h2 id="深度学习中常见的优化器">深度学习中常见的优化器</h2>
+<h3 id="sgd">SGD</h3>
+<h3 id="adam">Adam</h3>
 <h2 id="参考">参考</h2>
 <p><a class="link" href="https://blog.csdn.net/iflink/article/details/122388904"  target="_blank" rel="noopener"
     >梯度下降法的推导</a><br>
 <a class="link" href="https://zhuanlan.zhihu.com/p/59873169"  target="_blank" rel="noopener"
-    >相信我你没真明白牛顿法与梯度下降法</a>
+    >相信我你没真明白牛顿法与梯度下降法</a><br>
 <a class="link" href="https://zhuanlan.zhihu.com/p/367243426"  target="_blank" rel="noopener"
-    >优化理论——梯度下降法与牛顿法</a></p>
+    >优化理论——梯度下降法与牛顿法</a>
+<a class="link" href="https://blog.csdn.net/crazy_scott/article/details/79919550"  target="_blank" rel="noopener"
+    >线性代数笔记12：二次型与函数极值</a><br>
+<a class="link" href="https://zh.m.wikipedia.org/zh/%E7%89%9B%E9%A1%BF%E6%B3%95"  target="_blank" rel="noopener"
+    >牛顿法</a></p>
 <h2 id="延伸阅读">延伸阅读</h2>
 <h3 id="论文">论文</h3>
 <ul>
@@ -736,6 +743,12 @@ $$
     <li><a href="#牛顿迭代法推导">牛顿迭代法推导</a>
       <ol>
         <li><a href="#牛顿法迭代公式">牛顿法迭代公式</a></li>
+      </ol>
+    </li>
+    <li><a href="#深度学习中常见的优化器">深度学习中常见的优化器</a>
+      <ol>
+        <li><a href="#sgd">SGD</a></li>
+        <li><a href="#adam">Adam</a></li>
       </ol>
     </li>
     <li><a href="#参考">参考</a></li>

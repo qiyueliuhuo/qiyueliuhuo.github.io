@@ -88,7 +88,7 @@ $$
 &lt;ol&gt;
 &lt;li&gt;理论分析来讲，当 $\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \rightarrow 0$时候，即当学习率 $\eta^{\prime}$ 足够小时，一阶展开余项 $o\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)$ 趋近于0，不会使得上式右边为负，也就可以保证迭代可以&lt;strong&gt;成功下降&lt;/strong&gt;，但是，这样会导致达到极小值需要的迭代次数增加，使得学习过慢，增加计算和时间成本。&lt;/li&gt;
 &lt;li&gt;如果&lt;strong&gt;Hessian矩阵&lt;/strong&gt;是负定的，可以保证 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 项为负，那么也可以保证一次梯度下降迭代后，使得目标函数下降。&lt;/li&gt;
-&lt;li&gt;当学习率 $\eta^{\prime}$过大时，二阶余项误差变大，二阶泰勒展开的准确性也就不高了，因此可以用&lt;strong&gt;启发式&lt;/strong&gt;寻找合适的学习率。【知识延伸】&lt;/li&gt;
+&lt;li&gt;当学习率 $\eta^{\prime}$过大时，二阶余项误差变大，二阶泰勒展开的准确性也就不高了，因此可以用&lt;strong&gt;启发式&lt;/strong&gt;寻找合适的学习率。【延伸阅读】&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;下面对于 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 为&lt;strong&gt;正&lt;/strong&gt;进行分析讨论。&lt;/p&gt;
 &lt;p&gt;如果我们使上面式子右边小于0，即：
@@ -109,13 +109,20 @@ $$
 f(\boldsymbol{\theta}) \approx f\left(\boldsymbol{\theta_{0}}\right)+\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right) + \frac{1}{2}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)\boldsymbol{H}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)^{T}
 $$
 我们对式子右边求极值点，则可以得到：&lt;/p&gt;
+&lt;h2 id=&#34;深度学习中常见的优化器&#34;&gt;深度学习中常见的优化器&lt;/h2&gt;
+&lt;h3 id=&#34;sgd&#34;&gt;SGD&lt;/h3&gt;
+&lt;h3 id=&#34;adam&#34;&gt;Adam&lt;/h3&gt;
 &lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/iflink/article/details/122388904&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;梯度下降法的推导&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/59873169&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;相信我你没真明白牛顿法与梯度下降法&lt;/a&gt;
+    &gt;相信我你没真明白牛顿法与梯度下降法&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/367243426&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;优化理论——梯度下降法与牛顿法&lt;/a&gt;&lt;/p&gt;
+    &gt;优化理论——梯度下降法与牛顿法&lt;/a&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/crazy_scott/article/details/79919550&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;线性代数笔记12：二次型与函数极值&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zh.m.wikipedia.org/zh/%E7%89%9B%E9%A1%BF%E6%B3%95&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;牛顿法&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;延伸阅读&#34;&gt;延伸阅读&lt;/h2&gt;
 &lt;h3 id=&#34;论文&#34;&gt;论文&lt;/h3&gt;
 &lt;ul&gt;

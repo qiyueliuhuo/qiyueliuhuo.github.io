@@ -1440,6 +1440,8 @@
 		data-flex-basis=&#34;663px&#34;
 	
 &gt;&lt;/p&gt;
+&lt;p&gt;可以看到 TwoStageDetector 类的 forward_train 函数比较简单，最难的部分为两个 head ，分别为 RPNHead 和 StandardRoIHead，下面先分析 RPNHead。&lt;/p&gt;
+&lt;p&gt;该代码位于mmdet/models/dense_heads/rpn_head.py。&lt;/p&gt;
 &lt;h2 id=&#34;参考文章&#34;&gt;参考文章&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/82503146&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;入门mmdetection（壹）&lt;/a&gt;&lt;/p&gt;
