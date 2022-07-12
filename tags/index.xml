@@ -6,7 +6,23 @@
         <description>Recent content in Tags on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 23 Jun 2022 11:17:44 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 12 Jul 2022 16:59:57 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>gdb</title>
+        <link>https://qiyueliuhuo.github.io/tags/gdb/</link>
+        <pubDate>Tue, 12 Jul 2022 16:59:57 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/gdb/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>代码调试</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95/</link>
+        <pubDate>Tue, 12 Jul 2022 16:59:57 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/tags/%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>神经网络</title>
         <link>https://qiyueliuhuo.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
         <pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate>
