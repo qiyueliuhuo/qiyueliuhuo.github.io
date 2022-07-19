@@ -87,7 +87,8 @@ $$
 &lt;p&gt;&lt;strong&gt;原因分析&lt;/strong&gt;：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;理论分析来讲，当 $\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \rightarrow 0$时候，即当学习率 $\eta^{\prime}$ 足够小时，一阶展开余项 $o\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)$ 趋近于0，不会使得上式右边为负，也就可以保证迭代可以&lt;strong&gt;成功下降&lt;/strong&gt;，但是，这样会导致达到极小值需要的迭代次数增加，使得学习过慢，增加计算和时间成本。&lt;/li&gt;
-&lt;li&gt;如果&lt;strong&gt;Hessian矩阵&lt;/strong&gt;是负定的，可以保证 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 项为负，那么也可以保证一次梯度下降迭代后，使得目标函数下降。&lt;/li&gt;
+&lt;li&gt;如果&lt;strong&gt;Hessian矩阵&lt;/strong&gt;是负定的，可以保证 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 项为负，那么也可以保证一次梯度下降迭代后，使得目标函数下降，关于&lt;strong&gt;Hessian矩阵&lt;/strong&gt;的理解，可以参考&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/377754969&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Hessian矩阵和极值判断&lt;/a&gt;。&lt;/li&gt;
 &lt;li&gt;当学习率 $\eta^{\prime}$过大时，二阶余项误差变大，二阶泰勒展开的准确性也就不高了，因此可以用&lt;strong&gt;启发式&lt;/strong&gt;寻找合适的学习率。【延伸阅读】&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;下面对于 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 为&lt;strong&gt;正&lt;/strong&gt;进行分析讨论。&lt;/p&gt;
@@ -99,7 +100,7 @@ $$
 $$
 \eta^{\prime} &amp;lt; \frac{\left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T} \nabla f\left(\boldsymbol{\theta_{0}}\right)}{\left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T} \boldsymbol{H} \nabla f\left(\boldsymbol{\theta_{0}}\right)}
 $$
-那么，&lt;strong&gt;当学习率满足上面式子时，总可以梯度下降&lt;/strong&gt;。不过上面式子也是在泰勒二阶展开下的近似分析。&lt;/p&gt;
+那么，&lt;strong&gt;当学习率满足上面式子时（足够小），总可以梯度下降&lt;/strong&gt;。不过上面式子也是在泰勒二阶展开下的近似分析。&lt;/p&gt;
 &lt;p&gt;下面使用参数只有一维情况下的特例情况下，画图说明上面的情况：&lt;/p&gt;
 &lt;h2 id=&#34;牛顿迭代法推导&#34;&gt;牛顿迭代法推导&lt;/h2&gt;
 &lt;p&gt;通过上面泰勒展开式分析梯度下降法，我们可以知道梯度下降法仅&lt;strong&gt;使用梯度信息&lt;/strong&gt;进行迭代下降，在大多数情况下效果还可以，并且由于目前神经网络中反向传播算法可以高效求解梯度，所以当前对于神经网络的优化普通采用梯度下降法。关于反向传播算法可以在我的&lt;a class=&#34;link&#34; href=&#34;../%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e4%b9%8b%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad%e7%ae%97%e6%b3%95&#34; &gt;神经网络之反向传播算法&lt;/a&gt;文章中了解。&lt;/p&gt;

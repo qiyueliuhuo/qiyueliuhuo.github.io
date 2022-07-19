@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='这是一个副标题'><title>神经网络中常用算子参数量和计算量估计</title>
+
+<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='神经网络中常用算子参数量和计算量估计'>
+<meta property='og:description' content='这是一个副标题'>
+<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/'>
+<meta property='og:site_name' content='七月流火'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='神经网络' /><meta property='article:tag' content='算子' /><meta property='article:published_time' content='2021-04-25T21:41:56&#43;00:00'/><meta property='article:modified_time' content='2021-04-25T21:41:56&#43;00:00'/>
+<meta name="twitter:title" content="神经网络中常用算子参数量和计算量估计">
+<meta name="twitter:description" content="这是一个副标题">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "dark");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu8d4b235d4d79942b70ca31d91c98dd00_21409_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">⭐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">七月流火</a></h1>
+            <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/qiyueliuhuo'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://qiyueliuhuo.github.io/en/" >English</option>
+                        
+                            <option value="https://qiyueliuhuo.github.io/" selected>中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%AE%97%E6%B3%95/" style="background-color: #2a9d8f; color: #fff;">
+                算法
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/">神经网络中常用算子参数量和计算量估计</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            这是一个副标题
+        </h3>
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 25, 2021</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 5 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>在学习机器学习和神经网络过程中，对于模型参数和模型计算量需要做出评估，这篇文章介绍几种常见操作对模型带来的参数量和计算量，更专业的表示为空间复杂度和时间复杂度，后续再补充。</p>
+<blockquote>
+<p>注意：下面计算的是都是<strong>单层</strong>的<strong>参数量</strong>和<strong>计算量</strong>，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以<strong>BatchSize</strong>。</p>
+</blockquote>
+<h2 id="卷积层">卷积层</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425214848.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="卷积运算的参数量">卷积运算的参数量</h3>
+<p>计算公式：$parameter = (k_{w}  \times k_{h} \times C_{in} + 1 )\times filter\ number$；<br>
+即：$参数量\ =（kernal_wide \times kernal_high \times 输入的特征图的通道数 + 偏置 ）\times 当前层filter数量$；<br>
+以VGG-16模型的Conv1-1卷积为例，输入$224 \times 224 \times 3$，有$64$个$3 \times 3$大小filter，输出feature map为$224 \times 224 \times 64$，那么该层具有的参数量为：$(3 \times 3 \times 3 + 1)\times 64 = 1792$</p>
+<h3 id="卷积运算的计算量">卷积运算的计算量</h3>
+<blockquote>
+<ul>
+<li>FLOPs(Floating Point Operations)，浮点运算次数，用来衡量算法的时间复杂度；</li>
+<li>FLOPS(Floating Point Operations per Seconds)，单位时间浮点运算次数，用来衡量硬件计算性能。</li>
+</ul>
+</blockquote>
+<p>$FLOPs=\left[\left(C_{i n} \times k_{w} \times k_{h}\right)+\left(C_{i n} \times k_{w} \times k_{h}-1\right)+1\right] \times C_{o u t} \times W_{out} \times H_{out}$<br>
+$k_{w}$ 和 $k_{h}$ 分别表示卷积核的宽和高，其中 $C_{i n} \times k_{w} \times k_{h}$ 表示乘法计算量, $C_{i n} \times k_{w} \times k_{h}-1$ 表示加法计算量(可以这样理解，需要把乘法计算得到的$C_{i n} \times k_{w} \times k_{h}$个数字加这么多次), $+1$ 表示偏置, $C_{\text {out }} \times W_{out} \times H_{out}$ 表示 feature $\operatorname{map}$ 中的所有元素， $W_{out} \text{、} H_{out}$ 表示feature map的宽和高。</p>
+<h2 id="全连接层">全连接层</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425234554.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="全连接运算的参数量">全连接运算的参数量</h3>
+<p>计算公式: $parameter =\left(N_{i n}+1\right) \times N_{\text {out }}$<br>
+$N_{i n}$ 表示输入特征向量的维数, +1表示偏置, $N_{out}$ 表示输出向量的维数</p>
+<h3 id="全连接运算的计算量">全连接运算的计算量</h3>
+<p>$FLOPs=[N_{in}+(N_{in}-1)+1] \times N_{out}$<br>
+$N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。<br>
+其中$N_{in}$表示乘法运算量, $N_{in}-1$ 表示加法运算量，+1表示偏置。</p>
+<h2 id="池化层">池化层</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425233642.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="池化层运算的参数量">池化层运算的参数量</h3>
+<p>无参数。</p>
+<h3 id="池化层运算的计算量">池化层运算的计算量</h3>
+<p>$FLOPs=C_{out} \times H_{out} \times W_{out} \times k \times k$<br>
+$k \times k$ 代表在原特征图区域$k \times k$ 的 max ，sum或者avg池化操作；<br>
+$H_{out} \times W_{out}$代表输出特征图大小，$C_{out}$代表输出通道数。</p>
+<h2 id="案例">案例</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210422151056.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="参数量">参数量</h3>
+<p>VGG-19模型，输入图片大小为$3 \times 224 \times 224$，表示为$3$通道$224 \times 224$尺寸的图像输入，模型分为五组卷积和三层全连接层。</p>
+<p>$(3 \times 3 \times 3 + 1) \times 64 + (3 \times 3 \times 64 + 1) \times 64 + (3 \times 3 \times 64 + 1) \times 128 + (3 \times 3 \times 128 + 1) \times 128 +$
+$(3 \times 3 \times 128 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 +$
+$(3 \times 3 \times 256 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 +$
+$(3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 +$
+$(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \times 1000$<br>
+计算得143667240，乘以一个浮点数占4个字节，得574668960字节，为<strong>548.04MB</strong>，和论文中的数量大致相等。</p>
+<h3 id="计算量">计算量</h3>
+<p>VGG-19模型，输入图片大小为$3 \times 224 \times 224$，表示为$3$通道$224 \times 224$尺寸的图像输入，模型分为五组卷积和三层全连接层。</p>
+<ul>
+<li>第一组卷积
+<ul>
+<li>$(3 \times 3 \times 3  + 3 \times 3 \times 3 - 1 + 1) \times 64 \times 224 \times 224 = 173408256$</li>
+<li>$(64 \times 3 \times 3  + 64 \times 3 \times 3 - 1 + 1) \times 64 \times 224 \times 224 = 3699376128$</li>
+</ul>
+</li>
+<li>池化
+<ul>
+<li>$64 \times 112 \times 112 \times 2 \times 2 = 3211264$</li>
+</ul>
+</li>
+<li>第二组卷积
+<ul>
+<li>$(64 \times 3 \times 3  + 64 \times 3 \times 3 - 1 + 1) \times 128 \times 112 \times 112 = 1849688064$</li>
+<li>$(128 \times 3 \times 3  + 128 \times 3 \times 3 - 1 + 1) \times 128 \times 112 \times 112 = 3699376128$</li>
+</ul>
+</li>
+<li>池化
+<ul>
+<li>$128 \times 56 \times 56 \times 2 \times 2 = 1605632$</li>
+</ul>
+</li>
+<li>第三组卷积
+<ul>
+<li>$(128 \times 3 \times 3  + 128 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 1849688064$</li>
+<li>$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 3699376128$</li>
+<li>$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 3699376128$</li>
+<li>$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 3699376128$</li>
+</ul>
+</li>
+<li>池化
+<ul>
+<li>$256 \times 28 \times 28 \times 2 \times 2 = 802816$</li>
+</ul>
+</li>
+<li>第四组卷积
+<ul>
+<li>$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 1849688064$</li>
+<li>$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 3699376128$</li>
+<li>$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 3699376128$</li>
+<li>$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 3699376128$</li>
+</ul>
+</li>
+<li>池化
+<ul>
+<li>$512 \times 14 \times 14 \times 2 \times 2 = 401408$</li>
+</ul>
+</li>
+<li>第五组卷积
+<ul>
+<li>$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$</li>
+<li>$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$</li>
+<li>$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$</li>
+<li>$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$</li>
+</ul>
+</li>
+<li>池化
+<ul>
+<li>$512 \times 7 \times 7 \times 2 \times 2 = 100352$</li>
+</ul>
+</li>
+<li>第一个全连接层
+<ul>
+<li>$(512 \times 7 \times 7 + 512 \times 7 \times 7 - 1 + 1) \times 4096 = 205520896$</li>
+</ul>
+</li>
+<li>第二个全连接层
+<ul>
+<li>$(4096 + 4096 - 1 + 1) * 4096 = 33554432$</li>
+</ul>
+</li>
+<li>第三个全连接层
+<ul>
+<li>$(4096 + 4096 - 1 + 1) * 1000 = 8192000$</li>
+</ul>
+</li>
+<li>共计：39264124928 = 39.2 bilion次运算，将这个值换算为<strong>multiply-adds运算</strong>，需要除以2，得到<strong>19.6bilion</strong>，该值与论文中的计算量一致。（此次运算忽略了ReLu激活层的计算量，该计算量较小，可以忽略）</li>
+</ul>
+<h2 id="工具">工具</h2>
+<h3 id="torchinfo">torchinfo</h3>
+<p><a class="link" href="https://github.com/TylerYep/torchinfo"  target="_blank" rel="noopener"
+    >torchinfo</a> 该工具可以自动统计网络模型的参数量和计算量。</p>
+<p>例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">torchinfo</span> <span class="kn">import</span> <span class="n">summary</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">ConvNet</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">16</span>
+</span></span><span class="line"><span class="cl"><span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="o">==========================================================================================</span>
+</span></span><span class="line"><span class="cl"><span class="n">Layer</span> <span class="p">(</span><span class="nb">type</span><span class="p">:</span><span class="n">depth</span><span class="o">-</span><span class="n">idx</span><span class="p">)</span>                   <span class="n">Output</span> <span class="n">Shape</span>              <span class="n">Param</span> <span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="o">==========================================================================================</span>
+</span></span><span class="line"><span class="cl"><span class="err">├─</span><span class="n">Conv2d</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">1</span>                            <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span><span class="p">]</span>          <span class="mi">260</span>
+</span></span><span class="line"><span class="cl"><span class="err">├─</span><span class="n">Conv2d</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">2</span>                            <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>            <span class="mi">5</span><span class="p">,</span><span class="mi">020</span>
+</span></span><span class="line"><span class="cl"><span class="err">├─</span><span class="n">Dropout2d</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">3</span>                         <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>            <span class="o">--</span>
+</span></span><span class="line"><span class="cl"><span class="err">├─</span><span class="n">Linear</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">4</span>                            <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>                  <span class="mi">16</span><span class="p">,</span><span class="mi">050</span>
+</span></span><span class="line"><span class="cl"><span class="err">├─</span><span class="n">Linear</span><span class="p">:</span> <span class="mi">1</span><span class="o">-</span><span class="mi">5</span>                            <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>                  <span class="mi">510</span>
+</span></span><span class="line"><span class="cl"><span class="o">==========================================================================================</span>
+</span></span><span class="line"><span class="cl"><span class="n">Total</span> <span class="n">params</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span><span class="mi">840</span>
+</span></span><span class="line"><span class="cl"><span class="n">Trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span><span class="mi">840</span>
+</span></span><span class="line"><span class="cl"><span class="n">Non</span><span class="o">-</span><span class="n">trainable</span> <span class="n">params</span><span class="p">:</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">Total</span> <span class="n">mult</span><span class="o">-</span><span class="n">adds</span> <span class="p">(</span><span class="n">M</span><span class="p">):</span> <span class="mf">7.69</span>
+</span></span><span class="line"><span class="cl"><span class="o">==========================================================================================</span>
+</span></span><span class="line"><span class="cl"><span class="n">Input</span> <span class="n">size</span> <span class="p">(</span><span class="n">MB</span><span class="p">):</span> <span class="mf">0.05</span>
+</span></span><span class="line"><span class="cl"><span class="n">Forward</span><span class="o">/</span><span class="n">backward</span> <span class="k">pass</span> <span class="n">size</span> <span class="p">(</span><span class="n">MB</span><span class="p">):</span> <span class="mf">0.91</span>
+</span></span><span class="line"><span class="cl"><span class="n">Params</span> <span class="n">size</span> <span class="p">(</span><span class="n">MB</span><span class="p">):</span> <span class="mf">0.09</span>
+</span></span><span class="line"><span class="cl"><span class="n">Estimated</span> <span class="n">Total</span> <span class="n">Size</span> <span class="p">(</span><span class="n">MB</span><span class="p">):</span> <span class="mf">1.05</span>
+</span></span><span class="line"><span class="cl"><span class="o">==========================================================================================</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="参考">参考：</h2>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/135861716"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/135861716</a><br>
+<a class="link" href="https://zhuanlan.zhihu.com/p/49842046"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/49842046</a><br>
+<a class="link" href="https://zhuanlan.zhihu.com/p/31575074"  target="_blank" rel="noopener"
+    >https://zhuanlan.zhihu.com/p/31575074</a></p>
+<h2 id="更新记录">更新记录</h2>
+<blockquote>
+<p>增加网络模型统计工具，自动进行网络参数和计算量统计。 —— 2022.07.19</p>
+</blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>
+        
+            <a href="/tags/%E7%AE%97%E5%AD%90/">算子</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习中的优化方法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">神经网络矩阵分析</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">卷积计算底层实现</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(三)：BatchNorm Module</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(二)：transforms模块</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2018 - 
+        
+        2022 七月流火
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#卷积层">卷积层</a>
+      <ol>
+        <li><a href="#卷积运算的参数量">卷积运算的参数量</a></li>
+        <li><a href="#卷积运算的计算量">卷积运算的计算量</a></li>
+      </ol>
+    </li>
+    <li><a href="#全连接层">全连接层</a>
+      <ol>
+        <li><a href="#全连接运算的参数量">全连接运算的参数量</a></li>
+        <li><a href="#全连接运算的计算量">全连接运算的计算量</a></li>
+      </ol>
+    </li>
+    <li><a href="#池化层">池化层</a>
+      <ol>
+        <li><a href="#池化层运算的参数量">池化层运算的参数量</a></li>
+        <li><a href="#池化层运算的计算量">池化层运算的计算量</a></li>
+      </ol>
+    </li>
+    <li><a href="#案例">案例</a>
+      <ol>
+        <li><a href="#参数量">参数量</a></li>
+        <li><a href="#计算量">计算量</a></li>
+      </ol>
+    </li>
+    <li><a href="#工具">工具</a>
+      <ol>
+        <li><a href="#torchinfo">torchinfo</a></li>
+      </ol>
+    </li>
+    <li><a href="#参考">参考：</a></li>
+    <li><a href="#更新记录">更新记录</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -87,7 +87,8 @@ $$
 &lt;p&gt;&lt;strong&gt;原因分析&lt;/strong&gt;：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;理论分析来讲，当 $\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \rightarrow 0$时候，即当学习率 $\eta^{\prime}$ 足够小时，一阶展开余项 $o\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)$ 趋近于0，不会使得上式右边为负，也就可以保证迭代可以&lt;strong&gt;成功下降&lt;/strong&gt;，但是，这样会导致达到极小值需要的迭代次数增加，使得学习过慢，增加计算和时间成本。&lt;/li&gt;
-&lt;li&gt;如果&lt;strong&gt;Hessian矩阵&lt;/strong&gt;是负定的，可以保证 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 项为负，那么也可以保证一次梯度下降迭代后，使得目标函数下降。&lt;/li&gt;
+&lt;li&gt;如果&lt;strong&gt;Hessian矩阵&lt;/strong&gt;是负定的，可以保证 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 项为负，那么也可以保证一次梯度下降迭代后，使得目标函数下降，关于&lt;strong&gt;Hessian矩阵&lt;/strong&gt;的理解，可以参考&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/377754969&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Hessian矩阵和极值判断&lt;/a&gt;。&lt;/li&gt;
 &lt;li&gt;当学习率 $\eta^{\prime}$过大时，二阶余项误差变大，二阶泰勒展开的准确性也就不高了，因此可以用&lt;strong&gt;启发式&lt;/strong&gt;寻找合适的学习率。【延伸阅读】&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;下面对于 $\frac{1}{2} \eta^{\prime2} \nabla f\left(\boldsymbol{\theta_{0}}\right)^{T} \boldsymbol{H}\nabla f\left(\boldsymbol{\theta_{0}}\right)$ 为&lt;strong&gt;正&lt;/strong&gt;进行分析讨论。&lt;/p&gt;
@@ -99,7 +100,7 @@ $$
 $$
 \eta^{\prime} &amp;lt; \frac{\left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T} \nabla f\left(\boldsymbol{\theta_{0}}\right)}{\left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T} \boldsymbol{H} \nabla f\left(\boldsymbol{\theta_{0}}\right)}
 $$
-那么，&lt;strong&gt;当学习率满足上面式子时，总可以梯度下降&lt;/strong&gt;。不过上面式子也是在泰勒二阶展开下的近似分析。&lt;/p&gt;
+那么，&lt;strong&gt;当学习率满足上面式子时（足够小），总可以梯度下降&lt;/strong&gt;。不过上面式子也是在泰勒二阶展开下的近似分析。&lt;/p&gt;
 &lt;p&gt;下面使用参数只有一维情况下的特例情况下，画图说明上面的情况：&lt;/p&gt;
 &lt;h2 id=&#34;牛顿迭代法推导&#34;&gt;牛顿迭代法推导&lt;/h2&gt;
 &lt;p&gt;通过上面泰勒展开式分析梯度下降法，我们可以知道梯度下降法仅&lt;strong&gt;使用梯度信息&lt;/strong&gt;进行迭代下降，在大多数情况下效果还可以，并且由于目前神经网络中反向传播算法可以高效求解梯度，所以当前对于神经网络的优化普通采用梯度下降法。关于反向传播算法可以在我的&lt;a class=&#34;link&#34; href=&#34;../%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e4%b9%8b%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad%e7%ae%97%e6%b3%95&#34; &gt;神经网络之反向传播算法&lt;/a&gt;文章中了解。&lt;/p&gt;
@@ -137,6 +138,559 @@ $$
 &lt;/ul&gt;
 &lt;h2 id=&#34;疑问&#34;&gt;疑问&lt;/h2&gt;
 &lt;p&gt;为什么神经网络每一层的学习率一样，应该是前面层学习率小，后面层学习率大。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>神经网络矩阵分析</title>
+        <link>https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/</link>
+        <pubDate>Fri, 29 Oct 2021 11:20:28 +0000</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/</guid>
+        <description>&lt;p&gt;用矩阵推导网络。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id=&#34;符号定义&#34;&gt;符号定义&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;使用小写字母$x$表示标量，粗体小写字母$\boldsymbol{x}$表示向量，&lt;strong&gt;注意&lt;/strong&gt;向量可能为&lt;strong&gt;行向量&lt;/strong&gt;或者&lt;strong&gt;列向量&lt;/strong&gt;，大写字母$X$表示矩阵。&lt;/li&gt;
+&lt;li&gt;$\sigma$为&lt;strong&gt;逐元素&lt;/strong&gt;sigmoid函数：$\sigma(z)=\frac{1}{1+\mathrm{e}^{-z}}$。&lt;/li&gt;
+&lt;li&gt;$\boldsymbol{1}$为列向量，$\boldsymbol{1}=(1, 1, 1 \cdots 1, 1, 1)^{T}$，非指示函数。&lt;/li&gt;
+&lt;li&gt;$exp(\boldsymbol{a})$表示&lt;strong&gt;逐元素&lt;/strong&gt;求指数。&lt;/li&gt;
+&lt;li&gt;$log(\boldsymbol{a})$表示&lt;strong&gt;逐元素&lt;/strong&gt;求自然对数。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;符号含义&#34;&gt;符号含义&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;列向量$\boldsymbol{x}=\left(x_{1}, x_{2}, x_{3} \cdots x_{n-2}, x_{n-1}, x_{n}\right)^{T}$代表一个输入样本，具有$n$个特征值。&lt;/li&gt;
+&lt;li&gt;设列向量$\boldsymbol{z}=\left(z_{1}, z_{2}, z_{3} \cdots z_{n-2}, z_{n-1}, z_{n}\right)^{T}$，&lt;br&gt;
+$\sigma(\boldsymbol{z}) = \left(\sigma(z_{1}), \sigma(z_{2}), \sigma(z_{3}) \cdots \sigma(z_{n-2}), \sigma(z_{n-1}), \sigma(z_{n})\right)$&lt;/li&gt;
+&lt;li&gt;设列向量$\boldsymbol{a}=\left(a_{1}, a_{2}, a_{3} \cdots a_{n-2}, a_{n-1}, a_{n}\right)^{T}$，$\operatorname{softmax}(\boldsymbol{a})=\frac{\exp (\boldsymbol{a})}{\mathbf{1}^{T} \exp (\boldsymbol{a})}$，分母为&lt;strong&gt;行向量&lt;/strong&gt;乘以&lt;strong&gt;列向量&lt;/strong&gt;为标量，分子为列向量，所以结果仍为&lt;strong&gt;列向量&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;运算法则&#34;&gt;运算法则&lt;/h2&gt;
+&lt;p&gt;相关理解参考：&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/24709748&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;矩阵求导术（上）&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/24863977&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;矩阵求导术（下）&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;矩阵运算法则&#34;&gt;矩阵运算法则&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;对尺寸相同的矩阵$A, B$，$\operatorname{tr}\left(A^{T} B\right)=\sum_{i, j} A_{i j} B_{i j}$。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;矩阵微分运算符法则&#34;&gt;矩阵微分运算符法则&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029145157.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;理解&#34;&gt;理解&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;定义：标量f对矩阵 $X$ 的导数, 定义为 $\frac{\partial f}{\partial X}=\left[\frac{\partial f}{\partial X_{i j}}\right]$，即f对X逐元素求导排成与X尺寸相同的矩阵。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将矩阵导数与微分建立联系：$d f=\sum_{i=1}^{m} \sum_{j=1}^{n} \frac{\partial f}{\partial X_{i j}} d X_{i j}=\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)$。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;理解：
+1. 微分算子$d$作用于矩阵$X$，表示为&lt;strong&gt;逐元素&lt;/strong&gt;作用。
+2. 第一个等号是全微分公式，第二个等号表达了矩阵导数与微分的联系。
+3. $tr()$代表迹(trace)是方阵对角线元素之和。
+4. 举例：设$X=\left[\begin{array}{l}X_{0_0}, X_{01} \\ X_{10}, X_{11}\end{array}\right]$, $d X=\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]$，$\frac{d f}{d X}=\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{01}} \\ \frac{\partial f}{\partial X_{10}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]$，$\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)=\operatorname{tr}\left(\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{10}} \\ \frac{\partial f}{\partial X_{01}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]\right)$&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;思考&#34;&gt;思考&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;样本特征值排列为列向量，方便统一形式为权重参数$W$放在$\boldsymbol{x}$前，进行乘积。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;全连接网络&#34;&gt;全连接网络&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029133900.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;$$
+l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(W_{2} \sigma\left(W_{1} \boldsymbol{x}\right)\right)
+$$&lt;/p&gt;
+&lt;h3 id=&#34;符号说明&#34;&gt;符号说明&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;$l$为损失函数。&lt;/li&gt;
+&lt;li&gt;$\boldsymbol{x}$为单样本，则$l$只包含一个样本的损失函数。&lt;/li&gt;
+&lt;li&gt;分类网络类别数为$m$，$\boldsymbol{y}$ 是除一个元素为1外其它元素为 0 的的 $m \times 1$ 列向量, $W_{2}$ 是 $m \times p$ 矩阵, $W_{1}$ 是 $p \times n$ 矩阵, $\boldsymbol{x}$ 是 $n \times 1$ 列向量, $l$ 是标量&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;推导-fracpartial-lpartial-w_1-和-fracpartial-lpartial-w_2&#34;&gt;推导 $\frac{\partial l}{\partial W_{1}}$ 和 $\frac{\partial l}{\partial W_{2}}$&lt;/h3&gt;
+&lt;p&gt;定义：$\boldsymbol{a}&lt;em&gt;{1}=W&lt;/em&gt;{1} \boldsymbol{x}, \boldsymbol{h}&lt;em&gt;{1}=\sigma\left(\boldsymbol{a}&lt;/em&gt;{1}\right), \boldsymbol{a}&lt;em&gt;{2}=W&lt;/em&gt;{2} \boldsymbol{h}&lt;em&gt;{1}$, 则 $l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(\boldsymbol{a}&lt;/em&gt;{2}\right)$。&lt;/p&gt;
+&lt;p&gt;已知$\frac{\partial l}{\partial \boldsymbol{a}&lt;em&gt;{2}}=\operatorname{softmax}\left(\boldsymbol{a}&lt;/em&gt;{2}\right)-\boldsymbol{y}$ 。&lt;/p&gt;
+&lt;p&gt;推导结果：
+$$
+\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial \boldsymbol{a}&lt;em&gt;{2}} \boldsymbol{h}&lt;/em&gt;{1}^{T}
+$$
+$$
+\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial \boldsymbol{a}_{1}} \boldsymbol{x}^{T}
+$$&lt;/p&gt;
+&lt;h3 id=&#34;推广到多个样本&#34;&gt;推广到多个样本&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;使用矩阵来表示N个样本，以简化形式。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;定义：$X=\left[\boldsymbol{x}&lt;em&gt;{1}, \cdots, \boldsymbol{x}&lt;/em&gt;{N}\right]$，$A_{1}=\left[\boldsymbol{a}&lt;em&gt;{1,1}, \cdots, \boldsymbol{a}&lt;/em&gt;{1, N}\right]=W_{1} X+\boldsymbol{b}&lt;em&gt;{1} \mathbf{1}^{T}, \quad H&lt;/em&gt;{1}=\left[\boldsymbol{h}&lt;em&gt;{1,1}, \cdots, \boldsymbol{h}&lt;/em&gt;{1, N}\right]=\sigma\left(A_{1}\right) \text {, }$，$A_{2}=\left[\boldsymbol{a}&lt;em&gt;{2,1}, \cdots, \boldsymbol{a}&lt;/em&gt;{2, N}\right]=W_{2} H_{1}+\boldsymbol{b}_{2} \mathbf{1}^{T}$, 注意这里使用全1向量来扩展维度。&lt;/p&gt;
+&lt;p&gt;推导结果：
+$$
+\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial A_{1}} X^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}&lt;em&gt;{1}}=\frac{\partial l}{\partial A&lt;/em&gt;{1}} \mathbf{1}
+$$
+$$
+\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial A_{2}} H_{1}^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}&lt;em&gt;{2}}=\frac{\partial l}{\partial A&lt;/em&gt;{2}} \mathbf{1}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/94805436&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;神经网络的一些公式总结&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;更新记录&#34;&gt;更新记录&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;调整格式和排版。  —— 2022.07.19&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
+        <title>卷积计算底层实现</title>
+        <link>https://qiyueliuhuo.github.io/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</link>
+        <pubDate>Fri, 22 Oct 2021 15:15:50 +0000</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</guid>
+        <description>&lt;p&gt;为了更深入理解卷积神经网络，这篇博客介绍在卷积神经网络中常用的卷积操作底层是如何实现的。&lt;/p&gt;
+&lt;h2 id=&#34;卷积&#34;&gt;卷积&lt;/h2&gt;
+&lt;p&gt;卷积本身的执行过程是通过在特征图上滑动卷积核来完成的，如下面两个动图，形象地展示了单通道卷积和多通道卷积操作。&lt;/p&gt;
+&lt;h3 id=&#34;单通道卷积&#34;&gt;单通道卷积&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/MqZjLPg.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;多通道卷积&#34;&gt;多通道卷积&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/j8kLBKs.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;多通道卷积计算底层实现&#34;&gt;多通道卷积计算底层实现&lt;/h2&gt;
+&lt;p&gt;假设输入图像及卷积和大小如下图所示：
+&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022155716.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;第一步分别将特征图和卷积转换为矩阵&#34;&gt;第一步：分别将特征图和卷积转换为矩阵&lt;/h3&gt;
+&lt;h4 id=&#34;卷积核&#34;&gt;卷积核&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022161500.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;对于2D卷积，本身是四维的卷积核，将其转换为二维由$C_{\text {out }} \times C \times K \times K$变为$C_{\text {out }} \times M$，其中$M=C \times K \times K$。&lt;/p&gt;
+&lt;p&gt;例如，如下卷积核的维度是$2 \times 3 \times 2 \times 2$，分别为 &lt;code&gt;filter 1&lt;/code&gt; 和&lt;code&gt; filter 2&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;$$
+\left[\begin{array}{ll}
+1 &amp;amp; 1 \\
+2 &amp;amp; 2
+\end{array}\right]\left[\begin{array}{ll}
+1 &amp;amp; 1 \\
+1 &amp;amp; 1
+\end{array}\right]\left[\begin{array}{ll}
+0 &amp;amp; 1 \\
+1 &amp;amp; 0
+\end{array}\right]
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\left[\begin{array}{ll}
+1 &amp;amp; 0 \\
+0 &amp;amp; 1
+\end{array}\right]\left[\begin{array}{ll}
+2 &amp;amp; 1 \\
+2 &amp;amp; 1
+\end{array}\right]\left[\begin{array}{ll}
+1 &amp;amp; 2 \\
+2 &amp;amp; 0
+\end{array}\right]
+$$&lt;/p&gt;
+&lt;p&gt;转换成$C_{\text {out }} \times M$矩阵为$2 \times 12$大小，如下：
+$$
+\left[\begin{array}{llllllllllll}
+1 &amp;amp; 1 &amp;amp; 2 &amp;amp; 2 &amp;amp; 1 &amp;amp; 1 &amp;amp; 1 &amp;amp; 1 &amp;amp; 0 &amp;amp; 1 &amp;amp; 1 &amp;amp; 0 \\
+1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 2 &amp;amp; 1 &amp;amp; 2 &amp;amp; 1 &amp;amp; 1 &amp;amp; 2 &amp;amp; 2 &amp;amp; 0
+\end{array}\right]
+$$&lt;/p&gt;
+&lt;h4 id=&#34;特征图&#34;&gt;特征图&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022163257.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;对于输入为$C \times H \times W$的特征图, 将其转换为$\left(H^{\prime} \times W^{\prime}\right) \times(C \times K \times K)$的矩阵。其中$H^{\prime}$和 $W^{\prime}$为输出特征图的长和宽。与卷积核kernel的变换不同，feature map不是单纯将矩阵resize一下就行, 而是要根据卷积核的尺寸、与特征图的作用过程需要的stride和padding，从输入特征中选择相应的值组成转换后的矩阵。&lt;/p&gt;
+&lt;p&gt;例如, 假设输入的特征图的大小为 $3 \times 3 \times 3$, 特征图为：
+$$
+\left[\begin{array}{lll}
+1 &amp;amp; 2 &amp;amp; 0 \
+1 &amp;amp; 1 &amp;amp; 3 \
+0 &amp;amp; 2 &amp;amp; 2
+\end{array}\right]\left[\begin{array}{lll}
+0 &amp;amp; 2 &amp;amp; 1 \
+0 &amp;amp; 3 &amp;amp; 2 \
+1 &amp;amp; 1 &amp;amp; 0
+\end{array}\right]\left[\begin{array}{lll}
+1 &amp;amp; 2 &amp;amp; 1 \
+0 &amp;amp; 1 &amp;amp; 3 \
+3 &amp;amp; 3 &amp;amp; 2
+\end{array}\right]
+$$
+采用 $2 \times 2$ 卷积核, stride为 $1$, padding为 $0$ ，转换得到如下：
+$$
+\left[\begin{array}{llllllllllll}
+1 &amp;amp; 2 &amp;amp; 1 &amp;amp; 1 &amp;amp; 0 &amp;amp; 2 &amp;amp; 0 &amp;amp; 3 &amp;amp; 1 &amp;amp; 2 &amp;amp; 0 &amp;amp; 1 \
+2 &amp;amp; 0 &amp;amp; 1 &amp;amp; 3 &amp;amp; 2 &amp;amp; 1 &amp;amp; 3 &amp;amp; 2 &amp;amp; 2 &amp;amp; 1 &amp;amp; 1 &amp;amp; 3 \
+1 &amp;amp; 1 &amp;amp; 0 &amp;amp; 2 &amp;amp; 0 &amp;amp; 3 &amp;amp; 1 &amp;amp; 1 &amp;amp; 0 &amp;amp; 1 &amp;amp; 3 &amp;amp; 3 \
+1 &amp;amp; 3 &amp;amp; 2 &amp;amp; 2 &amp;amp; 3 &amp;amp; 2 &amp;amp; 1 &amp;amp; 0 &amp;amp; 1 &amp;amp; 3 &amp;amp; 3 &amp;amp; 2
+\end{array}\right]
+$$
+这样, 最终的计算结果就变成了&lt;br&gt;
+$F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times K \times K)\right) \times\left(C_{\text {out }} \times(C \times K \times K)\right)^{T}=\left(H^{\prime} \times W^{\prime}\right) \times C_{\text {out }}$&lt;br&gt;
+整体的流程可以简化为
+&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022165625.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;
+下面用代码实现上面卷积过程：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;torch&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;torch.nn.functional&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;unfold&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fold&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;torch&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Tensor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([[[[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]]]])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;shape&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;weight&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;torch&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Tensor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([[[[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]]],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[[[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]]]])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;weight&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;shape&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;kernel_size&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;F&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;unfold&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;kernel_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;transpose&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;F&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;C&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;weight&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;view&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;weight&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;C&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# F x C&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;out_unf&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;F&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;matmul&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;C&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;t&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;out_unf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;out&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fold&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;out_unf&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;transpose&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;out&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;shape&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果把特征图按照行优先展开为一维向量，那么对应的卷积操作如下：
+&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022233622.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211024221837.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;总结与分析&#34;&gt;总结与分析&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;输出层的节点值并不是由全部输入层的节点值与权重乘积和得到，而只有部分输入节点参与到计算；从另一的角度可以当成是有一部分权重为零。&lt;/li&gt;
+&lt;li&gt;有大量权重被共享，有几个滤波器就共享了几套权重参数，这点原因应该是空间平移不变性，即某一区域和另一区域并没有差别。&lt;/li&gt;
+&lt;li&gt;上面将所有特征图拉成一维向量，这样只是和全连接层做对比，实际上，因为图像数据存在多通道，例如一般情况下的RGB三通道图像，每个通道包含一个维度的信息；另外图像中像素点之间的位置信息在二维图像中可以更好的呈现（编码），而拉成一维向量会丢失这些信息。&lt;/li&gt;
+&lt;li&gt;从信息论角度来说，三通道图像是否有图形的信息存在冗余。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考：&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/F_AnZzz/article/details/95389567&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;卷积计算的底层实现&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/27642620&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;YJango的卷积神经网络&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;更新记录&#34;&gt;更新记录&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;调整格式和排版。 —— 2022.07.19&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
+        <title>神经网络中常用算子参数量和计算量估计</title>
+        <link>https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/</link>
+        <pubDate>Sun, 25 Apr 2021 21:41:56 +0000</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/</guid>
+        <description>&lt;p&gt;在学习机器学习和神经网络过程中，对于模型参数和模型计算量需要做出评估，这篇文章介绍几种常见操作对模型带来的参数量和计算量，更专业的表示为空间复杂度和时间复杂度，后续再补充。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意：下面计算的是都是&lt;strong&gt;单层&lt;/strong&gt;的&lt;strong&gt;参数量&lt;/strong&gt;和&lt;strong&gt;计算量&lt;/strong&gt;，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以&lt;strong&gt;BatchSize&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;卷积层&#34;&gt;卷积层&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425214848.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;卷积运算的参数量&#34;&gt;卷积运算的参数量&lt;/h3&gt;
+&lt;p&gt;计算公式：$parameter = (k_{w}  \times k_{h} \times C_{in} + 1 )\times filter\ number$；&lt;br&gt;
+即：$参数量\ =（kernal_wide \times kernal_high \times 输入的特征图的通道数 + 偏置 ）\times 当前层filter数量$；&lt;br&gt;
+以VGG-16模型的Conv1-1卷积为例，输入$224 \times 224 \times 3$，有$64$个$3 \times 3$大小filter，输出feature map为$224 \times 224 \times 64$，那么该层具有的参数量为：$(3 \times 3 \times 3 + 1)\times 64 = 1792$&lt;/p&gt;
+&lt;h3 id=&#34;卷积运算的计算量&#34;&gt;卷积运算的计算量&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;FLOPs(Floating Point Operations)，浮点运算次数，用来衡量算法的时间复杂度；&lt;/li&gt;
+&lt;li&gt;FLOPS(Floating Point Operations per Seconds)，单位时间浮点运算次数，用来衡量硬件计算性能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;$FLOPs=\left[\left(C_{i n} \times k_{w} \times k_{h}\right)+\left(C_{i n} \times k_{w} \times k_{h}-1\right)+1\right] \times C_{o u t} \times W_{out} \times H_{out}$&lt;br&gt;
+$k_{w}$ 和 $k_{h}$ 分别表示卷积核的宽和高，其中 $C_{i n} \times k_{w} \times k_{h}$ 表示乘法计算量, $C_{i n} \times k_{w} \times k_{h}-1$ 表示加法计算量(可以这样理解，需要把乘法计算得到的$C_{i n} \times k_{w} \times k_{h}$个数字加这么多次), $+1$ 表示偏置, $C_{\text {out }} \times W_{out} \times H_{out}$ 表示 feature $\operatorname{map}$ 中的所有元素， $W_{out} \text{、} H_{out}$ 表示feature map的宽和高。&lt;/p&gt;
+&lt;h2 id=&#34;全连接层&#34;&gt;全连接层&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425234554.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;全连接运算的参数量&#34;&gt;全连接运算的参数量&lt;/h3&gt;
+&lt;p&gt;计算公式: $parameter =\left(N_{i n}+1\right) \times N_{\text {out }}$&lt;br&gt;
+$N_{i n}$ 表示输入特征向量的维数, +1表示偏置, $N_{out}$ 表示输出向量的维数&lt;/p&gt;
+&lt;h3 id=&#34;全连接运算的计算量&#34;&gt;全连接运算的计算量&lt;/h3&gt;
+&lt;p&gt;$FLOPs=[N_{in}+(N_{in}-1)+1] \times N_{out}$&lt;br&gt;
+$N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。&lt;br&gt;
+其中$N_{in}$表示乘法运算量, $N_{in}-1$ 表示加法运算量，+1表示偏置。&lt;/p&gt;
+&lt;h2 id=&#34;池化层&#34;&gt;池化层&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425233642.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;池化层运算的参数量&#34;&gt;池化层运算的参数量&lt;/h3&gt;
+&lt;p&gt;无参数。&lt;/p&gt;
+&lt;h3 id=&#34;池化层运算的计算量&#34;&gt;池化层运算的计算量&lt;/h3&gt;
+&lt;p&gt;$FLOPs=C_{out} \times H_{out} \times W_{out} \times k \times k$&lt;br&gt;
+$k \times k$ 代表在原特征图区域$k \times k$ 的 max ，sum或者avg池化操作；&lt;br&gt;
+$H_{out} \times W_{out}$代表输出特征图大小，$C_{out}$代表输出通道数。&lt;/p&gt;
+&lt;h2 id=&#34;案例&#34;&gt;案例&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210422151056.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;参数量&#34;&gt;参数量&lt;/h3&gt;
+&lt;p&gt;VGG-19模型，输入图片大小为$3 \times 224 \times 224$，表示为$3$通道$224 \times 224$尺寸的图像输入，模型分为五组卷积和三层全连接层。&lt;/p&gt;
+&lt;p&gt;$(3 \times 3 \times 3 + 1) \times 64 + (3 \times 3 \times 64 + 1) \times 64 + (3 \times 3 \times 64 + 1) \times 128 + (3 \times 3 \times 128 + 1) \times 128 +$
+$(3 \times 3 \times 128 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 +$
+$(3 \times 3 \times 256 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 +$
+$(3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 +$
+$(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \times 1000$&lt;br&gt;
+计算得143667240，乘以一个浮点数占4个字节，得574668960字节，为&lt;strong&gt;548.04MB&lt;/strong&gt;，和论文中的数量大致相等。&lt;/p&gt;
+&lt;h3 id=&#34;计算量&#34;&gt;计算量&lt;/h3&gt;
+&lt;p&gt;VGG-19模型，输入图片大小为$3 \times 224 \times 224$，表示为$3$通道$224 \times 224$尺寸的图像输入，模型分为五组卷积和三层全连接层。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一组卷积
+&lt;ul&gt;
+&lt;li&gt;$(3 \times 3 \times 3  + 3 \times 3 \times 3 - 1 + 1) \times 64 \times 224 \times 224 = 173408256$&lt;/li&gt;
+&lt;li&gt;$(64 \times 3 \times 3  + 64 \times 3 \times 3 - 1 + 1) \times 64 \times 224 \times 224 = 3699376128$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;池化
+&lt;ul&gt;
+&lt;li&gt;$64 \times 112 \times 112 \times 2 \times 2 = 3211264$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第二组卷积
+&lt;ul&gt;
+&lt;li&gt;$(64 \times 3 \times 3  + 64 \times 3 \times 3 - 1 + 1) \times 128 \times 112 \times 112 = 1849688064$&lt;/li&gt;
+&lt;li&gt;$(128 \times 3 \times 3  + 128 \times 3 \times 3 - 1 + 1) \times 128 \times 112 \times 112 = 3699376128$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;池化
+&lt;ul&gt;
+&lt;li&gt;$128 \times 56 \times 56 \times 2 \times 2 = 1605632$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第三组卷积
+&lt;ul&gt;
+&lt;li&gt;$(128 \times 3 \times 3  + 128 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 1849688064$&lt;/li&gt;
+&lt;li&gt;$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 3699376128$&lt;/li&gt;
+&lt;li&gt;$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 3699376128$&lt;/li&gt;
+&lt;li&gt;$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 3699376128$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;池化
+&lt;ul&gt;
+&lt;li&gt;$256 \times 28 \times 28 \times 2 \times 2 = 802816$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第四组卷积
+&lt;ul&gt;
+&lt;li&gt;$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 1849688064$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 3699376128$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 3699376128$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 3699376128$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;池化
+&lt;ul&gt;
+&lt;li&gt;$512 \times 14 \times 14 \times 2 \times 2 = 401408$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第五组卷积
+&lt;ul&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;池化
+&lt;ul&gt;
+&lt;li&gt;$512 \times 7 \times 7 \times 2 \times 2 = 100352$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第一个全连接层
+&lt;ul&gt;
+&lt;li&gt;$(512 \times 7 \times 7 + 512 \times 7 \times 7 - 1 + 1) \times 4096 = 205520896$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第二个全连接层
+&lt;ul&gt;
+&lt;li&gt;$(4096 + 4096 - 1 + 1) * 4096 = 33554432$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第三个全连接层
+&lt;ul&gt;
+&lt;li&gt;$(4096 + 4096 - 1 + 1) * 1000 = 8192000$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;共计：39264124928 = 39.2 bilion次运算，将这个值换算为&lt;strong&gt;multiply-adds运算&lt;/strong&gt;，需要除以2，得到&lt;strong&gt;19.6bilion&lt;/strong&gt;，该值与论文中的计算量一致。（此次运算忽略了ReLu激活层的计算量，该计算量较小，可以忽略）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;工具&#34;&gt;工具&lt;/h2&gt;
+&lt;h3 id=&#34;torchinfo&#34;&gt;torchinfo&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/TylerYep/torchinfo&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;torchinfo&lt;/a&gt; 该工具可以自动统计网络模型的参数量和计算量。&lt;/p&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;torchinfo&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;summary&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;model&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ConvNet&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;batch_size&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;summary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;input_size&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;batch_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;28&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;28&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;结果：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;==========================================================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Layer&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;depth&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;idx&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;                   &lt;span class=&#34;n&#34;&gt;Output&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Shape&lt;/span&gt;              &lt;span class=&#34;n&#34;&gt;Param&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;==========================================================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;├─&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Conv2d&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;                            &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;24&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;24&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;          &lt;span class=&#34;mi&#34;&gt;260&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;├─&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Conv2d&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;                            &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;            &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;020&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;├─&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Dropout2d&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;                         &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;            &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;├─&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Linear&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;                            &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;                  &lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;050&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;├─&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Linear&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;                            &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;                  &lt;span class=&#34;mi&#34;&gt;510&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;==========================================================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Total&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;21&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;840&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Trainable&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;21&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;840&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Non&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;trainable&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Total&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mult&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;adds&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;M&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;7.69&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;==========================================================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Input&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;size&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.05&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Forward&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;backward&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;pass&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;size&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.91&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Params&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;size&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.09&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Estimated&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Total&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Size&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1.05&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;==========================================================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;参考&#34;&gt;参考：&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/135861716&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/135861716&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/49842046&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/49842046&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/31575074&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/31575074&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;更新记录&#34;&gt;更新记录&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;增加网络模型统计工具，自动进行网络参数和计算量统计。 —— 2022.07.19&lt;/p&gt;
+&lt;/blockquote&gt;
 </description>
         </item>
         <item>

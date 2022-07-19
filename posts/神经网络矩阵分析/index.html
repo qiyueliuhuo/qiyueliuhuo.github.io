@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='这是一个副标题'><title>神经网络矩阵分析</title>
+
+<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/'>
+
+<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='神经网络矩阵分析'>
+<meta property='og:description' content='这是一个副标题'>
+<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/'>
+<meta property='og:site_name' content='七月流火'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='神经网络' /><meta property='article:tag' content='算法' /><meta property='article:tag' content='理论' /><meta property='article:published_time' content='2021-10-29T11:20:28&#43;00:00'/><meta property='article:modified_time' content='2021-10-29T11:20:28&#43;00:00'/>
+<meta name="twitter:title" content="神经网络矩阵分析">
+<meta name="twitter:description" content="这是一个副标题">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "dark");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu8d4b235d4d79942b70ca31d91c98dd00_21409_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">⭐</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">七月流火</a></h1>
+            <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/qiyueliuhuo'
+                        target="_blank"
+                        title="GitHub"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://qiyueliuhuo.github.io/en/" >English</option>
+                        
+                            <option value="https://qiyueliuhuo.github.io/" selected>中文</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%AE%97%E6%B3%95/" style="background-color: #2a9d8f; color: #fff;">
+                算法
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/">神经网络矩阵分析</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            这是一个副标题
+        </h3>
+        
+    </div>
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Oct 29, 2021</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>用矩阵推导网络。</p>
+<!-- more -->
+<h2 id="符号定义">符号定义</h2>
+<ol>
+<li>使用小写字母$x$表示标量，粗体小写字母$\boldsymbol{x}$表示向量，<strong>注意</strong>向量可能为<strong>行向量</strong>或者<strong>列向量</strong>，大写字母$X$表示矩阵。</li>
+<li>$\sigma$为<strong>逐元素</strong>sigmoid函数：$\sigma(z)=\frac{1}{1+\mathrm{e}^{-z}}$。</li>
+<li>$\boldsymbol{1}$为列向量，$\boldsymbol{1}=(1, 1, 1 \cdots 1, 1, 1)^{T}$，非指示函数。</li>
+<li>$exp(\boldsymbol{a})$表示<strong>逐元素</strong>求指数。</li>
+<li>$log(\boldsymbol{a})$表示<strong>逐元素</strong>求自然对数。</li>
+</ol>
+<h2 id="符号含义">符号含义</h2>
+<ol>
+<li>列向量$\boldsymbol{x}=\left(x_{1}, x_{2}, x_{3} \cdots x_{n-2}, x_{n-1}, x_{n}\right)^{T}$代表一个输入样本，具有$n$个特征值。</li>
+<li>设列向量$\boldsymbol{z}=\left(z_{1}, z_{2}, z_{3} \cdots z_{n-2}, z_{n-1}, z_{n}\right)^{T}$，<br>
+$\sigma(\boldsymbol{z}) = \left(\sigma(z_{1}), \sigma(z_{2}), \sigma(z_{3}) \cdots \sigma(z_{n-2}), \sigma(z_{n-1}), \sigma(z_{n})\right)$</li>
+<li>设列向量$\boldsymbol{a}=\left(a_{1}, a_{2}, a_{3} \cdots a_{n-2}, a_{n-1}, a_{n}\right)^{T}$，$\operatorname{softmax}(\boldsymbol{a})=\frac{\exp (\boldsymbol{a})}{\mathbf{1}^{T} \exp (\boldsymbol{a})}$，分母为<strong>行向量</strong>乘以<strong>列向量</strong>为标量，分子为列向量，所以结果仍为<strong>列向量</strong>。</li>
+</ol>
+<h2 id="运算法则">运算法则</h2>
+<p>相关理解参考：<br>
+<a class="link" href="https://zhuanlan.zhihu.com/p/24709748"  target="_blank" rel="noopener"
+    >矩阵求导术（上）</a><br>
+<a class="link" href="https://zhuanlan.zhihu.com/p/24863977"  target="_blank" rel="noopener"
+    >矩阵求导术（下）</a></p>
+<h3 id="矩阵运算法则">矩阵运算法则</h3>
+<ol>
+<li>对尺寸相同的矩阵$A, B$，$\operatorname{tr}\left(A^{T} B\right)=\sum_{i, j} A_{i j} B_{i j}$。</li>
+</ol>
+<h3 id="矩阵微分运算符法则">矩阵微分运算符法则</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029145157.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="理解">理解</h3>
+<ol>
+<li>
+<p>定义：标量f对矩阵 $X$ 的导数, 定义为 $\frac{\partial f}{\partial X}=\left[\frac{\partial f}{\partial X_{i j}}\right]$，即f对X逐元素求导排成与X尺寸相同的矩阵。</p>
+</li>
+<li>
+<p>将矩阵导数与微分建立联系：$d f=\sum_{i=1}^{m} \sum_{j=1}^{n} \frac{\partial f}{\partial X_{i j}} d X_{i j}=\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)$。</p>
+<blockquote>
+<p>理解：
+1. 微分算子$d$作用于矩阵$X$，表示为<strong>逐元素</strong>作用。
+2. 第一个等号是全微分公式，第二个等号表达了矩阵导数与微分的联系。
+3. $tr()$代表迹(trace)是方阵对角线元素之和。
+4. 举例：设$X=\left[\begin{array}{l}X_{0_0}, X_{01} \\ X_{10}, X_{11}\end{array}\right]$, $d X=\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]$，$\frac{d f}{d X}=\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{01}} \\ \frac{\partial f}{\partial X_{10}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]$，$\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)=\operatorname{tr}\left(\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{10}} \\ \frac{\partial f}{\partial X_{01}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]\right)$</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="思考">思考</h2>
+<ol>
+<li>样本特征值排列为列向量，方便统一形式为权重参数$W$放在$\boldsymbol{x}$前，进行乘积。</li>
+</ol>
+<h2 id="全连接网络">全连接网络</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029133900.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>$$
+l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(W_{2} \sigma\left(W_{1} \boldsymbol{x}\right)\right)
+$$</p>
+<h3 id="符号说明">符号说明</h3>
+<ol>
+<li>$l$为损失函数。</li>
+<li>$\boldsymbol{x}$为单样本，则$l$只包含一个样本的损失函数。</li>
+<li>分类网络类别数为$m$，$\boldsymbol{y}$ 是除一个元素为1外其它元素为 0 的的 $m \times 1$ 列向量, $W_{2}$ 是 $m \times p$ 矩阵, $W_{1}$ 是 $p \times n$ 矩阵, $\boldsymbol{x}$ 是 $n \times 1$ 列向量, $l$ 是标量</li>
+</ol>
+<h3 id="推导-fracpartial-lpartial-w_1-和-fracpartial-lpartial-w_2">推导 $\frac{\partial l}{\partial W_{1}}$ 和 $\frac{\partial l}{\partial W_{2}}$</h3>
+<p>定义：$\boldsymbol{a}<em>{1}=W</em>{1} \boldsymbol{x}, \boldsymbol{h}<em>{1}=\sigma\left(\boldsymbol{a}</em>{1}\right), \boldsymbol{a}<em>{2}=W</em>{2} \boldsymbol{h}<em>{1}$, 则 $l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(\boldsymbol{a}</em>{2}\right)$。</p>
+<p>已知$\frac{\partial l}{\partial \boldsymbol{a}<em>{2}}=\operatorname{softmax}\left(\boldsymbol{a}</em>{2}\right)-\boldsymbol{y}$ 。</p>
+<p>推导结果：
+$$
+\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial \boldsymbol{a}<em>{2}} \boldsymbol{h}</em>{1}^{T}
+$$
+$$
+\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial \boldsymbol{a}_{1}} \boldsymbol{x}^{T}
+$$</p>
+<h3 id="推广到多个样本">推广到多个样本</h3>
+<p><strong>使用矩阵来表示N个样本，以简化形式。</strong></p>
+<p>定义：$X=\left[\boldsymbol{x}<em>{1}, \cdots, \boldsymbol{x}</em>{N}\right]$，$A_{1}=\left[\boldsymbol{a}<em>{1,1}, \cdots, \boldsymbol{a}</em>{1, N}\right]=W_{1} X+\boldsymbol{b}<em>{1} \mathbf{1}^{T}, \quad H</em>{1}=\left[\boldsymbol{h}<em>{1,1}, \cdots, \boldsymbol{h}</em>{1, N}\right]=\sigma\left(A_{1}\right) \text {, }$，$A_{2}=\left[\boldsymbol{a}<em>{2,1}, \cdots, \boldsymbol{a}</em>{2, N}\right]=W_{2} H_{1}+\boldsymbol{b}_{2} \mathbf{1}^{T}$, 注意这里使用全1向量来扩展维度。</p>
+<p>推导结果：
+$$
+\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial A_{1}} X^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}<em>{1}}=\frac{\partial l}{\partial A</em>{1}} \mathbf{1}
+$$
+$$
+\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial A_{2}} H_{1}^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}<em>{2}}=\frac{\partial l}{\partial A</em>{2}} \mathbf{1}
+$$</p>
+<h2 id="参考">参考</h2>
+<p><a class="link" href="https://zhuanlan.zhihu.com/p/94805436"  target="_blank" rel="noopener"
+    >神经网络的一些公式总结</a></p>
+<h2 id="更新记录">更新记录</h2>
+<blockquote>
+<p>调整格式和排版。  —— 2022.07.19</p>
+</blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</a>
+        
+            <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+        
+            <a href="/tags/%E7%90%86%E8%AE%BA/">理论</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">机器学习中的优化方法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">卷积计算底层实现</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">神经网络中常用算子参数量和计算量估计</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(三)：BatchNorm Module</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Pytorch源码阅读(二)：transforms模块</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2018 - 
+        
+        2022 七月流火
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#符号定义">符号定义</a></li>
+    <li><a href="#符号含义">符号含义</a></li>
+    <li><a href="#运算法则">运算法则</a>
+      <ol>
+        <li><a href="#矩阵运算法则">矩阵运算法则</a></li>
+        <li><a href="#矩阵微分运算符法则">矩阵微分运算符法则</a></li>
+        <li><a href="#理解">理解</a></li>
+      </ol>
+    </li>
+    <li><a href="#思考">思考</a></li>
+    <li><a href="#全连接网络">全连接网络</a>
+      <ol>
+        <li><a href="#符号说明">符号说明</a></li>
+        <li><a href="#推导-fracpartial-lpartial-w_1-和-fracpartial-lpartial-w_2">推导 $\frac{\partial l}{\partial W_{1}}$ 和 $\frac{\partial l}{\partial W_{2}}$</a></li>
+        <li><a href="#推广到多个样本">推广到多个样本</a></li>
+      </ol>
+    </li>
+    <li><a href="#参考">参考</a></li>
+    <li><a href="#更新记录">更新记录</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>理论 on 七月流火</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E7%90%86%E8%AE%BA/</link>
+        <description>Recent content in 理论 on 七月流火</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Fri, 29 Oct 2021 11:20:28 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E7%90%86%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>神经网络矩阵分析</title>
+        <link>https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/</link>
+        <pubDate>Fri, 29 Oct 2021 11:20:28 +0000</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/</guid>
+        <description>&lt;p&gt;用矩阵推导网络。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id=&#34;符号定义&#34;&gt;符号定义&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;使用小写字母$x$表示标量，粗体小写字母$\boldsymbol{x}$表示向量，&lt;strong&gt;注意&lt;/strong&gt;向量可能为&lt;strong&gt;行向量&lt;/strong&gt;或者&lt;strong&gt;列向量&lt;/strong&gt;，大写字母$X$表示矩阵。&lt;/li&gt;
+&lt;li&gt;$\sigma$为&lt;strong&gt;逐元素&lt;/strong&gt;sigmoid函数：$\sigma(z)=\frac{1}{1+\mathrm{e}^{-z}}$。&lt;/li&gt;
+&lt;li&gt;$\boldsymbol{1}$为列向量，$\boldsymbol{1}=(1, 1, 1 \cdots 1, 1, 1)^{T}$，非指示函数。&lt;/li&gt;
+&lt;li&gt;$exp(\boldsymbol{a})$表示&lt;strong&gt;逐元素&lt;/strong&gt;求指数。&lt;/li&gt;
+&lt;li&gt;$log(\boldsymbol{a})$表示&lt;strong&gt;逐元素&lt;/strong&gt;求自然对数。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;符号含义&#34;&gt;符号含义&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;列向量$\boldsymbol{x}=\left(x_{1}, x_{2}, x_{3} \cdots x_{n-2}, x_{n-1}, x_{n}\right)^{T}$代表一个输入样本，具有$n$个特征值。&lt;/li&gt;
+&lt;li&gt;设列向量$\boldsymbol{z}=\left(z_{1}, z_{2}, z_{3} \cdots z_{n-2}, z_{n-1}, z_{n}\right)^{T}$，&lt;br&gt;
+$\sigma(\boldsymbol{z}) = \left(\sigma(z_{1}), \sigma(z_{2}), \sigma(z_{3}) \cdots \sigma(z_{n-2}), \sigma(z_{n-1}), \sigma(z_{n})\right)$&lt;/li&gt;
+&lt;li&gt;设列向量$\boldsymbol{a}=\left(a_{1}, a_{2}, a_{3} \cdots a_{n-2}, a_{n-1}, a_{n}\right)^{T}$，$\operatorname{softmax}(\boldsymbol{a})=\frac{\exp (\boldsymbol{a})}{\mathbf{1}^{T} \exp (\boldsymbol{a})}$，分母为&lt;strong&gt;行向量&lt;/strong&gt;乘以&lt;strong&gt;列向量&lt;/strong&gt;为标量，分子为列向量，所以结果仍为&lt;strong&gt;列向量&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;运算法则&#34;&gt;运算法则&lt;/h2&gt;
+&lt;p&gt;相关理解参考：&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/24709748&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;矩阵求导术（上）&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/24863977&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;矩阵求导术（下）&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;矩阵运算法则&#34;&gt;矩阵运算法则&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;对尺寸相同的矩阵$A, B$，$\operatorname{tr}\left(A^{T} B\right)=\sum_{i, j} A_{i j} B_{i j}$。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;矩阵微分运算符法则&#34;&gt;矩阵微分运算符法则&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029145157.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;理解&#34;&gt;理解&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;定义：标量f对矩阵 $X$ 的导数, 定义为 $\frac{\partial f}{\partial X}=\left[\frac{\partial f}{\partial X_{i j}}\right]$，即f对X逐元素求导排成与X尺寸相同的矩阵。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将矩阵导数与微分建立联系：$d f=\sum_{i=1}^{m} \sum_{j=1}^{n} \frac{\partial f}{\partial X_{i j}} d X_{i j}=\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)$。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;理解：
+1. 微分算子$d$作用于矩阵$X$，表示为&lt;strong&gt;逐元素&lt;/strong&gt;作用。
+2. 第一个等号是全微分公式，第二个等号表达了矩阵导数与微分的联系。
+3. $tr()$代表迹(trace)是方阵对角线元素之和。
+4. 举例：设$X=\left[\begin{array}{l}X_{0_0}, X_{01} \\ X_{10}, X_{11}\end{array}\right]$, $d X=\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]$，$\frac{d f}{d X}=\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{01}} \\ \frac{\partial f}{\partial X_{10}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]$，$\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)=\operatorname{tr}\left(\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{10}} \\ \frac{\partial f}{\partial X_{01}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]\right)$&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;思考&#34;&gt;思考&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;样本特征值排列为列向量，方便统一形式为权重参数$W$放在$\boldsymbol{x}$前，进行乘积。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;全连接网络&#34;&gt;全连接网络&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029133900.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;$$
+l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(W_{2} \sigma\left(W_{1} \boldsymbol{x}\right)\right)
+$$&lt;/p&gt;
+&lt;h3 id=&#34;符号说明&#34;&gt;符号说明&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;$l$为损失函数。&lt;/li&gt;
+&lt;li&gt;$\boldsymbol{x}$为单样本，则$l$只包含一个样本的损失函数。&lt;/li&gt;
+&lt;li&gt;分类网络类别数为$m$，$\boldsymbol{y}$ 是除一个元素为1外其它元素为 0 的的 $m \times 1$ 列向量, $W_{2}$ 是 $m \times p$ 矩阵, $W_{1}$ 是 $p \times n$ 矩阵, $\boldsymbol{x}$ 是 $n \times 1$ 列向量, $l$ 是标量&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;推导-fracpartial-lpartial-w_1-和-fracpartial-lpartial-w_2&#34;&gt;推导 $\frac{\partial l}{\partial W_{1}}$ 和 $\frac{\partial l}{\partial W_{2}}$&lt;/h3&gt;
+&lt;p&gt;定义：$\boldsymbol{a}&lt;em&gt;{1}=W&lt;/em&gt;{1} \boldsymbol{x}, \boldsymbol{h}&lt;em&gt;{1}=\sigma\left(\boldsymbol{a}&lt;/em&gt;{1}\right), \boldsymbol{a}&lt;em&gt;{2}=W&lt;/em&gt;{2} \boldsymbol{h}&lt;em&gt;{1}$, 则 $l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(\boldsymbol{a}&lt;/em&gt;{2}\right)$。&lt;/p&gt;
+&lt;p&gt;已知$\frac{\partial l}{\partial \boldsymbol{a}&lt;em&gt;{2}}=\operatorname{softmax}\left(\boldsymbol{a}&lt;/em&gt;{2}\right)-\boldsymbol{y}$ 。&lt;/p&gt;
+&lt;p&gt;推导结果：
+$$
+\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial \boldsymbol{a}&lt;em&gt;{2}} \boldsymbol{h}&lt;/em&gt;{1}^{T}
+$$
+$$
+\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial \boldsymbol{a}_{1}} \boldsymbol{x}^{T}
+$$&lt;/p&gt;
+&lt;h3 id=&#34;推广到多个样本&#34;&gt;推广到多个样本&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;使用矩阵来表示N个样本，以简化形式。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;定义：$X=\left[\boldsymbol{x}&lt;em&gt;{1}, \cdots, \boldsymbol{x}&lt;/em&gt;{N}\right]$，$A_{1}=\left[\boldsymbol{a}&lt;em&gt;{1,1}, \cdots, \boldsymbol{a}&lt;/em&gt;{1, N}\right]=W_{1} X+\boldsymbol{b}&lt;em&gt;{1} \mathbf{1}^{T}, \quad H&lt;/em&gt;{1}=\left[\boldsymbol{h}&lt;em&gt;{1,1}, \cdots, \boldsymbol{h}&lt;/em&gt;{1, N}\right]=\sigma\left(A_{1}\right) \text {, }$，$A_{2}=\left[\boldsymbol{a}&lt;em&gt;{2,1}, \cdots, \boldsymbol{a}&lt;/em&gt;{2, N}\right]=W_{2} H_{1}+\boldsymbol{b}_{2} \mathbf{1}^{T}$, 注意这里使用全1向量来扩展维度。&lt;/p&gt;
+&lt;p&gt;推导结果：
+$$
+\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial A_{1}} X^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}&lt;em&gt;{1}}=\frac{\partial l}{\partial A&lt;/em&gt;{1}} \mathbf{1}
+$$
+$$
+\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial A_{2}} H_{1}^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}&lt;em&gt;{2}}=\frac{\partial l}{\partial A&lt;/em&gt;{2}} \mathbf{1}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/94805436&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;神经网络的一些公式总结&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;更新记录&#34;&gt;更新记录&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;调整格式和排版。  —— 2022.07.19&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

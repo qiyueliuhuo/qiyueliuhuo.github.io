@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>算子 on 七月流火</title>
+        <link>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E5%AD%90/</link>
+        <description>Recent content in 算子 on 七月流火</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Sun, 25 Apr 2021 21:41:56 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E7%AE%97%E5%AD%90/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>神经网络中常用算子参数量和计算量估计</title>
+        <link>https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/</link>
+        <pubDate>Sun, 25 Apr 2021 21:41:56 +0000</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/</guid>
+        <description>&lt;p&gt;在学习机器学习和神经网络过程中，对于模型参数和模型计算量需要做出评估，这篇文章介绍几种常见操作对模型带来的参数量和计算量，更专业的表示为空间复杂度和时间复杂度，后续再补充。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意：下面计算的是都是&lt;strong&gt;单层&lt;/strong&gt;的&lt;strong&gt;参数量&lt;/strong&gt;和&lt;strong&gt;计算量&lt;/strong&gt;，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以&lt;strong&gt;BatchSize&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;卷积层&#34;&gt;卷积层&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425214848.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;卷积运算的参数量&#34;&gt;卷积运算的参数量&lt;/h3&gt;
+&lt;p&gt;计算公式：$parameter = (k_{w}  \times k_{h} \times C_{in} + 1 )\times filter\ number$；&lt;br&gt;
+即：$参数量\ =（kernal_wide \times kernal_high \times 输入的特征图的通道数 + 偏置 ）\times 当前层filter数量$；&lt;br&gt;
+以VGG-16模型的Conv1-1卷积为例，输入$224 \times 224 \times 3$，有$64$个$3 \times 3$大小filter，输出feature map为$224 \times 224 \times 64$，那么该层具有的参数量为：$(3 \times 3 \times 3 + 1)\times 64 = 1792$&lt;/p&gt;
+&lt;h3 id=&#34;卷积运算的计算量&#34;&gt;卷积运算的计算量&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;FLOPs(Floating Point Operations)，浮点运算次数，用来衡量算法的时间复杂度；&lt;/li&gt;
+&lt;li&gt;FLOPS(Floating Point Operations per Seconds)，单位时间浮点运算次数，用来衡量硬件计算性能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;$FLOPs=\left[\left(C_{i n} \times k_{w} \times k_{h}\right)+\left(C_{i n} \times k_{w} \times k_{h}-1\right)+1\right] \times C_{o u t} \times W_{out} \times H_{out}$&lt;br&gt;
+$k_{w}$ 和 $k_{h}$ 分别表示卷积核的宽和高，其中 $C_{i n} \times k_{w} \times k_{h}$ 表示乘法计算量, $C_{i n} \times k_{w} \times k_{h}-1$ 表示加法计算量(可以这样理解，需要把乘法计算得到的$C_{i n} \times k_{w} \times k_{h}$个数字加这么多次), $+1$ 表示偏置, $C_{\text {out }} \times W_{out} \times H_{out}$ 表示 feature $\operatorname{map}$ 中的所有元素， $W_{out} \text{、} H_{out}$ 表示feature map的宽和高。&lt;/p&gt;
+&lt;h2 id=&#34;全连接层&#34;&gt;全连接层&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425234554.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;全连接运算的参数量&#34;&gt;全连接运算的参数量&lt;/h3&gt;
+&lt;p&gt;计算公式: $parameter =\left(N_{i n}+1\right) \times N_{\text {out }}$&lt;br&gt;
+$N_{i n}$ 表示输入特征向量的维数, +1表示偏置, $N_{out}$ 表示输出向量的维数&lt;/p&gt;
+&lt;h3 id=&#34;全连接运算的计算量&#34;&gt;全连接运算的计算量&lt;/h3&gt;
+&lt;p&gt;$FLOPs=[N_{in}+(N_{in}-1)+1] \times N_{out}$&lt;br&gt;
+$N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。&lt;br&gt;
+其中$N_{in}$表示乘法运算量, $N_{in}-1$ 表示加法运算量，+1表示偏置。&lt;/p&gt;
+&lt;h2 id=&#34;池化层&#34;&gt;池化层&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425233642.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;池化层运算的参数量&#34;&gt;池化层运算的参数量&lt;/h3&gt;
+&lt;p&gt;无参数。&lt;/p&gt;
+&lt;h3 id=&#34;池化层运算的计算量&#34;&gt;池化层运算的计算量&lt;/h3&gt;
+&lt;p&gt;$FLOPs=C_{out} \times H_{out} \times W_{out} \times k \times k$&lt;br&gt;
+$k \times k$ 代表在原特征图区域$k \times k$ 的 max ，sum或者avg池化操作；&lt;br&gt;
+$H_{out} \times W_{out}$代表输出特征图大小，$C_{out}$代表输出通道数。&lt;/p&gt;
+&lt;h2 id=&#34;案例&#34;&gt;案例&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210422151056.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;参数量&#34;&gt;参数量&lt;/h3&gt;
+&lt;p&gt;VGG-19模型，输入图片大小为$3 \times 224 \times 224$，表示为$3$通道$224 \times 224$尺寸的图像输入，模型分为五组卷积和三层全连接层。&lt;/p&gt;
+&lt;p&gt;$(3 \times 3 \times 3 + 1) \times 64 + (3 \times 3 \times 64 + 1) \times 64 + (3 \times 3 \times 64 + 1) \times 128 + (3 \times 3 \times 128 + 1) \times 128 +$
+$(3 \times 3 \times 128 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 +$
+$(3 \times 3 \times 256 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 +$
+$(3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 +$
+$(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \times 1000$&lt;br&gt;
+计算得143667240，乘以一个浮点数占4个字节，得574668960字节，为&lt;strong&gt;548.04MB&lt;/strong&gt;，和论文中的数量大致相等。&lt;/p&gt;
+&lt;h3 id=&#34;计算量&#34;&gt;计算量&lt;/h3&gt;
+&lt;p&gt;VGG-19模型，输入图片大小为$3 \times 224 \times 224$，表示为$3$通道$224 \times 224$尺寸的图像输入，模型分为五组卷积和三层全连接层。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一组卷积
+&lt;ul&gt;
+&lt;li&gt;$(3 \times 3 \times 3  + 3 \times 3 \times 3 - 1 + 1) \times 64 \times 224 \times 224 = 173408256$&lt;/li&gt;
+&lt;li&gt;$(64 \times 3 \times 3  + 64 \times 3 \times 3 - 1 + 1) \times 64 \times 224 \times 224 = 3699376128$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;池化
+&lt;ul&gt;
+&lt;li&gt;$64 \times 112 \times 112 \times 2 \times 2 = 3211264$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第二组卷积
+&lt;ul&gt;
+&lt;li&gt;$(64 \times 3 \times 3  + 64 \times 3 \times 3 - 1 + 1) \times 128 \times 112 \times 112 = 1849688064$&lt;/li&gt;
+&lt;li&gt;$(128 \times 3 \times 3  + 128 \times 3 \times 3 - 1 + 1) \times 128 \times 112 \times 112 = 3699376128$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;池化
+&lt;ul&gt;
+&lt;li&gt;$128 \times 56 \times 56 \times 2 \times 2 = 1605632$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第三组卷积
+&lt;ul&gt;
+&lt;li&gt;$(128 \times 3 \times 3  + 128 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 1849688064$&lt;/li&gt;
+&lt;li&gt;$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 3699376128$&lt;/li&gt;
+&lt;li&gt;$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 3699376128$&lt;/li&gt;
+&lt;li&gt;$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 256 \times 56 \times 56 = 3699376128$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;池化
+&lt;ul&gt;
+&lt;li&gt;$256 \times 28 \times 28 \times 2 \times 2 = 802816$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第四组卷积
+&lt;ul&gt;
+&lt;li&gt;$(256 \times 3 \times 3  + 256 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 1849688064$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 3699376128$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 3699376128$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 28 \times 28 = 3699376128$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;池化
+&lt;ul&gt;
+&lt;li&gt;$512 \times 14 \times 14 \times 2 \times 2 = 401408$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第五组卷积
+&lt;ul&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$&lt;/li&gt;
+&lt;li&gt;$(512 \times 3 \times 3  + 512 \times 3 \times 3 - 1 + 1) \times 512 \times 14 \times 14 = 924844032$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;池化
+&lt;ul&gt;
+&lt;li&gt;$512 \times 7 \times 7 \times 2 \times 2 = 100352$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第一个全连接层
+&lt;ul&gt;
+&lt;li&gt;$(512 \times 7 \times 7 + 512 \times 7 \times 7 - 1 + 1) \times 4096 = 205520896$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第二个全连接层
+&lt;ul&gt;
+&lt;li&gt;$(4096 + 4096 - 1 + 1) * 4096 = 33554432$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第三个全连接层
+&lt;ul&gt;
+&lt;li&gt;$(4096 + 4096 - 1 + 1) * 1000 = 8192000$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;共计：39264124928 = 39.2 bilion次运算，将这个值换算为&lt;strong&gt;multiply-adds运算&lt;/strong&gt;，需要除以2，得到&lt;strong&gt;19.6bilion&lt;/strong&gt;，该值与论文中的计算量一致。（此次运算忽略了ReLu激活层的计算量，该计算量较小，可以忽略）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;工具&#34;&gt;工具&lt;/h2&gt;
+&lt;h3 id=&#34;torchinfo&#34;&gt;torchinfo&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/TylerYep/torchinfo&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;torchinfo&lt;/a&gt; 该工具可以自动统计网络模型的参数量和计算量。&lt;/p&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;torchinfo&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;summary&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;model&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ConvNet&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;batch_size&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;summary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;input_size&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;batch_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;28&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;28&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;结果：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;==========================================================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Layer&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;depth&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;idx&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;                   &lt;span class=&#34;n&#34;&gt;Output&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Shape&lt;/span&gt;              &lt;span class=&#34;n&#34;&gt;Param&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;==========================================================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;├─&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Conv2d&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;                            &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;24&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;24&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;          &lt;span class=&#34;mi&#34;&gt;260&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;├─&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Conv2d&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;                            &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;            &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;020&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;├─&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Dropout2d&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;                         &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;            &lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;├─&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Linear&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;4&lt;/span&gt;                            &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;50&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;                  &lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;050&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;err&#34;&gt;├─&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Linear&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;                            &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;                  &lt;span class=&#34;mi&#34;&gt;510&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;==========================================================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Total&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;21&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;840&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Trainable&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;21&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;840&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Non&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;trainable&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Total&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mult&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;adds&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;M&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;7.69&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;==========================================================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Input&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;size&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.05&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Forward&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;backward&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;pass&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;size&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.91&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Params&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;size&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.09&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Estimated&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Total&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Size&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MB&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;1.05&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;==========================================================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;参考&#34;&gt;参考：&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/135861716&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/135861716&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/49842046&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/49842046&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/31575074&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://zhuanlan.zhihu.com/p/31575074&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;更新记录&#34;&gt;更新记录&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;增加网络模型统计工具，自动进行网络参数和计算量统计。 —— 2022.07.19&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
