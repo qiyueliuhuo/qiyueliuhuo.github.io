@@ -133,6 +133,7 @@
 $$&lt;/p&gt;
 &lt;p&gt;当latex公式中存在换行时，需要用&lt;code&gt;\\\\&lt;/code&gt;替代&lt;code&gt;\\&lt;/code&gt;，&lt;code&gt;\\&lt;/code&gt; 会被 MarkDown 处理掉，具体查看&lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack/issues/102&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;katex 分段函数不能正常显示&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;$\boldsymbol{a_{1}}=W_{1}\boldsymbol{x}$ 只能这样写 &lt;code&gt;$\boldsymbol{a_{1}}=W_{1}\boldsymbol{x}$&lt;/code&gt;，不能这样写 &lt;code&gt;$\boldsymbol{a}_{1}=W_{1}\boldsymbol{x}$&lt;/code&gt; 或者 &lt;code&gt;${\boldsymbol{a}}_{1}=W_{1}\boldsymbol{x}$&lt;/code&gt;。&lt;/p&gt;
 </description>
         </item>
         

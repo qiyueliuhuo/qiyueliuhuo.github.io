@@ -343,6 +343,7 @@
 	
 ></p>
 <h4 id="快速排序">快速排序</h4>
+<p>python语言版本</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -377,6 +378,59 @@
 </span></span><span class="line"><span class="cl">        <span class="n">Quick_Sort</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">        <span class="n">Quick_Sort</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">L</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>C++ 语言版本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">quick_sort</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">start</span><span class="p">,</span> <span class="kt">int</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">start</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">start</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">end</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="kt">int</span> <span class="n">base</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">		<span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">v</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">base</span><span class="p">)</span> <span class="n">j</span><span class="o">--</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">			<span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">base</span><span class="p">)</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">			<span class="n">v</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="n">assert</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">base</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">quick_sort</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">quick_sort</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="例题1-数组中的第k个最大元素力扣215httpsleetcode-cncomproblemskth-largest-element-in-an-array字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd">例题1： 数组中的第K个最大元素（<a class="link" href="https://leetcode-cn.com/problems/kth-largest-element-in-an-array/"  target="_blank" rel="noopener"
@@ -1495,22 +1549,20 @@ $$
 <p>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
 <p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>不触动警报装置的情况下</strong> ，一夜之内能够偷窃到的最高金额。如，输入：[2,7,9,3,1]
 输出：12</p>
-<h5 id="递推公式">递推公式</h5>
+<h4 id="递推公式">递推公式</h4>
 <p>$$
-\left{
-\begin{array}{<strong>lr</strong>}<br>
-dp[i][0] \text{代表偷了第i间房获得的最大收益}   \
-dp[i][1] \text{代表没有偷第i间房获得的最大收益}    \
-\end{array}<br>
-\right.
-$$
-$$
-\left{<br>
-\begin{array}{<strong>lr</strong>}<br>
-dp[i + 1][0] = dp[i][1] + L[i + 1]   \
-dp[i + 1][1] = max(dp[i][0], dp[i][1])     \
-\end{array}<br>
-\right.
+\begin{equation}
+\left{\begin{array}{l}
+dp[i][0] \text { 代表偷了第间房获得的最大收益 } \\
+dp[i][1] \text { 代表没有偷第 } \mathrm{i} \text { 间房获得的最大收益 }
+\end{array}\right.
+\end{equation}
+$$</p>
+<p>$$
+\left{\begin{array}{l}
+d p[i+1][0]=dp[i][1]+L[i+1] \\
+d p[i+1][1]=\max (d p[i][0], d p[i][1])
+\end{array}\right.
 $$</p>
 <h5 id="python代码-11">python代码</h5>
 <div class="highlight"><div class="chroma">
@@ -2081,6 +2133,7 @@ rose -&gt; ros (删除 &rsquo;e&rsquo;)</p>
             <li><a href="#引子计算斐波那契数列">引子：计算斐波那契数列</a></li>
             <li><a href="#从斐波那契数列到动态规划">从斐波那契数列到动态规划</a></li>
             <li><a href="#例题">例题</a></li>
+            <li><a href="#递推公式">递推公式</a></li>
             <li><a href="#动态规划中常用思想">动态规划中常用思想</a></li>
           </ol>
         </li>
