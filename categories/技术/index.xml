@@ -6,7 +6,105 @@
         <description>Recent content in 技术 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 14 Aug 2022 11:12:32 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 17 Sep 2022 19:34:41 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Vim-算法-刷题环境配置</title>
+        <link>https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link>
+        <pubDate>Sat, 17 Sep 2022 19:34:41 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</guid>
+        <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;笔者大概从五年前大二开始接触 vim 编辑器，当时有很多关于两款“史前”编辑器 Vim 和 Emacs 的争论，对于一些较早前的极客一般分为 Vim 党、 Emacs 党 和其他。 笔者自开始接触 Linux 系统就学习的 Vim ，一直使用到现在，几乎所有 IDE 、游览器和笔记系统Logseq都开启 vim 模式，也算是一个 Vim 党。然而，笔者无心参与 Vim 和 Emacs 两款编辑器之争；很明显，现代大型项目的开发，已经几乎必须采取像 idea、clion、vscode 这些优秀的 IDE ；当下，笔者更多地使用 Vim（终端界面）编写一些算法题，这样既减少成熟 IDE 自动的补全机制对于笔者自身的驯化（经常知道某些函数，然而自己拼不对，非常依赖IDE智能提示），又能让笔者对 Vim 操作和 shell 脚本编程更加熟练；此篇博客介绍笔者在终端界面下使用 Vim 编写算法题搭建的自动化编译运行环境。&lt;/p&gt;
+&lt;h2 id=&#34;相关环境&#34;&gt;相关环境&lt;/h2&gt;
+&lt;p&gt;系统：macOS Monterey 12.5.1&lt;br&gt;
+vim：MacVim 8.2&lt;br&gt;
+文件检测：fswatch 1.16.0&lt;/p&gt;
+&lt;h2 id=&#34;vim-配置&#34;&gt;Vim 配置&lt;/h2&gt;
+&lt;p&gt;参考此篇博客：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/RichDevos/article/details/123826404&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;2022 最新 Mac Vim 开发环境的部署与配置&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;效果如下图（点击图片可以放大查看）：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37.png&#34;
+	width=&#34;3358&#34;
+	height=&#34;2050&#34;
+	srcset=&#34;https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu4e1180beb1d2d264930d97cf2a41f442_389292_480x0_resize_box_3.png 480w, https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu4e1180beb1d2d264930d97cf2a41f442_389292_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;163&#34;
+		data-flex-basis=&#34;393px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;shell-脚本&#34;&gt;Shell 脚本&lt;/h2&gt;
+&lt;p&gt;通过 Shell 脚本来实现当自己编写程序时，保存完后，自动进行编译及运行。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# fswatch.sh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;FILE_NAME&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fswatch -0 ./&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;FILE_NAME&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;read&lt;/span&gt; -d &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt; event&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;[TIME: `date +&amp;#34;&lt;/span&gt;%Y-%m-%d &lt;span class=&#34;se&#34;&gt;\0&lt;/span&gt;33&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;47&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;30m%H:%M:%S&lt;span class=&#34;se&#34;&gt;\0&lt;/span&gt;33&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;0m&lt;span class=&#34;s2&#34;&gt;&amp;#34;`]\033[0m This file &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;event&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; has changed. \033[0m&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;[TIME: `date +&amp;#34;&lt;/span&gt;%Y-%m-%d &lt;span class=&#34;se&#34;&gt;\0&lt;/span&gt;33&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;47&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;30m%H:%M:%S&lt;span class=&#34;se&#34;&gt;\0&lt;/span&gt;33&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;0m&lt;span class=&#34;s2&#34;&gt;&amp;#34;`]\033[0m &lt;/span&gt;$&lt;span class=&#34;s2&#34;&gt; g++ -std=c++11 &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;FILE_NAME&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; -o a.out&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	g++ -std&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;c++11 &lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;FILE_NAME&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt; -o a.out
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$?&lt;/span&gt; -eq &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;		&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;[TIME: `date +&amp;#34;&lt;/span&gt;%Y-%m-%d &lt;span class=&#34;se&#34;&gt;\0&lt;/span&gt;33&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;47&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;30m%H:%M:%S&lt;span class=&#34;se&#34;&gt;\0&lt;/span&gt;33&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;0m&lt;span class=&#34;s2&#34;&gt;&amp;#34;`]\033[0m \033[36m 编译通过！ \033[0m&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;		&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;		&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;[TIME: `date +&amp;#34;&lt;/span&gt;%Y-%m-%d &lt;span class=&#34;se&#34;&gt;\0&lt;/span&gt;33&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;47&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;30m%H:%M:%S&lt;span class=&#34;se&#34;&gt;\0&lt;/span&gt;33&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;0m&lt;span class=&#34;s2&#34;&gt;&amp;#34;`]\033[0m &lt;/span&gt;$&lt;span class=&#34;s2&#34;&gt; ./a.out&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;		./a.out
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;		&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$?&lt;/span&gt; -eq &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;		&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;[TIME: `date +&amp;#34;&lt;/span&gt;%Y-%m-%d &lt;span class=&#34;se&#34;&gt;\0&lt;/span&gt;33&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;47&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;30m%H:%M:%S&lt;span class=&#34;se&#34;&gt;\0&lt;/span&gt;33&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;0m&lt;span class=&#34;s2&#34;&gt;&amp;#34;`]\033[0m \033[32m执行完成，通过! \033[0m&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;		&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;		&lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;通过在终端的另一个标签下执行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./fswatch.sh template.cpp 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样，每次对 &lt;strong&gt;template.cpp&lt;/strong&gt; 文件进行修改并保存时，会自动触发 &lt;strong&gt;fswatch.sh&lt;/strong&gt; 中编写的脚本，完成对程序的自动编译和运行。
+该脚本的效果如下图（点击可以查看大图）：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02.png&#34;
+	width=&#34;3358&#34;
+	height=&#34;2050&#34;
+	srcset=&#34;https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu4e1180beb1d2d264930d97cf2a41f442_724332_480x0_resize_box_3.png 480w, https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu4e1180beb1d2d264930d97cf2a41f442_724332_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;163&#34;
+		data-flex-basis=&#34;393px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这样便可以愉快的刷题了，哈哈，加油！！！&lt;/p&gt;
+&lt;h2 id=&#34;问题&#34;&gt;问题&lt;/h2&gt;
+&lt;p&gt;当在 Vim 进行一次保存时，fswatch 会触发两次，目前不清楚如何解决。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>WebServer（C&#43;&#43;版）代码分析之线程池</title>
         <link>https://qiyueliuhuo.github.io/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/</link>
         <pubDate>Sun, 14 Aug 2022 11:12:32 +0800</pubDate>
