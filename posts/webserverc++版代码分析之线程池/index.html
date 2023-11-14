@@ -316,7 +316,8 @@
     
     <h2 id="前言">前言</h2>
 <p>在阅读 c++ 实现的 <a class="link" href="https://github.com/markparticle/WebServer"  target="_blank" rel="noopener"
-    >WebServer</a> 源码时，感觉其中线程池实现值得具体分析，此篇博客分析该源码中线程池实现部分。</p>
+    >WebServer</a> 源码时，感觉其中线程池实现值得具体分析，此篇博客分析该源码中线程池实现部分。
+Vibrancy continued</p>
 <h2 id="源码">源码</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -485,7 +486,8 @@
 </blockquote>
 <p><code>void detach()</code> 作用？</p>
 <blockquote>
-<p>拆离相关联的线程。 操作系统负责释放终止的线程资源。</p>
+<p>拆离相关联的线程。 操作系统负责释放终止的线程资源。具体参考：<a class="link" href="https://learn.microsoft.com/zh-cn/cpp/standard-library/thread-class?view=msvc-170"  target="_blank" rel="noopener"
+    >thread类-detach</a></p>
 </blockquote>
 <p><code>std::unique_lock</code> 作用及应用场景？</p>
 <blockquote>
@@ -502,7 +504,7 @@
 <blockquote>
 <p><code>std::forward</code> 比 <code>std::move</code> 逻辑略复杂，<code>std::move</code> 是无条件把参数转换为右值，而 <code>std::forward</code> 在特定情况下才会这样做：仅当参数是用右值初始化时，才会把它转换为右值。它的意义是使外面的函数调用选择接受右值的版本，实际的移动工作是由外面的函数进行的；使用std::forward来转发参数一般被称为完美转发 (也叫精确传递)。具体参考：<a class="link" href="https://blog.csdn.net/xiangbaohui/article/details/103673177"  target="_blank" rel="noopener"
     >C++ 理解std::forward完美转发</a>。这里，使用 <code>std::move</code> 将 <code>pool-&gt;tasks.front()</code> 装换为右值，从而使得 <code>std::function</code> 类型的task调用 <code>function&amp; operator= (function&amp;&amp; rhs);</code> 构造函数，避免资源重复申请创建。详细讨论参考：<a class="link" href="https://www.zhihu.com/search?type=content&amp;q=std%3A%3Amove"  target="_blank" rel="noopener"
-    ></a></p>
+    >知乎std::move回答</a></p>
 </blockquote>
 
 </section>
@@ -670,7 +672,7 @@
         
             2018 - 
         
-        2022 七月流火
+        2023 七月流火
     </section>
     
     <section class="powerby">

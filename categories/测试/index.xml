@@ -6,7 +6,19 @@
         <description>Recent content in 测试 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 23 Jun 2021 11:17:44 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 24 Oct 2022 09:59:59 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Opencv与pytorch仿射变换探究</title>
+        <link>https://qiyueliuhuo.github.io/posts/opencv%E4%B8%8Epytorch%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E6%8E%A2%E7%A9%B6/</link>
+        <pubDate>Mon, 24 Oct 2022 09:59:59 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/posts/opencv%E4%B8%8Epytorch%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E6%8E%A2%E7%A9%B6/</guid>
+        <description>&lt;h2 id=&#34;问题一&#34;&gt;问题一&lt;/h2&gt;
+&lt;p&gt;已知 Pytorch 中 &lt;code&gt;torch.nn.functional.affine_grid(theta, size, align_corners=None)&lt;/code&gt; 仿射变换 $\theta$。&lt;/p&gt;
+&lt;p&gt;如何将一些坐标点（ground truth）采用参数为 $\theta$ 的仿射变换进行坐标变换，变换后的坐标为正常图像坐标下的坐标位置？&lt;/p&gt;
+&lt;p&gt;设 $\theta=\left[\left[\begin{array}{lll}\theta_1 &amp;amp; \theta_2 &amp;amp; t_1 \ \theta_3 &amp;amp; \theta_4 &amp;amp; t_2\end{array}\right]\right]$&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>主题测试文章</title>
         <link>https://qiyueliuhuo.github.io/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</link>
         <pubDate>Wed, 23 Jun 2021 11:17:44 +0800</pubDate>

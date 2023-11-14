@@ -461,7 +461,18 @@
 </span></span><span class="line"><span class="cl">(gdb) 
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="单步执行">单步执行</h3>
+</div><p>条件断点：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">(gdb) b ... if cond
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>具体参考：<a class="link" href="http://c.biancheng.net/view/8255.html"  target="_blank" rel="noopener"
+    >GDB条件断点详解</a></p>
+<h3 id="单步执行">单步执行</h3>
 <p>首先需要输入 <code>run</code> 启动程序，运行到第一个断点处，然后可以选择 <code>step</code> 单步调试（<strong>如果有函数调用则进入函数</strong>），<code>next</code> 单步跟踪程序（<strong>遇到函数调用，直接调用函数，不会进入函数体内</strong>），<code>continue</code> 继续运行到下一个断点处。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -801,7 +812,7 @@
         
             2018 - 
         
-        2022 七月流火
+        2023 七月流火
     </section>
     
     <section class="powerby">

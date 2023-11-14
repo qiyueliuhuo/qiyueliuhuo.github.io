@@ -159,7 +159,18 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;单步执行&#34;&gt;单步执行&lt;/h3&gt;
+&lt;/div&gt;&lt;p&gt;条件断点：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) b ... if cond
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;具体参考：&lt;a class=&#34;link&#34; href=&#34;http://c.biancheng.net/view/8255.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GDB条件断点详解&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;单步执行&#34;&gt;单步执行&lt;/h3&gt;
 &lt;p&gt;首先需要输入 &lt;code&gt;run&lt;/code&gt; 启动程序，运行到第一个断点处，然后可以选择 &lt;code&gt;step&lt;/code&gt; 单步调试（&lt;strong&gt;如果有函数调用则进入函数&lt;/strong&gt;），&lt;code&gt;next&lt;/code&gt; 单步跟踪程序（&lt;strong&gt;遇到函数调用，直接调用函数，不会进入函数体内&lt;/strong&gt;），&lt;code&gt;continue&lt;/code&gt; 继续运行到下一个断点处。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;

@@ -6,7 +6,15 @@
         <description>Recent content in Categories on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 17 Sep 2022 19:34:41 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 24 Oct 2022 09:59:59 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>测试</title>
+        <link>https://qiyueliuhuo.github.io/categories/%E6%B5%8B%E8%AF%95/</link>
+        <pubDate>Mon, 24 Oct 2022 09:59:59 +0800</pubDate>
+        
+        <guid>https://qiyueliuhuo.github.io/categories/%E6%B5%8B%E8%AF%95/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>技术</title>
         <link>https://qiyueliuhuo.github.io/categories/%E6%8A%80%E6%9C%AF/</link>
         <pubDate>Sat, 17 Sep 2022 19:34:41 +0800</pubDate>
@@ -21,14 +29,6 @@
         
         <guid>https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95/</guid>
         <description>&lt;img src="https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95/jeswin-thomas-hecib2an4T4-unsplash.jpg" alt="Featured image of post 算法" /&gt;</description>
-        </item>
-        <item>
-        <title>测试</title>
-        <link>https://qiyueliuhuo.github.io/categories/%E6%B5%8B%E8%AF%95/</link>
-        <pubDate>Wed, 23 Jun 2021 11:17:44 +0800</pubDate>
-        
-        <guid>https://qiyueliuhuo.github.io/categories/%E6%B5%8B%E8%AF%95/</guid>
-        <description></description>
         </item>
         
     </channel>

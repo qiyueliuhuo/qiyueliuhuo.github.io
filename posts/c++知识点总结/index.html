@@ -492,9 +492,9 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span><span class="c1">//这里使用char* argv[]
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span><span class="c1">//这里使用char* argv[]
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span><span class="c1">//这里使用char **argv
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span><span class="c1">//这里使用char **argv
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>int argc：表示字符串的数量，操作系统会自动根据第二个参数传入数字，程序员不用管，只需要正确使用即可。若用户输入N个字符串，那么argc= N + 1；因为 argv[0] 为程序的路径。</p>
@@ -1107,7 +1107,7 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="n">type</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)[];</span> <span class="c1">// 数组指针
+<pre tabindex="0" class="chroma"><code class="language-C" data-lang="C"><span class="line"><span class="cl"><span class="nf">type</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)[];</span> <span class="c1">// 数组指针
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cm">/*
 </span></span></span><span class="line"><span class="cl"><span class="cm">type a[]，a 是一个数组，数组内元素都是 type 类型，将 a 换成 (*p)，
 </span></span></span><span class="line"><span class="cl"><span class="cm">可以理解为 （*p）是一个数组，数组内元素都是 type 类型，那么 p 就是指向这样的数组的指针，即数组指针。
@@ -1198,7 +1198,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">ptr</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="n">ptr</span> <span class="o">=</span> <span class="n">max</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">max_num</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">ptr</span><span class="p">)(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>  <span class="c1">// int max_num = ptr(12, 18);也是对的
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="n">max_num</span><span class="p">);</span>
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="n">max_num</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="c1">// 打印 18。
@@ -6460,7 +6460,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。</li>
         
             2018 - 
         
-        2022 七月流火
+        2023 七月流火
     </section>
     
     <section class="powerby">
