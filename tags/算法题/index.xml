@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>算法题 on 七月流火</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95%E9%A2%98/</link>
+        <link>http://localhost:1313/tags/%E7%AE%97%E6%B3%95%E9%A2%98/</link>
         <description>Recent content in 算法题 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 18 Feb 2022 13:08:49 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95%E9%A2%98/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Leetcode算法题总结</title>
-        <link>https://qiyueliuhuo.github.io/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/</link>
+        <lastBuildDate>Fri, 18 Feb 2022 13:08:49 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E7%AE%97%E6%B3%95%E9%A2%98/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>LeetCode 进阶指南：解题思路与算法题分类总结</title>
+        <link>http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/</link>
         <pubDate>Fri, 18 Feb 2022 13:08:49 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/</guid>
-        <description>&lt;blockquote&gt;
+        <guid>http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/</guid>
+        <description>&lt;img src="http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_img.png" alt="Featured image of post LeetCode 进阶指南：解题思路与算法题分类总结" /&gt;&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;人生亦有命，安能行叹复坐愁？ —— 拟行路难·其四&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;目前只做字节跳动、腾讯的算法和后端的高频leetcode算法题。刷题之前先复习经典的一些算法，有相当多算法是经典算法的修改版。&lt;/p&gt;
@@ -21,18 +21,18 @@
     &gt;高频leetcode题🔥&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://github.com/Making-It/Code&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;数据结构与算法🔥&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;符号定义及含义&#34;&gt;符号定义及含义&lt;/h2&gt;
-&lt;p&gt;当输入规模足够大，使得运行时间只与增长量级有关时，需要研究算法的渐近效率。也就是，当输入规模无限增加时，在极限中，算法的运行时间如何随着输入规模的变大而增加。这里仅引入两个常用的渐进记号。&lt;/p&gt;
+&lt;h2 id=&#34;符号定义及含义&#34;&gt;符号定义及含义
+&lt;/h2&gt;&lt;p&gt;当输入规模足够大，使得运行时间只与增长量级有关时，需要研究算法的渐近效率。也就是，当输入规模无限增加时，在极限中，算法的运行时间如何随着输入规模的变大而增加。这里仅引入两个常用的渐进记号。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;$\Theta$ (西塔) 渐近紧确界，如$\frac{1}{2} n^{2}-3 n=\Theta\left(n^{2}\right)$，$6n^{3} \neq \Theta (n^{2})$，$n \neq \Theta (n^{2})$。&lt;/li&gt;
-&lt;li&gt;$O$（大o）渐进上界，如$\frac{1}{2} n^{2}-3 n=O\left(n^{2}\right)$，$6n^{3} \neq O(n^{2})$，$n = O (n^{2})$。&lt;/li&gt;
+&lt;li&gt;$O$（大o）渐进上界，如$\frc{1}{2} n^{2}-3 n=O\left(n^{2}\right)$，$6n^{3} \neq O(n^{2})$，$n = O (n^{2})$。&lt;/li&gt;
 &lt;li&gt;渐进记号代表的是集合，这里的$=$更多地代表$\in$。&lt;/li&gt;
 &lt;li&gt;算法复杂度分为时间复杂度和空间复杂度。时间复杂度衡量了执行算法所需要的计算工作量；而空间复杂度是指执行这个算法所需要的内存空间。&lt;/li&gt;
 &lt;li&gt;&lt;font color=#E3B&gt;在相当多文献资料中，有时我们发现$O$记号非形式化地描述&lt;strong&gt;渐进确界&lt;/strong&gt;，即已经使用$\Theta$记号定义的东西。&lt;/font&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;经典算法&#34;&gt;经典算法&lt;/h2&gt;
-&lt;h3 id=&#34;经典排序算法&#34;&gt;经典排序算法&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220219145339.png&#34;
+&lt;h2 id=&#34;经典算法&#34;&gt;经典算法
+&lt;/h2&gt;&lt;h3 id=&#34;经典排序算法&#34;&gt;经典排序算法
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220219145339.png&#34;
 	
 	
 	
@@ -40,8 +40,8 @@
 	
 	
 &gt;&lt;/p&gt;
-&lt;h4 id=&#34;快速排序&#34;&gt;快速排序&lt;/h4&gt;
-&lt;p&gt;python语言版本&lt;/p&gt;
+&lt;h4 id=&#34;快速排序&#34;&gt;快速排序
+&lt;/h4&gt;&lt;p&gt;python语言版本&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -133,11 +133,11 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;h5 id=&#34;例题1-数组中的第k个最大元素力扣215httpsleetcode-cncomproblemskth-largest-element-in-an-array字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题1： 数组中的第K个最大元素（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/kth-largest-element-in-an-array/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣215&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;字节-算法-频次6&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。&lt;br&gt;
+    &gt;字节-算法-频次6&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。&lt;br&gt;
 请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。如，输入: [3,2,1,5,6,4] 和 k = 2，输出: 5&lt;/p&gt;
-&lt;h6 id=&#34;python代码&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h6 id=&#34;python代码&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -199,8 +199,8 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;参考：&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/110052556&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;快速排序-Python 实现&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;归并排序&#34;&gt;归并排序&lt;/h4&gt;
-&lt;p&gt;python 语言版本&lt;/p&gt;
+&lt;h4 id=&#34;归并排序&#34;&gt;归并排序
+&lt;/h4&gt;&lt;p&gt;python 语言版本&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -363,9 +363,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h5 id=&#34;例题1合并两个有序数组-力扣88httpsleetcode-cncomproblemsmerge-sorted-array&#34;&gt;例题1：合并两个有序数组 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/merge-sorted-array/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;力扣88&lt;/a&gt;）&lt;/h5&gt;
-&lt;h6 id=&#34;python代码-1&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+    &gt;力扣88&lt;/a&gt;）
+&lt;/h5&gt;&lt;h6 id=&#34;python代码-1&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -429,18 +429,18 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;数组&#34;&gt;数组&lt;/h3&gt;
-&lt;h4 id=&#34;二分查找&#34;&gt;二分查找&lt;/h4&gt;
-&lt;h5 id=&#34;例题1爱吃香蕉的珂珂力扣875httpsleetcode-cncomproblemskoko-eating-bananas&#34;&gt;例题1：爱吃香蕉的珂珂（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/koko-eating-bananas/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;力扣875&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;珂珂喜欢吃香蕉。这里有 N 堆香蕉，第 i 堆中有 piles[i] 根香蕉。警卫已经离开了，将在 H 小时后回来。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;数组&#34;&gt;数组
+&lt;/h3&gt;&lt;h4 id=&#34;二分查找&#34;&gt;二分查找
+&lt;/h4&gt;&lt;h5 id=&#34;例题1爱吃香蕉的珂珂力扣875httpsleetcode-cncomproblemskoko-eating-bananas&#34;&gt;例题1：爱吃香蕉的珂珂（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/koko-eating-bananas/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;力扣875&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;珂珂喜欢吃香蕉。这里有 N 堆香蕉，第 i 堆中有 piles[i] 根香蕉。警卫已经离开了，将在 H 小时后回来。&lt;/p&gt;
 &lt;p&gt;珂珂可以决定她吃香蕉的速度 K（单位：根/小时）。每个小时，她将会选择一堆香蕉，从中吃掉 K 根。如果这堆香蕉少于 K 根，她将吃掉这堆的所有香蕉，然后这一小时内不会再吃更多的香蕉。&lt;/p&gt;
 &lt;p&gt;珂珂喜欢慢慢吃，但仍然想在警卫回来前吃掉所有的香蕉。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;返回她可以在 H 小时内吃掉所有香蕉的最小速度 K（K 为整数）&lt;/strong&gt;&lt;/p&gt;
-&lt;h6 id=&#34;分析&#34;&gt;分析&lt;/h6&gt;
-&lt;p&gt;此题规约为在数组中寻找一个分解线，左右边符合不同的条件。&lt;/p&gt;
-&lt;h6 id=&#34;python代码-2&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h6 id=&#34;分析&#34;&gt;分析
+&lt;/h6&gt;&lt;p&gt;此题规约为在数组中寻找一个分解线，左右边符合不同的条件。&lt;/p&gt;
+&lt;h6 id=&#34;python代码-2&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -487,11 +487,11 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h5 id=&#34;例题2-x-的平方根-力扣69httpsleetcode-cncomproblemssqrtx&#34;&gt;例题2： x 的平方根 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/sqrtx/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;力扣69&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;给你一个非负整数 x ，计算并返回 x 的 算术平方根 。&lt;/p&gt;
+    &gt;力扣69&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;给你一个非负整数 x ，计算并返回 x 的 算术平方根 。&lt;/p&gt;
 &lt;p&gt;由于返回类型是整数，结果只保留 整数部分 ，小数部分将被 舍去 。&lt;/p&gt;
-&lt;h6 id=&#34;python代码-3&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h6 id=&#34;python代码-3&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -519,13 +519,13 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ans&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;链表&#34;&gt;链表&lt;/h3&gt;
-&lt;h4 id=&#34;链表翻转&#34;&gt;链表翻转&lt;/h4&gt;
-&lt;h5 id=&#34;例题1k-个一组翻转链表力扣25httpsleetcode-cncomproblemsreverse-nodes-in-k-group字节-后端-频次60httpsgithubcomafatcoderleetcodetopblobmasterbytedancebackendmd&#34;&gt;例题1：K 个一组翻转链表（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/reverse-nodes-in-k-group/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h3 id=&#34;链表&#34;&gt;链表
+&lt;/h3&gt;&lt;h4 id=&#34;链表翻转&#34;&gt;链表翻转
+&lt;/h4&gt;&lt;h5 id=&#34;例题1k-个一组翻转链表力扣25httpsleetcode-cncomproblemsreverse-nodes-in-k-group字节-后端-频次60httpsgithubcomafatcoderleetcodetopblobmasterbytedancebackendmd&#34;&gt;例题1：K 个一组翻转链表（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/reverse-nodes-in-k-group/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣25&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/backend.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;字节-后端-频次60&lt;/a&gt;）&lt;/h5&gt;
-&lt;h6 id=&#34;python代码-4&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+    &gt;字节-后端-频次60&lt;/a&gt;）
+&lt;/h5&gt;&lt;h6 id=&#34;python代码-4&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -619,9 +619,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;first&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;last&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;二叉树&#34;&gt;二叉树&lt;/h3&gt;
-&lt;h4 id=&#34;二叉树深度优先遍历&#34;&gt;二叉树深度优先遍历&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h3 id=&#34;二叉树&#34;&gt;二叉树
+&lt;/h3&gt;&lt;h4 id=&#34;二叉树深度优先遍历&#34;&gt;二叉树深度优先遍历
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -726,14 +726,14 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h5 id=&#34;例题1求根节点到叶节点数字之和力扣129httpsleetcode-cncomproblemssum-root-to-leaf-numbers&#34;&gt;例题1：求根节点到叶节点数字之和（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;力扣129&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;给你一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。
+    &gt;力扣129&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;给你一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。
 每条从根节点到叶节点的路径都代表一个数字：&lt;/p&gt;
 &lt;p&gt;例如，从根节点到叶节点的路径 1 -&amp;gt; 2 -&amp;gt; 3 表示数字 123 。
 计算从根节点到叶节点生成的 所有数字之和 。&lt;/p&gt;
 &lt;p&gt;叶节点 是指没有子节点的节点。&lt;/p&gt;
-&lt;h6 id=&#34;python代码-5&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h6 id=&#34;python代码-5&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -781,11 +781,11 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;h5 id=&#34;例题2二叉树的最近公共祖先力扣236httpsleetcode-cncomproblemslowest-common-ancestor-of-a-binary-tree字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题2：二叉树的最近公共祖先（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣236&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;字节-算法-频次6&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;给定一个二叉树, 找到该树中两个指定节点的&lt;strong&gt;最近公共祖先。&lt;/strong&gt;
+    &gt;字节-算法-频次6&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;给定一个二叉树, 找到该树中两个指定节点的&lt;strong&gt;最近公共祖先。&lt;/strong&gt;
 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。&lt;/p&gt;
-&lt;h6 id=&#34;python代码-6&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h6 id=&#34;python代码-6&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -841,8 +841,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;False&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;二叉树广度优先遍历按层遍历&#34;&gt;二叉树广度优先遍历（按层遍历）&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h4 id=&#34;二叉树广度优先遍历按层遍历&#34;&gt;二叉树广度优先遍历（按层遍历）
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -916,9 +916,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;res&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;前序和中序遍历构造二叉树&#34;&gt;前序和中序遍历构造二叉树&lt;/h4&gt;
-&lt;h5 id=&#34;python代码-7&#34;&gt;python代码&lt;/h5&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h4 id=&#34;前序和中序遍历构造二叉树&#34;&gt;前序和中序遍历构造二叉树
+&lt;/h4&gt;&lt;h5 id=&#34;python代码-7&#34;&gt;python代码
+&lt;/h5&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -961,12 +961,12 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h5 id=&#34;例题1前序和中序遍历构造二叉树-力扣98httpsleetcode-cncomproblemsconstruct-binary-tree-from-preorder-and-inorder-traversal&#34;&gt;例题1：前序和中序遍历构造二叉树 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;力扣98&lt;/a&gt;）&lt;/h5&gt;
-&lt;h5 id=&#34;例题2二叉树的右侧视图-力扣199httpsleetcode-cncomproblemsbinary-tree-right-side-view&#34;&gt;例题2：二叉树的右侧视图 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/binary-tree-right-side-view/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;力扣199&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;给定一个二叉树的 &lt;strong&gt;根节点&lt;/strong&gt; root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。&lt;/p&gt;
-&lt;h6 id=&#34;python代码-8&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+    &gt;力扣98&lt;/a&gt;）
+&lt;/h5&gt;&lt;h5 id=&#34;例题2二叉树的右侧视图-力扣199httpsleetcode-cncomproblemsbinary-tree-right-side-view&#34;&gt;例题2：二叉树的右侧视图 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/binary-tree-right-side-view/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;力扣199&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;给定一个二叉树的 &lt;strong&gt;根节点&lt;/strong&gt; root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。&lt;/p&gt;
+&lt;h6 id=&#34;python代码-8&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -1014,12 +1014,12 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;res&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;二叉搜索树中序遍历&#34;&gt;二叉搜索树中序遍历&lt;/h4&gt;
-&lt;h5 id=&#34;例题1二叉搜索树中第k小的元素力扣230httpsleetcode-cncomproblemskth-smallest-element-in-a-bst&#34;&gt;例题1：二叉搜索树中第K小的元素（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;力扣230&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;给定一个二叉搜索树的根节点 root ，和一个整数 k ，请你设计一个算法查找其中第 k 个最小元素（从 1 开始计数）。&lt;/p&gt;
-&lt;h6 id=&#34;python代码-9&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h4 id=&#34;二叉搜索树中序遍历&#34;&gt;二叉搜索树中序遍历
+&lt;/h4&gt;&lt;h5 id=&#34;例题1二叉搜索树中第k小的元素力扣230httpsleetcode-cncomproblemskth-smallest-element-in-a-bst&#34;&gt;例题1：二叉搜索树中第K小的元素（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;力扣230&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;给定一个二叉搜索树的根节点 root ，和一个整数 k ，请你设计一个算法查找其中第 k 个最小元素（从 1 开始计数）。&lt;/p&gt;
+&lt;h6 id=&#34;python代码-9&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -1059,8 +1059,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pre_visit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;root&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;right&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;k&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h6 id=&#34;python代码官方&#34;&gt;python代码（官方）&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h6 id=&#34;python代码官方&#34;&gt;python代码（官方）
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -1090,8 +1090,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;root&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;root&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;right&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;图结构&#34;&gt;图结构&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220309105509.png&#34;
+&lt;/div&gt;&lt;h3 id=&#34;图结构&#34;&gt;图结构
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220309105509.png&#34;
 	
 	
 	
@@ -1121,8 +1121,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;图遍历&#34;&gt;图遍历&lt;/h4&gt;
-&lt;blockquote&gt;
+&lt;/div&gt;&lt;h4 id=&#34;图遍历&#34;&gt;图遍历
+&lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;下面的代码都是github copilot自动生成的代码，看起来非常不错。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1252,12 +1252,12 @@
     &gt;图的两种遍历方式：DFS、BFS&lt;/a&gt;&lt;/p&gt;
 &lt;h5 id=&#34;例题1岛屿数量力扣200httpsleetcode-cncomproblemsnumber-of-islands字节-算法-频次5httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题1：岛屿数量（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/number-of-islands/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣200&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;字节-算法-频次5&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;给你一个由 &amp;lsquo;1&amp;rsquo;（陆地）和 &amp;lsquo;0&amp;rsquo;（水）组成的的二维网格，请你计算网格中岛屿的数量。&lt;br&gt;
+    &gt;字节-算法-频次5&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;给你一个由 &amp;lsquo;1&amp;rsquo;（陆地）和 &amp;lsquo;0&amp;rsquo;（水）组成的的二维网格，请你计算网格中岛屿的数量。&lt;br&gt;
 岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。&lt;br&gt;
 此外，你可以假设该网格的四条边均被水包围。&lt;/p&gt;
-&lt;h6 id=&#34;python代码-10&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h6 id=&#34;python代码-10&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -1297,18 +1297,18 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;res&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;其他例题&#34;&gt;其他例题&lt;/h5&gt;
-&lt;ul&gt;
+&lt;/div&gt;&lt;h5 id=&#34;其他例题&#34;&gt;其他例题
+&lt;/h5&gt;&lt;ul&gt;
 &lt;li&gt;被围绕的区域（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/surrounded-regions/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣130&lt;/a&gt;）&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;并查集&#34;&gt;并查集&lt;/h3&gt;
-&lt;h3 id=&#34;位运算&#34;&gt;位运算&lt;/h3&gt;
-&lt;p&gt;参考：&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/getyoulove/p/3991781.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h3 id=&#34;并查集&#34;&gt;并查集
+&lt;/h3&gt;&lt;h3 id=&#34;位运算&#34;&gt;位运算
+&lt;/h3&gt;&lt;p&gt;参考：&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/getyoulove/p/3991781.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;位操作基础篇之位操作全面总结&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;动态规划算法&#34;&gt;动态规划算法&lt;/h3&gt;
-&lt;h4 id=&#34;引子计算斐波那契数列&#34;&gt;引子：计算斐波那契数列&lt;/h4&gt;
-&lt;p&gt;&lt;strong&gt;斐波那契数列&lt;/strong&gt;是指这样一个数列：0、1、1、2、3、5、8、13、21、34、55&amp;hellip;&amp;hellip;&lt;/p&gt;
+&lt;h3 id=&#34;动态规划算法&#34;&gt;动态规划算法
+&lt;/h3&gt;&lt;h4 id=&#34;引子计算斐波那契数列&#34;&gt;引子：计算斐波那契数列
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;斐波那契数列&lt;/strong&gt;是指这样一个数列：0、1、1、2、3、5、8、13、21、34、55&amp;hellip;&amp;hellip;&lt;/p&gt;
 &lt;p&gt;斐波纳契数列可以用下面的方法定义：
 $$
 \left{\begin{array}{l}
@@ -1326,8 +1326,8 @@ $$
 	
 &gt;
 可以看到因为重复求解相同的子问题，使得浪费大量的计算时间和计算资源。那么求解斐波那契数列可以采用1）带有备忘录的递归算法；2）自底向上法。&lt;/p&gt;
-&lt;h4 id=&#34;从斐波那契数列到动态规划&#34;&gt;从斐波那契数列到动态规划&lt;/h4&gt;
-&lt;p&gt;朴素递归算法之所以效率很低，是因为它&lt;font color=#E3B&gt;反复求解相同的子问题&lt;/font&gt;。因此，&lt;strong&gt;动态规划方法&lt;/strong&gt;&lt;font color=#E3B&gt;仔细安排求解顺序，对每个子问题只求解一次，并将结果保存下来。&lt;/font&gt;如果随后再次需要此子问题的解，只需查找保存的结果，而不必重新计算。因此，动态规划方法时付出额外的内存空间来节省时间，是典型的&lt;font color=#E3B&gt;&lt;strong&gt;时空权衡&lt;/strong&gt;&lt;/font&gt;的例子。而时间上的节省可能是非常巨大的：可能将一个指数时间的解转化为一个多项式时间的解。&lt;/p&gt;
+&lt;h4 id=&#34;从斐波那契数列到动态规划&#34;&gt;从斐波那契数列到动态规划
+&lt;/h4&gt;&lt;p&gt;朴素递归算法之所以效率很低，是因为它&lt;font color=#E3B&gt;反复求解相同的子问题&lt;/font&gt;。因此，&lt;strong&gt;动态规划方法&lt;/strong&gt;&lt;font color=#E3B&gt;仔细安排求解顺序，对每个子问题只求解一次，并将结果保存下来。&lt;/font&gt;如果随后再次需要此子问题的解，只需查找保存的结果，而不必重新计算。因此，动态规划方法时付出额外的内存空间来节省时间，是典型的&lt;font color=#E3B&gt;&lt;strong&gt;时空权衡&lt;/strong&gt;&lt;/font&gt;的例子。而时间上的节省可能是非常巨大的：可能将一个指数时间的解转化为一个多项式时间的解。&lt;/p&gt;
 &lt;p&gt;动态规划有两种等价的实现方法：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -1341,14 +1341,14 @@ $$
 &lt;blockquote&gt;
 &lt;p&gt;动态规划题一般情况，需要先找到合适的状态转移方程/递推公式，中间结果状态的保存一般用数组或者多维数组，这里，如果状态转移方程只依赖之前计算的有限项，且这些有限项符合固定的规则，并且最后计算的结果不是在所有状态中寻找（如max）求得，那么往往并不需要一个数组，只需要记录某几个之前的状态（变量可以重复利用），就可以递推后面的情况，降低空间复杂度。该想法总结自求解斐波那契数列。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4 id=&#34;例题&#34;&gt;例题&lt;/h4&gt;
-&lt;h5 id=&#34;例题1打家劫舍力扣198httpsleetcode-cncomproblemshouse-robber&#34;&gt;例题1：打家劫舍（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/house-robber/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;力扣198&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，&lt;strong&gt;如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&#34;例题&#34;&gt;例题
+&lt;/h4&gt;&lt;h5 id=&#34;例题1打家劫舍力扣198httpsleetcode-cncomproblemshouse-robber&#34;&gt;例题1：打家劫舍（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/house-robber/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;力扣198&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，&lt;strong&gt;如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;给定一个代表每个房屋存放金额的非负整数数组，计算你&lt;strong&gt;不触动警报装置的情况下&lt;/strong&gt; ，一夜之内能够偷窃到的最高金额。如，输入：[2,7,9,3,1]
 输出：12&lt;/p&gt;
-&lt;h4 id=&#34;递推公式&#34;&gt;递推公式&lt;/h4&gt;
-&lt;p&gt;$$
+&lt;h4 id=&#34;递推公式&#34;&gt;递推公式
+&lt;/h4&gt;&lt;p&gt;$$
 \begin{equation}
 \left{\begin{array}{l}
 dp[i][0] \text { 代表偷了第间房获得的最大收益 } \\
@@ -1362,8 +1362,8 @@ d p[i+1][0]=dp[i][1]+L[i+1] \\
 d p[i+1][1]=\max (d p[i][0], d p[i][1])
 \end{array}\right.
 $$&lt;/p&gt;
-&lt;h5 id=&#34;python代码-11&#34;&gt;python代码&lt;/h5&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h5 id=&#34;python代码-11&#34;&gt;python代码
+&lt;/h5&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -1391,8 +1391,8 @@ $$&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;优化之后的递推公式&#34;&gt;优化之后的递推公式&lt;/h5&gt;
-&lt;p&gt;用 $d p[i]$ 表示前 $i$ 间房屋能偷窃到的最高总金额, 那么就有如下的状态转移方程:
+&lt;/div&gt;&lt;h5 id=&#34;优化之后的递推公式&#34;&gt;优化之后的递推公式
+&lt;/h5&gt;&lt;p&gt;用 $d p[i]$ 表示前 $i$ 间房屋能偷窃到的最高总金额, 那么就有如下的状态转移方程:
 $$
 d p[i]=\max (d p[i-2]+n u m s[i], d p[i-1])
 $$
@@ -1402,13 +1402,13 @@ $$
 $$
 最终的答案即为 $d p[n-1]$, 其中 $n$ 是数组的长度。&lt;/p&gt;
 &lt;h5 id=&#34;例题2零钱兑换-力扣322httpsleetcode-cncomproblemscoin-change&#34;&gt;例题2：零钱兑换 (&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/coin-change/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;力扣322&lt;/a&gt;)&lt;/h5&gt;
-&lt;p&gt;给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。计算并返回可以凑成总金额所需的最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。&lt;/p&gt;
+    &gt;力扣322&lt;/a&gt;)
+&lt;/h5&gt;&lt;p&gt;给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。计算并返回可以凑成总金额所需的最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;你可以认为每种硬币的数量是无限的。&lt;/strong&gt; 如，输入：coins = [1, 2, 5], amount = 11，输出：3&lt;/p&gt;
-&lt;h6 id=&#34;分析-1&#34;&gt;分析&lt;/h6&gt;
-&lt;p&gt;首先，想要凑成总金额又想使得所需的硬币个数最少，那么在组合中尽可能得使用更大面额的硬币；如果最大面额的硬币小于所需凑成的总金额，那么可以尝试先用一定数量的最大面额硬币，那么形成一个子问题为：&lt;font color=#E3B&gt; 使用除去最大面额的硬币来凑成新总金额所需最小的硬币个数，新总金额 = 总金额 - 最大面额硬币 * 最大面额硬币个数。&lt;/font&gt;&lt;/p&gt;
-&lt;h6 id=&#34;python代码-12&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h6 id=&#34;分析-1&#34;&gt;分析
+&lt;/h6&gt;&lt;p&gt;首先，想要凑成总金额又想使得所需的硬币个数最少，那么在组合中尽可能得使用更大面额的硬币；如果最大面额的硬币小于所需凑成的总金额，那么可以尝试先用一定数量的最大面额硬币，那么形成一个子问题为：&lt;font color=#E3B&gt; 使用除去最大面额的硬币来凑成新总金额所需最小的硬币个数，新总金额 = 总金额 - 最大面额硬币 * 最大面额硬币个数。&lt;/font&gt;&lt;/p&gt;
+&lt;h6 id=&#34;python代码-12&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -1433,10 +1433,10 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h5 id=&#34;例题3-最长有效括号力扣32httpsleetcode-cncomproblemslongest-valid-parentheses&#34;&gt;例题3： 最长有效括号（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/longest-valid-parentheses/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;力扣32&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;给你一个只包含 &amp;lsquo;(&amp;rsquo; 和 &amp;lsquo;)&amp;rsquo; 的字符串，找出最长有效（格式正确且连续）括号子串的长度。如，输入：s = &amp;ldquo;)()())&amp;quot;，输出：4，解释：最长有效括号子串是 &amp;ldquo;()()&amp;rdquo;&lt;/p&gt;
-&lt;h6 id=&#34;python代码-13&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+    &gt;力扣32&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;给你一个只包含 &amp;lsquo;(&amp;rsquo; 和 &amp;lsquo;)&amp;rsquo; 的字符串，找出最长有效（格式正确且连续）括号子串的长度。如，输入：s = &amp;ldquo;)()())&amp;quot;，输出：4，解释：最长有效括号子串是 &amp;ldquo;()()&amp;rdquo;&lt;/p&gt;
+&lt;h6 id=&#34;python代码-13&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -1464,8 +1464,8 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;h5 id=&#34;例题4编辑距离-力扣72httpsleetcode-cncomproblemsedit-distance字节-算法-频次8httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题4：编辑距离 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/edit-distance/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣72&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;字节-算法-频次8&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数。&lt;/p&gt;
+    &gt;字节-算法-频次8&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数。&lt;/p&gt;
 &lt;p&gt;你可以对一个单词进行如下三种操作：插入一个字符、删除一个字符、替换一个字符。如：
 输入：word1 = &amp;ldquo;horse&amp;rdquo;, word2 = &amp;ldquo;ros&amp;rdquo;&lt;br&gt;
 输出：3&lt;br&gt;
@@ -1476,8 +1476,8 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;官方给的思路如何保证是全局最小操作数呢？另外，处理dp边界时候，可以申请一个额外的空间i=0，j=0，即申请dp[0&amp;hellip;n + 1][0&amp;hellip;m + 1]空间，然后把第一行和第一列的值设置为边界，这样递推代码中不用额外考虑边界情况，这样可以简化代码。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h6 id=&#34;python代码-14&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h6 id=&#34;python代码-14&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -1545,14 +1545,14 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h5 id=&#34;例题5最长递增子序列-力扣300httpsleetcode-cncomproblemslongest-increasing-subsequence字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题5：最长递增子序列 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/longest-increasing-subsequence/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣300&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;字节-算法-频次6&lt;/a&gt;）&lt;/h5&gt;
-&lt;p&gt;给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。&lt;/p&gt;
+    &gt;字节-算法-频次6&lt;/a&gt;）
+&lt;/h5&gt;&lt;p&gt;给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;子序列&lt;/strong&gt; 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;看着有些难度，实际上只要想到动态规划，并且以nums[i]处作为子序列的结尾，从小递推到给定的序列的长度，就可以解决问题了。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h6 id=&#34;python代码-15&#34;&gt;python代码&lt;/h6&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h6 id=&#34;python代码-15&#34;&gt;python代码
+&lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -1574,34 +1574,34 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;其他例题-1&#34;&gt;其他例题&lt;/h5&gt;
-&lt;h6 id=&#34;青蛙过河力扣403httpsleetcode-cncomproblemsfrog-jump&#34;&gt;青蛙过河（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/frog-jump/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;力扣403&lt;/a&gt;）&lt;/h6&gt;
-&lt;h4 id=&#34;动态规划中常用思想&#34;&gt;动态规划中常用思想&lt;/h4&gt;
-&lt;ol&gt;
+&lt;/div&gt;&lt;h5 id=&#34;其他例题-1&#34;&gt;其他例题
+&lt;/h5&gt;&lt;h6 id=&#34;青蛙过河力扣403httpsleetcode-cncomproblemsfrog-jump&#34;&gt;青蛙过河（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/frog-jump/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;力扣403&lt;/a&gt;）
+&lt;/h6&gt;&lt;h4 id=&#34;动态规划中常用思想&#34;&gt;动态规划中常用思想
+&lt;/h4&gt;&lt;ol&gt;
 &lt;li&gt;增量法：字符串/矩阵表示的结构中，往往可以考虑尾部增加一个字符所带来的影响/变化，从而考虑多个情况，建立递归公式。&lt;/li&gt;
 &lt;li&gt;在字符串表示的结构中，任何一个子串/子序列，都必须有一个结尾字符，往往可以考虑将以字符结尾的某个DP变量作为动态规划状态，从而考虑更长的字符串。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;奇淫技巧小题大做&#34;&gt;奇淫技巧（小题大做）&lt;/h2&gt;
-&lt;h3 id=&#34;例题1寻找重复数-力扣287httpsleetcode-cncomproblemsfind-the-duplicate-number字节-算法-频次3httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题1：寻找重复数 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/find-the-duplicate-number/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h2 id=&#34;奇淫技巧小题大做&#34;&gt;奇淫技巧（小题大做）
+&lt;/h2&gt;&lt;h3 id=&#34;例题1寻找重复数-力扣287httpsleetcode-cncomproblemsfind-the-duplicate-number字节-算法-频次3httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题1：寻找重复数 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/find-the-duplicate-number/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣287&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;字节-算法-频次3&lt;/a&gt;）&lt;/h3&gt;
-&lt;h2 id=&#34;待解决&#34;&gt;待解决&lt;/h2&gt;
-&lt;p&gt;小强有两个序列 a 和 b ，这两个序列都是由相同的无重复数字集合组成的，现在小强想把 a 序列变成 b 序列，他只能进行以下的操作：&lt;/p&gt;
+    &gt;字节-算法-频次3&lt;/a&gt;）
+&lt;/h3&gt;&lt;h2 id=&#34;待解决&#34;&gt;待解决
+&lt;/h2&gt;&lt;p&gt;小强有两个序列 a 和 b ，这两个序列都是由相同的无重复数字集合组成的，现在小强想把 a 序列变成 b 序列，他只能进行以下的操作：&lt;/p&gt;
 &lt;p&gt;从序列a中选择第一个或者最后一个数字井把它插入 a 中的任意位置。&lt;/p&gt;
 &lt;p&gt;问小强至少需要几次操作可以将序列 a 变为序列 b 。&lt;/p&gt;
 &lt;p&gt;输入描述：&lt;/p&gt;
 &lt;p&gt;一行一个整数 n 表示序列的长度。接下来两行每行 n 个整数。第一行表示序列a，第二行表示序列b。1≤ n ≤ $10^5；$1≤ $a_i$, $b_i$ ≤ $10^9$。保证给出的序列符合题意。&lt;/p&gt;
-&lt;h2 id=&#34;内推&#34;&gt;内推&lt;/h2&gt;
-&lt;p&gt;字节跳动内推链接：&lt;a class=&#34;link&#34; href=&#34;https://job.toutiao.com/s/e1NmGpy&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h2 id=&#34;内推&#34;&gt;内推
+&lt;/h2&gt;&lt;p&gt;字节跳动内推链接：&lt;a class=&#34;link&#34; href=&#34;https://job.toutiao.com/s/e1NmGpy&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节内推&lt;/a&gt;，有需要的同学自取。&lt;/p&gt;
-&lt;h2 id=&#34;未归档&#34;&gt;未归档&lt;/h2&gt;
-&lt;h3 id=&#34;配置校验数&#34;&gt;配置校验数&lt;/h3&gt;
-&lt;p&gt;小华在开发配置校验功能时，发现配置的打开和关闭总是两两结对，为了减少这个状态的存储空间，小华将这些配置的“开°，“关“状态转换为1和0 的数组从左向右依次填充，如：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32.png&#34;
+&lt;h2 id=&#34;未归档&#34;&gt;未归档
+&lt;/h2&gt;&lt;h3 id=&#34;配置校验数&#34;&gt;配置校验数
+&lt;/h3&gt;&lt;p&gt;小华在开发配置校验功能时，发现配置的打开和关闭总是两两结对，为了减少这个状态的存储空间，小华将这些配置的“开°，“关“状态转换为1和0 的数组从左向右依次填充，如：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32.png&#34;
 	width=&#34;217&#34;
 	height=&#34;189&#34;
-	srcset=&#34;https://qiyueliuhuo.github.io/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hub6b0f8238e36d9c49cbe6e12415118ae_62874_480x0_resize_box_3.png 480w, https://qiyueliuhuo.github.io/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hub6b0f8238e36d9c49cbe6e12415118ae_62874_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu8666688849022667935.png 480w, http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu15695013204657258868.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;配置校验数&#34;
@@ -1614,8 +1614,8 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &gt;&lt;/p&gt;
 &lt;p&gt;因为配置总是成对出现，所以数组长度为偶数，同时为了容易查找结对的配置，小华约定：对于 M 对配置，坐标 i 和 i+M 的配置组成一对。因为第一对配置必须开启，小华发现可以使用一个整数来表示，比如3，二进制表达为11，就代表一对配置同时打开，小华称之为配置校验数。&lt;/p&gt;
 &lt;p&gt;于是，小华突发其想，想研究一下这样能刚好表达结对配置同时打开或关闭的整數有多少个，现在请你设计一个程序，帮小华找出不大于给定的非负整数N的配置校验数有多少个。&lt;/p&gt;
-&lt;h3 id=&#34;基本计算器&#34;&gt;基本计算器&lt;/h3&gt;
-&lt;p&gt;[力扣224](&lt;a class=&#34;link&#34; href=&#34;https://leetcode.cn/problems/basic-calculator/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h3 id=&#34;基本计算器&#34;&gt;基本计算器
+&lt;/h3&gt;&lt;p&gt;[力扣224](&lt;a class=&#34;link&#34; href=&#34;https://leetcode.cn/problems/basic-calculator/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://leetcode.cn/problems/basic-calculator/&lt;/a&gt;）&lt;/p&gt;
 &lt;p&gt;c++ 代码&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;

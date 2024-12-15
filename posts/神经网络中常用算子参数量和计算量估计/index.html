@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='这是一个副标题'><title>神经网络中常用算子参数量和计算量估计</title>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=49547&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="这是一个副标题">
+<title>神经网络中常用算子参数量和计算量估计</title>
 
-<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/'>
+<link rel='canonical' href='http://localhost:49547/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/'>
 
-<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='神经网络中常用算子参数量和计算量估计'>
-<meta property='og:description' content='这是一个副标题'>
-<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/'>
+<link rel="stylesheet" href="/scss/style.min.9768e1ece02ab8863eb990f67f0561fb1fe386bc4d167d086c922110995ad8fc.css"><meta property='og:title' content="神经网络中常用算子参数量和计算量估计">
+<meta property='og:description' content="这是一个副标题">
+<meta property='og:url' content='http://localhost:49547/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/'>
 <meta property='og:site_name' content='七月流火'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='神经网络' /><meta property='article:tag' content='算子' /><meta property='article:published_time' content='2021-04-25T21:41:56&#43;00:00'/><meta property='article:modified_time' content='2021-04-25T21:41:56&#43;00:00'/>
 <meta name="twitter:title" content="神经网络中常用算子参数量和计算量估计">
@@ -55,13 +56,11 @@
                     
                     
                         
-                        <img src="/img/avatar_hu8d4b235d4d79942b70ca31d91c98dd00_21409_300x0_resize_box_3.png" width="300"
+                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
                 </a>
-                
-                    <span class="emoji">⭐</span>
                 
             </figure>
             
@@ -71,13 +70,14 @@
             <h1 class="site-name"><a href="/">七月流火</a></h1>
             <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
         </div>
-    </header><ol class="social-menu">
+    </header><ol class="menu-social">
             
                 <li>
                     <a 
                         href='https://github.com/qiyueliuhuo'
                         target="_blank"
                         title="GitHub"
+                        rel="me"
                     >
                         
                         
@@ -96,7 +96,6 @@
         
         
         
-
         <li >
             <a href='/' >
                 
@@ -117,7 +116,6 @@
         </li>
         
         
-
         <li >
             <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
                 
@@ -137,7 +135,6 @@
         </li>
         
         
-
         <li >
             <a href='/archives/' >
                 
@@ -158,7 +155,6 @@
         </li>
         
         
-
         <li >
             <a href='/search/' >
                 
@@ -178,7 +174,6 @@
         </li>
         
         
-
         <li >
             <a href='/links/' >
                 
@@ -197,10 +192,11 @@
             </a>
         </li>
         
-
-        <div class="menu-bottom-section">
-                <li id="i18n-switch">  
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
   <path d="M4 5h7" />
   <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
@@ -211,19 +207,20 @@
 
 
 
-                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
-                        
-                            <option value="https://qiyueliuhuo.github.io/en/" >English</option>
-                        
-                            <option value="https://qiyueliuhuo.github.io/" selected>中文</option>
-                        
-                    </select>
-                </li>
-            
-            
-            
-                <li id="dark-mode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="http://localhost:49547/en/" >English</option>
+                                
+                                    <option value="http://localhost:49547/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="8" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -231,7 +228,7 @@
 
 
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="16" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -239,13 +236,78 @@
 
 
 
-                    <span>暗色模式</span>
-                </li>
-            
-        </div>
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
     </ol>
 </aside>
-<main class="main full-width">
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#卷积层">卷积层</a>
+      <ol>
+        <li><a href="#卷积运算的参数量">卷积运算的参数量</a></li>
+        <li><a href="#卷积运算的计算量">卷积运算的计算量</a></li>
+      </ol>
+    </li>
+    <li><a href="#全连接层">全连接层</a>
+      <ol>
+        <li><a href="#全连接运算的参数量">全连接运算的参数量</a></li>
+        <li><a href="#全连接运算的计算量">全连接运算的计算量</a></li>
+      </ol>
+    </li>
+    <li><a href="#池化层">池化层</a>
+      <ol>
+        <li><a href="#池化层运算的参数量">池化层运算的参数量</a></li>
+        <li><a href="#池化层运算的计算量">池化层运算的计算量</a></li>
+      </ol>
+    </li>
+    <li><a href="#案例">案例</a>
+      <ol>
+        <li><a href="#参数量">参数量</a></li>
+        <li><a href="#计算量">计算量</a></li>
+      </ol>
+    </li>
+    <li><a href="#工具">工具</a>
+      <ol>
+        <li><a href="#torchinfo">torchinfo</a></li>
+      </ol>
+    </li>
+    <li><a href="#参考">参考：</a></li>
+    <li><a href="#更新记录">更新记录</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
     <article class="main-article">
     <header class="article-header">
 
@@ -272,6 +334,9 @@
         
     </div>
 
+    
+    
+    
     
     <footer class="article-time">
         
@@ -309,6 +374,7 @@
 
     
 </div>
+
 </header>
 
     <section class="article-content">
@@ -318,8 +384,8 @@
 <blockquote>
 <p>注意：下面计算的是都是<strong>单层</strong>的<strong>参数量</strong>和<strong>计算量</strong>，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以<strong>BatchSize</strong>。</p>
 </blockquote>
-<h2 id="卷积层">卷积层</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425214848.png"
+<h2 id="卷积层">卷积层
+</h2><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425214848.png"
 	
 	
 	
@@ -327,12 +393,12 @@
 	
 	
 ></p>
-<h3 id="卷积运算的参数量">卷积运算的参数量</h3>
-<p>计算公式：$parameter = (k_{w}  \times k_{h} \times C_{in} + 1 )\times filter\ number$；<br>
+<h3 id="卷积运算的参数量">卷积运算的参数量
+</h3><p>计算公式：$parameter = (k_{w}  \times k_{h} \times C_{in} + 1 )\times filter\ number$；<br>
 即：$参数量\ =（kernal_wide \times kernal_high \times 输入的特征图的通道数 + 偏置 ）\times 当前层filter数量$；<br>
 以VGG-16模型的Conv1-1卷积为例，输入$224 \times 224 \times 3$，有$64$个$3 \times 3$大小filter，输出feature map为$224 \times 224 \times 64$，那么该层具有的参数量为：$(3 \times 3 \times 3 + 1)\times 64 = 1792$</p>
-<h3 id="卷积运算的计算量">卷积运算的计算量</h3>
-<blockquote>
+<h3 id="卷积运算的计算量">卷积运算的计算量
+</h3><blockquote>
 <ul>
 <li>FLOPs(Floating Point Operations)，浮点运算次数，用来衡量算法的时间复杂度；</li>
 <li>FLOPS(Floating Point Operations per Seconds)，单位时间浮点运算次数，用来衡量硬件计算性能。</li>
@@ -340,8 +406,8 @@
 </blockquote>
 <p>$FLOPs=\left[\left(C_{i n} \times k_{w} \times k_{h}\right)+\left(C_{i n} \times k_{w} \times k_{h}-1\right)+1\right] \times C_{o u t} \times W_{out} \times H_{out}$<br>
 $k_{w}$ 和 $k_{h}$ 分别表示卷积核的宽和高，其中 $C_{i n} \times k_{w} \times k_{h}$ 表示乘法计算量, $C_{i n} \times k_{w} \times k_{h}-1$ 表示加法计算量(可以这样理解，需要把乘法计算得到的$C_{i n} \times k_{w} \times k_{h}$个数字加这么多次), $+1$ 表示偏置, $C_{\text {out }} \times W_{out} \times H_{out}$ 表示 feature $\operatorname{map}$ 中的所有元素， $W_{out} \text{、} H_{out}$ 表示feature map的宽和高。</p>
-<h2 id="全连接层">全连接层</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425234554.png"
+<h2 id="全连接层">全连接层
+</h2><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425234554.png"
 	
 	
 	
@@ -349,15 +415,15 @@ $k_{w}$ 和 $k_{h}$ 分别表示卷积核的宽和高，其中 $C_{i n} \times k
 	
 	
 ></p>
-<h3 id="全连接运算的参数量">全连接运算的参数量</h3>
-<p>计算公式: $parameter =\left(N_{i n}+1\right) \times N_{\text {out }}$<br>
+<h3 id="全连接运算的参数量">全连接运算的参数量
+</h3><p>计算公式: $parameter =\left(N_{i n}+1\right) \times N_{\text {out }}$<br>
 $N_{i n}$ 表示输入特征向量的维数, +1表示偏置, $N_{out}$ 表示输出向量的维数</p>
-<h3 id="全连接运算的计算量">全连接运算的计算量</h3>
-<p>$FLOPs=[N_{in}+(N_{in}-1)+1] \times N_{out}$<br>
+<h3 id="全连接运算的计算量">全连接运算的计算量
+</h3><p>$FLOPs=[N_{in}+(N_{in}-1)+1] \times N_{out}$<br>
 $N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。<br>
 其中$N_{in}$表示乘法运算量, $N_{in}-1$ 表示加法运算量，+1表示偏置。</p>
-<h2 id="池化层">池化层</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425233642.png"
+<h2 id="池化层">池化层
+</h2><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425233642.png"
 	
 	
 	
@@ -365,14 +431,14 @@ $N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。<br
 	
 	
 ></p>
-<h3 id="池化层运算的参数量">池化层运算的参数量</h3>
-<p>无参数。</p>
-<h3 id="池化层运算的计算量">池化层运算的计算量</h3>
-<p>$FLOPs=C_{out} \times H_{out} \times W_{out} \times k \times k$<br>
+<h3 id="池化层运算的参数量">池化层运算的参数量
+</h3><p>无参数。</p>
+<h3 id="池化层运算的计算量">池化层运算的计算量
+</h3><p>$FLOPs=C_{out} \times H_{out} \times W_{out} \times k \times k$<br>
 $k \times k$ 代表在原特征图区域$k \times k$ 的 max ，sum或者avg池化操作；<br>
 $H_{out} \times W_{out}$代表输出特征图大小，$C_{out}$代表输出通道数。</p>
-<h2 id="案例">案例</h2>
-<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210422151056.png"
+<h2 id="案例">案例
+</h2><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210422151056.png"
 	
 	
 	
@@ -380,16 +446,16 @@ $H_{out} \times W_{out}$代表输出特征图大小，$C_{out}$代表输出通�
 	
 	
 ></p>
-<h3 id="参数量">参数量</h3>
-<p>VGG-19模型，输入图片大小为$3 \times 224 \times 224$，表示为$3$通道$224 \times 224$尺寸的图像输入，模型分为五组卷积和三层全连接层。</p>
+<h3 id="参数量">参数量
+</h3><p>VGG-19模型，输入图片大小为$3 \times 224 \times 224$，表示为$3$通道$224 \times 224$尺寸的图像输入，模型分为五组卷积和三层全连接层。</p>
 <p>$(3 \times 3 \times 3 + 1) \times 64 + (3 \times 3 \times 64 + 1) \times 64 + (3 \times 3 \times 64 + 1) \times 128 + (3 \times 3 \times 128 + 1) \times 128 +$
 $(3 \times 3 \times 128 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 + (3 \times 3 \times  256 + 1) \times 256 +$
 $(3 \times 3 \times 256 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 +$
 $(3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 + (3 \times 3 \times 512 + 1) \times 512 +$
 $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \times 1000$<br>
 计算得143667240，乘以一个浮点数占4个字节，得574668960字节，为<strong>548.04MB</strong>，和论文中的数量大致相等。</p>
-<h3 id="计算量">计算量</h3>
-<p>VGG-19模型，输入图片大小为$3 \times 224 \times 224$，表示为$3$通道$224 \times 224$尺寸的图像输入，模型分为五组卷积和三层全连接层。</p>
+<h3 id="计算量">计算量
+</h3><p>VGG-19模型，输入图片大小为$3 \times 224 \times 224$，表示为$3$通道$224 \times 224$尺寸的图像输入，模型分为五组卷积和三层全连接层。</p>
 <ul>
 <li>第一组卷积
 <ul>
@@ -469,9 +535,9 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
 </li>
 <li>共计：39264124928 = 39.2 bilion次运算，将这个值换算为<strong>multiply-adds运算</strong>，需要除以2，得到<strong>19.6bilion</strong>，该值与论文中的计算量一致。（此次运算忽略了ReLu激活层的计算量，该计算量较小，可以忽略）</li>
 </ul>
-<h2 id="工具">工具</h2>
-<h3 id="torchinfo">torchinfo</h3>
-<p><a class="link" href="https://github.com/TylerYep/torchinfo"  target="_blank" rel="noopener"
+<h2 id="工具">工具
+</h2><h3 id="torchinfo">torchinfo
+</h3><p><a class="link" href="https://github.com/TylerYep/torchinfo"  target="_blank" rel="noopener"
     >torchinfo</a> 该工具可以自动统计网络模型的参数量和计算量。</p>
 <p>例子：</p>
 <div class="highlight"><div class="chroma">
@@ -535,15 +601,15 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
 </span></span><span class="line"><span class="cl"><span class="o">==========================================================================================</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="参考">参考：</h2>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/135861716"  target="_blank" rel="noopener"
+</div><h2 id="参考">参考：
+</h2><p><a class="link" href="https://zhuanlan.zhihu.com/p/135861716"  target="_blank" rel="noopener"
     >https://zhuanlan.zhihu.com/p/135861716</a><br>
 <a class="link" href="https://zhuanlan.zhihu.com/p/49842046"  target="_blank" rel="noopener"
     >https://zhuanlan.zhihu.com/p/49842046</a><br>
 <a class="link" href="https://zhuanlan.zhihu.com/p/31575074"  target="_blank" rel="noopener"
     >https://zhuanlan.zhihu.com/p/31575074</a></p>
-<h2 id="更新记录">更新记录</h2>
-<blockquote>
+<h2 id="更新记录">更新记录
+</h2><blockquote>
 <p>增加网络模型统计工具，自动进行网络参数和计算量统计。 —— 2022.07.19</p>
 </blockquote>
 
@@ -579,24 +645,25 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
     
         <link 
                 rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
             ><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
                 defer
                 >
             </script><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
                 defer
                 >
             </script><script>
     window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
+        renderMathInElement(document.body, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false },
                 { left: "\\(", right: "\\)", display: false },
                 { left: "\\[", right: "\\]", display: true }
-            ]
+            ],
+            ignoredClasses: ["gist"]
         });})
 </script>
     
@@ -652,12 +719,12 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
             
                 
 <article class="">
-    <a href="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">基于mmdetection源码:Faster R-CNN算法解读</h2>
+            <h2 class="article-title">Pytorch源码阅读(三)：BatchNorm Module</h2>
         </div>
     </a>
 </article>
@@ -665,12 +732,12 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
             
                 
 <article class="">
-    <a href="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/">
+    <a href="/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">Leetcode算法题总结</h2>
+            <h2 class="article-title">Pytorch源码阅读(二)：transforms模块</h2>
         </div>
     </a>
 </article>
@@ -685,7 +752,7 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
         
     <div class="disqus-container">
     <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     
@@ -733,12 +800,12 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
         
             2018 - 
         
-        2023 七月流火
+        2024 七月流火
     </section>
     
     <section class="powerby">
-        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
     </section>
 </footer>
 
@@ -822,69 +889,6 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
             >
 
             </main>
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#卷积层">卷积层</a>
-      <ol>
-        <li><a href="#卷积运算的参数量">卷积运算的参数量</a></li>
-        <li><a href="#卷积运算的计算量">卷积运算的计算量</a></li>
-      </ol>
-    </li>
-    <li><a href="#全连接层">全连接层</a>
-      <ol>
-        <li><a href="#全连接运算的参数量">全连接运算的参数量</a></li>
-        <li><a href="#全连接运算的计算量">全连接运算的计算量</a></li>
-      </ol>
-    </li>
-    <li><a href="#池化层">池化层</a>
-      <ol>
-        <li><a href="#池化层运算的参数量">池化层运算的参数量</a></li>
-        <li><a href="#池化层运算的计算量">池化层运算的计算量</a></li>
-      </ol>
-    </li>
-    <li><a href="#案例">案例</a>
-      <ol>
-        <li><a href="#参数量">参数量</a></li>
-        <li><a href="#计算量">计算量</a></li>
-      </ol>
-    </li>
-    <li><a href="#工具">工具</a>
-      <ol>
-        <li><a href="#torchinfo">torchinfo</a></li>
-      </ol>
-    </li>
-    <li><a href="#参考">参考：</a></li>
-    <li><a href="#更新记录">更新记录</a></li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
-
         </div>
         <script 
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
@@ -901,6 +905,36 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
 
         document.head.appendChild(customFont);
     }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
 </script>
 
     </body>

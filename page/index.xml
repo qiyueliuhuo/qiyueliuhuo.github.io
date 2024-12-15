@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Pages on 七月流火</title>
-        <link>https://qiyueliuhuo.github.io/page/</link>
+        <link>http://localhost:1313/page/</link>
         <description>Recent content in Pages on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Archives</title>
-        <link>https://qiyueliuhuo.github.io/archives/</link>
+        <link>http://localhost:1313/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/archives/</guid>
+        <guid>http://localhost:1313/archives/</guid>
         <description></description>
         </item>
         <item>
         <title>Links</title>
-        <link>https://qiyueliuhuo.github.io/links/</link>
+        <link>http://localhost:1313/links/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/links/</guid>
+        <guid>http://localhost:1313/links/</guid>
         <description>&lt;p&gt;To use this feature, add &lt;code&gt;links&lt;/code&gt; section to frontmatter.&lt;/p&gt;
 &lt;p&gt;This page&amp;rsquo;s frontmatter:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -51,18 +51,18 @@
         </item>
         <item>
         <title>Search</title>
-        <link>https://qiyueliuhuo.github.io/search/</link>
+        <link>http://localhost:1313/search/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/search/</guid>
+        <guid>http://localhost:1313/search/</guid>
         <description></description>
         </item>
         <item>
         <title>七月流火</title>
-        <link>https://qiyueliuhuo.github.io/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</link>
+        <link>http://localhost:1313/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</guid>
+        <guid>http://localhost:1313/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</guid>
         <description>&lt;p&gt;介绍。&lt;/p&gt;
 </description>
         </item>

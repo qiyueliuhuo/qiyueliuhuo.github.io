@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>最优化 on 七月流火</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</link>
+        <link>http://localhost:1313/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</link>
         <description>Recent content in 最优化 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 23 Jun 2022 11:17:44 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E6%9C%80%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 23 Jun 2022 11:17:44 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E6%9C%80%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>机器学习中的优化方法</title>
-        <link>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</link>
+        <link>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</link>
         <pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</guid>
-        <description>&lt;h2 id=&#34;梯度下降法推导&#34;&gt;梯度下降法推导&lt;/h2&gt;
-&lt;h3 id=&#34;什么是梯度&#34;&gt;什么是梯度？&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;梯度&lt;/strong&gt;的本意是一个向量（矢量），表示某一函数在该点处的方向导数沿着该方向取得最大值，即函数在该点处沿着该方向（此梯度的方向）变化最快，变化率最大（为该梯度的模）。&lt;/p&gt;
+        <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</guid>
+        <description>&lt;h2 id=&#34;梯度下降法推导&#34;&gt;梯度下降法推导
+&lt;/h2&gt;&lt;h3 id=&#34;什么是梯度&#34;&gt;什么是梯度？
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;梯度&lt;/strong&gt;的本意是一个向量（矢量），表示某一函数在该点处的方向导数沿着该方向取得最大值，即函数在该点处沿着该方向（此梯度的方向）变化最快，变化率最大（为该梯度的模）。&lt;/p&gt;
 &lt;p&gt;通俗来说，梯度就是表示某一函数在该点处的方向导数沿着该方向取得（模）较大值，即函数在当前位置的导数。&lt;strong&gt;笔者理解&lt;/strong&gt;：在高维空间中参数 $\boldsymbol{\theta}$ 和 $f(\boldsymbol{\theta})$ 形成超曲面上，当 $\boldsymbol{\theta}$ 移动相同的 $\lVert\nabla\boldsymbol{\theta}\lVert$ 模值（超距离）时，沿着梯度的方向，可以使得 $f(\boldsymbol{\theta})$ 变化量（增加）最大。梯度表示为如下：
 $$
 \nabla f(\boldsymbol{\theta})=\frac{\partial f(\boldsymbol{\theta})}{\partial \boldsymbol{\theta}}
@@ -25,8 +25,8 @@ $$
 \boldsymbol{\theta} = \boldsymbol{\theta_0} - \eta \cdot \nabla f(\boldsymbol{\theta_0})
 $$
 其中，$\boldsymbol{\theta_0}$ 是自变量参数，代表当前参数位置坐标；$\eta$ 是学习因子（学习率），用来&lt;strong&gt;调整&lt;/strong&gt;下降时步进长度；$\boldsymbol{\theta}$ 是更新后的参数值，即通过一次梯度下降法之后的参数坐标位置。&lt;/p&gt;
-&lt;h3 id=&#34;推导梯度下降法公式&#34;&gt;推导梯度下降法公式&lt;/h3&gt;
-&lt;p&gt;我们对 $f(\boldsymbol{\theta})$ 进行一阶泰勒展开，如下：
+&lt;h3 id=&#34;推导梯度下降法公式&#34;&gt;推导梯度下降法公式
+&lt;/h3&gt;&lt;p&gt;我们对 $f(\boldsymbol{\theta})$ 进行一阶泰勒展开，如下：
 $$
 f(\boldsymbol{\theta}) = f\left(\boldsymbol{\theta_{0}}\right)+\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right) + o\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)
 $$
@@ -65,8 +65,8 @@ $$
 \boldsymbol{\theta} = \boldsymbol{\theta_{0}} - \eta^{\prime} \left(\nabla f\left(\boldsymbol{\theta_{0}}\right)\right)^{T}
 $$
 一般 $\eta^{\prime}$ 为学习率，是一个微小常量，通常取0.01，0.001，0.0001等值。&lt;/p&gt;
-&lt;h3 id=&#34;梯度下降法分析&#34;&gt;梯度下降法分析&lt;/h3&gt;
-&lt;p&gt;如果将 $f(\boldsymbol{\theta})$ 在 $\boldsymbol{\theta_{0}}$ 处进行二阶泰勒展开：
+&lt;h3 id=&#34;梯度下降法分析&#34;&gt;梯度下降法分析
+&lt;/h3&gt;&lt;p&gt;如果将 $f(\boldsymbol{\theta})$ 在 $\boldsymbol{\theta_{0}}$ 处进行二阶泰勒展开：
 $$
 f(\boldsymbol{\theta}) = f\left(\boldsymbol{\theta_{0}}\right)+\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right) + \frac{1}{2}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)\boldsymbol{H}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)^{T} + o\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)
 $$
@@ -102,19 +102,19 @@ $$
 $$
 那么，&lt;strong&gt;当学习率满足上面式子时（足够小），总可以梯度下降&lt;/strong&gt;。不过上面式子也是在泰勒二阶展开下的近似分析。&lt;/p&gt;
 &lt;p&gt;下面使用参数只有一维情况下的特例情况下，画图说明上面的情况：&lt;/p&gt;
-&lt;h2 id=&#34;牛顿迭代法推导&#34;&gt;牛顿迭代法推导&lt;/h2&gt;
-&lt;p&gt;通过上面泰勒展开式分析梯度下降法，我们可以知道梯度下降法仅&lt;strong&gt;使用梯度信息&lt;/strong&gt;进行迭代下降，在大多数情况下效果还可以，并且由于目前神经网络中反向传播算法可以高效求解梯度，所以当前对于神经网络的优化普通采用梯度下降法。关于反向传播算法可以在我的&lt;a class=&#34;link&#34; href=&#34;../%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e4%b9%8b%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad%e7%ae%97%e6%b3%95&#34; &gt;神经网络之反向传播算法&lt;/a&gt;文章中了解。&lt;/p&gt;
-&lt;h3 id=&#34;牛顿法迭代公式&#34;&gt;牛顿法迭代公式&lt;/h3&gt;
-&lt;p&gt;二阶泰勒展开近似公式为：
+&lt;h2 id=&#34;牛顿迭代法推导&#34;&gt;牛顿迭代法推导
+&lt;/h2&gt;&lt;p&gt;通过上面泰勒展开式分析梯度下降法，我们可以知道梯度下降法仅&lt;strong&gt;使用梯度信息&lt;/strong&gt;进行迭代下降，在大多数情况下效果还可以，并且由于目前神经网络中反向传播算法可以高效求解梯度，所以当前对于神经网络的优化普通采用梯度下降法。关于反向传播算法可以在我的&lt;a class=&#34;link&#34; href=&#34;../%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e4%b9%8b%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad%e7%ae%97%e6%b3%95&#34; &gt;神经网络之反向传播算法&lt;/a&gt;文章中了解。&lt;/p&gt;
+&lt;h3 id=&#34;牛顿法迭代公式&#34;&gt;牛顿法迭代公式
+&lt;/h3&gt;&lt;p&gt;二阶泰勒展开近似公式为：
 $$
 f(\boldsymbol{\theta}) \approx f\left(\boldsymbol{\theta_{0}}\right)+\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right) \cdot \nabla f\left(\boldsymbol{\theta_{0}}\right) + \frac{1}{2}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)\boldsymbol{H}\left(\boldsymbol{\theta}-\boldsymbol{\theta_{0}}\right)^{T}
 $$
 我们对式子右边求极值点，则可以得到：&lt;/p&gt;
-&lt;h2 id=&#34;深度学习中常见的优化器&#34;&gt;深度学习中常见的优化器&lt;/h2&gt;
-&lt;h3 id=&#34;sgd&#34;&gt;SGD&lt;/h3&gt;
-&lt;h3 id=&#34;adam&#34;&gt;Adam&lt;/h3&gt;
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/iflink/article/details/122388904&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h2 id=&#34;深度学习中常见的优化器&#34;&gt;深度学习中常见的优化器
+&lt;/h2&gt;&lt;h3 id=&#34;sgd&#34;&gt;SGD
+&lt;/h3&gt;&lt;h3 id=&#34;adam&#34;&gt;Adam
+&lt;/h3&gt;&lt;h2 id=&#34;参考&#34;&gt;参考
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/iflink/article/details/122388904&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;梯度下降法的推导&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/59873169&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;相信我你没真明白牛顿法与梯度下降法&lt;/a&gt;&lt;br&gt;
@@ -128,16 +128,16 @@ $$
     &gt;应用于最优化的牛顿法&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/377754969&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Hessian矩阵和极值判断&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;延伸阅读&#34;&gt;延伸阅读&lt;/h2&gt;
-&lt;h3 id=&#34;论文&#34;&gt;论文&lt;/h3&gt;
-&lt;ul&gt;
+&lt;h2 id=&#34;延伸阅读&#34;&gt;延伸阅读
+&lt;/h2&gt;&lt;h3 id=&#34;论文&#34;&gt;论文
+&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;《A stochastic quasi-Newton method for large-scale optimization 》&lt;/li&gt;
 &lt;li&gt;《A Linearly-Convergent Stochastic L-BFGS Algorithm》&lt;/li&gt;
 &lt;li&gt;《A Multi-Batch L-BFGS Method for Machine Learning》&lt;/li&gt;
 &lt;li&gt;《Fast Exact Multiplication by the Hessian》&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;疑问&#34;&gt;疑问&lt;/h2&gt;
-&lt;p&gt;为什么神经网络每一层的学习率一样，应该是前面层学习率小，后面层学习率大。&lt;/p&gt;
+&lt;h2 id=&#34;疑问&#34;&gt;疑问
+&lt;/h2&gt;&lt;p&gt;为什么神经网络每一层的学习率一样，应该是前面层学习率小，后面层学习率大。&lt;/p&gt;
 </description>
         </item>
         

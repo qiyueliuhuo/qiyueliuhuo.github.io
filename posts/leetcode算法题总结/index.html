@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='这是一个副标题'><title>Leetcode算法题总结</title>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=49547&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="LeetCode 刷题之旅">
+<title>LeetCode 进阶指南：解题思路与算法题分类总结</title>
 
-<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/'>
+<link rel='canonical' href='http://localhost:49547/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/'>
 
-<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='Leetcode算法题总结'>
-<meta property='og:description' content='这是一个副标题'>
-<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/'>
+<link rel="stylesheet" href="/scss/style.min.9768e1ece02ab8863eb990f67f0561fb1fe386bc4d167d086c922110995ad8fc.css"><meta property='og:title' content="LeetCode 进阶指南：解题思路与算法题分类总结">
+<meta property='og:description' content="LeetCode 刷题之旅">
+<meta property='og:url' content='http://localhost:49547/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/'>
 <meta property='og:site_name' content='七月流火'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='leetcode' /><meta property='article:tag' content='算法题' /><meta property='article:tag' content='面试' /><meta property='article:published_time' content='2022-02-18T13:08:49&#43;00:00'/><meta property='article:modified_time' content='2022-02-18T13:08:49&#43;00:00'/>
-<meta name="twitter:title" content="Leetcode算法题总结">
-<meta name="twitter:description" content="这是一个副标题">
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='leetcode' /><meta property='article:tag' content='算法题' /><meta property='article:tag' content='面试' /><meta property='article:published_time' content='2022-02-18T13:08:49&#43;00:00'/><meta property='article:modified_time' content='2022-02-18T13:08:49&#43;00:00'/><meta property='og:image' content='http://localhost:49547/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_img.png' />
+<meta name="twitter:title" content="LeetCode 进阶指南：解题思路与算法题分类总结">
+<meta name="twitter:description" content="LeetCode 刷题之旅"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:49547/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_img.png' />
     </head>
     <body class="
     article-page
@@ -55,13 +57,11 @@
                     
                     
                         
-                        <img src="/img/avatar_hu8d4b235d4d79942b70ca31d91c98dd00_21409_300x0_resize_box_3.png" width="300"
+                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
                 </a>
-                
-                    <span class="emoji">⭐</span>
                 
             </figure>
             
@@ -71,13 +71,14 @@
             <h1 class="site-name"><a href="/">七月流火</a></h1>
             <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
         </div>
-    </header><ol class="social-menu">
+    </header><ol class="menu-social">
             
                 <li>
                     <a 
                         href='https://github.com/qiyueliuhuo'
                         target="_blank"
                         title="GitHub"
+                        rel="me"
                     >
                         
                         
@@ -96,7 +97,6 @@
         
         
         
-
         <li >
             <a href='/' >
                 
@@ -117,7 +117,6 @@
         </li>
         
         
-
         <li >
             <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
                 
@@ -137,7 +136,6 @@
         </li>
         
         
-
         <li >
             <a href='/archives/' >
                 
@@ -158,7 +156,6 @@
         </li>
         
         
-
         <li >
             <a href='/search/' >
                 
@@ -178,7 +175,6 @@
         </li>
         
         
-
         <li >
             <a href='/links/' >
                 
@@ -197,10 +193,11 @@
             </a>
         </li>
         
-
-        <div class="menu-bottom-section">
-                <li id="i18n-switch">  
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
   <path d="M4 5h7" />
   <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
@@ -211,19 +208,20 @@
 
 
 
-                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
-                        
-                            <option value="https://qiyueliuhuo.github.io/en/" >English</option>
-                        
-                            <option value="https://qiyueliuhuo.github.io/" selected>中文</option>
-                        
-                    </select>
-                </li>
-            
-            
-            
-                <li id="dark-mode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="http://localhost:49547/en/" >English</option>
+                                
+                                    <option value="http://localhost:49547/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="8" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -231,7 +229,7 @@
 
 
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="16" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -239,15 +237,119 @@
 
 
 
-                    <span>暗色模式</span>
-                </li>
-            
-        </div>
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
     </ol>
 </aside>
-<main class="main full-width">
-    <article class="main-article">
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#符号定义及含义">符号定义及含义</a></li>
+    <li><a href="#经典算法">经典算法</a>
+      <ol>
+        <li><a href="#经典排序算法">经典排序算法</a>
+          <ol>
+            <li><a href="#快速排序">快速排序</a></li>
+            <li><a href="#归并排序">归并排序</a></li>
+          </ol>
+        </li>
+        <li><a href="#数组">数组</a>
+          <ol>
+            <li><a href="#二分查找">二分查找</a></li>
+          </ol>
+        </li>
+        <li><a href="#链表">链表</a>
+          <ol>
+            <li><a href="#链表翻转">链表翻转</a></li>
+          </ol>
+        </li>
+        <li><a href="#二叉树">二叉树</a>
+          <ol>
+            <li><a href="#二叉树深度优先遍历">二叉树深度优先遍历</a></li>
+            <li><a href="#二叉树广度优先遍历按层遍历">二叉树广度优先遍历（按层遍历）</a></li>
+            <li><a href="#前序和中序遍历构造二叉树">前序和中序遍历构造二叉树</a></li>
+            <li><a href="#二叉搜索树中序遍历">二叉搜索树中序遍历</a></li>
+          </ol>
+        </li>
+        <li><a href="#图结构">图结构</a>
+          <ol>
+            <li><a href="#图遍历">图遍历</a></li>
+          </ol>
+        </li>
+        <li><a href="#并查集">并查集</a></li>
+        <li><a href="#位运算">位运算</a></li>
+        <li><a href="#动态规划算法">动态规划算法</a>
+          <ol>
+            <li><a href="#引子计算斐波那契数列">引子：计算斐波那契数列</a></li>
+            <li><a href="#从斐波那契数列到动态规划">从斐波那契数列到动态规划</a></li>
+            <li><a href="#例题">例题</a></li>
+            <li><a href="#递推公式">递推公式</a></li>
+            <li><a href="#动态规划中常用思想">动态规划中常用思想</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#奇淫技巧小题大做">奇淫技巧（小题大做）</a>
+      <ol>
+        <li><a href="#例题1寻找重复数-力扣287httpsleetcode-cncomproblemsfind-the-duplicate-number字节-算法-频次3httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd">例题1：寻找重复数 （<a href="https://leetcode-cn.com/problems/find-the-duplicate-number/">力扣287</a>）（<a href="https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md">字节-算法-频次3</a>）</a></li>
+      </ol>
+    </li>
+    <li><a href="#待解决">待解决</a></li>
+    <li><a href="#内推">内推</a></li>
+    <li><a href="#未归档">未归档</a>
+      <ol>
+        <li><a href="#配置校验数">配置校验数</a></li>
+        <li><a href="#基本计算器">基本计算器</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
     <header class="article-header">
+        <div class="article-image">
+            <a href="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/">
+                <img src="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_img_hu13862294951830671659.png"
+                        srcset="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_img_hu13862294951830671659.png 800w, /posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_img_hu8334870373285010794.png 1600w"
+                        width="800" 
+                        height="389" 
+                        loading="lazy"
+                        alt="Featured image of post LeetCode 进阶指南：解题思路与算法题分类总结" />
+                
+            </a>
+        </div>
+    
 
     <div class="article-details">
     
@@ -262,16 +364,19 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/">Leetcode算法题总结</a>
+            <a href="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/">LeetCode 进阶指南：解题思路与算法题分类总结</a>
         </h2>
     
         
         <h3 class="article-subtitle">
-            这是一个副标题
+            LeetCode 刷题之旅
         </h3>
         
     </div>
 
+    
+    
+    
     
     <footer class="article-time">
         
@@ -309,6 +414,7 @@
 
     
 </div>
+
 </header>
 
     <section class="article-content">
@@ -323,18 +429,18 @@
     >高频leetcode题🔥</a><br>
 <a class="link" href="https://github.com/Making-It/Code"  target="_blank" rel="noopener"
     >数据结构与算法🔥</a></p>
-<h2 id="符号定义及含义">符号定义及含义</h2>
-<p>当输入规模足够大，使得运行时间只与增长量级有关时，需要研究算法的渐近效率。也就是，当输入规模无限增加时，在极限中，算法的运行时间如何随着输入规模的变大而增加。这里仅引入两个常用的渐进记号。</p>
+<h2 id="符号定义及含义">符号定义及含义
+</h2><p>当输入规模足够大，使得运行时间只与增长量级有关时，需要研究算法的渐近效率。也就是，当输入规模无限增加时，在极限中，算法的运行时间如何随着输入规模的变大而增加。这里仅引入两个常用的渐进记号。</p>
 <ol>
 <li>$\Theta$ (西塔) 渐近紧确界，如$\frac{1}{2} n^{2}-3 n=\Theta\left(n^{2}\right)$，$6n^{3} \neq \Theta (n^{2})$，$n \neq \Theta (n^{2})$。</li>
-<li>$O$（大o）渐进上界，如$\frac{1}{2} n^{2}-3 n=O\left(n^{2}\right)$，$6n^{3} \neq O(n^{2})$，$n = O (n^{2})$。</li>
+<li>$O$（大o）渐进上界，如$\frc{1}{2} n^{2}-3 n=O\left(n^{2}\right)$，$6n^{3} \neq O(n^{2})$，$n = O (n^{2})$。</li>
 <li>渐进记号代表的是集合，这里的$=$更多地代表$\in$。</li>
 <li>算法复杂度分为时间复杂度和空间复杂度。时间复杂度衡量了执行算法所需要的计算工作量；而空间复杂度是指执行这个算法所需要的内存空间。</li>
 <li><font color=#E3B>在相当多文献资料中，有时我们发现$O$记号非形式化地描述<strong>渐进确界</strong>，即已经使用$\Theta$记号定义的东西。</font></li>
 </ol>
-<h2 id="经典算法">经典算法</h2>
-<h3 id="经典排序算法">经典排序算法</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220219145339.png"
+<h2 id="经典算法">经典算法
+</h2><h3 id="经典排序算法">经典排序算法
+</h3><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220219145339.png"
 	
 	
 	
@@ -342,8 +448,8 @@
 	
 	
 ></p>
-<h4 id="快速排序">快速排序</h4>
-<p>python语言版本</p>
+<h4 id="快速排序">快速排序
+</h4><p>python语言版本</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -435,11 +541,11 @@
 </div>
 </div><h5 id="例题1-数组中的第k个最大元素力扣215httpsleetcode-cncomproblemskth-largest-element-in-an-array字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd">例题1： 数组中的第K个最大元素（<a class="link" href="https://leetcode-cn.com/problems/kth-largest-element-in-an-array/"  target="_blank" rel="noopener"
     >力扣215</a>）（<a class="link" href="https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md"  target="_blank" rel="noopener"
-    >字节-算法-频次6</a>）</h5>
-<p>给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。<br>
+    >字节-算法-频次6</a>）
+</h5><p>给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。<br>
 请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。如，输入: [3,2,1,5,6,4] 和 k = 2，输出: 5</p>
-<h6 id="python代码">python代码</h6>
-<div class="highlight"><div class="chroma">
+<h6 id="python代码">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -501,8 +607,8 @@
 </div>
 </div><p>参考：<a class="link" href="https://zhuanlan.zhihu.com/p/110052556"  target="_blank" rel="noopener"
     >快速排序-Python 实现</a></p>
-<h4 id="归并排序">归并排序</h4>
-<p>python 语言版本</p>
+<h4 id="归并排序">归并排序
+</h4><p>python 语言版本</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -665,9 +771,9 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="例题1合并两个有序数组-力扣88httpsleetcode-cncomproblemsmerge-sorted-array">例题1：合并两个有序数组 （<a class="link" href="https://leetcode-cn.com/problems/merge-sorted-array/"  target="_blank" rel="noopener"
-    >力扣88</a>）</h5>
-<h6 id="python代码-1">python代码</h6>
-<div class="highlight"><div class="chroma">
+    >力扣88</a>）
+</h5><h6 id="python代码-1">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -731,18 +837,18 @@
 </span></span><span class="line"><span class="cl">        <span class="k">return</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="数组">数组</h3>
-<h4 id="二分查找">二分查找</h4>
-<h5 id="例题1爱吃香蕉的珂珂力扣875httpsleetcode-cncomproblemskoko-eating-bananas">例题1：爱吃香蕉的珂珂（<a class="link" href="https://leetcode-cn.com/problems/koko-eating-bananas/"  target="_blank" rel="noopener"
-    >力扣875</a>）</h5>
-<p>珂珂喜欢吃香蕉。这里有 N 堆香蕉，第 i 堆中有 piles[i] 根香蕉。警卫已经离开了，将在 H 小时后回来。</p>
+</div><h3 id="数组">数组
+</h3><h4 id="二分查找">二分查找
+</h4><h5 id="例题1爱吃香蕉的珂珂力扣875httpsleetcode-cncomproblemskoko-eating-bananas">例题1：爱吃香蕉的珂珂（<a class="link" href="https://leetcode-cn.com/problems/koko-eating-bananas/"  target="_blank" rel="noopener"
+    >力扣875</a>）
+</h5><p>珂珂喜欢吃香蕉。这里有 N 堆香蕉，第 i 堆中有 piles[i] 根香蕉。警卫已经离开了，将在 H 小时后回来。</p>
 <p>珂珂可以决定她吃香蕉的速度 K（单位：根/小时）。每个小时，她将会选择一堆香蕉，从中吃掉 K 根。如果这堆香蕉少于 K 根，她将吃掉这堆的所有香蕉，然后这一小时内不会再吃更多的香蕉。</p>
 <p>珂珂喜欢慢慢吃，但仍然想在警卫回来前吃掉所有的香蕉。</p>
 <p><strong>返回她可以在 H 小时内吃掉所有香蕉的最小速度 K（K 为整数）</strong></p>
-<h6 id="分析">分析</h6>
-<p>此题规约为在数组中寻找一个分解线，左右边符合不同的条件。</p>
-<h6 id="python代码-2">python代码</h6>
-<div class="highlight"><div class="chroma">
+<h6 id="分析">分析
+</h6><p>此题规约为在数组中寻找一个分解线，左右边符合不同的条件。</p>
+<h6 id="python代码-2">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -789,11 +895,11 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="例题2-x-的平方根-力扣69httpsleetcode-cncomproblemssqrtx">例题2： x 的平方根 （<a class="link" href="https://leetcode-cn.com/problems/sqrtx/"  target="_blank" rel="noopener"
-    >力扣69</a>）</h5>
-<p>给你一个非负整数 x ，计算并返回 x 的 算术平方根 。</p>
+    >力扣69</a>）
+</h5><p>给你一个非负整数 x ，计算并返回 x 的 算术平方根 。</p>
 <p>由于返回类型是整数，结果只保留 整数部分 ，小数部分将被 舍去 。</p>
-<h6 id="python代码-3">python代码</h6>
-<div class="highlight"><div class="chroma">
+<h6 id="python代码-3">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -821,13 +927,13 @@
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">ans</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="链表">链表</h3>
-<h4 id="链表翻转">链表翻转</h4>
-<h5 id="例题1k-个一组翻转链表力扣25httpsleetcode-cncomproblemsreverse-nodes-in-k-group字节-后端-频次60httpsgithubcomafatcoderleetcodetopblobmasterbytedancebackendmd">例题1：K 个一组翻转链表（<a class="link" href="https://leetcode-cn.com/problems/reverse-nodes-in-k-group/"  target="_blank" rel="noopener"
+</div><h3 id="链表">链表
+</h3><h4 id="链表翻转">链表翻转
+</h4><h5 id="例题1k-个一组翻转链表力扣25httpsleetcode-cncomproblemsreverse-nodes-in-k-group字节-后端-频次60httpsgithubcomafatcoderleetcodetopblobmasterbytedancebackendmd">例题1：K 个一组翻转链表（<a class="link" href="https://leetcode-cn.com/problems/reverse-nodes-in-k-group/"  target="_blank" rel="noopener"
     >力扣25</a>）（<a class="link" href="https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/backend.md"  target="_blank" rel="noopener"
-    >字节-后端-频次60</a>）</h5>
-<h6 id="python代码-4">python代码</h6>
-<div class="highlight"><div class="chroma">
+    >字节-后端-频次60</a>）
+</h5><h6 id="python代码-4">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -921,9 +1027,9 @@
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="二叉树">二叉树</h3>
-<h4 id="二叉树深度优先遍历">二叉树深度优先遍历</h4>
-<div class="highlight"><div class="chroma">
+</div><h3 id="二叉树">二叉树
+</h3><h4 id="二叉树深度优先遍历">二叉树深度优先遍历
+</h4><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1028,14 +1134,14 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="例题1求根节点到叶节点数字之和力扣129httpsleetcode-cncomproblemssum-root-to-leaf-numbers">例题1：求根节点到叶节点数字之和（<a class="link" href="https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/"  target="_blank" rel="noopener"
-    >力扣129</a>）</h5>
-<p>给你一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。
+    >力扣129</a>）
+</h5><p>给你一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。
 每条从根节点到叶节点的路径都代表一个数字：</p>
 <p>例如，从根节点到叶节点的路径 1 -&gt; 2 -&gt; 3 表示数字 123 。
 计算从根节点到叶节点生成的 所有数字之和 。</p>
 <p>叶节点 是指没有子节点的节点。</p>
-<h6 id="python代码-5">python代码</h6>
-<div class="highlight"><div class="chroma">
+<h6 id="python代码-5">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1083,11 +1189,11 @@
 </div>
 </div><h5 id="例题2二叉树的最近公共祖先力扣236httpsleetcode-cncomproblemslowest-common-ancestor-of-a-binary-tree字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd">例题2：二叉树的最近公共祖先（<a class="link" href="https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/"  target="_blank" rel="noopener"
     >力扣236</a>）（<a class="link" href="https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md"  target="_blank" rel="noopener"
-    >字节-算法-频次6</a>）</h5>
-<p>给定一个二叉树, 找到该树中两个指定节点的<strong>最近公共祖先。</strong>
+    >字节-算法-频次6</a>）
+</h5><p>给定一个二叉树, 找到该树中两个指定节点的<strong>最近公共祖先。</strong>
 百度百科中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。</p>
-<h6 id="python代码-6">python代码</h6>
-<div class="highlight"><div class="chroma">
+<h6 id="python代码-6">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1143,8 +1249,8 @@
 </span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="kc">False</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="二叉树广度优先遍历按层遍历">二叉树广度优先遍历（按层遍历）</h4>
-<div class="highlight"><div class="chroma">
+</div><h4 id="二叉树广度优先遍历按层遍历">二叉树广度优先遍历（按层遍历）
+</h4><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1218,9 +1324,9 @@
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">res</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="前序和中序遍历构造二叉树">前序和中序遍历构造二叉树</h4>
-<h5 id="python代码-7">python代码</h5>
-<div class="highlight"><div class="chroma">
+</div><h4 id="前序和中序遍历构造二叉树">前序和中序遍历构造二叉树
+</h4><h5 id="python代码-7">python代码
+</h5><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1263,12 +1369,12 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="例题1前序和中序遍历构造二叉树-力扣98httpsleetcode-cncomproblemsconstruct-binary-tree-from-preorder-and-inorder-traversal">例题1：前序和中序遍历构造二叉树 （<a class="link" href="https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"  target="_blank" rel="noopener"
-    >力扣98</a>）</h5>
-<h5 id="例题2二叉树的右侧视图-力扣199httpsleetcode-cncomproblemsbinary-tree-right-side-view">例题2：二叉树的右侧视图 （<a class="link" href="https://leetcode-cn.com/problems/binary-tree-right-side-view/"  target="_blank" rel="noopener"
-    >力扣199</a>）</h5>
-<p>给定一个二叉树的 <strong>根节点</strong> root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。</p>
-<h6 id="python代码-8">python代码</h6>
-<div class="highlight"><div class="chroma">
+    >力扣98</a>）
+</h5><h5 id="例题2二叉树的右侧视图-力扣199httpsleetcode-cncomproblemsbinary-tree-right-side-view">例题2：二叉树的右侧视图 （<a class="link" href="https://leetcode-cn.com/problems/binary-tree-right-side-view/"  target="_blank" rel="noopener"
+    >力扣199</a>）
+</h5><p>给定一个二叉树的 <strong>根节点</strong> root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。</p>
+<h6 id="python代码-8">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1316,12 +1422,12 @@
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">res</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="二叉搜索树中序遍历">二叉搜索树中序遍历</h4>
-<h5 id="例题1二叉搜索树中第k小的元素力扣230httpsleetcode-cncomproblemskth-smallest-element-in-a-bst">例题1：二叉搜索树中第K小的元素（<a class="link" href="https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/"  target="_blank" rel="noopener"
-    >力扣230</a>）</h5>
-<p>给定一个二叉搜索树的根节点 root ，和一个整数 k ，请你设计一个算法查找其中第 k 个最小元素（从 1 开始计数）。</p>
-<h6 id="python代码-9">python代码</h6>
-<div class="highlight"><div class="chroma">
+</div><h4 id="二叉搜索树中序遍历">二叉搜索树中序遍历
+</h4><h5 id="例题1二叉搜索树中第k小的元素力扣230httpsleetcode-cncomproblemskth-smallest-element-in-a-bst">例题1：二叉搜索树中第K小的元素（<a class="link" href="https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/"  target="_blank" rel="noopener"
+    >力扣230</a>）
+</h5><p>给定一个二叉搜索树的根节点 root ，和一个整数 k ，请你设计一个算法查找其中第 k 个最小元素（从 1 开始计数）。</p>
+<h6 id="python代码-9">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1361,8 +1467,8 @@
 </span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">pre_visit</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h6 id="python代码官方">python代码（官方）</h6>
-<div class="highlight"><div class="chroma">
+</div><h6 id="python代码官方">python代码（官方）
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1392,8 +1498,8 @@
 </span></span><span class="line"><span class="cl">            <span class="n">root</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">right</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="图结构">图结构</h3>
-<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220309105509.png"
+</div><h3 id="图结构">图结构
+</h3><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220309105509.png"
 	
 	
 	
@@ -1423,8 +1529,8 @@
 </span></span><span class="line"><span class="cl">    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h4 id="图遍历">图遍历</h4>
-<blockquote>
+</div><h4 id="图遍历">图遍历
+</h4><blockquote>
 <p>下面的代码都是github copilot自动生成的代码，看起来非常不错。</p>
 </blockquote>
 <div class="highlight"><div class="chroma">
@@ -1554,12 +1660,12 @@
     >图的两种遍历方式：DFS、BFS</a></p>
 <h5 id="例题1岛屿数量力扣200httpsleetcode-cncomproblemsnumber-of-islands字节-算法-频次5httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd">例题1：岛屿数量（<a class="link" href="https://leetcode-cn.com/problems/number-of-islands/"  target="_blank" rel="noopener"
     >力扣200</a>）（<a class="link" href="https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md"  target="_blank" rel="noopener"
-    >字节-算法-频次5</a>）</h5>
-<p>给你一个由 &lsquo;1&rsquo;（陆地）和 &lsquo;0&rsquo;（水）组成的的二维网格，请你计算网格中岛屿的数量。<br>
+    >字节-算法-频次5</a>）
+</h5><p>给你一个由 &lsquo;1&rsquo;（陆地）和 &lsquo;0&rsquo;（水）组成的的二维网格，请你计算网格中岛屿的数量。<br>
 岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。<br>
 此外，你可以假设该网格的四条边均被水包围。</p>
-<h6 id="python代码-10">python代码</h6>
-<div class="highlight"><div class="chroma">
+<h6 id="python代码-10">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1599,18 +1705,18 @@
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">res</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h5 id="其他例题">其他例题</h5>
-<ul>
+</div><h5 id="其他例题">其他例题
+</h5><ul>
 <li>被围绕的区域（<a class="link" href="https://leetcode-cn.com/problems/surrounded-regions/"  target="_blank" rel="noopener"
     >力扣130</a>）</li>
 </ul>
-<h3 id="并查集">并查集</h3>
-<h3 id="位运算">位运算</h3>
-<p>参考：<a class="link" href="https://www.cnblogs.com/getyoulove/p/3991781.html"  target="_blank" rel="noopener"
+<h3 id="并查集">并查集
+</h3><h3 id="位运算">位运算
+</h3><p>参考：<a class="link" href="https://www.cnblogs.com/getyoulove/p/3991781.html"  target="_blank" rel="noopener"
     >位操作基础篇之位操作全面总结</a></p>
-<h3 id="动态规划算法">动态规划算法</h3>
-<h4 id="引子计算斐波那契数列">引子：计算斐波那契数列</h4>
-<p><strong>斐波那契数列</strong>是指这样一个数列：0、1、1、2、3、5、8、13、21、34、55&hellip;&hellip;</p>
+<h3 id="动态规划算法">动态规划算法
+</h3><h4 id="引子计算斐波那契数列">引子：计算斐波那契数列
+</h4><p><strong>斐波那契数列</strong>是指这样一个数列：0、1、1、2、3、5、8、13、21、34、55&hellip;&hellip;</p>
 <p>斐波纳契数列可以用下面的方法定义：
 $$
 \left{\begin{array}{l}
@@ -1628,8 +1734,8 @@ $$
 	
 >
 可以看到因为重复求解相同的子问题，使得浪费大量的计算时间和计算资源。那么求解斐波那契数列可以采用1）带有备忘录的递归算法；2）自底向上法。</p>
-<h4 id="从斐波那契数列到动态规划">从斐波那契数列到动态规划</h4>
-<p>朴素递归算法之所以效率很低，是因为它<font color=#E3B>反复求解相同的子问题</font>。因此，<strong>动态规划方法</strong><font color=#E3B>仔细安排求解顺序，对每个子问题只求解一次，并将结果保存下来。</font>如果随后再次需要此子问题的解，只需查找保存的结果，而不必重新计算。因此，动态规划方法时付出额外的内存空间来节省时间，是典型的<font color=#E3B><strong>时空权衡</strong></font>的例子。而时间上的节省可能是非常巨大的：可能将一个指数时间的解转化为一个多项式时间的解。</p>
+<h4 id="从斐波那契数列到动态规划">从斐波那契数列到动态规划
+</h4><p>朴素递归算法之所以效率很低，是因为它<font color=#E3B>反复求解相同的子问题</font>。因此，<strong>动态规划方法</strong><font color=#E3B>仔细安排求解顺序，对每个子问题只求解一次，并将结果保存下来。</font>如果随后再次需要此子问题的解，只需查找保存的结果，而不必重新计算。因此，动态规划方法时付出额外的内存空间来节省时间，是典型的<font color=#E3B><strong>时空权衡</strong></font>的例子。而时间上的节省可能是非常巨大的：可能将一个指数时间的解转化为一个多项式时间的解。</p>
 <p>动态规划有两种等价的实现方法：</p>
 <ul>
 <li>
@@ -1643,14 +1749,14 @@ $$
 <blockquote>
 <p>动态规划题一般情况，需要先找到合适的状态转移方程/递推公式，中间结果状态的保存一般用数组或者多维数组，这里，如果状态转移方程只依赖之前计算的有限项，且这些有限项符合固定的规则，并且最后计算的结果不是在所有状态中寻找（如max）求得，那么往往并不需要一个数组，只需要记录某几个之前的状态（变量可以重复利用），就可以递推后面的情况，降低空间复杂度。该想法总结自求解斐波那契数列。</p>
 </blockquote>
-<h4 id="例题">例题</h4>
-<h5 id="例题1打家劫舍力扣198httpsleetcode-cncomproblemshouse-robber">例题1：打家劫舍（<a class="link" href="https://leetcode-cn.com/problems/house-robber/"  target="_blank" rel="noopener"
-    >力扣198</a>）</h5>
-<p>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
+<h4 id="例题">例题
+</h4><h5 id="例题1打家劫舍力扣198httpsleetcode-cncomproblemshouse-robber">例题1：打家劫舍（<a class="link" href="https://leetcode-cn.com/problems/house-robber/"  target="_blank" rel="noopener"
+    >力扣198</a>）
+</h5><p>你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，<strong>如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。</strong></p>
 <p>给定一个代表每个房屋存放金额的非负整数数组，计算你<strong>不触动警报装置的情况下</strong> ，一夜之内能够偷窃到的最高金额。如，输入：[2,7,9,3,1]
 输出：12</p>
-<h4 id="递推公式">递推公式</h4>
-<p>$$
+<h4 id="递推公式">递推公式
+</h4><p>$$
 \begin{equation}
 \left{\begin{array}{l}
 dp[i][0] \text { 代表偷了第间房获得的最大收益 } \\
@@ -1664,8 +1770,8 @@ d p[i+1][0]=dp[i][1]+L[i+1] \\
 d p[i+1][1]=\max (d p[i][0], d p[i][1])
 \end{array}\right.
 $$</p>
-<h5 id="python代码-11">python代码</h5>
-<div class="highlight"><div class="chroma">
+<h5 id="python代码-11">python代码
+</h5><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1693,8 +1799,8 @@ $$</p>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">dp</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h5 id="优化之后的递推公式">优化之后的递推公式</h5>
-<p>用 $d p[i]$ 表示前 $i$ 间房屋能偷窃到的最高总金额, 那么就有如下的状态转移方程:
+</div><h5 id="优化之后的递推公式">优化之后的递推公式
+</h5><p>用 $d p[i]$ 表示前 $i$ 间房屋能偷窃到的最高总金额, 那么就有如下的状态转移方程:
 $$
 d p[i]=\max (d p[i-2]+n u m s[i], d p[i-1])
 $$
@@ -1704,13 +1810,13 @@ $$
 $$
 最终的答案即为 $d p[n-1]$, 其中 $n$ 是数组的长度。</p>
 <h5 id="例题2零钱兑换-力扣322httpsleetcode-cncomproblemscoin-change">例题2：零钱兑换 (<a class="link" href="https://leetcode-cn.com/problems/coin-change/"  target="_blank" rel="noopener"
-    >力扣322</a>)</h5>
-<p>给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。计算并返回可以凑成总金额所需的最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。</p>
+    >力扣322</a>)
+</h5><p>给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。计算并返回可以凑成总金额所需的最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。</p>
 <p><strong>你可以认为每种硬币的数量是无限的。</strong> 如，输入：coins = [1, 2, 5], amount = 11，输出：3</p>
-<h6 id="分析-1">分析</h6>
-<p>首先，想要凑成总金额又想使得所需的硬币个数最少，那么在组合中尽可能得使用更大面额的硬币；如果最大面额的硬币小于所需凑成的总金额，那么可以尝试先用一定数量的最大面额硬币，那么形成一个子问题为：<font color=#E3B> 使用除去最大面额的硬币来凑成新总金额所需最小的硬币个数，新总金额 = 总金额 - 最大面额硬币 * 最大面额硬币个数。</font></p>
-<h6 id="python代码-12">python代码</h6>
-<div class="highlight"><div class="chroma">
+<h6 id="分析-1">分析
+</h6><p>首先，想要凑成总金额又想使得所需的硬币个数最少，那么在组合中尽可能得使用更大面额的硬币；如果最大面额的硬币小于所需凑成的总金额，那么可以尝试先用一定数量的最大面额硬币，那么形成一个子问题为：<font color=#E3B> 使用除去最大面额的硬币来凑成新总金额所需最小的硬币个数，新总金额 = 总金额 - 最大面额硬币 * 最大面额硬币个数。</font></p>
+<h6 id="python代码-12">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -1735,10 +1841,10 @@ $$
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h5 id="例题3-最长有效括号力扣32httpsleetcode-cncomproblemslongest-valid-parentheses">例题3： 最长有效括号（<a class="link" href="https://leetcode-cn.com/problems/longest-valid-parentheses/"  target="_blank" rel="noopener"
-    >力扣32</a>）</h5>
-<p>给你一个只包含 &lsquo;(&rsquo; 和 &lsquo;)&rsquo; 的字符串，找出最长有效（格式正确且连续）括号子串的长度。如，输入：s = &ldquo;)()())&quot;，输出：4，解释：最长有效括号子串是 &ldquo;()()&rdquo;</p>
-<h6 id="python代码-13">python代码</h6>
-<div class="highlight"><div class="chroma">
+    >力扣32</a>）
+</h5><p>给你一个只包含 &lsquo;(&rsquo; 和 &lsquo;)&rsquo; 的字符串，找出最长有效（格式正确且连续）括号子串的长度。如，输入：s = &ldquo;)()())&quot;，输出：4，解释：最长有效括号子串是 &ldquo;()()&rdquo;</p>
+<h6 id="python代码-13">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1766,8 +1872,8 @@ $$
 </div>
 </div><h5 id="例题4编辑距离-力扣72httpsleetcode-cncomproblemsedit-distance字节-算法-频次8httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd">例题4：编辑距离 （<a class="link" href="https://leetcode-cn.com/problems/edit-distance/"  target="_blank" rel="noopener"
     >力扣72</a>）（<a class="link" href="https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md"  target="_blank" rel="noopener"
-    >字节-算法-频次8</a>）</h5>
-<p>给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数。</p>
+    >字节-算法-频次8</a>）
+</h5><p>给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数。</p>
 <p>你可以对一个单词进行如下三种操作：插入一个字符、删除一个字符、替换一个字符。如：
 输入：word1 = &ldquo;horse&rdquo;, word2 = &ldquo;ros&rdquo;<br>
 输出：3<br>
@@ -1778,8 +1884,8 @@ rose -&gt; ros (删除 &rsquo;e&rsquo;)</p>
 <blockquote>
 <p>官方给的思路如何保证是全局最小操作数呢？另外，处理dp边界时候，可以申请一个额外的空间i=0，j=0，即申请dp[0&hellip;n + 1][0&hellip;m + 1]空间，然后把第一行和第一列的值设置为边界，这样递推代码中不用额外考虑边界情况，这样可以简化代码。</p>
 </blockquote>
-<h6 id="python代码-14">python代码</h6>
-<div class="highlight"><div class="chroma">
+<h6 id="python代码-14">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -1847,14 +1953,14 @@ rose -&gt; ros (删除 &rsquo;e&rsquo;)</p>
 </div>
 </div><h5 id="例题5最长递增子序列-力扣300httpsleetcode-cncomproblemslongest-increasing-subsequence字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd">例题5：最长递增子序列 （<a class="link" href="https://leetcode-cn.com/problems/longest-increasing-subsequence/"  target="_blank" rel="noopener"
     >力扣300</a>）（<a class="link" href="https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md"  target="_blank" rel="noopener"
-    >字节-算法-频次6</a>）</h5>
-<p>给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。</p>
+    >字节-算法-频次6</a>）
+</h5><p>给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。</p>
 <p><strong>子序列</strong> 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列</p>
 <blockquote>
 <p>看着有些难度，实际上只要想到动态规划，并且以nums[i]处作为子序列的结尾，从小递推到给定的序列的长度，就可以解决问题了。</p>
 </blockquote>
-<h6 id="python代码-15">python代码</h6>
-<div class="highlight"><div class="chroma">
+<h6 id="python代码-15">python代码
+</h6><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -1876,34 +1982,34 @@ rose -&gt; ros (删除 &rsquo;e&rsquo;)</p>
 </span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">dp</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h5 id="其他例题-1">其他例题</h5>
-<h6 id="青蛙过河力扣403httpsleetcode-cncomproblemsfrog-jump">青蛙过河（<a class="link" href="https://leetcode-cn.com/problems/frog-jump/"  target="_blank" rel="noopener"
-    >力扣403</a>）</h6>
-<h4 id="动态规划中常用思想">动态规划中常用思想</h4>
-<ol>
+</div><h5 id="其他例题-1">其他例题
+</h5><h6 id="青蛙过河力扣403httpsleetcode-cncomproblemsfrog-jump">青蛙过河（<a class="link" href="https://leetcode-cn.com/problems/frog-jump/"  target="_blank" rel="noopener"
+    >力扣403</a>）
+</h6><h4 id="动态规划中常用思想">动态规划中常用思想
+</h4><ol>
 <li>增量法：字符串/矩阵表示的结构中，往往可以考虑尾部增加一个字符所带来的影响/变化，从而考虑多个情况，建立递归公式。</li>
 <li>在字符串表示的结构中，任何一个子串/子序列，都必须有一个结尾字符，往往可以考虑将以字符结尾的某个DP变量作为动态规划状态，从而考虑更长的字符串。</li>
 </ol>
-<h2 id="奇淫技巧小题大做">奇淫技巧（小题大做）</h2>
-<h3 id="例题1寻找重复数-力扣287httpsleetcode-cncomproblemsfind-the-duplicate-number字节-算法-频次3httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd">例题1：寻找重复数 （<a class="link" href="https://leetcode-cn.com/problems/find-the-duplicate-number/"  target="_blank" rel="noopener"
+<h2 id="奇淫技巧小题大做">奇淫技巧（小题大做）
+</h2><h3 id="例题1寻找重复数-力扣287httpsleetcode-cncomproblemsfind-the-duplicate-number字节-算法-频次3httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd">例题1：寻找重复数 （<a class="link" href="https://leetcode-cn.com/problems/find-the-duplicate-number/"  target="_blank" rel="noopener"
     >力扣287</a>）（<a class="link" href="https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md"  target="_blank" rel="noopener"
-    >字节-算法-频次3</a>）</h3>
-<h2 id="待解决">待解决</h2>
-<p>小强有两个序列 a 和 b ，这两个序列都是由相同的无重复数字集合组成的，现在小强想把 a 序列变成 b 序列，他只能进行以下的操作：</p>
+    >字节-算法-频次3</a>）
+</h3><h2 id="待解决">待解决
+</h2><p>小强有两个序列 a 和 b ，这两个序列都是由相同的无重复数字集合组成的，现在小强想把 a 序列变成 b 序列，他只能进行以下的操作：</p>
 <p>从序列a中选择第一个或者最后一个数字井把它插入 a 中的任意位置。</p>
 <p>问小强至少需要几次操作可以将序列 a 变为序列 b 。</p>
 <p>输入描述：</p>
 <p>一行一个整数 n 表示序列的长度。接下来两行每行 n 个整数。第一行表示序列a，第二行表示序列b。1≤ n ≤ $10^5；$1≤ $a_i$, $b_i$ ≤ $10^9$。保证给出的序列符合题意。</p>
-<h2 id="内推">内推</h2>
-<p>字节跳动内推链接：<a class="link" href="https://job.toutiao.com/s/e1NmGpy"  target="_blank" rel="noopener"
+<h2 id="内推">内推
+</h2><p>字节跳动内推链接：<a class="link" href="https://job.toutiao.com/s/e1NmGpy"  target="_blank" rel="noopener"
     >字节内推</a>，有需要的同学自取。</p>
-<h2 id="未归档">未归档</h2>
-<h3 id="配置校验数">配置校验数</h3>
-<p>小华在开发配置校验功能时，发现配置的打开和关闭总是两两结对，为了减少这个状态的存储空间，小华将这些配置的“开°，“关“状态转换为1和0 的数组从左向右依次填充，如：</p>
+<h2 id="未归档">未归档
+</h2><h3 id="配置校验数">配置校验数
+</h3><p>小华在开发配置校验功能时，发现配置的打开和关闭总是两两结对，为了减少这个状态的存储空间，小华将这些配置的“开°，“关“状态转换为1和0 的数组从左向右依次填充，如：</p>
 <p><img src="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32.png"
 	width="217"
 	height="189"
-	srcset="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hub6b0f8238e36d9c49cbe6e12415118ae_62874_480x0_resize_box_3.png 480w, /posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hub6b0f8238e36d9c49cbe6e12415118ae_62874_1024x0_resize_box_3.png 1024w"
+	srcset="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu8666688849022667935.png 480w, /posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu15695013204657258868.png 1024w"
 	loading="lazy"
 	
 		alt="配置校验数"
@@ -1916,8 +2022,8 @@ rose -&gt; ros (删除 &rsquo;e&rsquo;)</p>
 ></p>
 <p>因为配置总是成对出现，所以数组长度为偶数，同时为了容易查找结对的配置，小华约定：对于 M 对配置，坐标 i 和 i+M 的配置组成一对。因为第一对配置必须开启，小华发现可以使用一个整数来表示，比如3，二进制表达为11，就代表一对配置同时打开，小华称之为配置校验数。</p>
 <p>于是，小华突发其想，想研究一下这样能刚好表达结对配置同时打开或关闭的整數有多少个，现在请你设计一个程序，帮小华找出不大于给定的非负整数N的配置校验数有多少个。</p>
-<h3 id="基本计算器">基本计算器</h3>
-<p>[力扣224](<a class="link" href="https://leetcode.cn/problems/basic-calculator/"  target="_blank" rel="noopener"
+<h3 id="基本计算器">基本计算器
+</h3><p>[力扣224](<a class="link" href="https://leetcode.cn/problems/basic-calculator/"  target="_blank" rel="noopener"
     >https://leetcode.cn/problems/basic-calculator/</a>）</p>
 <p>c++ 代码</p>
 <div class="highlight"><div class="chroma">
@@ -2035,7 +2141,7 @@ rose -&gt; ros (删除 &rsquo;e&rsquo;)</p>
     
     <section class="article-tags">
         
-            <a href="/tags/leetcode/">leetcode</a>
+            <a href="/tags/leetcode/">Leetcode</a>
         
             <a href="/tags/%E7%AE%97%E6%B3%95%E9%A2%98/">算法题</a>
         
@@ -2062,24 +2168,25 @@ rose -&gt; ros (删除 &rsquo;e&rsquo;)</p>
     
         <link 
                 rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
             ><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
                 defer
                 >
             </script><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
                 defer
                 >
             </script><script>
     window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
+        renderMathInElement(document.body, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false },
                 { left: "\\(", right: "\\)", display: false },
                 { left: "\\[", right: "\\]", display: true }
-            ]
+            ],
+            ignoredClasses: ["gist"]
         });})
 </script>
     
@@ -2168,7 +2275,7 @@ rose -&gt; ros (删除 &rsquo;e&rsquo;)</p>
         
     <div class="disqus-container">
     <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     
@@ -2216,12 +2323,12 @@ rose -&gt; ros (删除 &rsquo;e&rsquo;)</p>
         
             2018 - 
         
-        2023 七月流火
+        2024 七月流火
     </section>
     
     <section class="powerby">
-        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
     </section>
 </footer>
 
@@ -2305,96 +2412,6 @@ rose -&gt; ros (删除 &rsquo;e&rsquo;)</p>
             >
 
             </main>
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#符号定义及含义">符号定义及含义</a></li>
-    <li><a href="#经典算法">经典算法</a>
-      <ol>
-        <li><a href="#经典排序算法">经典排序算法</a>
-          <ol>
-            <li><a href="#快速排序">快速排序</a></li>
-            <li><a href="#归并排序">归并排序</a></li>
-          </ol>
-        </li>
-        <li><a href="#数组">数组</a>
-          <ol>
-            <li><a href="#二分查找">二分查找</a></li>
-          </ol>
-        </li>
-        <li><a href="#链表">链表</a>
-          <ol>
-            <li><a href="#链表翻转">链表翻转</a></li>
-          </ol>
-        </li>
-        <li><a href="#二叉树">二叉树</a>
-          <ol>
-            <li><a href="#二叉树深度优先遍历">二叉树深度优先遍历</a></li>
-            <li><a href="#二叉树广度优先遍历按层遍历">二叉树广度优先遍历（按层遍历）</a></li>
-            <li><a href="#前序和中序遍历构造二叉树">前序和中序遍历构造二叉树</a></li>
-            <li><a href="#二叉搜索树中序遍历">二叉搜索树中序遍历</a></li>
-          </ol>
-        </li>
-        <li><a href="#图结构">图结构</a>
-          <ol>
-            <li><a href="#图遍历">图遍历</a></li>
-          </ol>
-        </li>
-        <li><a href="#并查集">并查集</a></li>
-        <li><a href="#位运算">位运算</a></li>
-        <li><a href="#动态规划算法">动态规划算法</a>
-          <ol>
-            <li><a href="#引子计算斐波那契数列">引子：计算斐波那契数列</a></li>
-            <li><a href="#从斐波那契数列到动态规划">从斐波那契数列到动态规划</a></li>
-            <li><a href="#例题">例题</a></li>
-            <li><a href="#递推公式">递推公式</a></li>
-            <li><a href="#动态规划中常用思想">动态规划中常用思想</a></li>
-          </ol>
-        </li>
-      </ol>
-    </li>
-    <li><a href="#奇淫技巧小题大做">奇淫技巧（小题大做）</a>
-      <ol>
-        <li><a href="#例题1寻找重复数-力扣287httpsleetcode-cncomproblemsfind-the-duplicate-number字节-算法-频次3httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd">例题1：寻找重复数 （<a href="https://leetcode-cn.com/problems/find-the-duplicate-number/">力扣287</a>）（<a href="https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md">字节-算法-频次3</a>）</a></li>
-      </ol>
-    </li>
-    <li><a href="#待解决">待解决</a></li>
-    <li><a href="#内推">内推</a></li>
-    <li><a href="#未归档">未归档</a>
-      <ol>
-        <li><a href="#配置校验数">配置校验数</a></li>
-        <li><a href="#基本计算器">基本计算器</a></li>
-      </ol>
-    </li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
-
         </div>
         <script 
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
@@ -2411,6 +2428,36 @@ rose -&gt; ros (删除 &rsquo;e&rsquo;)</p>
 
         document.head.appendChild(customFont);
     }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
 </script>
 
     </body>

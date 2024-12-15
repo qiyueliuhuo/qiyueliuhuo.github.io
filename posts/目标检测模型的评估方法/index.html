@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='如何评估一个算法模型的检测结果是好还是不好？'><title>目标检测模型的评估方法</title>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=49547&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="如何评估一个算法模型的检测结果是好还是不好？">
+<title>目标检测模型的评估方法</title>
 
-<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/'>
+<link rel='canonical' href='http://localhost:49547/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/'>
 
-<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='目标检测模型的评估方法'>
-<meta property='og:description' content='如何评估一个算法模型的检测结果是好还是不好？'>
-<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/'>
+<link rel="stylesheet" href="/scss/style.min.9768e1ece02ab8863eb990f67f0561fb1fe386bc4d167d086c922110995ad8fc.css"><meta property='og:title' content="目标检测模型的评估方法">
+<meta property='og:description' content="如何评估一个算法模型的检测结果是好还是不好？">
+<meta property='og:url' content='http://localhost:49547/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/'>
 <meta property='og:site_name' content='七月流火'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='模型评估' /><meta property='article:tag' content='mAP' /><meta property='article:tag' content='目标检测' /><meta property='article:published_time' content='2021-06-21T10:45:26&#43;08:00'/><meta property='article:modified_time' content='2021-06-21T10:45:26&#43;08:00'/>
 <meta name="twitter:title" content="目标检测模型的评估方法">
@@ -55,13 +56,11 @@
                     
                     
                         
-                        <img src="/img/avatar_hu8d4b235d4d79942b70ca31d91c98dd00_21409_300x0_resize_box_3.png" width="300"
+                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
                 </a>
-                
-                    <span class="emoji">⭐</span>
                 
             </figure>
             
@@ -71,13 +70,14 @@
             <h1 class="site-name"><a href="/">七月流火</a></h1>
             <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
         </div>
-    </header><ol class="social-menu">
+    </header><ol class="menu-social">
             
                 <li>
                     <a 
                         href='https://github.com/qiyueliuhuo'
                         target="_blank"
                         title="GitHub"
+                        rel="me"
                     >
                         
                         
@@ -96,7 +96,6 @@
         
         
         
-
         <li >
             <a href='/' >
                 
@@ -117,7 +116,6 @@
         </li>
         
         
-
         <li >
             <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
                 
@@ -137,7 +135,6 @@
         </li>
         
         
-
         <li >
             <a href='/archives/' >
                 
@@ -158,7 +155,6 @@
         </li>
         
         
-
         <li >
             <a href='/search/' >
                 
@@ -178,7 +174,6 @@
         </li>
         
         
-
         <li >
             <a href='/links/' >
                 
@@ -197,10 +192,11 @@
             </a>
         </li>
         
-
-        <div class="menu-bottom-section">
-                <li id="i18n-switch">  
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
   <path d="M4 5h7" />
   <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
@@ -211,19 +207,20 @@
 
 
 
-                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
-                        
-                            <option value="https://qiyueliuhuo.github.io/en/" >English</option>
-                        
-                            <option value="https://qiyueliuhuo.github.io/" selected>中文</option>
-                        
-                    </select>
-                </li>
-            
-            
-            
-                <li id="dark-mode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="http://localhost:49547/en/" >English</option>
+                                
+                                    <option value="http://localhost:49547/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="8" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -231,7 +228,7 @@
 
 
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="16" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -239,13 +236,56 @@
 
 
 
-                    <span>暗色模式</span>
-                </li>
-            
-        </div>
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
     </ol>
 </aside>
-<main class="main full-width">
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#检测结果的正确错误类型">检测结果的正确/错误类型</a></li>
+    <li><a href="#目标检测评价指标">目标检测评价指标</a>
+      <ol>
+        <li><a href="#召回率准确率">召回率、准确率</a></li>
+        <li><a href="#apaverage-precision">AP（Average Precision）</a></li>
+        <li><a href="#mean-ap">Mean AP</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
     <article class="main-article">
     <header class="article-header">
 
@@ -272,6 +312,9 @@
         
     </div>
 
+    
+    
+    
     
     <footer class="article-time">
         
@@ -309,15 +352,16 @@
 
     
 </div>
+
 </header>
 
     <section class="article-content">
     
     
-    <h2 id="前言">前言</h2>
-<p>如何评价一个算法模型的检测结果是好还是不好呢？</p>
-<h2 id="检测结果的正确错误类型">检测结果的正确/错误类型</h2>
-<ul>
+    <h2 id="前言">前言
+</h2><p>如何评价一个算法模型的检测结果是好还是不好呢？</p>
+<h2 id="检测结果的正确错误类型">检测结果的正确/错误类型
+</h2><ul>
 <li>正确结果(True Positive)：算法检测到了某类物体 (Positive)，图中也确实有这个物体，检测结果正确(True)。（个人理解，这里其实成为正阳性更准确）</li>
 <li>假阳性(False Positive)：算法检测到了某类物体 (Positive)，但图中其实没有这个物体，检测结果错误 (False)。通常我们把它也称为误检。</li>
 <li>假阴性 (False Negative)：算法没有检测到物体 (Negative)，但图中其实有某类物体，检测结果错误(False)。通常，我们把它也称为漏检。</li>
@@ -326,7 +370,7 @@
 <img src="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42.png"
 	width="1291"
 	height="426"
-	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_huc4ae6f515ec20420442096354a565ed1_191545_480x0_resize_box_3.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_huc4ae6f515ec20420442096354a565ed1_191545_1024x0_resize_box_3.png 1024w"
+	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu2418027556458035093.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu9556632467753866613.png 1024w"
 	loading="lazy"
 	
 		alt="检测结果示例"
@@ -341,7 +385,7 @@
 <img src="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2.png"
 	width="809"
 	height="446"
-	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu7ee85d697c6f28e5bd6069bc427cc249_37556_480x0_resize_box_3.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu7ee85d697c6f28e5bd6069bc427cc249_37556_1024x0_resize_box_3.png 1024w"
+	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu415412087098922318.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu17359873281064812625.png 1024w"
 	loading="lazy"
 	
 		alt="多张图像检测结果示例"
@@ -356,7 +400,7 @@
 <p><img src="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2.png"
 	width="332"
 	height="705"
-	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu7ca7db8a6411800fd4bcf9dc0ba0ef3f_48368_480x0_resize_box_3.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu7ca7db8a6411800fd4bcf9dc0ba0ef3f_48368_1024x0_resize_box_3.png 1024w"
+	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu15070469870161165776.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu2573344215508920506.png 1024w"
 	loading="lazy"
 	
 		alt="多张图像检测结果分析"
@@ -370,12 +414,12 @@
 <p>上表显示了边界框及其相应的置信度。最后一列将检测标识为 TP 或 FP。在这个例子中，如果 IOU 大于30% 则认为 TP，否则为 FP。通过查看上面的图像，我们可以大致判断检测是 TP 还是 FP</p>
 <p>更具体的分析，可以参考 <a class="link" href="https://github.com/rafaelpadilla/Object-Detection-Metrics"  target="_blank" rel="noopener"
     >目标检测指标</a></p>
-<h2 id="目标检测评价指标">目标检测评价指标</h2>
-<h3 id="召回率准确率">召回率、准确率</h3>
-<p><img src="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07.png"
+<h2 id="目标检测评价指标">目标检测评价指标
+</h2><h3 id="召回率准确率">召回率、准确率
+</h3><p><img src="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07.png"
 	width="746"
 	height="201"
-	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu6b443fa8a020f3ed7f8acc6037c6af12_79579_480x0_resize_box_3.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu6b443fa8a020f3ed7f8acc6037c6af12_79579_1024x0_resize_box_3.png 1024w"
+	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu5765300025566985294.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu16317770309019673399.png 1024w"
 	loading="lazy"
 	
 	
@@ -394,8 +438,8 @@
 一个完美的检测器应该有100%召回率和100%的准确率；在算法能力有限的情况下，应该平衡二者。</p>
 <p>通常做法：
 将检测框按置信度排序，仅输出置信度大于某个阈值的若干个框。</p>
-<h3 id="apaverage-precision">AP（Average Precision）</h3>
-<p>为得到阈值无关的评分，可以遍历阈值，并对 Precision 和 Recall 求平均。</p>
+<h3 id="apaverage-precision">AP（Average Precision）
+</h3><p>为得到阈值无关的评分，可以遍历阈值，并对 Precision 和 Recall 求平均。</p>
 <p>具体做法：</p>
 <ul>
 <li>检测框按置信度排序，取前K个框计算 Precision 和 Recall。</li>
@@ -404,8 +448,8 @@
 </ul>
 <p>笔者觉得这个指标很不科学！<br>
 原因是：一个好的检测器只需要在某个置信度阈值下能够检测出所有真实的目标，并且没有漏检和误检，那么就可以确定该检测器非常好，而不需要在其他置信度阈值下都表现好。</p>
-<h3 id="mean-ap">Mean AP</h3>
-<p><strong>分类别统计AP，并按类别平均即得到 Mean AP。</strong></p>
+<h3 id="mean-ap">Mean AP
+</h3><p><strong>分类别统计AP，并按类别平均即得到 Mean AP。</strong></p>
 <p>部分数据集（如 COCO)还要求在不同的 loU (上面提到的IOU 大于30% )阈值下计算 Mean AP 并平均，作为最终评分；从0.5 ~ 0.05，每个0.05都会取一个IoU的阈值，计算 Mean AP，最终将这几个值进行平均，作为最终的一个评分。</p>
 <p>可衡量检测器在不同定位精度要求下的性能。</p>
 
@@ -418,7 +462,7 @@
         
             <a href="/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/">模型评估</a>
         
-            <a href="/tags/map/">mAP</a>
+            <a href="/tags/map/">MAP</a>
         
             <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>
         
@@ -443,24 +487,25 @@
     
         <link 
                 rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
             ><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
                 defer
                 >
             </script><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
                 defer
                 >
             </script><script>
     window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
+        renderMathInElement(document.body, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false },
                 { left: "\\(", right: "\\)", display: false },
                 { left: "\\[", right: "\\]", display: true }
-            ]
+            ],
+            ignoredClasses: ["gist"]
         });})
 </script>
     
@@ -502,13 +547,24 @@
 
             
                 
-<article class="">
+<article class="has-image">
     <a href="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/">
         
         
+            <div class="article-image">
+                <img src="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_img.eece7c66867b98d26b24c7b04ace5d4b_hu16765645502934798448.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post LeetCode 进阶指南：解题思路与算法题分类总结"
+                        data-key="Leetcode算法题总结" 
+                        data-hash="md5-7s58ZoZ7mNJrJMewSs5dSw==">
+                
+            </div>
+        
 
         <div class="article-details">
-            <h2 class="article-title">Leetcode算法题总结</h2>
+            <h2 class="article-title">LeetCode 进阶指南：解题思路与算法题分类总结</h2>
         </div>
     </a>
 </article>
@@ -549,7 +605,7 @@
         
     <div class="disqus-container">
     <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     
@@ -597,12 +653,12 @@
         
             2018 - 
         
-        2023 七月流火
+        2024 七月流火
     </section>
     
     <section class="powerby">
-        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
     </section>
 </footer>
 
@@ -686,47 +742,6 @@
             >
 
             </main>
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#检测结果的正确错误类型">检测结果的正确/错误类型</a></li>
-    <li><a href="#目标检测评价指标">目标检测评价指标</a>
-      <ol>
-        <li><a href="#召回率准确率">召回率、准确率</a></li>
-        <li><a href="#apaverage-precision">AP（Average Precision）</a></li>
-        <li><a href="#mean-ap">Mean AP</a></li>
-      </ol>
-    </li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
-
         </div>
         <script 
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
@@ -743,6 +758,36 @@
 
         document.head.appendChild(customFont);
     }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
 </script>
 
     </body>

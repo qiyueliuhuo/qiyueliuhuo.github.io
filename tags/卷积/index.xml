@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>卷积 on 七月流火</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E5%8D%B7%E7%A7%AF/</link>
+        <link>http://localhost:1313/tags/%E5%8D%B7%E7%A7%AF/</link>
         <description>Recent content in 卷积 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 22 Oct 2021 15:15:50 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E5%8D%B7%E7%A7%AF/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 22 Oct 2021 15:15:50 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%8D%B7%E7%A7%AF/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>卷积计算底层实现</title>
-        <link>https://qiyueliuhuo.github.io/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</link>
+        <link>http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</link>
         <pubDate>Fri, 22 Oct 2021 15:15:50 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</guid>
+        <guid>http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</guid>
         <description>&lt;p&gt;为了更深入理解卷积神经网络，这篇博客介绍在卷积神经网络中常用的卷积操作底层是如何实现的。&lt;/p&gt;
-&lt;h2 id=&#34;卷积&#34;&gt;卷积&lt;/h2&gt;
-&lt;p&gt;卷积本身的执行过程是通过在特征图上滑动卷积核来完成的，如下面两个动图，形象地展示了单通道卷积和多通道卷积操作。&lt;/p&gt;
-&lt;h3 id=&#34;单通道卷积&#34;&gt;单通道卷积&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/MqZjLPg.gif&#34;
+&lt;h2 id=&#34;卷积&#34;&gt;卷积
+&lt;/h2&gt;&lt;p&gt;卷积本身的执行过程是通过在特征图上滑动卷积核来完成的，如下面两个动图，形象地展示了单通道卷积和多通道卷积操作。&lt;/p&gt;
+&lt;h3 id=&#34;单通道卷积&#34;&gt;单通道卷积
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/MqZjLPg.gif&#34;
 	
 	
 	
@@ -24,8 +24,8 @@
 	
 	
 &gt;&lt;/p&gt;
-&lt;h3 id=&#34;多通道卷积&#34;&gt;多通道卷积&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/j8kLBKs.gif&#34;
+&lt;h3 id=&#34;多通道卷积&#34;&gt;多通道卷积
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;http://i.imgur.com/j8kLBKs.gif&#34;
 	
 	
 	
@@ -33,8 +33,8 @@
 	
 	
 &gt;&lt;/p&gt;
-&lt;h2 id=&#34;多通道卷积计算底层实现&#34;&gt;多通道卷积计算底层实现&lt;/h2&gt;
-&lt;p&gt;假设输入图像及卷积和大小如下图所示：
+&lt;h2 id=&#34;多通道卷积计算底层实现&#34;&gt;多通道卷积计算底层实现
+&lt;/h2&gt;&lt;p&gt;假设输入图像及卷积和大小如下图所示：
 &lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022155716.png&#34;
 	
 	
@@ -43,9 +43,9 @@
 	
 	
 &gt;&lt;/p&gt;
-&lt;h3 id=&#34;第一步分别将特征图和卷积转换为矩阵&#34;&gt;第一步：分别将特征图和卷积转换为矩阵&lt;/h3&gt;
-&lt;h4 id=&#34;卷积核&#34;&gt;卷积核&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022161500.png&#34;
+&lt;h3 id=&#34;第一步分别将特征图和卷积转换为矩阵&#34;&gt;第一步：分别将特征图和卷积转换为矩阵
+&lt;/h3&gt;&lt;h4 id=&#34;卷积核&#34;&gt;卷积核
+&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022161500.png&#34;
 	
 	
 	
@@ -86,8 +86,8 @@ $$
 1 &amp;amp; 0 &amp;amp; 0 &amp;amp; 1 &amp;amp; 2 &amp;amp; 1 &amp;amp; 2 &amp;amp; 1 &amp;amp; 1 &amp;amp; 2 &amp;amp; 2 &amp;amp; 0
 \end{array}\right]
 $$&lt;/p&gt;
-&lt;h4 id=&#34;特征图&#34;&gt;特征图&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022163257.png&#34;
+&lt;h4 id=&#34;特征图&#34;&gt;特征图
+&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022163257.png&#34;
 	
 	
 	
@@ -192,20 +192,20 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 	
 	
 &gt;&lt;/p&gt;
-&lt;h2 id=&#34;总结与分析&#34;&gt;总结与分析&lt;/h2&gt;
-&lt;ol&gt;
+&lt;h2 id=&#34;总结与分析&#34;&gt;总结与分析
+&lt;/h2&gt;&lt;ol&gt;
 &lt;li&gt;输出层的节点值并不是由全部输入层的节点值与权重乘积和得到，而只有部分输入节点参与到计算；从另一的角度可以当成是有一部分权重为零。&lt;/li&gt;
 &lt;li&gt;有大量权重被共享，有几个滤波器就共享了几套权重参数，这点原因应该是空间平移不变性，即某一区域和另一区域并没有差别。&lt;/li&gt;
 &lt;li&gt;上面将所有特征图拉成一维向量，这样只是和全连接层做对比，实际上，因为图像数据存在多通道，例如一般情况下的RGB三通道图像，每个通道包含一个维度的信息；另外图像中像素点之间的位置信息在二维图像中可以更好的呈现（编码），而拉成一维向量会丢失这些信息。&lt;/li&gt;
 &lt;li&gt;从信息论角度来说，三通道图像是否有图形的信息存在冗余。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;参考&#34;&gt;参考：&lt;/h2&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/F_AnZzz/article/details/95389567&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h2 id=&#34;参考&#34;&gt;参考：
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/F_AnZzz/article/details/95389567&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;卷积计算的底层实现&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/27642620&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;YJango的卷积神经网络&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;更新记录&#34;&gt;更新记录&lt;/h2&gt;
-&lt;blockquote&gt;
+&lt;h2 id=&#34;更新记录&#34;&gt;更新记录
+&lt;/h2&gt;&lt;blockquote&gt;
 &lt;p&gt;调整格式和排版。 —— 2022.07.19&lt;/p&gt;
 &lt;/blockquote&gt;
 </description>

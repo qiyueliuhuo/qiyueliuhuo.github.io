@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='测试驱动的自动编译及运行刷题环境配置'><title>Vim-算法-刷题环境配置</title>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=49547&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="测试驱动的自动编译及运行刷题环境配置">
+<title>Vim-算法-刷题环境配置</title>
 
-<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/'>
+<link rel='canonical' href='http://localhost:49547/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/'>
 
-<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='Vim-算法-刷题环境配置'>
-<meta property='og:description' content='测试驱动的自动编译及运行刷题环境配置'>
-<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/'>
+<link rel="stylesheet" href="/scss/style.min.9768e1ece02ab8863eb990f67f0561fb1fe386bc4d167d086c922110995ad8fc.css"><meta property='og:title' content="Vim-算法-刷题环境配置">
+<meta property='og:description' content="测试驱动的自动编译及运行刷题环境配置">
+<meta property='og:url' content='http://localhost:49547/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/'>
 <meta property='og:site_name' content='七月流火'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:published_time' content='2022-09-17T19:34:41&#43;08:00'/><meta property='article:modified_time' content='2022-09-17T19:34:41&#43;08:00'/>
 <meta name="twitter:title" content="Vim-算法-刷题环境配置">
@@ -55,13 +56,11 @@
                     
                     
                         
-                        <img src="/img/avatar_hu8d4b235d4d79942b70ca31d91c98dd00_21409_300x0_resize_box_3.png" width="300"
+                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
                 </a>
-                
-                    <span class="emoji">⭐</span>
                 
             </figure>
             
@@ -71,13 +70,14 @@
             <h1 class="site-name"><a href="/">七月流火</a></h1>
             <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
         </div>
-    </header><ol class="social-menu">
+    </header><ol class="menu-social">
             
                 <li>
                     <a 
                         href='https://github.com/qiyueliuhuo'
                         target="_blank"
                         title="GitHub"
+                        rel="me"
                     >
                         
                         
@@ -96,7 +96,6 @@
         
         
         
-
         <li >
             <a href='/' >
                 
@@ -117,7 +116,6 @@
         </li>
         
         
-
         <li >
             <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
                 
@@ -137,7 +135,6 @@
         </li>
         
         
-
         <li >
             <a href='/archives/' >
                 
@@ -158,7 +155,6 @@
         </li>
         
         
-
         <li >
             <a href='/search/' >
                 
@@ -178,7 +174,6 @@
         </li>
         
         
-
         <li >
             <a href='/links/' >
                 
@@ -197,10 +192,11 @@
             </a>
         </li>
         
-
-        <div class="menu-bottom-section">
-                <li id="i18n-switch">  
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
   <path d="M4 5h7" />
   <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
@@ -211,19 +207,20 @@
 
 
 
-                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
-                        
-                            <option value="https://qiyueliuhuo.github.io/en/" >English</option>
-                        
-                            <option value="https://qiyueliuhuo.github.io/" selected>中文</option>
-                        
-                    </select>
-                </li>
-            
-            
-            
-                <li id="dark-mode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="http://localhost:49547/en/" >English</option>
+                                
+                                    <option value="http://localhost:49547/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="8" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -231,7 +228,7 @@
 
 
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="16" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -239,13 +236,52 @@
 
 
 
-                    <span>暗色模式</span>
-                </li>
-            
-        </div>
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
     </ol>
 </aside>
-<main class="main full-width">
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#相关环境">相关环境</a></li>
+    <li><a href="#vim-配置">Vim 配置</a></li>
+    <li><a href="#shell-脚本">Shell 脚本</a></li>
+    <li><a href="#问题">问题</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
     <article class="main-article">
     <header class="article-header">
 
@@ -272,6 +308,9 @@
         
     </div>
 
+    
+    
+    
     
     <footer class="article-time">
         
@@ -309,25 +348,26 @@
 
     
 </div>
+
 </header>
 
     <section class="article-content">
     
     
-    <h2 id="前言">前言</h2>
-<p>笔者大概从五年前大二开始接触 vim 编辑器，当时有很多关于两款“史前”编辑器 Vim 和 Emacs 的争论，对于一些较早前的极客一般分为 Vim 党、 Emacs 党 和其他。 笔者自开始接触 Linux 系统就学习的 Vim ，一直使用到现在，几乎所有 IDE 、游览器和笔记系统Logseq都开启 vim 模式，也算是一个 Vim 党。然而，笔者无心参与 Vim 和 Emacs 两款编辑器之争；很明显，现代大型项目的开发，已经几乎必须采取像 idea、clion、vscode 这些优秀的 IDE ；当下，笔者更多地使用 Vim（终端界面）编写一些算法题，这样既减少成熟 IDE 自动的补全机制对于笔者自身的驯化（经常知道某些函数，然而自己拼不对，非常依赖IDE智能提示），又能让笔者对 Vim 操作和 shell 脚本编程更加熟练；此篇博客介绍笔者在终端界面下使用 Vim 编写算法题搭建的自动化编译运行环境。</p>
-<h2 id="相关环境">相关环境</h2>
-<p>系统：macOS Monterey 12.5.1<br>
+    <h2 id="前言">前言
+</h2><p>笔者大概从五年前大二开始接触 vim 编辑器，当时有很多关于两款“史前”编辑器 Vim 和 Emacs 的争论，对于一些较早前的极客一般分为 Vim 党、 Emacs 党 和其他。 笔者自开始接触 Linux 系统就学习的 Vim ，一直使用到现在，几乎所有 IDE 、游览器和笔记系统Logseq都开启 vim 模式，也算是一个 Vim 党。然而，笔者无心参与 Vim 和 Emacs 两款编辑器之争；很明显，现代大型项目的开发，已经几乎必须采取像 idea、clion、vscode 这些优秀的 IDE ；当下，笔者更多地使用 Vim（终端界面）编写一些算法题，这样既减少成熟 IDE 自动的补全机制对于笔者自身的驯化（经常知道某些函数，然而自己拼不对，非常依赖IDE智能提示），又能让笔者对 Vim 操作和 shell 脚本编程更加熟练；此篇博客介绍笔者在终端界面下使用 Vim 编写算法题搭建的自动化编译运行环境。</p>
+<h2 id="相关环境">相关环境
+</h2><p>系统：macOS Monterey 12.5.1<br>
 vim：MacVim 8.2<br>
 文件检测：fswatch 1.16.0</p>
-<h2 id="vim-配置">Vim 配置</h2>
-<p>参考此篇博客：<a class="link" href="https://blog.csdn.net/RichDevos/article/details/123826404"  target="_blank" rel="noopener"
+<h2 id="vim-配置">Vim 配置
+</h2><p>参考此篇博客：<a class="link" href="https://blog.csdn.net/RichDevos/article/details/123826404"  target="_blank" rel="noopener"
     >2022 最新 Mac Vim 开发环境的部署与配置</a></p>
 <p>效果如下图（点击图片可以放大查看）：</p>
 <p><img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37.png"
 	width="3358"
 	height="2050"
-	srcset="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu4e1180beb1d2d264930d97cf2a41f442_389292_480x0_resize_box_3.png 480w, /posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu4e1180beb1d2d264930d97cf2a41f442_389292_1024x0_resize_box_3.png 1024w"
+	srcset="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu6977684523373588805.png 480w, /posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu10228423325999653923.png 1024w"
 	loading="lazy"
 	
 	
@@ -336,8 +376,8 @@ vim：MacVim 8.2<br>
 		data-flex-basis="393px"
 	
 ></p>
-<h2 id="shell-脚本">Shell 脚本</h2>
-<p>通过 Shell 脚本来实现当自己编写程序时，保存完后，自动进行编译及运行。</p>
+<h2 id="shell-脚本">Shell 脚本
+</h2><p>通过 Shell 脚本来实现当自己编写程序时，保存完后，自动进行编译及运行。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -392,7 +432,7 @@ vim：MacVim 8.2<br>
 <p><img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02.png"
 	width="3358"
 	height="2050"
-	srcset="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu4e1180beb1d2d264930d97cf2a41f442_724332_480x0_resize_box_3.png 480w, /posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu4e1180beb1d2d264930d97cf2a41f442_724332_1024x0_resize_box_3.png 1024w"
+	srcset="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu12252170667833130180.png 480w, /posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu7916995581846462568.png 1024w"
 	loading="lazy"
 	
 	
@@ -402,8 +442,8 @@ vim：MacVim 8.2<br>
 	
 ></p>
 <p>这样便可以愉快的刷题了，哈哈，加油！！！</p>
-<h2 id="问题">问题</h2>
-<p>当在 Vim 进行一次保存时，fswatch 会触发两次，目前不清楚如何解决。</p>
+<h2 id="问题">问题
+</h2><p>当在 Vim 进行一次保存时，fswatch 会触发两次，目前不清楚如何解决。</p>
 
 </section>
 
@@ -429,24 +469,25 @@ vim：MacVim 8.2<br>
     
         <link 
                 rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
             ><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
                 defer
                 >
             </script><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
                 defer
                 >
             </script><script>
     window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
+        renderMathInElement(document.body, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false },
                 { left: "\\(", right: "\\)", display: false },
                 { left: "\\[", right: "\\]", display: true }
-            ]
+            ],
+            ignoredClasses: ["gist"]
         });})
 </script>
     
@@ -462,9 +503,20 @@ vim：MacVim 8.2<br>
         <div class="flex article-list--tile">
             
                 
-<article class="">
+<article class="has-image">
     <a href="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
         
+        
+            <div class="article-image">
+                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu16517212594665624032.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post WebServer（C&#43;&#43;版）代码分析之线程池"
+                        data-key="WebServer（C&#43;&#43;版）代码分析之线程池" 
+                        data-hash="md5-q8PfSkaJGEYcDF53Dy/vAA==">
+                
+            </div>
         
 
         <div class="article-details">
@@ -522,7 +574,7 @@ vim：MacVim 8.2<br>
         
     <div class="disqus-container">
     <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     
@@ -570,12 +622,12 @@ vim：MacVim 8.2<br>
         
             2018 - 
         
-        2023 七月流火
+        2024 七月流火
     </section>
     
     <section class="powerby">
-        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
     </section>
 </footer>
 
@@ -659,43 +711,6 @@ vim：MacVim 8.2<br>
             >
 
             </main>
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#相关环境">相关环境</a></li>
-    <li><a href="#vim-配置">Vim 配置</a></li>
-    <li><a href="#shell-脚本">Shell 脚本</a></li>
-    <li><a href="#问题">问题</a></li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
-
         </div>
         <script 
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
@@ -712,6 +727,36 @@ vim：MacVim 8.2<br>
 
         document.head.appendChild(customFont);
     }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
 </script>
 
     </body>

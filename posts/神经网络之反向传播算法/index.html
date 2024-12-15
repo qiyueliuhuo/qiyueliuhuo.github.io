@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='现代神经网络算法中最重要的底层算法——反向传播算法解析。'><title>神经网络之反向传播算法</title>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=49547&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="现代神经网络算法中最重要的底层算法——反向传播算法解析。">
+<title>神经网络之反向传播算法</title>
 
-<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
+<link rel='canonical' href='http://localhost:49547/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
 
-<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='神经网络之反向传播算法'>
-<meta property='og:description' content='现代神经网络算法中最重要的底层算法——反向传播算法解析。'>
-<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
+<link rel="stylesheet" href="/scss/style.min.9768e1ece02ab8863eb990f67f0561fb1fe386bc4d167d086c922110995ad8fc.css"><meta property='og:title' content="神经网络之反向传播算法">
+<meta property='og:description' content="现代神经网络算法中最重要的底层算法——反向传播算法解析。">
+<meta property='og:url' content='http://localhost:49547/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
 <meta property='og:site_name' content='七月流火'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='反向传播' /><meta property='article:tag' content='梯度计算' /><meta property='article:tag' content='感知机' /><meta property='article:published_time' content='2020-06-13T13:47:01&#43;00:00'/><meta property='article:modified_time' content='2020-06-13T13:47:01&#43;00:00'/>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='反向传播' /><meta property='article:tag' content='梯度计算' /><meta property='article:tag' content='感知机' /><meta property='article:published_time' content='2020-06-13T13:47:01&#43;00:00'/><meta property='article:modified_time' content='2020-06-13T13:47:01&#43;00:00'/><meta property='og:image' content='http://localhost:49547/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/back-propagation.png' />
 <meta name="twitter:title" content="神经网络之反向传播算法">
-<meta name="twitter:description" content="现代神经网络算法中最重要的底层算法——反向传播算法解析。">
+<meta name="twitter:description" content="现代神经网络算法中最重要的底层算法——反向传播算法解析。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:49547/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/back-propagation.png' />
     </head>
     <body class="
     article-page
@@ -55,13 +57,11 @@
                     
                     
                         
-                        <img src="/img/avatar_hu8d4b235d4d79942b70ca31d91c98dd00_21409_300x0_resize_box_3.png" width="300"
+                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
                 </a>
-                
-                    <span class="emoji">⭐</span>
                 
             </figure>
             
@@ -71,13 +71,14 @@
             <h1 class="site-name"><a href="/">七月流火</a></h1>
             <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
         </div>
-    </header><ol class="social-menu">
+    </header><ol class="menu-social">
             
                 <li>
                     <a 
                         href='https://github.com/qiyueliuhuo'
                         target="_blank"
                         title="GitHub"
+                        rel="me"
                     >
                         
                         
@@ -96,7 +97,6 @@
         
         
         
-
         <li >
             <a href='/' >
                 
@@ -117,7 +117,6 @@
         </li>
         
         
-
         <li >
             <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
                 
@@ -137,7 +136,6 @@
         </li>
         
         
-
         <li >
             <a href='/archives/' >
                 
@@ -158,7 +156,6 @@
         </li>
         
         
-
         <li >
             <a href='/search/' >
                 
@@ -178,7 +175,6 @@
         </li>
         
         
-
         <li >
             <a href='/links/' >
                 
@@ -197,10 +193,11 @@
             </a>
         </li>
         
-
-        <div class="menu-bottom-section">
-                <li id="i18n-switch">  
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
   <path d="M4 5h7" />
   <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
@@ -211,19 +208,20 @@
 
 
 
-                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
-                        
-                            <option value="https://qiyueliuhuo.github.io/en/" >English</option>
-                        
-                            <option value="https://qiyueliuhuo.github.io/" selected>中文</option>
-                        
-                    </select>
-                </li>
-            
-            
-            
-                <li id="dark-mode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="http://localhost:49547/en/" >English</option>
+                                
+                                    <option value="http://localhost:49547/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="8" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -231,7 +229,7 @@
 
 
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="16" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -239,15 +237,85 @@
 
 
 
-                    <span>暗色模式</span>
-                </li>
-            
-        </div>
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
     </ol>
 </aside>
-<main class="main full-width">
-    <article class="main-article">
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#感知机">感知机</a>
+      <ol>
+        <li><a href="#感知机介绍">感知机介绍</a></li>
+        <li><a href="#感知机学习策略">感知机学习策略</a></li>
+        <li><a href="#感知机模型存在的问题">感知机模型存在的问题</a></li>
+      </ol>
+    </li>
+    <li><a href="#神经网络">神经网络</a>
+      <ol>
+        <li><a href="#神经网络介绍">神经网络介绍</a></li>
+        <li><a href="#神经网络学习策略">神经网络学习策略</a></li>
+      </ol>
+    </li>
+    <li><a href="#梯度计算">梯度计算</a></li>
+    <li><a href="#计算图">计算图</a></li>
+    <li><a href="#反向传播算法">反向传播算法</a>
+      <ol>
+        <li><a href="#简单标量反向传播算法">简单标量反向传播算法</a></li>
+        <li><a href="#矩阵形式反向传播算法">矩阵形式反向传播算法</a></li>
+      </ol>
+    </li>
+    <li><a href="#反向传播算法特别之处">反向传播算法特别之处</a></li>
+    <li><a href="#总结与思考">总结与思考</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
     <header class="article-header">
+        <div class="article-image">
+            <a href="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/">
+                <img src="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/back-propagation_hu7443567002263557058.png"
+                        srcset="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/back-propagation_hu7443567002263557058.png 800w, /posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/back-propagation_hu15820045318990664987.png 1600w"
+                        width="800" 
+                        height="377" 
+                        loading="lazy"
+                        alt="Featured image of post 神经网络之反向传播算法" />
+                
+            </a>
+        </div>
+    
 
     <div class="article-details">
     
@@ -272,6 +340,9 @@
         
     </div>
 
+    
+    
+    
     
     <footer class="article-time">
         
@@ -309,22 +380,23 @@
 
     
 </div>
+
 </header>
 
     <section class="article-content">
     
     
-    <h2 id="前言">前言</h2>
-<p>人工神经网络（Artificial Neural Network，ANN）是一门重要的机器学习技术。它是目前最为火热的研究方向&ndash;深度学习（Deep Learning）的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。</p>
+    <h2 id="前言">前言
+</h2><p>人工神经网络（Artificial Neural Network，ANN）是一门重要的机器学习技术。它是目前最为火热的研究方向&ndash;深度学习（Deep Learning）的基础。学习神经网络不仅可以让你掌握一门强大的机器学习方法，同时也可以更好地帮助你理解深度学习技术。</p>
 <p>四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。</p>
 <p>这篇文章试图介绍深度学习中很重要的技术——神经网络，并重点介绍神经网络中运用到反向传播算法。</p>
 <blockquote>
 <p>在笔者大学期间，除了两场围棋人机大战外，还有一场比较有意思的大型实验：大贝尔实验——关于验证基础物理量子力学中非常有名且重要的贝尔不等式的实验。所谓“遇事不决，量子力学”，这个梗就表示了量子力学中存在一些无法解释（宏观世界难以理解）的现象，若有兴趣可以再了解下。</p>
 </blockquote>
-<h2 id="感知机">感知机</h2>
-<h3 id="感知机介绍">感知机介绍</h3>
-<p>首先让我们先来了解下神经网络中最简单也是最基础的一种结构——感知机（Perceptron），如下图：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/Ncell.png"
+<h2 id="感知机">感知机
+</h2><h3 id="感知机介绍">感知机介绍
+</h3><p>首先让我们先来了解下神经网络中最简单也是最基础的一种结构——感知机（Perceptron），如下图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/Ncell.png#center"
 	
 	
 	
@@ -348,8 +420,8 @@ $$ y = f(\sum_{i=1}^{n}w_ix_i + b) $$
 	
 >
 对于<strong>感知机模型</strong>的<strong>理解</strong>：感知机模型的假设空间（容量）是定义在特征空间中的所有线性分类模型或线性分类器。感知机对应函数值为 0，即$w·x + b = 0$，对应于特征空间$R^n$中的一个超平面$S$，其中$w$是超平面的法向量，$b$是超平面的截距，这个超平面将特征空间划分为两个部分，位于两部分空间中的点分别被分为正、负两类。</p>
-<h3 id="感知机学习策略">感知机学习策略</h3>
-<p>感知机学习以<strong>最小化</strong>误分类点到超平面$S$的总距离为<strong>目标</strong>，因此感知机学习算法是<strong>误分类驱动</strong>的，具体使用时采用<strong>随机梯度下降法</strong>。
+<h3 id="感知机学习策略">感知机学习策略
+</h3><p>感知机学习以<strong>最小化</strong>误分类点到超平面$S$的总距离为<strong>目标</strong>，因此感知机学习算法是<strong>误分类驱动</strong>的，具体使用时采用<strong>随机梯度下降法</strong>。
 误分类点到超平面的总距离为
 $$ -\frac{1}{||w||}\sum_{x_i\in M}y_i(w·x_i + b) $$
 其中$(x_i, y_i)$为样本点，$M$为误分类点的集合，对于误分类点来说$-y_i(w·x_i + b) &gt; 0$成立，且当$(w·x_i + b) &gt; 0$时，$y_i = -1$，当$(w·x_i + b) &lt; 0$时，$y_i = +1$。
@@ -363,12 +435,12 @@ $$ w \leftarrow w + \eta y_ix_i $$
 $$ b \leftarrow b + \eta y_i $$</p>
 <p>具体推导过程及算法迭代过程参见李航《统计学习方法》，代码实现参见<a class="link" href="https://github.com/fengdu78/lihang-code/blob/master/%E7%AC%AC02%E7%AB%A0%20%E6%84%9F%E7%9F%A5%E6%9C%BA/2.Perceptron.ipynb"  target="_blank" rel="noopener"
     >此 github</a>。</p>
-<h3 id="感知机模型存在的问题">感知机模型存在的问题</h3>
-<p>感知机的学习能力非常有限，与、或、非问题都是线性可分的，所以感知机可以处理，但是感知机却不能解决异或简单的非线性可分问题。
+<h3 id="感知机模型存在的问题">感知机模型存在的问题
+</h3><p>感知机的学习能力非常有限，与、或、非问题都是线性可分的，所以感知机可以处理，但是感知机却不能解决异或简单的非线性可分问题。
 异或问题暴露出这样一个问题，即在现实任务中，原始样本空间内也许并不存在一个能正确划分两类样本的超平面，对于这样的问题，一种方法，<strong>1)</strong> 可将样本从原始空间<strong>映射</strong>到一个<strong>更高维</strong>的特征空间（或者不用更高维也可以），所谓的核函数$\phi$，使得样本在这个特征空间内线性可分，幸运的是，如果原始空间是有限维，那么一定存在一个高维特征空间使得样本线性可分。<strong>2)</strong> 另一种方法，通过增加感知机的层数，使得形成一个神经网络，其中输入层神经元接受外界输入，隐层与输出层神经元对信号进行加工，最终结果由输出层神经元输出。（花书理解：深层神经网络中的隐藏层即代表输入经过了一个核函数$\phi$变换，那么以上两种方式都是在寻找一个<strong>恰当的核函数$\phi$</strong>，神经网络的方式是通过网络自主学习学到恰当的核函数）</p>
-<h2 id="神经网络">神经网络</h2>
-<h3 id="神经网络介绍">神经网络介绍</h3>
-<p>考虑到感知机模型存在的问题，即只能解决线性可分问题，我们将感知机进行连接，形成多层感知机——神经网络，如下图</p>
+<h2 id="神经网络">神经网络
+</h2><h3 id="神经网络介绍">神经网络介绍
+</h3><p>考虑到感知机模型存在的问题，即只能解决线性可分问题，我们将感知机进行连接，形成多层感知机——神经网络，如下图</p>
 <p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20200625230159.png"
 	
 	
@@ -408,8 +480,8 @@ $$ Y = softmax(A^{(2)}) $$
 \right]
 $$</p>
 <p>代表第一个样本预测为第二个分类概率为 0.7349123，大于 0.5，可以认为预测为第二个分类；最后一个样本预测为第一个分类概率为 0.8987211，可以认为预测为第一个分类。（当然只有两个样本的情况下一般看作正类和负类，只需要一个输出神经元，使用 sigmoid 函数激活即可。）<strong>该模型使用 softmax 函数作为激活函数，可以推广到多分类情况下</strong>。</p>
-<h3 id="神经网络学习策略">神经网络学习策略</h3>
-<p>神经网络的学习中使用的指标为<strong>损失函数（loss function）</strong>，即以最小化损失函数为目标，理论上，损失函数可以使用任意函数，但实际中一般用<strong>均方误差</strong>和<strong>交叉熵误差</strong>等。
+<h3 id="神经网络学习策略">神经网络学习策略
+</h3><p>神经网络的学习中使用的指标为<strong>损失函数（loss function）</strong>，即以最小化损失函数为目标，理论上，损失函数可以使用任意函数，但实际中一般用<strong>均方误差</strong>和<strong>交叉熵误差</strong>等。
 均方误差为
 $$ E = \frac{1}{2}\sum_{k}(y_k - t_k)^2 $$
 交叉熵误差为
@@ -433,8 +505,8 @@ $$ w_{hj} \leftarrow w_{hj} + \Delta w_{hj} $$
 采用梯度下降法，有
 $$ w_{hj} \leftarrow w_{hj} - \eta  \frac{\partial E}{\partial w_{hj}} $$
 对于梯度求解，一般有<strong>解析法</strong>和<strong>数值法</strong>两种方法，随着神经网络神经元增加和层数增加，直接求上万，甚至上亿个参数的解析导数变得不现实，计算量非常大。下面将介绍两种数值方式计算梯度方法：<strong>导数定义法和反向传播法</strong>。</p>
-<h2 id="梯度计算">梯度计算</h2>
-<p>梯度在直角坐标系下计算公式为
+<h2 id="梯度计算">梯度计算
+</h2><p>梯度在直角坐标系下计算公式为
 $$ \nabla f(x) = (\frac{\partial f(x)}{\partial x_1}, \frac{\partial f(x)}{\partial x_2}, &hellip;) $$
 梯度计算的结果是一个向量，并且可以看到计算梯度需要求函数对于各个自变量的偏导数。
 对于多元函数，偏导表示自变量某个瞬间的变化量。定义为如下：
@@ -485,8 +557,8 @@ $$ \frac{\partial f(x_1, x_2, x_3&hellip;x_i&hellip;)}{\partial x_i}  = \lim_{h 
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>上面程序实现的偏导数方式和上面公式稍有不同，使用中心差分，误差比<strong>前向差分</strong>小，学过微积分的同学应该能够明白。<strong>虽然上面求偏导数看着很方便很简单，但是根据上面的方式计算梯度在面对神经网络这种具有很大规模输入和很大规模参数时，计算效率相当慢</strong>。下面将重点介绍反向传播算法计算梯度。（介绍完反向传播算法后，还会再介绍两者求解方式差异，为什么上面方式求解梯度速度在神经网络应用上效率太慢）</p>
-<h2 id="计算图">计算图</h2>
-<p>为了更精确地描述反向传播算法，我们使用计算图（computational graph）语言来描述一系列操作。《深度学习》花书和斯坦福李飞飞 cs231n 课程对于计算图表示上有些区别，但都表示同一个含义，即用图的方式形式化地将操作次序表示出来，方便理解。这里我们介绍 cs231n 课程对于计算图的画法。
+<h2 id="计算图">计算图
+</h2><p>为了更精确地描述反向传播算法，我们使用计算图（computational graph）语言来描述一系列操作。《深度学习》花书和斯坦福李飞飞 cs231n 课程对于计算图表示上有些区别，但都表示同一个含义，即用图的方式形式化地将操作次序表示出来，方便理解。这里我们介绍 cs231n 课程对于计算图的画法。
 <img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/simple_compute_graph.png"
 	
 	
@@ -498,9 +570,9 @@ $$ \frac{\partial f(x_1, x_2, x_3&hellip;x_i&hellip;)}{\partial x_i}  = \lim_{h 
 	
 >
 使用圆圈代表操作节点，指向节点的箭头代表输入变量，从节点指出的箭头代表操作完后输出的变量。上面计算图即表示了$f(x,y,z) = (x + y)z$。</p>
-<h2 id="反向传播算法">反向传播算法</h2>
-<h3 id="简单标量反向传播算法">简单标量反向传播算法</h3>
-<p>上面计算图真实值计算线路展示了计算的视觉化过程。前向传播从输入计算到输出（绿色），反向传播从尾部开始，根据链式法则递归地向前计算梯度（显示为红色），一直到网络的输入端。可以认为，梯度是从计算链路中回流。
+<h2 id="反向传播算法">反向传播算法
+</h2><h3 id="简单标量反向传播算法">简单标量反向传播算法
+</h3><p>上面计算图真实值计算线路展示了计算的视觉化过程。前向传播从输入计算到输出（绿色），反向传播从尾部开始，根据链式法则递归地向前计算梯度（显示为红色），一直到网络的输入端。可以认为，梯度是从计算链路中回流。
 如上图计算过程，可以用下面几个中间过程合成：
 $$ q = x + y $$
 $$ f = q \times z $$
@@ -529,8 +601,8 @@ $$ \frac{\partial f}{\partial y} = \frac{\partial f}{\partial q}\frac{\partial q
 <p>定理：若函数$u=\varphi(t), v=\psi(t)$在点 t 可导，$z=f(u,v)$在点(u,v)处偏导连续，则复合函数$z=f(\varphi(t),\psi(t))$在点 t 可导，则有链式法则
 $$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \frac{\mathrm{d} u }{\mathrm{d} t} + \frac{\partial z}{\partial v} \cdot \frac{\mathrm{d} v }{\mathrm{d} t} $$</p>
 </blockquote>
-<h3 id="矩阵形式反向传播算法">矩阵形式反向传播算法</h3>
-<p>下面介绍矩阵形式计算图及反向传播公式，如下图神经网络 Affine 层。
+<h3 id="矩阵形式反向传播算法">矩阵形式反向传播算法
+</h3><p>下面介绍矩阵形式计算图及反向传播公式，如下图神经网络 Affine 层。
 <img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20200628140209.png"
 	
 	
@@ -552,8 +624,8 @@ $$ loss \ function = \psi(\textbf{W}) $$
 根据梯度下降法，需要求得
 $$ \frac{\partial L}{\partial \textbf{W}} $$
 这里的$L$表示$loss function$，也即是$E$。根据上面的神经网络反向传播算法逐层传播梯度，即可以高效地求解损失函数对参数的梯度，再根据随机梯度下降法，不断更新权重参数$W$，最小化目标函数，完成简单神经网络的训练学习。</p>
-<h2 id="反向传播算法特别之处">反向传播算法特别之处</h2>
-<p>现代的神经网络规模和层数不断增加，一个复杂的深度学习模型，可能每一层有成百量级神经元，有上百层深度，下图显示一个较复杂的神经网络。
+<h2 id="反向传播算法特别之处">反向传播算法特别之处
+</h2><p>现代的神经网络规模和层数不断增加，一个复杂的深度学习模型，可能每一层有成百量级神经元，有上百层深度，下图显示一个较复杂的神经网络。
 <img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/Snipaste_2020-06-28_15-24-37.png"
 	
 	
@@ -565,8 +637,8 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
 	
 >
 如果采用导数定义方式，即$\frac{\partial L(w)}{\partial w} = \lim_{w \to 0} \frac{f(w + h)}{w}$求解，那么在求解每一个权重（即一条连接边）参数的偏导数时神经网络都需要向前传递一次，可以看到因为越靠后的神经元被重复计算的次数就越多，随着神经元个数和层数的增加，这将会是个<strong>指数增加</strong>的<strong>时间复杂度</strong>。然而，利用了函数求导的链式法则，从输出层到输入层逐层计算模型参数的梯度值，可以看到按照这个方向计算梯度，各个神经单元只计算了一次，没有重复计算。这个计算方向能够高效的根本原因是：在计算梯度时前面的单元是依赖后面的单元的计算，而“从后向前”的计算顺序正好“解耦”了这种依赖关系，先算后面的单元，并且<strong>记住后面单元的梯度值</strong>，计算前面单元的梯度时就可以充分利用已经计算出来的结果，避免了重复计算。</p>
-<h2 id="总结与思考">总结与思考</h2>
-<p>如今人工智能领域中最重要的算法——反向传播算法其主要思想本质也是利用了<strong>动态规划</strong>，这种方法结合了<strong>解析法</strong>计算梯度和<strong>数值法</strong>计算梯度，利用空间换取时间，缩短求解大量参数梯度的时间，从而加速神经网络的训练。反向传播算法看上去高大上，但也不见得是用了多高级的方法和高深的知识。</p>
+<h2 id="总结与思考">总结与思考
+</h2><p>如今人工智能领域中最重要的算法——反向传播算法其主要思想本质也是利用了<strong>动态规划</strong>，这种方法结合了<strong>解析法</strong>计算梯度和<strong>数值法</strong>计算梯度，利用空间换取时间，缩短求解大量参数梯度的时间，从而加速神经网络的训练。反向传播算法看上去高大上，但也不见得是用了多高级的方法和高深的知识。</p>
 <p>参考资料：<br>
 <a class="link" href="https://zh.wikipedia.org/wiki/%E6%84%9F%E7%9F%A5%E5%99%A8"  target="_blank" rel="noopener"
     >维基百度-感知器</a><br>
@@ -615,24 +687,25 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
     
         <link 
                 rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
             ><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
                 defer
                 >
             </script><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
                 defer
                 >
             </script><script>
     window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
+        renderMathInElement(document.body, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false },
                 { left: "\\(", right: "\\)", display: false },
                 { left: "\\[", right: "\\]", display: true }
-            ]
+            ],
+            ignoredClasses: ["gist"]
         });})
 </script>
     
@@ -674,13 +747,24 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
 
             
                 
-<article class="">
+<article class="has-image">
     <a href="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/">
         
         
+            <div class="article-image">
+                <img src="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_img.eece7c66867b98d26b24c7b04ace5d4b_hu16765645502934798448.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post LeetCode 进阶指南：解题思路与算法题分类总结"
+                        data-key="Leetcode算法题总结" 
+                        data-hash="md5-7s58ZoZ7mNJrJMewSs5dSw==">
+                
+            </div>
+        
 
         <div class="article-details">
-            <h2 class="article-title">Leetcode算法题总结</h2>
+            <h2 class="article-title">LeetCode 进阶指南：解题思路与算法题分类总结</h2>
         </div>
     </a>
 </article>
@@ -721,7 +805,7 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
         
     <div class="disqus-container">
     <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     
@@ -769,12 +853,12 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
         
             2018 - 
         
-        2023 七月流火
+        2024 七月流火
     </section>
     
     <section class="powerby">
-        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
     </section>
 </footer>
 
@@ -858,62 +942,6 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
             >
 
             </main>
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#感知机">感知机</a>
-      <ol>
-        <li><a href="#感知机介绍">感知机介绍</a></li>
-        <li><a href="#感知机学习策略">感知机学习策略</a></li>
-        <li><a href="#感知机模型存在的问题">感知机模型存在的问题</a></li>
-      </ol>
-    </li>
-    <li><a href="#神经网络">神经网络</a>
-      <ol>
-        <li><a href="#神经网络介绍">神经网络介绍</a></li>
-        <li><a href="#神经网络学习策略">神经网络学习策略</a></li>
-      </ol>
-    </li>
-    <li><a href="#梯度计算">梯度计算</a></li>
-    <li><a href="#计算图">计算图</a></li>
-    <li><a href="#反向传播算法">反向传播算法</a>
-      <ol>
-        <li><a href="#简单标量反向传播算法">简单标量反向传播算法</a></li>
-        <li><a href="#矩阵形式反向传播算法">矩阵形式反向传播算法</a></li>
-      </ol>
-    </li>
-    <li><a href="#反向传播算法特别之处">反向传播算法特别之处</a></li>
-    <li><a href="#总结与思考">总结与思考</a></li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
-
         </div>
         <script 
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
@@ -930,6 +958,36 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
 
         document.head.appendChild(customFont);
     }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
 </script>
 
     </body>

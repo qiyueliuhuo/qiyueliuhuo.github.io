@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-    <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='GDB 代码调试常用命令总结。'><title>GDB调试学习</title>
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=49547&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="GDB 代码调试常用命令总结。">
+<title>GDB调试学习</title>
 
-<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/'>
+<link rel='canonical' href='http://localhost:49547/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/'>
 
-<link rel="stylesheet" href="/scss/style.min.ac77dcf8b111b51da39a92990f431923f210f3876d85798a2125667f96dc33a4.css"><meta property='og:title' content='GDB调试学习'>
-<meta property='og:description' content='GDB 代码调试常用命令总结。'>
-<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/'>
+<link rel="stylesheet" href="/scss/style.min.9768e1ece02ab8863eb990f67f0561fb1fe386bc4d167d086c922110995ad8fc.css"><meta property='og:title' content="GDB调试学习">
+<meta property='og:description' content="GDB 代码调试常用命令总结。">
+<meta property='og:url' content='http://localhost:49547/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/'>
 <meta property='og:site_name' content='七月流火'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='gdb' /><meta property='article:tag' content='代码调试' /><meta property='article:published_time' content='2022-07-12T16:59:57&#43;08:00'/><meta property='article:modified_time' content='2022-07-12T16:59:57&#43;08:00'/>
 <meta name="twitter:title" content="GDB调试学习">
@@ -55,13 +56,11 @@
                     
                     
                         
-                        <img src="/img/avatar_hu8d4b235d4d79942b70ca31d91c98dd00_21409_300x0_resize_box_3.png" width="300"
+                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
                 </a>
-                
-                    <span class="emoji">⭐</span>
                 
             </figure>
             
@@ -71,13 +70,14 @@
             <h1 class="site-name"><a href="/">七月流火</a></h1>
             <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
         </div>
-    </header><ol class="social-menu">
+    </header><ol class="menu-social">
             
                 <li>
                     <a 
                         href='https://github.com/qiyueliuhuo'
                         target="_blank"
                         title="GitHub"
+                        rel="me"
                     >
                         
                         
@@ -96,7 +96,6 @@
         
         
         
-
         <li >
             <a href='/' >
                 
@@ -117,7 +116,6 @@
         </li>
         
         
-
         <li >
             <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
                 
@@ -137,7 +135,6 @@
         </li>
         
         
-
         <li >
             <a href='/archives/' >
                 
@@ -158,7 +155,6 @@
         </li>
         
         
-
         <li >
             <a href='/search/' >
                 
@@ -178,7 +174,6 @@
         </li>
         
         
-
         <li >
             <a href='/links/' >
                 
@@ -197,10 +192,11 @@
             </a>
         </li>
         
-
-        <div class="menu-bottom-section">
-                <li id="i18n-switch">  
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
   <path d="M4 5h7" />
   <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
@@ -211,19 +207,20 @@
 
 
 
-                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
-                        
-                            <option value="https://qiyueliuhuo.github.io/en/" >English</option>
-                        
-                            <option value="https://qiyueliuhuo.github.io/" selected>中文</option>
-                        
-                    </select>
-                </li>
-            
-            
-            
-                <li id="dark-mode-toggle">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="http://localhost:49547/en/" >English</option>
+                                
+                                    <option value="http://localhost:49547/" selected>中文</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="8" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -231,7 +228,7 @@
 
 
 
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
   <circle cx="16" cy="12" r="2" />
   <rect x="2" y="6" width="20" height="12" rx="6" />
@@ -239,13 +236,62 @@
 
 
 
-                    <span>暗色模式</span>
-                </li>
-            
-        </div>
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
     </ol>
 </aside>
-<main class="main full-width">
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#gdb-使用流程">GDB 使用流程</a>
+      <ol>
+        <li><a href="#启动-gdb-调试">启动 GDB 调试</a></li>
+        <li><a href="#查看源码">查看源码</a></li>
+        <li><a href="#运行程序">运行程序</a></li>
+        <li><a href="#设置断点">设置断点</a></li>
+        <li><a href="#单步执行">单步执行</a></li>
+        <li><a href="#查看变量">查看变量</a></li>
+        <li><a href="#退出-gdb">退出 GDB</a></li>
+      </ol>
+    </li>
+    <li><a href="#gdb-常用命令">GDB 常用命令</a></li>
+    <li><a href="#gdb-多线程命令">GDB 多线程命令</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
     <article class="main-article">
     <header class="article-header">
 
@@ -272,6 +318,9 @@
         
     </div>
 
+    
+    
+    
     
     <footer class="article-time">
         
@@ -309,18 +358,19 @@
 
     
 </div>
+
 </header>
 
     <section class="article-content">
     
     
-    <h2 id="前言">前言</h2>
-<p>笔者近几年使用 Python 语言来做深度学习、计算机视觉领域相关科研与工作，对于调试程序，使用较多的工具除了 JetBrains 家的各个 IDE 以外，就是使用 Python 自带的 pdb 模块来调试 Python 程序，命令行界面调试代码既灵活，而且速度也快，非常好用。最近，因为项目原因接触 c/c++ 代码更多一些，通过本篇博客对 GDB 学习并且记录相关常用命令。</p>
+    <h2 id="前言">前言
+</h2><p>笔者近几年使用 Python 语言来做深度学习、计算机视觉领域相关科研与工作，对于调试程序，使用较多的工具除了 JetBrains 家的各个 IDE 以外，就是使用 Python 自带的 pdb 模块来调试 Python 程序，命令行界面调试代码既灵活，而且速度也快，非常好用。最近，因为项目原因接触 c/c++ 代码更多一些，通过本篇博客对 GDB 学习并且记录相关常用命令。</p>
 <p>GDB是一个由GNU开源组织发布的、UNIX / LINUX操作系统下的、基于命令行的、功能强大的程序调试工具。 对于一名Linux下工作的c/c++程序员，gdb是必不可少的工具，另外，GDB可以调试Ada、C、 C++、 Asm、 Minimal、 D、 Fortran、 Objective-c、 Go、 Java、 Pascal等语言。标准的 GDB 是纯命令行式的，但也有一些基于它的图形化工具（比如 DDD、Data Display Debugger），但用好 GDB 命令行调试，还是我们的一项基本素质。</p>
 <p>本篇文章将简单地介绍 GDB 常见用法，更多内容通过本博客下面的参考资料学习。</p>
-<h2 id="gdb-使用流程">GDB 使用流程</h2>
-<h3 id="启动-gdb-调试">启动 GDB 调试</h3>
-<p>学习 GDB 调试测试的代码如下：</p>
+<h2 id="gdb-使用流程">GDB 使用流程
+</h2><h3 id="启动-gdb-调试">启动 GDB 调试
+</h3><p>学习 GDB 调试测试的代码如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -339,7 +389,7 @@
 </span><span class="lnt">14
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include</span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include&lt;stdio.h&gt;
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">square</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
@@ -368,8 +418,8 @@
 </span></span><span class="line"><span class="cl">gdb -q <span class="nb">test</span> <span class="c1"># -q 表示不打印gdb版本信息，界面较为干净；</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="查看源码">查看源码</h3>
-<p><code>list</code>(简写 <code>l</code>)： 查看源程序代码，默认显示10行，按回车键或继续输入l查看下10行。</p>
+</div><h3 id="查看源码">查看源码
+</h3><p><code>list</code>(简写 <code>l</code>)： 查看源程序代码，默认显示10行，按回车键或继续输入l查看下10行。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -414,8 +464,8 @@
 </span></span><span class="line"><span class="cl">Line number 15 out of range; test.cpp has 14 lines.
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="运行程序">运行程序</h3>
-<p><code>run</code>(简写 <code>r</code>) ：运行程序直到遇到 结束或者遇到断点等待下一个命令：</p>
+</div><h3 id="运行程序">运行程序
+</h3><p><code>run</code>(简写 <code>r</code>) ：运行程序直到遇到 结束或者遇到断点等待下一个命令：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -432,8 +482,8 @@
 </span></span><span class="line"><span class="cl">[Inferior 1 (process 1044104) exited normally]
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="设置断点">设置断点</h3>
-<p><code>break</code>(简写 <code>b</code>) ：命令格式 <code>b 行号</code>，在某行设置断点：
+</div><h3 id="设置断点">设置断点
+</h3><p><code>break</code>(简写 <code>b</code>) ：命令格式 <code>b 行号</code>，在某行设置断点：
 <code>info breakpoints</code> (简写 <code>i b</code>) ：显示断点信息。</p>
 <ul>
 <li>Num： 断点编号</li>
@@ -472,8 +522,8 @@
 </div>
 </div><p>具体参考：<a class="link" href="http://c.biancheng.net/view/8255.html"  target="_blank" rel="noopener"
     >GDB条件断点详解</a></p>
-<h3 id="单步执行">单步执行</h3>
-<p>首先需要输入 <code>run</code> 启动程序，运行到第一个断点处，然后可以选择 <code>step</code> 单步调试（<strong>如果有函数调用则进入函数</strong>），<code>next</code> 单步跟踪程序（<strong>遇到函数调用，直接调用函数，不会进入函数体内</strong>），<code>continue</code> 继续运行到下一个断点处。</p>
+<h3 id="单步执行">单步执行
+</h3><p>首先需要输入 <code>run</code> 启动程序，运行到第一个断点处，然后可以选择 <code>step</code> 单步调试（<strong>如果有函数调用则进入函数</strong>），<code>next</code> 单步跟踪程序（<strong>遇到函数调用，直接调用函数，不会进入函数体内</strong>），<code>continue</code> 继续运行到下一个断点处。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -547,8 +597,8 @@
 <li><code>finish</code>： 运行程序，直到<strong>当前函数</strong>完成返回，并打印函数返回时的堆栈地址和返回值及参数值等信息。</li>
 <li><code>call 函数(参数)</code>：调用程序中可见的函数，并传递“参数”，如：call gdb_test(55)</li>
 </ul>
-<h3 id="查看变量">查看变量</h3>
-<ul>
+<h3 id="查看变量">查看变量
+</h3><ul>
 <li><code>print</code> ：简记 <code>p</code>，打印变量或表达式的值；</li>
 <li><code>whatis</code> ：查询变量或函数的类型；</li>
 <li><code>pt</code> ：跟 <code>whatis</code> 作用类似，可能是 <code>print type</code> 的简写；</li>
@@ -595,10 +645,10 @@
 </span></span><span class="line"><span class="cl">(gdb) 
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="退出-gdb">退出 GDB</h3>
-<p>使用 <code>quit</code> （简记 <code>q</code> ）命令退出即可。</p>
-<h2 id="gdb-常用命令">GDB 常用命令</h2>
-<p>下面列出最常用的GDB命令：</p>
+</div><h3 id="退出-gdb">退出 GDB
+</h3><p>使用 <code>quit</code> （简记 <code>q</code> ）命令退出即可。</p>
+<h2 id="gdb-常用命令">GDB 常用命令
+</h2><p>下面列出最常用的GDB命令：</p>
 <ul>
 <li><code>pt</code>：查看变量的真实类型，不受 typedef 的影响；</li>
 <li><code>bt</code>：显示当前调用堆栈；</li>
@@ -616,8 +666,8 @@
 <li><code>ptype</code>：查看变量的类型，这里打印出变量的结构定义；</li>
 <li><code>set args config.txt</code>：指定运行时的参数；</li>
 </ul>
-<h2 id="gdb-多线程命令">GDB 多线程命令</h2>
-<ul>
+<h2 id="gdb-多线程命令">GDB 多线程命令
+</h2><ul>
 <li><code>info thread</code>：查看被调试的线程；</li>
 <li><code>thread apply all bt</code>：打印所有线程堆栈信息；</li>
 <li><code>thread &lt;ID&gt; </code>：切换调试的线程为指定ID的线程；</li>
@@ -625,8 +675,8 @@
 <li><code>set scheduler-locking off|on|step</code>：在调试多线程程序时，默认除了被调试的线程在执行外，其他线程也都在运行，我们可以通过命令来控制这一切：off表示不锁定任何线程on表示只有当前调试的线程会继续运行，step表示在但不执行时只有当前线程会运行；</li>
 <li><code>thread apply &lt;ID1&gt; &lt;ID2&gt; &lt;command&gt;</code>：让一个或者多个线程执行GDB命令command；</li>
 </ul>
-<h2 id="参考">参考</h2>
-<p><a class="link" href="https://zhuanlan.zhihu.com/p/74897601"  target="_blank" rel="noopener"
+<h2 id="参考">参考
+</h2><p><a class="link" href="https://zhuanlan.zhihu.com/p/74897601"  target="_blank" rel="noopener"
     >GDB调试入门指南</a><br>
 <a class="link" href="https://www.cnblogs.com/lsgxeva/p/8078670.html"  target="_blank" rel="noopener"
     >gdb调试多线程程序总结</a><br>
@@ -646,7 +696,7 @@
     
     <section class="article-tags">
         
-            <a href="/tags/gdb/">gdb</a>
+            <a href="/tags/gdb/">Gdb</a>
         
             <a href="/tags/%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95/">代码调试</a>
         
@@ -671,24 +721,25 @@
     
         <link 
                 rel="stylesheet" 
-                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
             ><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
                 defer
                 >
             </script><script 
-                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
                 defer
                 >
             </script><script>
     window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
+        renderMathInElement(document.body, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false },
                 { left: "\\(", right: "\\)", display: false },
                 { left: "\\[", right: "\\]", display: true }
-            ]
+            ],
+            ignoredClasses: ["gist"]
         });})
 </script>
     
@@ -717,9 +768,20 @@
 
             
                 
-<article class="">
+<article class="has-image">
     <a href="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
         
+        
+            <div class="article-image">
+                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu16517212594665624032.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post WebServer（C&#43;&#43;版）代码分析之线程池"
+                        data-key="WebServer（C&#43;&#43;版）代码分析之线程池" 
+                        data-hash="md5-q8PfSkaJGEYcDF53Dy/vAA==">
+                
+            </div>
         
 
         <div class="article-details">
@@ -764,7 +826,7 @@
         
     <div class="disqus-container">
     <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     
@@ -812,12 +874,12 @@
         
             2018 - 
         
-        2023 七月流火
+        2024 七月流火
     </section>
     
     <section class="powerby">
-        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.12.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
     </section>
 </footer>
 
@@ -901,53 +963,6 @@
             >
 
             </main>
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#gdb-使用流程">GDB 使用流程</a>
-      <ol>
-        <li><a href="#启动-gdb-调试">启动 GDB 调试</a></li>
-        <li><a href="#查看源码">查看源码</a></li>
-        <li><a href="#运行程序">运行程序</a></li>
-        <li><a href="#设置断点">设置断点</a></li>
-        <li><a href="#单步执行">单步执行</a></li>
-        <li><a href="#查看变量">查看变量</a></li>
-        <li><a href="#退出-gdb">退出 GDB</a></li>
-      </ol>
-    </li>
-    <li><a href="#gdb-常用命令">GDB 常用命令</a></li>
-    <li><a href="#gdb-多线程命令">GDB 多线程命令</a></li>
-    <li><a href="#参考">参考</a></li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
-
         </div>
         <script 
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
@@ -964,6 +979,36 @@
 
         document.head.appendChild(customFont);
     }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
 </script>
 
     </body>

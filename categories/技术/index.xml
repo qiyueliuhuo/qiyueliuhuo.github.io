@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>技术 on 七月流火</title>
-        <link>https://qiyueliuhuo.github.io/categories/%E6%8A%80%E6%9C%AF/</link>
+        <link>http://localhost:1313/categories/%E6%8A%80%E6%9C%AF/</link>
         <description>Recent content in 技术 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 17 Sep 2022 19:34:41 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 17 Sep 2022 19:34:41 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Vim-算法-刷题环境配置</title>
-        <link>https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link>
+        <link>http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link>
         <pubDate>Sat, 17 Sep 2022 19:34:41 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</guid>
-        <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;笔者大概从五年前大二开始接触 vim 编辑器，当时有很多关于两款“史前”编辑器 Vim 和 Emacs 的争论，对于一些较早前的极客一般分为 Vim 党、 Emacs 党 和其他。 笔者自开始接触 Linux 系统就学习的 Vim ，一直使用到现在，几乎所有 IDE 、游览器和笔记系统Logseq都开启 vim 模式，也算是一个 Vim 党。然而，笔者无心参与 Vim 和 Emacs 两款编辑器之争；很明显，现代大型项目的开发，已经几乎必须采取像 idea、clion、vscode 这些优秀的 IDE ；当下，笔者更多地使用 Vim（终端界面）编写一些算法题，这样既减少成熟 IDE 自动的补全机制对于笔者自身的驯化（经常知道某些函数，然而自己拼不对，非常依赖IDE智能提示），又能让笔者对 Vim 操作和 shell 脚本编程更加熟练；此篇博客介绍笔者在终端界面下使用 Vim 编写算法题搭建的自动化编译运行环境。&lt;/p&gt;
-&lt;h2 id=&#34;相关环境&#34;&gt;相关环境&lt;/h2&gt;
-&lt;p&gt;系统：macOS Monterey 12.5.1&lt;br&gt;
+        <guid>http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</guid>
+        <description>&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;笔者大概从五年前大二开始接触 vim 编辑器，当时有很多关于两款“史前”编辑器 Vim 和 Emacs 的争论，对于一些较早前的极客一般分为 Vim 党、 Emacs 党 和其他。 笔者自开始接触 Linux 系统就学习的 Vim ，一直使用到现在，几乎所有 IDE 、游览器和笔记系统Logseq都开启 vim 模式，也算是一个 Vim 党。然而，笔者无心参与 Vim 和 Emacs 两款编辑器之争；很明显，现代大型项目的开发，已经几乎必须采取像 idea、clion、vscode 这些优秀的 IDE ；当下，笔者更多地使用 Vim（终端界面）编写一些算法题，这样既减少成熟 IDE 自动的补全机制对于笔者自身的驯化（经常知道某些函数，然而自己拼不对，非常依赖IDE智能提示），又能让笔者对 Vim 操作和 shell 脚本编程更加熟练；此篇博客介绍笔者在终端界面下使用 Vim 编写算法题搭建的自动化编译运行环境。&lt;/p&gt;
+&lt;h2 id=&#34;相关环境&#34;&gt;相关环境
+&lt;/h2&gt;&lt;p&gt;系统：macOS Monterey 12.5.1&lt;br&gt;
 vim：MacVim 8.2&lt;br&gt;
 文件检测：fswatch 1.16.0&lt;/p&gt;
-&lt;h2 id=&#34;vim-配置&#34;&gt;Vim 配置&lt;/h2&gt;
-&lt;p&gt;参考此篇博客：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/RichDevos/article/details/123826404&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h2 id=&#34;vim-配置&#34;&gt;Vim 配置
+&lt;/h2&gt;&lt;p&gt;参考此篇博客：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/RichDevos/article/details/123826404&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;2022 最新 Mac Vim 开发环境的部署与配置&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;效果如下图（点击图片可以放大查看）：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37.png&#34;
 	width=&#34;3358&#34;
 	height=&#34;2050&#34;
-	srcset=&#34;https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu4e1180beb1d2d264930d97cf2a41f442_389292_480x0_resize_box_3.png 480w, https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu4e1180beb1d2d264930d97cf2a41f442_389292_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu6977684523373588805.png 480w, http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu10228423325999653923.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -34,8 +34,8 @@ vim：MacVim 8.2&lt;br&gt;
 		data-flex-basis=&#34;393px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;h2 id=&#34;shell-脚本&#34;&gt;Shell 脚本&lt;/h2&gt;
-&lt;p&gt;通过 Shell 脚本来实现当自己编写程序时，保存完后，自动进行编译及运行。&lt;/p&gt;
+&lt;h2 id=&#34;shell-脚本&#34;&gt;Shell 脚本
+&lt;/h2&gt;&lt;p&gt;通过 Shell 脚本来实现当自己编写程序时，保存完后，自动进行编译及运行。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -87,10 +87,10 @@ vim：MacVim 8.2&lt;br&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;这样，每次对 &lt;strong&gt;template.cpp&lt;/strong&gt; 文件进行修改并保存时，会自动触发 &lt;strong&gt;fswatch.sh&lt;/strong&gt; 中编写的脚本，完成对程序的自动编译和运行。
 该脚本的效果如下图（点击可以查看大图）：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02.png&#34;
 	width=&#34;3358&#34;
 	height=&#34;2050&#34;
-	srcset=&#34;https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu4e1180beb1d2d264930d97cf2a41f442_724332_480x0_resize_box_3.png 480w, https://qiyueliuhuo.github.io/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu4e1180beb1d2d264930d97cf2a41f442_724332_1024x0_resize_box_3.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu12252170667833130180.png 480w, http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu7916995581846462568.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -100,22 +100,21 @@ vim：MacVim 8.2&lt;br&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;这样便可以愉快的刷题了，哈哈，加油！！！&lt;/p&gt;
-&lt;h2 id=&#34;问题&#34;&gt;问题&lt;/h2&gt;
-&lt;p&gt;当在 Vim 进行一次保存时，fswatch 会触发两次，目前不清楚如何解决。&lt;/p&gt;
+&lt;h2 id=&#34;问题&#34;&gt;问题
+&lt;/h2&gt;&lt;p&gt;当在 Vim 进行一次保存时，fswatch 会触发两次，目前不清楚如何解决。&lt;/p&gt;
 </description>
         </item>
         <item>
         <title>WebServer（C&#43;&#43;版）代码分析之线程池</title>
-        <link>https://qiyueliuhuo.github.io/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/</link>
+        <link>http://localhost:1313/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/</link>
         <pubDate>Sun, 14 Aug 2022 11:12:32 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/</guid>
-        <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;在阅读 c++ 实现的 &lt;a class=&#34;link&#34; href=&#34;https://github.com/markparticle/WebServer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;WebServer&lt;/a&gt; 源码时，感觉其中线程池实现值得具体分析，此篇博客分析该源码中线程池实现部分。
-Vibrancy continued&lt;/p&gt;
-&lt;h2 id=&#34;源码&#34;&gt;源码&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+        <guid>http://localhost:1313/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/</guid>
+        <description>&lt;img src="http://localhost:1313/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.png" alt="Featured image of post WebServer（C&#43;&#43;版）代码分析之线程池" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;在阅读 c++ 实现的 &lt;a class=&#34;link&#34; href=&#34;https://github.com/markparticle/WebServer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;WebServer&lt;/a&gt; 源码时，感觉其中线程池实现值得具体分析，此篇博客分析该源码中线程池实现部分。&lt;/p&gt;
+&lt;h2 id=&#34;源码&#34;&gt;源码
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -265,8 +264,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#endif &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;//THREADPOOL_H
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;源码分析&#34;&gt;源码分析&lt;/h2&gt;
-&lt;p&gt;为什么该线程池所有的实现在 &lt;code&gt;threadpool.h&lt;/code&gt; 中完成？&lt;/p&gt;
+&lt;/div&gt;&lt;h2 id=&#34;源码分析&#34;&gt;源码分析
+&lt;/h2&gt;&lt;p&gt;为什么该线程池所有的实现在 &lt;code&gt;threadpool.h&lt;/code&gt; 中完成？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;上面源码为线程池的头文件 &lt;code&gt;threadpool.h&lt;/code&gt;，而且该线程池&lt;strong&gt;没有&lt;/strong&gt;对应的 &lt;code&gt;threadpool.cpp&lt;/code&gt; 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -306,17 +305,17 @@ Vibrancy continued&lt;/p&gt;
         </item>
         <item>
         <title>GDB调试学习</title>
-        <link>https://qiyueliuhuo.github.io/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</link>
+        <link>http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Tue, 12 Jul 2022 16:59:57 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</guid>
-        <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;笔者近几年使用 Python 语言来做深度学习、计算机视觉领域相关科研与工作，对于调试程序，使用较多的工具除了 JetBrains 家的各个 IDE 以外，就是使用 Python 自带的 pdb 模块来调试 Python 程序，命令行界面调试代码既灵活，而且速度也快，非常好用。最近，因为项目原因接触 c/c++ 代码更多一些，通过本篇博客对 GDB 学习并且记录相关常用命令。&lt;/p&gt;
+        <guid>http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</guid>
+        <description>&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;笔者近几年使用 Python 语言来做深度学习、计算机视觉领域相关科研与工作，对于调试程序，使用较多的工具除了 JetBrains 家的各个 IDE 以外，就是使用 Python 自带的 pdb 模块来调试 Python 程序，命令行界面调试代码既灵活，而且速度也快，非常好用。最近，因为项目原因接触 c/c++ 代码更多一些，通过本篇博客对 GDB 学习并且记录相关常用命令。&lt;/p&gt;
 &lt;p&gt;GDB是一个由GNU开源组织发布的、UNIX / LINUX操作系统下的、基于命令行的、功能强大的程序调试工具。 对于一名Linux下工作的c/c++程序员，gdb是必不可少的工具，另外，GDB可以调试Ada、C、 C++、 Asm、 Minimal、 D、 Fortran、 Objective-c、 Go、 Java、 Pascal等语言。标准的 GDB 是纯命令行式的，但也有一些基于它的图形化工具（比如 DDD、Data Display Debugger），但用好 GDB 命令行调试，还是我们的一项基本素质。&lt;/p&gt;
 &lt;p&gt;本篇文章将简单地介绍 GDB 常见用法，更多内容通过本博客下面的参考资料学习。&lt;/p&gt;
-&lt;h2 id=&#34;gdb-使用流程&#34;&gt;GDB 使用流程&lt;/h2&gt;
-&lt;h3 id=&#34;启动-gdb-调试&#34;&gt;启动 GDB 调试&lt;/h3&gt;
-&lt;p&gt;学习 GDB 调试测试的代码如下：&lt;/p&gt;
+&lt;h2 id=&#34;gdb-使用流程&#34;&gt;GDB 使用流程
+&lt;/h2&gt;&lt;h3 id=&#34;启动-gdb-调试&#34;&gt;启动 GDB 调试
+&lt;/h3&gt;&lt;p&gt;学习 GDB 调试测试的代码如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -335,7 +334,7 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt;&lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&amp;lt;stdio.h&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;square&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
@@ -364,8 +363,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gdb -q &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# -q 表示不打印gdb版本信息，界面较为干净；&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;查看源码&#34;&gt;查看源码&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;list&lt;/code&gt;(简写 &lt;code&gt;l&lt;/code&gt;)： 查看源程序代码，默认显示10行，按回车键或继续输入l查看下10行。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;查看源码&#34;&gt;查看源码
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;list&lt;/code&gt;(简写 &lt;code&gt;l&lt;/code&gt;)： 查看源程序代码，默认显示10行，按回车键或继续输入l查看下10行。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -410,8 +409,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Line number 15 out of range; test.cpp has 14 lines.
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;运行程序&#34;&gt;运行程序&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;run&lt;/code&gt;(简写 &lt;code&gt;r&lt;/code&gt;) ：运行程序直到遇到 结束或者遇到断点等待下一个命令：&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;运行程序&#34;&gt;运行程序
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;run&lt;/code&gt;(简写 &lt;code&gt;r&lt;/code&gt;) ：运行程序直到遇到 结束或者遇到断点等待下一个命令：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -428,8 +427,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[Inferior 1 (process 1044104) exited normally]
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;设置断点&#34;&gt;设置断点&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;break&lt;/code&gt;(简写 &lt;code&gt;b&lt;/code&gt;) ：命令格式 &lt;code&gt;b 行号&lt;/code&gt;，在某行设置断点：
+&lt;/div&gt;&lt;h3 id=&#34;设置断点&#34;&gt;设置断点
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;break&lt;/code&gt;(简写 &lt;code&gt;b&lt;/code&gt;) ：命令格式 &lt;code&gt;b 行号&lt;/code&gt;，在某行设置断点：
 &lt;code&gt;info breakpoints&lt;/code&gt; (简写 &lt;code&gt;i b&lt;/code&gt;) ：显示断点信息。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Num： 断点编号&lt;/li&gt;
@@ -468,8 +467,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;具体参考：&lt;a class=&#34;link&#34; href=&#34;http://c.biancheng.net/view/8255.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;GDB条件断点详解&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;单步执行&#34;&gt;单步执行&lt;/h3&gt;
-&lt;p&gt;首先需要输入 &lt;code&gt;run&lt;/code&gt; 启动程序，运行到第一个断点处，然后可以选择 &lt;code&gt;step&lt;/code&gt; 单步调试（&lt;strong&gt;如果有函数调用则进入函数&lt;/strong&gt;），&lt;code&gt;next&lt;/code&gt; 单步跟踪程序（&lt;strong&gt;遇到函数调用，直接调用函数，不会进入函数体内&lt;/strong&gt;），&lt;code&gt;continue&lt;/code&gt; 继续运行到下一个断点处。&lt;/p&gt;
+&lt;h3 id=&#34;单步执行&#34;&gt;单步执行
+&lt;/h3&gt;&lt;p&gt;首先需要输入 &lt;code&gt;run&lt;/code&gt; 启动程序，运行到第一个断点处，然后可以选择 &lt;code&gt;step&lt;/code&gt; 单步调试（&lt;strong&gt;如果有函数调用则进入函数&lt;/strong&gt;），&lt;code&gt;next&lt;/code&gt; 单步跟踪程序（&lt;strong&gt;遇到函数调用，直接调用函数，不会进入函数体内&lt;/strong&gt;），&lt;code&gt;continue&lt;/code&gt; 继续运行到下一个断点处。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -543,8 +542,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;finish&lt;/code&gt;： 运行程序，直到&lt;strong&gt;当前函数&lt;/strong&gt;完成返回，并打印函数返回时的堆栈地址和返回值及参数值等信息。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;call 函数(参数)&lt;/code&gt;：调用程序中可见的函数，并传递“参数”，如：call gdb_test(55)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;查看变量&#34;&gt;查看变量&lt;/h3&gt;
-&lt;ul&gt;
+&lt;h3 id=&#34;查看变量&#34;&gt;查看变量
+&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;print&lt;/code&gt; ：简记 &lt;code&gt;p&lt;/code&gt;，打印变量或表达式的值；&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;whatis&lt;/code&gt; ：查询变量或函数的类型；&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;pt&lt;/code&gt; ：跟 &lt;code&gt;whatis&lt;/code&gt; 作用类似，可能是 &lt;code&gt;print type&lt;/code&gt; 的简写；&lt;/li&gt;
@@ -591,10 +590,10 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;退出-gdb&#34;&gt;退出 GDB&lt;/h3&gt;
-&lt;p&gt;使用 &lt;code&gt;quit&lt;/code&gt; （简记 &lt;code&gt;q&lt;/code&gt; ）命令退出即可。&lt;/p&gt;
-&lt;h2 id=&#34;gdb-常用命令&#34;&gt;GDB 常用命令&lt;/h2&gt;
-&lt;p&gt;下面列出最常用的GDB命令：&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;退出-gdb&#34;&gt;退出 GDB
+&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;quit&lt;/code&gt; （简记 &lt;code&gt;q&lt;/code&gt; ）命令退出即可。&lt;/p&gt;
+&lt;h2 id=&#34;gdb-常用命令&#34;&gt;GDB 常用命令
+&lt;/h2&gt;&lt;p&gt;下面列出最常用的GDB命令：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;pt&lt;/code&gt;：查看变量的真实类型，不受 typedef 的影响；&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;bt&lt;/code&gt;：显示当前调用堆栈；&lt;/li&gt;
@@ -612,8 +611,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;ptype&lt;/code&gt;：查看变量的类型，这里打印出变量的结构定义；&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;set args config.txt&lt;/code&gt;：指定运行时的参数；&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;gdb-多线程命令&#34;&gt;GDB 多线程命令&lt;/h2&gt;
-&lt;ul&gt;
+&lt;h2 id=&#34;gdb-多线程命令&#34;&gt;GDB 多线程命令
+&lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;info thread&lt;/code&gt;：查看被调试的线程；&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;thread apply all bt&lt;/code&gt;：打印所有线程堆栈信息；&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;thread &amp;lt;ID&amp;gt; &lt;/code&gt;：切换调试的线程为指定ID的线程；&lt;/li&gt;
@@ -621,8 +620,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;set scheduler-locking off|on|step&lt;/code&gt;：在调试多线程程序时，默认除了被调试的线程在执行外，其他线程也都在运行，我们可以通过命令来控制这一切：off表示不锁定任何线程on表示只有当前调试的线程会继续运行，step表示在但不执行时只有当前线程会运行；&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;thread apply &amp;lt;ID1&amp;gt; &amp;lt;ID2&amp;gt; &amp;lt;command&amp;gt;&lt;/code&gt;：让一个或者多个线程执行GDB命令command；&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/74897601&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h2 id=&#34;参考&#34;&gt;参考
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/74897601&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;GDB调试入门指南&lt;/a&gt;&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/lsgxeva/p/8078670.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;gdb调试多线程程序总结&lt;/a&gt;&lt;br&gt;
@@ -638,13 +637,13 @@ Vibrancy continued&lt;/p&gt;
         </item>
         <item>
         <title>C&#43;&#43;知识点总结</title>
-        <link>https://qiyueliuhuo.github.io/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</link>
+        <link>http://localhost:1313/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</link>
         <pubDate>Thu, 08 Jul 2021 20:18:41 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</guid>
-        <description>&lt;h2 id=&#34;c编程基础&#34;&gt;C++编程基础&lt;/h2&gt;
-&lt;h3 id=&#34;hello-world&#34;&gt;Hello, world!&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+        <guid>http://localhost:1313/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</guid>
+        <description>&lt;h2 id=&#34;c编程基础&#34;&gt;C++编程基础
+&lt;/h2&gt;&lt;h3 id=&#34;hello-world&#34;&gt;Hello, world!
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -674,8 +673,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdlib.h&amp;gt;  //使用atexit()&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;namespace&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;//使用atexit()
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;namespace&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;show1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;cout&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;first exit main()&amp;#34;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;endl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
@@ -700,13 +699,13 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;*/&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;main-函数前面的数据类型-int-与-void&#34;&gt;main 函数前面的数据类型 int 与 void&lt;/h4&gt;
-&lt;p&gt;main 函数的返回值是返回给主调进程，使主调进程得知被调用程序的运行结果。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;main-函数前面的数据类型-int-与-void&#34;&gt;main 函数前面的数据类型 int 与 void
+&lt;/h4&gt;&lt;p&gt;main 函数的返回值是返回给主调进程，使主调进程得知被调用程序的运行结果。&lt;/p&gt;
 &lt;p&gt;标准规范中规定 main 函数的返回值为 int，一般约定返回 0 值时代表程序运行无错误，其它值均为错误号，但该约定并非强制。&lt;/p&gt;
 &lt;p&gt;如果程序的运行结果不需要返回给主调进程，或程序开发人员确认该状态并不重要，比如所有出错信息均在程序中有明确提示的情况下，可以不写 main 函数的返回值。在一些检查不是很严格的编译器中，比如 VC, VS 等，void 类型的 main 是允许的。不过在一些检查严格的编译器下，比如 g++, 则要求 main 函数的返回值必须为 int 型。&lt;/p&gt;
 &lt;p&gt;所以在编程时，区分程序运行结果并以 int 型返回，是一个良好的编程习惯。&lt;/p&gt;
-&lt;h4 id=&#34;main-函数执行完后执行其他语句&#34;&gt;main 函数执行完后执行其他语句&lt;/h4&gt;
-&lt;p&gt;有时候需要在程序退出时做一些诸如释放资源的操作。我们可以用 atexit() 函数来注册程序正常终止时要被调用的函数。&lt;/p&gt;
+&lt;h4 id=&#34;main-函数执行完后执行其他语句&#34;&gt;main 函数执行完后执行其他语句
+&lt;/h4&gt;&lt;p&gt;有时候需要在程序退出时做一些诸如释放资源的操作。我们可以用 atexit() 函数来注册程序正常终止时要被调用的函数。&lt;/p&gt;
 &lt;p&gt;atexit() 在一个程序中最多可以注册32个处理函数，这些处理函数的调用顺序与注册顺序相反，即后注册的函数先被调用。&lt;/p&gt;
 &lt;p&gt;有必要补充一下，main函数执行之前会做什么？&lt;strong&gt;全局对象的构造函数会在main函数之前执行&lt;/strong&gt;。例&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -753,8 +752,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;*/&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;main函数之前执行的操作&#34;&gt;main函数之前执行的操作&lt;/h4&gt;
-&lt;p&gt;main函数执行之前，主要就是初始化系统相关资源：&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;main函数之前执行的操作&#34;&gt;main函数之前执行的操作
+&lt;/h4&gt;&lt;p&gt;main函数执行之前，主要就是初始化系统相关资源：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;设置栈指针&lt;/li&gt;
 &lt;li&gt;初始化静态static变量和global全局变量，即.data段的内容&lt;/li&gt;
@@ -762,8 +761,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;全局对象初始化，在main之前调用构造函数&lt;/li&gt;
 &lt;li&gt;将main函数的参数argc，argv等传递给main函数，然后才真正运行main函数&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;n-与-endl-的区别&#34;&gt;&amp;ldquo;\n&amp;rdquo; 与 endl 的区别&lt;/h4&gt;
-&lt;p&gt;在 C++ 中，终端输出换行时，用&lt;code&gt;cout&amp;lt;&amp;lt;......&amp;lt;&amp;lt; endl&lt;/code&gt; 与&lt;code&gt;&amp;quot;\n&amp;quot;&lt;/code&gt; 都可以，这是初级的认识。但二者有小小的区别，用 endl 时会刷新缓冲区，使得栈中的东西刷新一次，但用 &amp;ldquo;\n&amp;rdquo; 不会刷新，它只会换行，栈内数据没有变化。但一般情况，二者的区别是很小的，建议用 endl 来换行。&lt;/p&gt;
+&lt;h4 id=&#34;n-与-endl-的区别&#34;&gt;&amp;ldquo;\n&amp;rdquo; 与 endl 的区别
+&lt;/h4&gt;&lt;p&gt;在 C++ 中，终端输出换行时，用&lt;code&gt;cout&amp;lt;&amp;lt;......&amp;lt;&amp;lt; endl&lt;/code&gt; 与&lt;code&gt;&amp;quot;\n&amp;quot;&lt;/code&gt; 都可以，这是初级的认识。但二者有小小的区别，用 endl 时会刷新缓冲区，使得栈中的东西刷新一次，但用 &amp;ldquo;\n&amp;rdquo; 不会刷新，它只会换行，栈内数据没有变化。但一般情况，二者的区别是很小的，建议用 endl 来换行。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -794,20 +793,20 @@ Vibrancy continued&lt;/p&gt;
 &lt;p&gt;一般情况下，不加endl大多数情况下，也能正常输出，是因为在系统较为空闲时候，会查看缓存区的内容，如果发现新的内容，便进行输出。但是你并不清楚，系统什么时候输出，什么时候不输出，与系统自身的运行状况有关。而刷新缓存区，是强制性的，绝对性的输出，不取决于系统运行状况。所以正如《C++ Primer》书中所写，为了避免出现没有刷新输出流的情况发生，在使用打印语句来调试程序时，一定要加入 endl或 flush 操纵符。&lt;/p&gt;
 &lt;p&gt;这里可能会想到，以后遇到这类问题，干脆直接都使用 endl，不用 &lt;code&gt;\n&lt;/code&gt; 不就好了吗？&lt;/p&gt;
 &lt;p&gt;也不是，要知道，endl会不停地刷新输出流，频繁的操作会降低程序的运行效率，这也是C++标准库对流的输入/输出操作使用缓冲区的原因。没有必要刷新输出流的时候应尽量使用 &lt;code&gt;\n&lt;/code&gt;，比如对于无缓冲的流 cerr，就可以直接使用 &lt;code&gt;\n&lt;/code&gt;。&lt;/p&gt;
-&lt;h4 id=&#34;头文件里的---与--&#34;&gt;头文件里的 &amp;quot; &amp;quot; 与 &amp;lt; &amp;gt;&lt;/h4&gt;
-&lt;p&gt;&amp;lt;&amp;gt; 默认去系统目录中找头文件。像标准的 C 头文件 stdio.h、stdlib.h 和 C++ 头文件 iostream、string 等用这个方法。
+&lt;h4 id=&#34;头文件里的---与--&#34;&gt;头文件里的 &amp;quot; &amp;quot; 与 &amp;lt; &amp;gt;
+&lt;/h4&gt;&lt;p&gt;&amp;lt;&amp;gt; 默认去系统目录中找头文件。像标准的 C 头文件 stdio.h、stdlib.h 和 C++ 头文件 iostream、string 等用这个方法。
 &amp;quot; &amp;quot; 首先在当前目录下寻找，如果找不到，再到系统目录中寻找。 这个用于 include 自定义的头文件，让系统优先使用当前目录中定义的。&lt;/p&gt;
-&lt;h4 id=&#34;命名空间-std&#34;&gt;命名空间 std&lt;/h4&gt;
-&lt;p&gt;所谓名称空间它是一种将库函数封装起来的方法。通过这种方法，可以避免和应用程序发生命名冲突的问题。&lt;/p&gt;
+&lt;h4 id=&#34;命名空间-std&#34;&gt;命名空间 std
+&lt;/h4&gt;&lt;p&gt;所谓名称空间它是一种将库函数封装起来的方法。通过这种方法，可以避免和应用程序发生命名冲突的问题。&lt;/p&gt;
 &lt;p&gt;如果想要使用 &lt;code&gt;cin&lt;/code&gt;，&lt;code&gt;cout&lt;/code&gt; 这两个 &lt;code&gt;iostream&lt;/code&gt;对象，不仅要包含 &lt;code&gt;&amp;lt;iostream&amp;gt;&lt;/code&gt; 头文件，还得让命名空间&lt;code&gt;std&lt;/code&gt;内的名称曝光，即 &lt;code&gt;using namespace std;&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;真正的开发过程中， 尽量避免使用 &lt;code&gt;using namespace std;&lt;/code&gt; 等直接引入整个命名空间，否则会因为命名空间污染导致很多不必要的问题， 比如自己写的某个函数，名称正好和 std 中的一样， 编译器会不知道使用哪一个， 引起编译报错， 建议使用由命名空间组合起来的全称：
 &lt;code&gt;std::cout &amp;lt;&amp;lt; &amp;quot;Hello World&amp;quot; &amp;lt;&amp;lt; std::endl;&lt;/code&gt;&lt;/p&gt;
-&lt;h4 id=&#34;systempause&#34;&gt;system(&amp;ldquo;pause&amp;rdquo;)&lt;/h4&gt;
-&lt;p&gt;包含头文件 stdlib.h，并在主程序中加入 &lt;code&gt;system(&amp;quot;pause&amp;quot;);&lt;/code&gt; 可以在程序运行完以后使黑框暂停显示，等待输入，而不是闪退。linux环境下运行该程序需去掉该语句。&lt;/p&gt;
-&lt;h4 id=&#34;cout-与-printf&#34;&gt;cout 与 printf()&lt;/h4&gt;
-&lt;p&gt;cout 流速度较慢，如果速度过慢可以用 &amp;lt;stdio.h&amp;gt; 库中的 printf() 格式化输出函数，不需要 &lt;code&gt;using namespace std;&lt;/code&gt;。但注意 printf() 中不能使用 endl。printf 是函数。cout是ostream对象，和 &amp;laquo; 配合使用。如果 printf 碰到不认识的类型就没办法了，而cout可以重载进行扩展。&lt;/p&gt;
-&lt;h4 id=&#34;main函数与命令行参数&#34;&gt;main函数与命令行参数&lt;/h4&gt;
-&lt;p&gt;一个程序的main()函数可以包括两个参数&lt;/p&gt;
+&lt;h4 id=&#34;systempause&#34;&gt;system(&amp;ldquo;pause&amp;rdquo;)
+&lt;/h4&gt;&lt;p&gt;包含头文件 stdlib.h，并在主程序中加入 &lt;code&gt;system(&amp;quot;pause&amp;quot;);&lt;/code&gt; 可以在程序运行完以后使黑框暂停显示，等待输入，而不是闪退。linux环境下运行该程序需去掉该语句。&lt;/p&gt;
+&lt;h4 id=&#34;cout-与-printf&#34;&gt;cout 与 printf()
+&lt;/h4&gt;&lt;p&gt;cout 流速度较慢，如果速度过慢可以用 &amp;lt;stdio.h&amp;gt; 库中的 printf() 格式化输出函数，不需要 &lt;code&gt;using namespace std;&lt;/code&gt;。但注意 printf() 中不能使用 endl。printf 是函数。cout是ostream对象，和 &amp;laquo; 配合使用。如果 printf 碰到不认识的类型就没办法了，而cout可以重载进行扩展。&lt;/p&gt;
+&lt;h4 id=&#34;main函数与命令行参数&#34;&gt;main函数与命令行参数
+&lt;/h4&gt;&lt;p&gt;一个程序的main()函数可以包括两个参数&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;第一个参数的类型为int型；&lt;/li&gt;
 &lt;li&gt;第二个参数为字符串数组。&lt;/li&gt;
@@ -836,8 +835,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;./a.out str1 str2 str3
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;预处理编译与链接&#34;&gt;预处理、编译与链接&lt;/h4&gt;
-&lt;ul&gt;
+&lt;/div&gt;&lt;h4 id=&#34;预处理编译与链接&#34;&gt;预处理、编译与链接
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;预处理： 预处理也称为预编译，它为编译做准备工作，主要进行代码文本的替换，用于处理#开头的指令 。&lt;/p&gt;
 &lt;/li&gt;
@@ -894,8 +893,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;则会生成一个名为&lt;code&gt;myexec&lt;/code&gt;的可执行文件。&lt;/p&gt;
-&lt;h5 id=&#34;静态链接和动态链接&#34;&gt;静态链接和动态链接&lt;/h5&gt;
-&lt;p&gt;要生成可执行文件，必须经历两个阶段，即编译、链接。&lt;/p&gt;
+&lt;h5 id=&#34;静态链接和动态链接&#34;&gt;静态链接和动态链接
+&lt;/h5&gt;&lt;p&gt;要生成可执行文件，必须经历两个阶段，即编译、链接。&lt;/p&gt;
 &lt;p&gt;在链接过程中，静态链接和动态链接就出现了区别。静态链接的过程就已经把要链接的内容已经链接到了生成的可执行文件中，就算你在去把静态库删除也不会影响可执行程序的执行；而动态链接这个过程却没有把内容链接进去，而是在执行的过程中，再去找要链接的内容，生成的可执行文件中并没有要链接的内容，所以当你删除动态库时，可执行程序就不能运行。所以动态链接生成的可执行文件要比静态链接生成的文件要小一些。&lt;/p&gt;
 &lt;p&gt;各自的优缺点：&lt;/p&gt;
 &lt;ul&gt;
@@ -908,28 +907,28 @@ Vibrancy continued&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/kang___xi/article/details/80210717&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;深入浅出静态链接和动态链接&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;iostream&#34;&gt;iostream&lt;/h3&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;头文件&lt;/th&gt;
-&lt;th&gt;函数和描述&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&amp;lt;iostream&amp;gt;&lt;/td&gt;
-&lt;td&gt;该文件定义了 cin、cout、cerr 和 clog 对象，分别对应于标准输入流、标准输出流、非缓冲标准错误流和缓冲标准错误流。&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&amp;lt;iomanip&amp;gt;&lt;/td&gt;
-&lt;td&gt;该文件通过所谓的参数化的流操纵器（比如 setw 和 setprecision），来声明对执行标准化 I/O 有用的服务。&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&amp;lt;fstream&amp;gt;&lt;/td&gt;
-&lt;td&gt;该文件为用户控制的文件处理声明服务。&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+&lt;h3 id=&#34;iostream&#34;&gt;iostream
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;头文件&lt;/th&gt;
+          &lt;th&gt;函数和描述&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&amp;lt;iostream&amp;gt;&lt;/td&gt;
+          &lt;td&gt;该文件定义了 cin、cout、cerr 和 clog 对象，分别对应于标准输入流、标准输出流、非缓冲标准错误流和缓冲标准错误流。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&amp;lt;iomanip&amp;gt;&lt;/td&gt;
+          &lt;td&gt;该文件通过所谓的参数化的流操纵器（比如 setw 和 setprecision），来声明对执行标准化 I/O 有用的服务。&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&amp;lt;fstream&amp;gt;&lt;/td&gt;
+          &lt;td&gt;该文件为用户控制的文件处理声明服务。&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;&lt;strong&gt;标准输入流 cin&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1035,9 +1034,9 @@ Vibrancy continued&lt;/p&gt;
 &lt;p&gt;clog流也是标准错误流，作用和cerr一样，区别在于cerr不经过缓冲区，直接向显示器输出信息，而clog中的信息存放在缓冲区，缓冲区满或者遇到endl时才输出。clog用的少。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;变量&#34;&gt;变量&lt;/h3&gt;
-&lt;h4 id=&#34;勿混用带符号类型和无符号类型&#34;&gt;勿混用带符号类型和无符号类型&lt;/h4&gt;
-&lt;p&gt;一个算术表达式中既有无符号又有有符号时，如int，那个int就会转换为无符号数&lt;/p&gt;
+&lt;h3 id=&#34;变量&#34;&gt;变量
+&lt;/h3&gt;&lt;h4 id=&#34;勿混用带符号类型和无符号类型&#34;&gt;勿混用带符号类型和无符号类型
+&lt;/h4&gt;&lt;p&gt;一个算术表达式中既有无符号又有有符号时，如int，那个int就会转换为无符号数&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1052,8 +1051,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cout&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;u&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;endl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 如果int占32位，输出4294967264
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;无符号数不会小于0这一事实关系到循环的写法&#34;&gt;无符号数不会小于0这一事实关系到循环的写法&lt;/h4&gt;
-&lt;p&gt;【PRIMER 34】&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;无符号数不会小于0这一事实关系到循环的写法&#34;&gt;无符号数不会小于0这一事实关系到循环的写法
+&lt;/h4&gt;&lt;p&gt;【PRIMER 34】&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1085,8 +1084,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;初始化&#34;&gt;初始化&lt;/h3&gt;
-&lt;p&gt;&lt;span style=&#34;color:#0e88eb;font-weight:bold;&#34;&gt;初始化不等于赋值（assignment）。初始化的含义是创建变量时赋予其一个初始值，而赋值的含义是把对象的当前值擦除，再用一个新值来替代。【PRIMER 39】&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;初始化&#34;&gt;初始化
+&lt;/h3&gt;&lt;p&gt;&lt;span style=&#34;color:#0e88eb;font-weight:bold;&#34;&gt;初始化不等于赋值（assignment）。初始化的含义是创建变量时赋予其一个初始值，而赋值的含义是把对象的当前值擦除，再用一个新值来替代。【PRIMER 39】&lt;/span&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -1258,8 +1257,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;逗号表达式&#34;&gt;逗号表达式&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h3 id=&#34;逗号表达式&#34;&gt;逗号表达式
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -1285,8 +1284,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 第一个是 f2 的返回值，第二个是逗号表达式(v3,v4,v5)的值，第三个是逗号表达式(v6,max(v7,v8))的值。
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;指针&#34;&gt;指针&lt;/h3&gt;
-&lt;p&gt;如果指针不指向任何对象，则【提领】操作（也可称为【解引用】，即取指针指向的内容）会导致未知的执行结果。这意味着在使用指针时，必须在提领前确定它的确指向某对象。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;指针&#34;&gt;指针
+&lt;/h3&gt;&lt;p&gt;如果指针不指向任何对象，则【提领】操作（也可称为【解引用】，即取指针指向的内容）会导致未知的执行结果。这意味着在使用指针时，必须在提领前确定它的确指向某对象。&lt;/p&gt;
 &lt;p&gt;一个未指向任何对象的指针，其地址为0，也被称为 nullptr 指针。我们可以在定义阶段便初始化指针，令其值为 0.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1304,8 +1303,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;//【ESS 28】
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;野指针&#34;&gt;野指针&lt;/h4&gt;
-&lt;p&gt;指的是没有被初始化过的指针。指针变量未初始化时不会自动成为 nullptr，而是一个随机值。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;野指针&#34;&gt;野指针
+&lt;/h4&gt;&lt;p&gt;指的是没有被初始化过的指针。指针变量未初始化时不会自动成为 nullptr，而是一个随机值。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1323,8 +1322,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;因此，为了防止出错，对于指针初始化时都是赋值为 nullptr，这样在使用时编译器就会直接报错，产生非法内存访问。&lt;/p&gt;
-&lt;h4 id=&#34;悬空指针&#34;&gt;悬空指针&lt;/h4&gt;
-&lt;p&gt;悬空指针，指针最初指向的内存已经被释放了的一种指针。（指针操作超越变量的作用域，比如函数返回栈内存的指针或引用）&lt;/p&gt;
+&lt;h4 id=&#34;悬空指针&#34;&gt;悬空指针
+&lt;/h4&gt;&lt;p&gt;悬空指针，指针最初指向的内存已经被释放了的一种指针。（指针操作超越变量的作用域，比如函数返回栈内存的指针或引用）&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1346,8 +1345,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/div&gt;&lt;p&gt;此时 p和p2就是悬空指针，指向的内存已经被释放。继续使用这两个指针，行为不可预料。需要设置为p=p2=nullptr。此时再使用，编译器会直接保错。&lt;/p&gt;
 &lt;p&gt;野指针和悬空指针，无法通过简单地判断是否为 nullptr 避免，所以要习惯在初始化时赋值或析构时赋为nullptr。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;void*&lt;/code&gt;是一种特殊的指针类型，可以存放任意对象的地址，但不能直接操作&lt;code&gt;void*&lt;/code&gt;指针所指的对象。&lt;/p&gt;
-&lt;h4 id=&#34;指针与数组名的区别&#34;&gt;指针与数组名的区别&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;指针与数组名的区别&#34;&gt;指针与数组名的区别
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;修改内容上的差别：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1417,8 +1416,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;数组指针与指针数组&#34;&gt;数组指针与指针数组&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h4 id=&#34;数组指针与指针数组&#34;&gt;数组指针与指针数组
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -1475,8 +1474,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;//【ESS 29】
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;指针函数与函数指针&#34;&gt;指针函数与函数指针&lt;/h4&gt;
-&lt;p&gt;&lt;strong&gt;指针函数&lt;/strong&gt;：返回类型是指针的函数，如&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;指针函数与函数指针&#34;&gt;指针函数与函数指针
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;指针函数&lt;/strong&gt;：返回类型是指针的函数，如&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1544,8 +1543,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;数组名指向了内存中一段连续的存储区域，可以通过数组名的指针形式去访问，也可以定义一个相同类型的指针变量指向这段内存的起始地址，从而通过指针变量去引用数组元素。&lt;/p&gt;
 &lt;p&gt;每一个函数占用一段内存区域，而函数名就是指向函数所占内存区的起始地址的函数指针（地址常量），故&lt;strong&gt;函数指针解引用与不解引用没有区别&lt;/strong&gt; 。通过引用函数名这个函数指针让正在运行的程序转向该入口地址执行函数的函数体，也可以把函数的入口地址赋给一个指针变量，使该指针变量指向该函数。&lt;/p&gt;
-&lt;h4 id=&#34;复杂指针声明&#34;&gt;复杂指针声明&lt;/h4&gt;
-&lt;p&gt;&lt;strong&gt;函数指针数组&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&#34;复杂指针声明&#34;&gt;复杂指针声明
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;函数指针数组&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1599,8 +1598,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 返回的指针指向一个数组，该数组含有 5 个元素，每一个元素都是 int 型。
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;指针pointer与引用reference&#34;&gt;指针(pointer)与引用(reference)&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h3 id=&#34;指针pointer与引用reference&#34;&gt;指针(pointer)与引用(reference)
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -1658,8 +1657,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;（在二进制层面，引用一般是通过指针来实现的，只不过编译器帮我们完成了转换。总的来说，引用既具有指针的效率，又具有变量使用的方便性和直观性。）&lt;/p&gt;
 &lt;p&gt;【ESS 46，47】&lt;/p&gt;
-&lt;h4 id=&#34;引用作为函数参数&#34;&gt;引用作为函数参数&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;引用作为函数参数&#34;&gt;引用作为函数参数
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;传递引用给函数与传递指针给函数的效果是一样的。这时，被调函数的形参就成为原来主调函数中的实参变量或对象的一个别名来使用，所以在被调函数中对形参变量的操作就是对其相应的目标对象（在主调函数中）的操作。&lt;/p&gt;
 &lt;/li&gt;
@@ -1670,8 +1669,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;p&gt;使用指针作为函数的参数虽然也能达到与使用引用的效果，但是，在被调函数中同样要给形参分配存储单元，且需要重复使用 &amp;ldquo;*指针变量名&amp;rdquo; 的形式进行运算，这很容易产生错误且程序的可读性较差；另一方面，在主调函数的调用点处，必须用变量的地址作为实参。而引用更容易使用，更清晰。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;常引用作为函数参数&#34;&gt;常引用作为函数参数&lt;/h4&gt;
-&lt;p&gt;如果既要利用引用提高程序的效率，又要保护传递给函数的数据不在函数中被改变，就应使用常引用&lt;/p&gt;
+&lt;h4 id=&#34;常引用作为函数参数&#34;&gt;常引用作为函数参数
+&lt;/h4&gt;&lt;p&gt;如果既要利用引用提高程序的效率，又要保护传递给函数的数据不在函数中被改变，就应使用常引用&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -1705,8 +1704,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;对于常量类型的变量，其引用也必须是常量类型的；对于非常量类型的变量，其引用可以是非常量的，也可以是常量的。但是要注意，无论什么情况都不能使用常量引用修改其引用的变量的值。&lt;/p&gt;
-&lt;h4 id=&#34;函数返回引用与返回值&#34;&gt;函数返回引用与返回值&lt;/h4&gt;
-&lt;p&gt;返回引用的好处：在内存中不产生被返回值的副本。&lt;/p&gt;
+&lt;h4 id=&#34;函数返回引用与返回值&#34;&gt;函数返回引用与返回值
+&lt;/h4&gt;&lt;p&gt;返回引用的好处：在内存中不产生被返回值的副本。&lt;/p&gt;
 &lt;p&gt;同时注意，正是因为这点原因，所以返回一个局部变量的引用是不可取的。因为随着该局部变量生存期的结束，相应的引用也会失效，产生 runtime error!&lt;/p&gt;
 &lt;p&gt;【注意】&lt;/p&gt;
 &lt;ul&gt;
@@ -1716,9 +1715,9 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;全局变量和局部静态变量的返回值可以是引用；&lt;/li&gt;
 &lt;li&gt;可以返回类成员的引用；&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;指针运算&#34;&gt;指针运算&lt;/h3&gt;
-&lt;h4 id=&#34;p和p&#34;&gt;*&amp;amp;p和&amp;amp;*p&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h3 id=&#34;指针运算&#34;&gt;指针运算
+&lt;/h3&gt;&lt;h4 id=&#34;p和p&#34;&gt;*&amp;amp;p和&amp;amp;*p
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;&amp;amp;：取出变量的存储地址。对指针变量 p，&amp;amp;p 取指针变量 p 所占用内存的地址，可以说是二级指针。&lt;/li&gt;
 &lt;li&gt;*：引用指针所指向单元的内容。&lt;/li&gt;
 &lt;/ul&gt;
@@ -1736,8 +1735,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;p&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;是&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;err&#34;&gt;变量，那么&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&amp;amp;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;p&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;，&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;p&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;p&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;，都是&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;p&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;p或-n&#34;&gt;p+(或-)n&lt;/h4&gt;
-&lt;p&gt;指针加减一个数，是指该指针上移或下移n个数据之后的内存地址。即：&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;p或-n&#34;&gt;p+(或-)n
+&lt;/h4&gt;&lt;p&gt;指针加减一个数，是指该指针上移或下移n个数据之后的内存地址。即：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1746,8 +1745,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;p&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;或&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;sizeof&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;pp-ppp&#34;&gt;*p++，*(p++)， (*p)++，*++p，++*p&lt;/h4&gt;
-&lt;ul&gt;
+&lt;/div&gt;&lt;h4 id=&#34;pp-ppp&#34;&gt;*p++，*(p++)， (*p)++，*++p，++*p
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;*p++ 和 *(p++) 没有区别，因为 ++ 在变量之后，运算得先用再自增，所以先执行*p，p再自增。这又与 (*p)++ 有区别，这里面先 *p，*p 再自增而不是 p 自增。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1772,8 +1771,8 @@ Vibrancy continued&lt;/p&gt;
 ++*p，*p自增。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;i-与-i-的效率&#34;&gt;i++ 与 ++i 的效率&lt;/h3&gt;
-&lt;ul&gt;
+&lt;h3 id=&#34;i-与-i-的效率&#34;&gt;i++ 与 ++i 的效率
+&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;对于内置数据类型，两者差别不大；&lt;/li&gt;
 &lt;li&gt;对于自定义数据类型（如类），++i 返回对象的引用，而 i++ 返回对象的值，导致较大的复制开销，因此效率低。&lt;/li&gt;
 &lt;/ul&gt;
@@ -1790,9 +1789,9 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;C&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;C&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;operator&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// 后缀运算符返回对象的值。为了与前缀运算符作区分，后缀版本接受一个（不被使用，编译器默认设为0）int类型的形参。
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;sizeof&#34;&gt;sizeof&lt;/h3&gt;
-&lt;h4 id=&#34;sizeof-计算普通变量与指针所占空间的大小&#34;&gt;sizeof 计算普通变量与指针所占空间的大小&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h3 id=&#34;sizeof&#34;&gt;sizeof
+&lt;/h3&gt;&lt;h4 id=&#34;sizeof-计算普通变量与指针所占空间的大小&#34;&gt;sizeof 计算普通变量与指针所占空间的大小
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -1818,8 +1817,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;p&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;malloc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;// 4, p 指向 100 个字节的堆内存，但本质上还是指针。
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;sizeof-计算空类的大小&#34;&gt;sizeof 计算空类的大小&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h4 id=&#34;sizeof-计算空类的大小&#34;&gt;sizeof 计算空类的大小
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -1865,8 +1864,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 普通成员函数代码编译后存储在程序代码区，根本就不在类实例中，所以不占实例空间。
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;sizeof-计算类对象与结构体联合体所占空间的大小&#34;&gt;sizeof 计算类对象与结构体、联合体所占空间的大小&lt;/h4&gt;
-&lt;p&gt;在 32 位操作系统上，占用空间 char:1，short:2, int:4，long:4&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;sizeof-计算类对象与结构体联合体所占空间的大小&#34;&gt;sizeof 计算类对象与结构体、联合体所占空间的大小
+&lt;/h4&gt;&lt;p&gt;在 32 位操作系统上，占用空间 char:1，short:2, int:4，long:4&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -2030,8 +2029,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;结构体的总大小为结构体最宽基本数据类型成员大小的整数倍，如有需要，编译器会在最末一个成员之后加上填充字节。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;联合体（共用体），类同理。&lt;/p&gt;
-&lt;h4 id=&#34;sizeof-与-strlen-区别&#34;&gt;sizeof 与 strlen 区别&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;sizeof-与-strlen-区别&#34;&gt;sizeof 与 strlen 区别
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;sizeof 是操作符，strlen 是函数；&lt;/p&gt;
 &lt;/li&gt;
@@ -2068,16 +2067,16 @@ Vibrancy continued&lt;/p&gt;
 &lt;p&gt;sizeof 在编译阶段就计算出来了，所以可以定义数组的维度，而strlen是在运行时候才计算出来；&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;strcpy-与-memcpy-区别&#34;&gt;strcpy 与 memcpy 区别&lt;/h3&gt;
-&lt;ul&gt;
+&lt;h3 id=&#34;strcpy-与-memcpy-区别&#34;&gt;strcpy 与 memcpy 区别
+&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;复制的内容不同。strcpy 只能复制字符串，而 memcpy 可以复制任意内容，例如字符数组、整型、结构体、类等。&lt;/li&gt;
 &lt;li&gt;复制的方法不同。strcpy 不需要指定长度，它遇到被复制字符的结束符 &amp;ldquo;\0&amp;rdquo; 才结束，所以容易溢出。memcpy 则是根据其第 3 个参数决定复制的长度。&lt;/li&gt;
 &lt;li&gt;用途不同。通常在复制字符串时用 strcpy，而需要复制其他类型数据时则一般用 memcpy 。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;作用域与生存周期&#34;&gt;作用域与生存周期&lt;/h3&gt;
-&lt;p&gt;c++ 变量有两个属性非常重要：作用域和生存周期。&lt;/p&gt;
-&lt;h4 id=&#34;花括号作用域&#34;&gt;花括号作用域&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;作用域与生存周期&#34;&gt;作用域与生存周期
+&lt;/h3&gt;&lt;p&gt;c++ 变量有两个属性非常重要：作用域和生存周期。&lt;/p&gt;
+&lt;h4 id=&#34;花括号作用域&#34;&gt;花括号作用域
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -2140,8 +2139,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/div&gt;&lt;p&gt;【PRIMER 44】&lt;/p&gt;
 &lt;p&gt;作用域中一旦声明了某个名字，在它所嵌套着的所有作用域中都能访问该名字。同时，允许在内层作用域中重新定义外层作用域已有的名字，此时内层作用域中新定义的名字将屏蔽外层作用域的名字。&lt;/p&gt;
 &lt;p&gt;可以用作用域操作符&lt;code&gt;::&lt;/code&gt;来覆盖默认的作用域规则。因为全局作用域本身并没有名字，所以当作用域操作符的左侧为空时，会向全局作用域发出请求获取作用域操作符右侧名字对应的变量。&lt;/p&gt;
-&lt;h4 id=&#34;内存分配&#34;&gt;内存分配&lt;/h4&gt;
-&lt;p&gt;一个程序将操作系统分配给其运行的内存块分为 5 个区域：&lt;/p&gt;
+&lt;h4 id=&#34;内存分配&#34;&gt;内存分配
+&lt;/h4&gt;&lt;p&gt;一个程序将操作系统分配给其运行的内存块分为 5 个区域：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;静态区（全局区）：存放程序的全局变量和静态变量。初始化的全局变量和静态变量在一个区域， 未初始化的全局变量和未初始化的静态变量在相邻的另一块区域。程序结束后由系统释放。（在以前的C语言中，全局变量又分为初始化的和未初始化的，在C++里面没有这个区分了，他们共同占用同一块内存区。）&lt;/p&gt;
@@ -2189,13 +2188,13 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;局部变量和全局变量&#34;&gt;局部变量和全局变量&lt;/h4&gt;
-&lt;p&gt;局部变量也称为内部变量，它是在函数内定义的。其作用域仅限于函数内，离开该函数后再使用这种变量是非法的。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;局部变量和全局变量&#34;&gt;局部变量和全局变量
+&lt;/h4&gt;&lt;p&gt;局部变量也称为内部变量，它是在函数内定义的。其作用域仅限于函数内，离开该函数后再使用这种变量是非法的。&lt;/p&gt;
 &lt;p&gt;全局变量也称为外部变量，它是在函数外部定义的变量。它不属于哪一个函数，它属于一个源程序文件。其作用域是整个源程序。在函数内部，局部变量可以屏蔽全局变量。如果一个全局变量用 static 修饰，它就是静态全局变量，它的作用域是该文件范围（称为文件作用域，即其它文件不能使用它）&lt;/p&gt;
-&lt;h5 id=&#34;操作系统和编译器是怎么变量是全局还是局部&#34;&gt;操作系统和编译器是怎么变量是全局还是局部&lt;/h5&gt;
-&lt;p&gt;操作系统和编译器，可能是通过内存分配的位置来知道的，全局变量分配在全局数据段并且在程序开始运行的时候被加载。局部变量则分配在堆栈里面。&lt;/p&gt;
-&lt;h4 id=&#34;静态存储与动态存储&#34;&gt;静态存储与动态存储&lt;/h4&gt;
-&lt;p&gt;变量的生存周期只与变量的存储位置（存储类别）有关。可以分为：&lt;/p&gt;
+&lt;h5 id=&#34;操作系统和编译器是怎么变量是全局还是局部&#34;&gt;操作系统和编译器是怎么变量是全局还是局部
+&lt;/h5&gt;&lt;p&gt;操作系统和编译器，可能是通过内存分配的位置来知道的，全局变量分配在全局数据段并且在程序开始运行的时候被加载。局部变量则分配在堆栈里面。&lt;/p&gt;
+&lt;h4 id=&#34;静态存储与动态存储&#34;&gt;静态存储与动态存储
+&lt;/h4&gt;&lt;p&gt;变量的生存周期只与变量的存储位置（存储类别）有关。可以分为：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;静态存储方式（在程序运行期间，系统对变量分配&lt;strong&gt;固定的&lt;/strong&gt;存储空间）&lt;/li&gt;
 &lt;li&gt;动态存储方式（在程序运行期间，系统对变量动态（&lt;strong&gt;不固定&lt;/strong&gt;）的分配存储空间）&lt;/li&gt;
@@ -2207,8 +2206,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;register 寄存器变量(动态存储方式)&lt;/li&gt;
 &lt;li&gt;extern 外部变量(静态存储方式)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;c变量保存在堆还是栈&#34;&gt;C++变量保存在堆还是栈？&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;c变量保存在堆还是栈&#34;&gt;C++变量保存在堆还是栈？
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;如果对象是函数内的非静态局部变量，则对象，对象的成员变量保存在栈区。&lt;/li&gt;
 &lt;li&gt;如果对象是全局变量，则对象，对象的成员变量保存在静态区。&lt;/li&gt;
 &lt;li&gt;如果对象是函数内的静态局部变量，则对象，对象的成员变量保存在静态区。&lt;/li&gt;
@@ -2232,12 +2231,12 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 然后返回这块内存的首地址，存入栈中
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;堆与栈的效率&#34;&gt;堆与栈的效率&lt;/h4&gt;
-&lt;p&gt;栈是程序启动的时候，系统分好了给你的，你自己用，系统不干预。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;堆与栈的效率&#34;&gt;堆与栈的效率
+&lt;/h4&gt;&lt;p&gt;栈是程序启动的时候，系统分好了给你的，你自己用，系统不干预。&lt;/p&gt;
 &lt;p&gt;堆是用的时候才向系统申请的，用完了还回去，这个申请和交还的过程开销相对就比较大了。&lt;/p&gt;
 &lt;p&gt;堆相对于栈，效率低，多次分配（malloc/new）容易产生碎片，使用时最好结合相关操作系统（Linux、Windows、RTOS ）使用，因为系统针对内存管理有专门的优化算法，减少内存碎片。堆虽然有一定的缺点，但其最大的优点是使用灵活，而且堆容量大，一般需要申请比较大的内存块时，都会从堆中申请。&lt;/p&gt;
-&lt;h3 id=&#34;new-与-delete&#34;&gt;new 与 delete&lt;/h3&gt;
-&lt;p&gt;堆内存（空闲空间）里的内存分配通过 new 表达式来完成，释放通过 delete 表达式来完成。堆内存由程序员自行管理。&lt;/p&gt;
+&lt;h3 id=&#34;new-与-delete&#34;&gt;new 与 delete
+&lt;/h3&gt;&lt;p&gt;堆内存（空闲空间）里的内存分配通过 new 表达式来完成，释放通过 delete 表达式来完成。堆内存由程序员自行管理。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -2259,8 +2258,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;【ESS 49，50】&lt;/p&gt;
-&lt;h4 id=&#34;newdelete-与-mallocfree-关系&#34;&gt;new/delete 与 malloc/free 关系&lt;/h4&gt;
-&lt;p&gt;malloc/free 是 C/C++ 的&lt;strong&gt;标准库函数&lt;/strong&gt;，new/delete 是 C++ 的&lt;strong&gt;运算符&lt;/strong&gt;。它们都可用于申请动态内存和释放内存。&lt;/p&gt;
+&lt;h4 id=&#34;newdelete-与-mallocfree-关系&#34;&gt;new/delete 与 malloc/free 关系
+&lt;/h4&gt;&lt;p&gt;malloc/free 是 C/C++ 的&lt;strong&gt;标准库函数&lt;/strong&gt;，new/delete 是 C++ 的&lt;strong&gt;运算符&lt;/strong&gt;。它们都可用于申请动态内存和释放内存。&lt;/p&gt;
 &lt;p&gt;对于非内部数据类型的对象而言，光用 malloc/free 无法满足动态对象的要求。对象在创建的同时要自动执行构造函数，对象在消亡之前要自动执行析构函数。由于 malloc/free 是库函数而不是运算符，不在编译器控制权限之内，不能够把执行构造函数和析构函数的任务强加于 malloc/free（malloc 只能申请内存，不能在申请内存的时候对所申请的内存进行初始化工作，而构造函数可以。free 只能释放内存，而如果析构函数设计得好的话，在释放内存的同时还可以完成额外的其他工作）。因此 C++ 语言需要一个能完成动态内存分配和初始化工作的运算符 new ，以及一个能完成清理与释放内存工作的运算符 delete 。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;new / new[]：完成两件事，先底层调用 malloc 分配内存，然后调用构造函数（创建对象）。&lt;/li&gt;
@@ -2298,8 +2297,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;malloccallocrealloc的区别&#34;&gt;malloc、calloc、realloc的区别&lt;/h4&gt;
-&lt;ul&gt;
+&lt;/div&gt;&lt;h4 id=&#34;malloccallocrealloc的区别&#34;&gt;malloc、calloc、realloc的区别
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;malloc与calloc的区别为1块与n块的区别&lt;/p&gt;
 &lt;/li&gt;
@@ -2319,8 +2318,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;realloc&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ptr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;       &lt;span class=&#34;c1&#34;&gt;// 将ptr指向的空间增大到size，新增加的内存块没有初始化。
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;宏&#34;&gt;宏&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h3 id=&#34;宏&#34;&gt;宏
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -2332,8 +2331,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 为什么用括号？因为宏只是简单的字符替换
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;头文件&#34;&gt;头文件&lt;/h3&gt;
-&lt;ul&gt;
+&lt;/div&gt;&lt;h3 id=&#34;头文件&#34;&gt;头文件
+&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;头文件的扩展名习惯上是.h，标准库例外。&lt;/li&gt;
 &lt;li&gt;函数的定义只能有一份，倒是可以有多份声明。我们不能把函数的定义放在头文件，因为一个程序的多个代码文件可能都会包含这个头文件。但只定义一份的规则有一个例外，内联函数。&lt;strong&gt;为了能够扩展内联函数的内容，以便在每个调用点上，编译器都取得其定义，必须将内联函数的定义放在头文件中，而不是放在各个不同程序代码文件中&lt;/strong&gt;（如果两个函数在定义时函数名和参数列表都一样(返回类型可以不一样)，则会出错，因为重载要保证参数列表不一样）。&lt;/li&gt;
 &lt;li&gt;一个对象和变量同函数一样，也只能在程序中定义一次，因此也应该将定义放在程序代码文件中，而不是头文件中。一般地，加上 extern 就可以放在头文件中作为声明了。&lt;/li&gt;
@@ -2359,8 +2358,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;【ESS 63，64】&lt;/p&gt;
-&lt;h4 id=&#34;ifndefdefineendif作用&#34;&gt;#ifndef/#define/#endif作用&lt;/h4&gt;
-&lt;p&gt;防止头文件的重复包含和编译&lt;/p&gt;
+&lt;h4 id=&#34;ifndefdefineendif作用&#34;&gt;#ifndef/#define/#endif作用
+&lt;/h4&gt;&lt;p&gt;防止头文件的重复包含和编译&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -2380,10 +2379,10 @@ Vibrancy continued&lt;/p&gt;
 &lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#ifndef A_H &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 意思是 if not define a.h&amp;#34;  如果不存在a.h
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;#define A_H &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 就引入 a.h
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;math.h&amp;gt; // 引用标准库的头文件 &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;…&lt;/span&gt; 
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;“header.h” // 引用非标准库的头文件 &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;…&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;#include&lt;/span&gt; &lt;span class=&#34;cpf&#34;&gt;&amp;lt;math.h&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 引用标准库的头文件 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;…&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include “header.h” &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 引用非标准库的头文件 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;…&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Function1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;…&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 全局函数声明 
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;…&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Box&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 类结构声明 
@@ -2393,13 +2392,13 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#endif  &lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// 最后一句应该写 #endif，它的作用相当于 if 的反花括号 &amp;#39;}&amp;#39;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;extern-c&#34;&gt;extern “C”&lt;/h4&gt;
-&lt;p&gt;作为C语言的扩展，C++ 保留了一部分过程式语言的特点，因而它可以定义不属于任何类的全局变量和函数。但是，C++ 毕竟是一种面向对象的设计语言，为了支持函数的重载，C++ 对全局函数的处理方式有着明显的不同。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;extern-c&#34;&gt;extern “C”
+&lt;/h4&gt;&lt;p&gt;作为C语言的扩展，C++ 保留了一部分过程式语言的特点，因而它可以定义不属于任何类的全局变量和函数。但是，C++ 毕竟是一种面向对象的设计语言，为了支持函数的重载，C++ 对全局函数的处理方式有着明显的不同。&lt;/p&gt;
 &lt;p&gt;首先看一下 C++ 对类似C的函数是怎样编译的：&lt;/p&gt;
 &lt;p&gt;作为面向对象的语言，C++ 为了支持函数重载，函数在被 C++ 编译后在符号库中的名字与 C 语言的不同。假如某个函数的原型为 void foo(int x, int  y);，该函数被 C 编译器编译后在&lt;strong&gt;符号库&lt;/strong&gt;中的名字为 _foo，而 C++ 编译器则会产生 _foo_int_int 之类的名字。_foo_int_int 这样的名字是包含了函数名以及形参，C++就是靠这种机制来实现函数重载的。 如果在 C 中连接 C++ 编译的符号时，就会因找不到符号问题而发生连接错误。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;被 extern “C” 修饰的函数或者变量是按照 C 语言方式编译和链接的，所以可以用一句话来概括 extern “C” 的真实目的：实现 C++ 与 C 的混合编程。&lt;/strong&gt;&lt;/p&gt;
-&lt;h3 id=&#34;typedef-声明&#34;&gt;typedef 声明&lt;/h3&gt;
-&lt;p&gt;可以使用 typedef 为一个已有的类型取一个新的名字。&lt;/p&gt;
+&lt;h3 id=&#34;typedef-声明&#34;&gt;typedef 声明
+&lt;/h3&gt;&lt;p&gt;可以使用 typedef 为一个已有的类型取一个新的名字。&lt;/p&gt;
 &lt;p&gt;typedef 可以声明各种类型名，但不能用来定义变量。用 typedef 可以声明数组类型、字符串类型，使用比较方便。&lt;/p&gt;
 &lt;p&gt;用 typedef 只是对已经存在的类型增加一个类型名，而没有创造新的类型。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2448,8 +2447,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ST&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;decltype-类型指示符&#34;&gt;decltype 类型指示符&lt;/h3&gt;
-&lt;p&gt;【PRIMER 62】&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;decltype-类型指示符&#34;&gt;decltype 类型指示符
+&lt;/h3&gt;&lt;p&gt;【PRIMER 62】&lt;/p&gt;
 &lt;p&gt;C++11新增&lt;code&gt;decltype&lt;/code&gt;类型指示符，作用是选择并返回操作数的数据类型，此过程中编译器不实际计算表达式的值。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2488,8 +2487,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;decltype&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;d2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;   &lt;span class=&#34;c1&#34;&gt;// d2 has type int
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;枚举类型&#34;&gt;枚举类型&lt;/h3&gt;
-&lt;p&gt;如果一个变量只有几种可能的值，可以定义为枚举(enumeration)类型。每个枚举元素在声明时被分配一个整型值，默认从 0 开始，逐个加 1。也可以在声明时将枚举元素的值一一列举出来。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;枚举类型&#34;&gt;枚举类型
+&lt;/h3&gt;&lt;p&gt;如果一个变量只有几种可能的值，可以定义为枚举(enumeration)类型。每个枚举元素在声明时被分配一个整型值，默认从 0 开始，逐个加 1。也可以在声明时将枚举元素的值一一列举出来。&lt;/p&gt;
 &lt;p&gt;注意&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;枚举元素是常量，除了初始化时不可给它赋值。&lt;/li&gt;
@@ -2550,8 +2549,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;c结构体c结构体c类的区别httpswwwcnblogscomcthonp9170596html&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/cthon/p/9170596.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C结构体、C++结构体、C++类的区别&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;C 结构体与 C++ 结构体&lt;/strong&gt;&lt;/p&gt;
+    &gt;C结构体、C++结构体、C++类的区别&lt;/a&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;C 结构体与 C++ 结构体&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;C 语言中的结构体不能为空，否则会报错&lt;/li&gt;
 &lt;li&gt;C 语言中的结构体只涉及到数据结构，而不涉及到算法，也就是说在 C 中数据结构和算法是分离的。换句话说就是 C 语言中的结构体只能定义成员变量，但是不能定义成员函数（虽然可以定义函数指针，但毕竟是指针而不是函数）。然而 C++ 中结构体既可以定义成员变量又可以定义成员函数， C++ 中的结构体和类体现了数据结构和算法的结合。&lt;/li&gt;
@@ -2562,26 +2561,26 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;区别：对于成员&lt;strong&gt;访问权限和继承方式&lt;/strong&gt;，class 中默认的是 private，而 struct 中则是 public。class 还可以用于表示模板类型，struct 则不行。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;实际上&lt;code&gt;C++&lt;/code&gt;中保留&lt;code&gt;struct&lt;/code&gt;关键字是为了使&lt;code&gt;C++&lt;/code&gt;编译器能够兼容&lt;code&gt;C&lt;/code&gt;语言开发的程序&lt;/p&gt;
-&lt;h4 id=&#34;结构体与联合体共用体的区别&#34;&gt;结构体与联合体（共用体）的区别&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;结构体与联合体共用体的区别&#34;&gt;结构体与联合体（共用体）的区别
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;结构和联合都是由多个不同的数据类型成员组成, 但在任何同一时刻, 联合中只存放了一个被选中的成员（所有成员共用一块地址空间）, 而结构体的所有成员都存在（不同成员的存放地址不同）。 （在 struct 中，各成员都占有自己的内存空间，它们是同时存在的。一个 struct 变量的总长度等于所有成员长度之和。在 Union 中，所有成员不能同时占用它的内存空间，它们不能同时存在。Union 变量的长度等于最长的成员的长度。）&lt;/li&gt;
 &lt;li&gt;对联合体不同成员赋值, 将会对其它成员重写, 原来成员的值就不存在了, 而对于结构的不同成员赋值是互不影响的。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;类型转换&#34;&gt;类型转换&lt;/h3&gt;
-&lt;p&gt;【PRIMER 142-146】&lt;/p&gt;
+&lt;h3 id=&#34;类型转换&#34;&gt;类型转换
+&lt;/h3&gt;&lt;p&gt;【PRIMER 142-146】&lt;/p&gt;
 &lt;p&gt;无须程序员介入，会自动执行的类型转换叫做隐式转换（implicit conversions）。&lt;/p&gt;
-&lt;h4 id=&#34;算术转换&#34;&gt;算术转换&lt;/h4&gt;
-&lt;p&gt;（Integral Promotions）&lt;/p&gt;
+&lt;h4 id=&#34;算术转换&#34;&gt;算术转换
+&lt;/h4&gt;&lt;p&gt;（Integral Promotions）&lt;/p&gt;
 &lt;p&gt;把一种算术类型转换成另一种算术类型叫做算术转换。&lt;/p&gt;
 &lt;p&gt;整型提升（integral promotions）负责把小整数类型转换成较大的整数类型。&lt;/p&gt;
-&lt;h4 id=&#34;其他隐式类型转换&#34;&gt;其他隐式类型转换&lt;/h4&gt;
-&lt;p&gt;（Other Implicit Conversions）&lt;/p&gt;
+&lt;h4 id=&#34;其他隐式类型转换&#34;&gt;其他隐式类型转换
+&lt;/h4&gt;&lt;p&gt;（Other Implicit Conversions）&lt;/p&gt;
 &lt;p&gt;在大多数表达式中，数组名字自动转换成指向数组首元素的指针。&lt;/p&gt;
 &lt;p&gt;常量整数值0或字面值&lt;code&gt;nullptr&lt;/code&gt;能转换成任意指针类型；指向任意非常量的指针能转换成&lt;code&gt;void*&lt;/code&gt;；指向任意对象的指针能转换成&lt;code&gt;const void*&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;任意一种算术类型或指针类型都能转换成布尔类型。如果指针或算术类型的值为0，转换结果是&lt;code&gt;false&lt;/code&gt;，否则是&lt;code&gt;true&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;指向非常量类型的指针能转换成指向相应的常量类型的指针。&lt;/p&gt;
-&lt;h4 id=&#34;显式转换&#34;&gt;显式转换&lt;/h4&gt;
-&lt;p&gt;（Explicit Conversions）&lt;/p&gt;
+&lt;h4 id=&#34;显式转换&#34;&gt;显式转换
+&lt;/h4&gt;&lt;p&gt;（Explicit Conversions）&lt;/p&gt;
 &lt;p&gt;显式类型转换也叫做强制类型转换（cast）。虽然有时不得不使用强制类型转换，但这种方法本质上是非常危险的。建议尽量避免强制类型转换。&lt;/p&gt;
 &lt;p&gt;命名的强制类型转换（named cast）形式如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2610,8 +2609,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;expression&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// C-language-style cast notation
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;类型安全&#34;&gt;类型安全&lt;/h4&gt;
-&lt;p&gt;类型安全是指同一段内存在不同的地方，会被强制要求使用相同的办法来解释(内存中的数据是用类型来解释的)。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;类型安全&#34;&gt;类型安全
+&lt;/h4&gt;&lt;p&gt;类型安全是指同一段内存在不同的地方，会被强制要求使用相同的办法来解释(内存中的数据是用类型来解释的)。&lt;/p&gt;
 &lt;p&gt;Java 语言是类型安全的，除非强制类型转换。&lt;/p&gt;
 &lt;p&gt;C 语言不是类型安全的，因为同一段内存可以用不同的数据类型来解释，比如 1 用 int 来解释就是 1，用 boolean来解释就是 true。&lt;/p&gt;
 &lt;p&gt;C++ 也&lt;strong&gt;不是&lt;/strong&gt;绝对类型安全的，但使用得当，它将远比 C 更有类型安全性。&lt;/p&gt;
@@ -2623,8 +2622,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;一些 #define 宏可被改写为 inline 函数，结合函数的重载，可在类型安全的前提下支持多种类型，当然改写为模板也能保证类型安全；&lt;/li&gt;
 &lt;li&gt;C++ 提供了 dynamic_cast 关键字，使得转换过程更加安全，因为 dynamic_cast 比 static_cast 涉及更多具体的类型检查。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;try语句块和异常处理&#34;&gt;try语句块和异常处理&lt;/h3&gt;
-&lt;p&gt;【PRIMER 172】&lt;/p&gt;
+&lt;h3 id=&#34;try语句块和异常处理&#34;&gt;try语句块和异常处理
+&lt;/h3&gt;&lt;p&gt;【PRIMER 172】&lt;/p&gt;
 &lt;p&gt;异常（exception）是指程序运行时的反常行为，这些行为超出了函数正常功能的范围。当程序的某一部分检测到一个它无法处理的问题时，需要使用异常处理（exception handling）。&lt;/p&gt;
 &lt;p&gt;异常处理机制包括&lt;code&gt;throw&lt;/code&gt;表达式（throw expression）、&lt;code&gt;try&lt;/code&gt;语句块（try block）和异常类（exception class）。&lt;/p&gt;
 &lt;ul&gt;
@@ -2632,10 +2631,10 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;异常处理部分使用&lt;code&gt;try&lt;/code&gt;语句块处理异常。&lt;code&gt;try&lt;/code&gt;语句块以关键字&lt;code&gt;try&lt;/code&gt;开始，并以一个或多个&lt;code&gt;catch&lt;/code&gt;子句（catch clause）结束。&lt;code&gt;try&lt;/code&gt;语句块中代码抛出的异常通常会被某个&lt;code&gt;catch&lt;/code&gt;子句处理，&lt;code&gt;catch&lt;/code&gt;子句也被称作异常处理代码（exception handler）。&lt;/li&gt;
 &lt;li&gt;异常类用于在&lt;code&gt;throw&lt;/code&gt;表达式和相关的&lt;code&gt;catch&lt;/code&gt;子句之间传递异常的具体信息。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;throw表达式&#34;&gt;throw表达式&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;throw&lt;/code&gt;表达式包含关键字&lt;code&gt;throw&lt;/code&gt;和紧随其后的一个表达式，其中表达式的类型就是抛出的异常类型。&lt;/p&gt;
-&lt;h4 id=&#34;try语句块&#34;&gt;try语句块&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;try&lt;/code&gt;语句块的通用形式：&lt;/p&gt;
+&lt;h4 id=&#34;throw表达式&#34;&gt;throw表达式
+&lt;/h4&gt;&lt;p&gt;&lt;code&gt;throw&lt;/code&gt;表达式包含关键字&lt;code&gt;throw&lt;/code&gt;和紧随其后的一个表达式，其中表达式的类型就是抛出的异常类型。&lt;/p&gt;
+&lt;h4 id=&#34;try语句块&#34;&gt;try语句块
+&lt;/h4&gt;&lt;p&gt;&lt;code&gt;try&lt;/code&gt;语句块的通用形式：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -2668,15 +2667,15 @@ Vibrancy continued&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;try&lt;/code&gt;语句块中的&lt;em&gt;program-statements&lt;/em&gt;组成程序的正常逻辑，其内部声明的变量在块外无法访问，即使在&lt;code&gt;catch&lt;/code&gt;子句中也不行。&lt;code&gt;catch&lt;/code&gt;子句包含关键字&lt;code&gt;catch&lt;/code&gt;、括号内一个对象的声明（异常声明，exception declaration）和一个块。当选中了某个&lt;code&gt;catch&lt;/code&gt;子句处理异常后，执行与之对应的块。&lt;code&gt;catch&lt;/code&gt;一旦完成，程序会跳过剩余的所有&lt;code&gt;catch&lt;/code&gt;子句，继续执行后面的语句。&lt;/p&gt;
 &lt;p&gt;如果最终没能找到与异常相匹配的&lt;code&gt;catch&lt;/code&gt;子句，程序会执行名为&lt;code&gt;terminate&lt;/code&gt;的标准库函数。该函数的行为与系统有关，一般情况下，执行该函数将导致程序非正常退出。类似的，如果一段程序没有&lt;code&gt;try&lt;/code&gt;语句块且发生了异常，系统也会调用&lt;code&gt;terminate&lt;/code&gt;函数并终止当前程序的执行。&lt;/p&gt;
-&lt;h4 id=&#34;标准异常&#34;&gt;标准异常&lt;/h4&gt;
-&lt;p&gt;异常类分别定义在4个头文件中：&lt;/p&gt;
+&lt;h4 id=&#34;标准异常&#34;&gt;标准异常
+&lt;/h4&gt;&lt;p&gt;异常类分别定义在4个头文件中：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;头文件&lt;em&gt;exception&lt;/em&gt;定义了最通用的异常类&lt;code&gt;exception&lt;/code&gt;。它只报告异常的发生，不提供任何额外信息。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;头文件&lt;em&gt;stdexcept&lt;/em&gt;定义了几种常用的异常类。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/5-2.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/5-2.png&#34;
 	
 	
 	
@@ -2693,7 +2692,7 @@ Vibrancy continued&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;标准库异常类的继承体系：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/5-3.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/5-3.png&#34;
 	
 	
 	
@@ -2702,13 +2701,13 @@ Vibrancy continued&lt;/p&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;只能以默认初始化的方式初始化&lt;code&gt;exception&lt;/code&gt;、&lt;code&gt;bad_alloc&lt;/code&gt;和&lt;code&gt;bad_cast&lt;/code&gt;对象，不允许为这些对象提供初始值。其他异常类的对象在初始化时必须提供一个&lt;code&gt;string&lt;/code&gt;或一个C风格字符串，通常表示异常信息。&lt;code&gt;what&lt;/code&gt;成员函数可以返回该字符串的&lt;code&gt;string&lt;/code&gt;副本。&lt;/p&gt;
-&lt;h2 id=&#34;类--对象&#34;&gt;类 &amp;amp; 对象&lt;/h2&gt;
-&lt;p&gt;类包含对象所需的数据，以及描述用户与数据交互所需的操作。&lt;/p&gt;
+&lt;h2 id=&#34;类--对象&#34;&gt;类 &amp;amp; 对象
+&lt;/h2&gt;&lt;p&gt;类包含对象所需的数据，以及描述用户与数据交互所需的操作。&lt;/p&gt;
 &lt;p&gt;成员函数可以定义在类内部，或者单独使用&lt;strong&gt;范围解析运算符（域区分符） ::&lt;/strong&gt; 来定义。在类定义中定义的成员函数把函数声明为&lt;strong&gt;内联&lt;/strong&gt;的，即使没有使用 inline 标识符。&lt;/p&gt;
 &lt;p&gt;类的成员名和方法的参数名不能相同，建议成员名加上 &amp;rsquo;m&amp;rsquo; 前缀或者末尾加上 &amp;lsquo;_&amp;rsquo;。&lt;/p&gt;
 &lt;p&gt;【PLUS 353】&lt;/p&gt;
-&lt;h3 id=&#34;类对象声明&#34;&gt;类对象声明&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;类对象声明&#34;&gt;类对象声明
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -2750,18 +2749,18 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;类访问修饰符&#34;&gt;类访问修饰符&lt;/h3&gt;
-&lt;ul&gt;
+&lt;/div&gt;&lt;h3 id=&#34;类访问修饰符&#34;&gt;类访问修饰符
+&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;public：公有成员在程序中类的外部是可访问的。可以不使用任何成员函数来设置和获取公有变量的值。&lt;/li&gt;
 &lt;li&gt;private：私有成员变量或函数在类的外部是不可访问的，甚至是不可查看的。只有类和友元函数可以访问私有成员（派生类也不能访问）。&lt;/li&gt;
 &lt;li&gt;protected：保护成员变量或函数与私有成员十分相似，但有一点不同，保护成员在派生类（即子类）中是可访问的。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;封装继承多态&#34;&gt;封装继承多态&lt;/h3&gt;
-&lt;h4 id=&#34;封装&#34;&gt;&lt;strong&gt;封装&lt;/strong&gt;&lt;/h4&gt;
-&lt;p&gt;封装是实现面向对象程序设计的第一步，封装就是将数据或函数等集合在一个个的单元中（称之为类）。&lt;/p&gt;
+&lt;h3 id=&#34;封装继承多态&#34;&gt;封装继承多态
+&lt;/h3&gt;&lt;h4 id=&#34;封装&#34;&gt;&lt;strong&gt;封装&lt;/strong&gt;
+&lt;/h4&gt;&lt;p&gt;封装是实现面向对象程序设计的第一步，封装就是将数据或函数等集合在一个个的单元中（称之为类）。&lt;/p&gt;
 &lt;p&gt;封装的意义在于保护或者防止代码（数据）被无意中破坏。&lt;/p&gt;
-&lt;h4 id=&#34;继承&#34;&gt;&lt;strong&gt;继承&lt;/strong&gt;&lt;/h4&gt;
-&lt;p&gt;继承主要实现代码重用，节省开发时间。子类可以继承父类的一些东西。&lt;/p&gt;
+&lt;h4 id=&#34;继承&#34;&gt;&lt;strong&gt;继承&lt;/strong&gt;
+&lt;/h4&gt;&lt;p&gt;继承主要实现代码重用，节省开发时间。子类可以继承父类的一些东西。&lt;/p&gt;
 &lt;p&gt;有 public,  protected,  private 三种继承方式，它们相应地改变了派生类的用户以及派生类的派生类的访问权限。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -2779,22 +2778,22 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;private 成员只能被本类成员（类内，不是实例化的对象）和友元访问，不能被派生类访问；&lt;/li&gt;
 &lt;li&gt;protected 成员可以被派生类（类内，不是实例化的对象）访问。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h5 id=&#34;私有继承的作用&#34;&gt;私有继承的作用&lt;/h5&gt;
-&lt;p&gt;私有继承时，编译器一般不会将派生类对象转换成基类对象。且派生类与基类不是 &lt;code&gt;is a&lt;/code&gt; 的关系，而是意味着“&lt;code&gt;is implement in terms of&lt;/code&gt;”（以&amp;hellip;&amp;hellip;实现）的关系。如果类D私有继承于B，这样做，只是因为D想使用B中的某些代码，而不是因为类D的对象与类B的对象之间右什么概念上的关系。因此，私有继承在软件“设计”过程中毫无意义，只是在软件“实现”时才有用。&lt;/p&gt;
-&lt;h5 id=&#34;私有继承与组合的不同&#34;&gt;私有继承与组合的不同&lt;/h5&gt;
-&lt;ul&gt;
+&lt;h5 id=&#34;私有继承的作用&#34;&gt;私有继承的作用
+&lt;/h5&gt;&lt;p&gt;私有继承时，编译器一般不会将派生类对象转换成基类对象。且派生类与基类不是 &lt;code&gt;is a&lt;/code&gt; 的关系，而是意味着“&lt;code&gt;is implement in terms of&lt;/code&gt;”（以&amp;hellip;&amp;hellip;实现）的关系。如果类D私有继承于B，这样做，只是因为D想使用B中的某些代码，而不是因为类D的对象与类B的对象之间右什么概念上的关系。因此，私有继承在软件“设计”过程中毫无意义，只是在软件“实现”时才有用。&lt;/p&gt;
+&lt;h5 id=&#34;私有继承与组合的不同&#34;&gt;私有继承与组合的不同
+&lt;/h5&gt;&lt;ul&gt;
 &lt;li&gt;组合是&lt;code&gt;has a&lt;/code&gt;关系，如果需要使用一个对象的某些方法，可以用组合，也可以私有继承。选择它们的原则是尽可能使用组合，万不得已才使用继承。继承最大的问题就在于：继承层次过深、继承关系过于复杂会影响到代码的可读性和可维护性（继承了无用或者有害的方法，代码膨胀等，还有，在继承时，基类之间或基类与派生类之间发生成员同名时，将出现对成员访问的不确定性，即同名二义性）。&lt;/li&gt;
 &lt;li&gt;私有继承中派生类能访问基类的protected成员，并且可以重写基类的虚函数，甚至当基类是抽象类的情况。组合不具有这样的功能。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;多态&#34;&gt;&lt;strong&gt;多态&lt;/strong&gt;&lt;/h4&gt;
-&lt;p&gt;同一个方法在派生类和基类中的行为是不同的，即方法的行为取决于调用该方法的对象。有两种重要的机制可以实现多态公有继承：&lt;/p&gt;
+&lt;h4 id=&#34;多态&#34;&gt;&lt;strong&gt;多态&lt;/strong&gt;
+&lt;/h4&gt;&lt;p&gt;同一个方法在派生类和基类中的行为是不同的，即方法的行为取决于调用该方法的对象。有两种重要的机制可以实现多态公有继承：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;在派生类中重新定义基类的方法&lt;/li&gt;
 &lt;li&gt;使用虚方法&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;【注意】在派生类中重新定义基类的方法，会导致基类方法被隐藏（函数隐藏），这不是重载，重载是一个类中的方法与另一个方法同名，但是参数表不同，这种方法称之为重载方法。&lt;/p&gt;
-&lt;h4 id=&#34;重载与重写&#34;&gt;&lt;strong&gt;重载与重写&lt;/strong&gt;&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;重载与重写&#34;&gt;&lt;strong&gt;重载与重写&lt;/strong&gt;
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;重写（overried，覆盖、覆写）：是指子类重新定义父类虚函数的方法。与多态有关。&lt;/p&gt;
 &lt;/li&gt;
@@ -2962,8 +2961,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;构造函数与析构函数&#34;&gt;构造函数与析构函数&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;构造函数与析构函数&#34;&gt;构造函数与析构函数
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -3062,10 +3061,10 @@ Vibrancy continued&lt;/p&gt;
 &lt;p&gt;不同于其他函数，构造函数不能被声明为&lt;code&gt;const&lt;/code&gt;。当我们创建类的一个&lt;code&gt;const&lt;/code&gt;对象时，直到构造函数完成初始化过程，对象才真正取得其常量属性。因此，构造函数在&lt;code&gt;const&lt;/code&gt;对象的构造过程中可以向其写值。&lt;/p&gt;
 &lt;p&gt;【PRIMER 235】&lt;/p&gt;
 &lt;p&gt;构造函数可以被重载，&lt;strong&gt;析构函数不可以被重载&lt;/strong&gt;。因为析构函数只能有一个且不带参数。&lt;/p&gt;
-&lt;h3 id=&#34;委托构造函数&#34;&gt;委托构造函数&lt;/h3&gt;
-&lt;p&gt;C++11扩展了构造函数初始值功能，可以定义委托构造函数。委托构造函数使用它所属类的其他构造函数执行它自己的初始化过程。【PRIMER 261】&lt;/p&gt;
-&lt;h3 id=&#34;-default和--delete&#34;&gt;= default和=  delete&lt;/h3&gt;
-&lt;p&gt;在C++中，声明自定义的类型之后，编译器会默认生成一些成员函数，这些函数被称为默认函数。其中包括：&lt;/p&gt;
+&lt;h3 id=&#34;委托构造函数&#34;&gt;委托构造函数
+&lt;/h3&gt;&lt;p&gt;C++11扩展了构造函数初始值功能，可以定义委托构造函数。委托构造函数使用它所属类的其他构造函数执行它自己的初始化过程。【PRIMER 261】&lt;/p&gt;
+&lt;h3 id=&#34;-default和--delete&#34;&gt;= default和=  delete
+&lt;/h3&gt;&lt;p&gt;在C++中，声明自定义的类型之后，编译器会默认生成一些成员函数，这些函数被称为默认函数。其中包括：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -3116,8 +3115,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;p&gt;（12）operator -&amp;gt;*&lt;/p&gt;
 &lt;p&gt;（13）operator new&lt;/p&gt;
 &lt;p&gt;（14）operator delete&lt;/p&gt;
-&lt;h4 id=&#34;-default-显示缺省函数&#34;&gt;= default 显示缺省函数&lt;/h4&gt;
-&lt;p&gt;只有当类没有声明任何构造函数时，编译器才会自动生成默认构造函数。一旦类定义了其他构造函数，那么除非再显式地定义一个默认的构造函数，否则类将没有默认构造函数。【PRIMER 236】&lt;/p&gt;
+&lt;h4 id=&#34;-default-显示缺省函数&#34;&gt;= default 显示缺省函数
+&lt;/h4&gt;&lt;p&gt;只有当类没有声明任何构造函数时，编译器才会自动生成默认构造函数。一旦类定义了其他构造函数，那么除非再显式地定义一个默认的构造函数，否则类将没有默认构造函数。【PRIMER 236】&lt;/p&gt;
 &lt;p&gt;在C++11中，如果类需要默认的函数行为，可以通过在参数列表后面添加&lt;code&gt;=default&lt;/code&gt;来要求编译器生成构造函数。其中&lt;code&gt;=default&lt;/code&gt;既可以和函数声明一起出现在类的内部，也可以作为定义出现在类的外部。和其他函数一样，如果&lt;code&gt;=default&lt;/code&gt;在类的内部，则默认构造函数是内联的。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -3127,13 +3126,13 @@ Vibrancy continued&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;Sales_data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;-delete-显示删除函数&#34;&gt;= delete 显示删除函数&lt;/h4&gt;
-&lt;p&gt;另一方面，有时候可能需要限制一些默认函数的生成。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;-delete-显示删除函数&#34;&gt;= delete 显示删除函数
+&lt;/h4&gt;&lt;p&gt;另一方面，有时候可能需要限制一些默认函数的生成。&lt;/p&gt;
 &lt;p&gt;例如：需要禁止拷贝构造函数的使用。以前通过把拷贝构造函数声明为&lt;code&gt;private&lt;/code&gt;访问权限，这样一旦使用编译器就会报错。&lt;/p&gt;
 &lt;p&gt;而在 C++11 中，只要在函数的定义或者声明后面加上&lt;code&gt;= delete&lt;/code&gt;就能实现这样的效果。这种方式不容易犯错，且更容易理解。&lt;/p&gt;
 &lt;p&gt;在C ++ 11之前，操作符delete 只有一个目的，即释放已动态分配的内存。而C ++ 11标准引入了此操作符的另一种用法，即：禁用成员函数的使用。这是通过附加&lt;code&gt;= delete&lt;/code&gt;说明符到该函数声明的结尾。&lt;/p&gt;
-&lt;h3 id=&#34;拷贝复制构造函数&#34;&gt;拷贝（复制）构造函数&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;拷贝复制构造函数&#34;&gt;拷贝（复制）构造函数
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -3203,8 +3202,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;什么情况使用拷贝构造函数&#34;&gt;什么情况使用拷贝构造函数&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h4 id=&#34;什么情况使用拷贝构造函数&#34;&gt;什么情况使用拷贝构造函数
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -3314,8 +3313,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;复制对象，把它作为参数传递给函数。&lt;/li&gt;
 &lt;li&gt;复制对象，并从函数返回这个对象。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;浅复制与深复制&#34;&gt;浅复制与深复制&lt;/h4&gt;
-&lt;p&gt;如果在类中没有显式地声明一个复制构造函数，那么，编译器将会自动生成一个默认的复制构造函数，该构造函数完成对象之间的浅复制。&lt;/p&gt;
+&lt;h4 id=&#34;浅复制与深复制&#34;&gt;浅复制与深复制
+&lt;/h4&gt;&lt;p&gt;如果在类中没有显式地声明一个复制构造函数，那么，编译器将会自动生成一个默认的复制构造函数，该构造函数完成对象之间的浅复制。&lt;/p&gt;
 &lt;p&gt;自定义复制构造函数是一种良好的编程风格，它可以阻止编译器形成默认的复制构造函数，提高源码效率。&lt;/p&gt;
 &lt;p&gt;所谓浅复制，直接为数据成员赋值即可。比如一个实类 c1 里的数据成员里有一个指针 c1.p 指向字符数组 str[] = “hello”，使用浅复制来初始化类 c2，则赋值为 c2.p = c1.p，那么通过 c1.p 改变了 str，c2.p 指向的内容也会改变。&lt;/p&gt;
 &lt;p&gt;而深复制要创建新的对象，要为对象的数据成员分配存储空间，直接赋值就将值保存在相应的空间中。比如&lt;/p&gt;
@@ -3332,16 +3331,16 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;让 c2.p 指向 new 出来的空间，这时 c1.p 里的内容改变了也不会影响 c2.p。&lt;/p&gt;
-&lt;h4 id=&#34;编译器与默认的-copy-constructor&#34;&gt;编译器与默认的 copy constructor&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;编译器与默认的-copy-constructor&#34;&gt;编译器与默认的 copy constructor
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;如果用户定义了一个构造函数（不是拷贝构造函数），且此时在代码中用到了拷贝构造函数，那么编译器会生成默认的拷贝构造函数；如果没有使用，编译器就不会生成默认的拷贝构造函数；&lt;/li&gt;
 &lt;li&gt;如果用户定义了拷贝构造函数，则编译器就不会再生成拷贝构造函数。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;为什么复制构造函数可以访问参数对象的私有成员&#34;&gt;为什么复制构造函数可以访问参数对象的私有成员&lt;/h4&gt;
-&lt;p&gt;&lt;strong&gt;封装是编译期的概念，是针对类型而非对象的，在类的成员函数中可以访问同类型实例对象的私有成员变量。&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&#34;为什么复制构造函数可以访问参数对象的私有成员&#34;&gt;为什么复制构造函数可以访问参数对象的私有成员
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;封装是编译期的概念，是针对类型而非对象的，在类的成员函数中可以访问同类型实例对象的私有成员变量。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;参考：https://blog.csdn.net/ganwenbo2011/article/details/100919900&lt;/p&gt;
-&lt;h4 id=&#34;拷贝构造函数与赋值函数的区别&#34;&gt;拷贝构造函数与赋值函数的区别&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h4 id=&#34;拷贝构造函数与赋值函数的区别&#34;&gt;拷贝构造函数与赋值函数的区别
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -3422,8 +3421,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;临时对象的复制与析构&#34;&gt;临时对象的复制与析构&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h3 id=&#34;临时对象的复制与析构&#34;&gt;临时对象的复制与析构
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -3583,8 +3582,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;*/&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;空类的成员函数&#34;&gt;空类的成员函数&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h3 id=&#34;空类的成员函数&#34;&gt;空类的成员函数
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -3619,13 +3618,13 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;取址运算符 const 。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;有些书上只是简单的介绍了前四个函数。没有提及后面这两个函数。但后面这两个函数也是空类的默认函数。另外需要注意的是，只有当实际使用这些函数的时候，编译器才会去定义它们。&lt;/p&gt;
-&lt;h3 id=&#34;初始化列表&#34;&gt;初始化列表&lt;/h3&gt;
-&lt;h4 id=&#34;使用初始化列表的原因httpswwwcnblogscomgraphicsarchive201007041770900html&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;使用初始化列表的原因&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;初始化类的成员有两种方式，一是使用初始化列表，二是在构造函数体内进行赋值操作。&lt;/p&gt;
+&lt;h3 id=&#34;初始化列表&#34;&gt;初始化列表
+&lt;/h3&gt;&lt;h4 id=&#34;使用初始化列表的原因httpswwwcnblogscomgraphicsarchive201007041770900html&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;使用初始化列表的原因&lt;/a&gt;
+&lt;/h4&gt;&lt;p&gt;初始化类的成员有两种方式，一是使用初始化列表，二是在构造函数体内进行赋值操作。&lt;/p&gt;
 &lt;p&gt;主要是性能问题，对于内置类型，如 int, float 等，使用初始化列表和在构造函数体内初始化差别不是很大，但是对于类类型来说，最好使用初始化列表，&lt;strong&gt;因为使用初始化列表少了一次调用默认构造函数的过程&lt;/strong&gt;，这对于数据密集型的类来说，是非常高效的（参考下文代码段例1）。&lt;/p&gt;
-&lt;h4 id=&#34;必须使用初始化列表的情况&#34;&gt;必须使用初始化列表的情况&lt;/h4&gt;
-&lt;p&gt;（只能使用初始化而不能赋值）【PRIMER 259】&lt;/p&gt;
+&lt;h4 id=&#34;必须使用初始化列表的情况&#34;&gt;必须使用初始化列表的情况
+&lt;/h4&gt;&lt;p&gt;（只能使用初始化而不能赋值）【PRIMER 259】&lt;/p&gt;
 &lt;p&gt;初始化和赋值的区别事关底层效率：前者直接初始化数据成员，后者则先初始化再赋值。&lt;/p&gt;
 &lt;p&gt;除了效率问题之外，有些时候初始化列表是不可或缺的，以下几种情况时必须使用初始化列表：&lt;/p&gt;
 &lt;ul&gt;
@@ -3789,8 +3788,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;初始化顺序&#34;&gt;初始化顺序&lt;/h4&gt;
-&lt;p&gt;成员是按照他们在类中出现的顺序进行初始化的，而不是按照他们在初始化列表出现的顺序初始化的。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;初始化顺序&#34;&gt;初始化顺序
+&lt;/h4&gt;&lt;p&gt;成员是按照他们在类中出现的顺序进行初始化的，而不是按照他们在初始化列表出现的顺序初始化的。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -3840,9 +3839,9 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;友元&#34;&gt;友元&lt;/h3&gt;
-&lt;h4 id=&#34;友元函数&#34;&gt;友元函数&lt;/h4&gt;
-&lt;p&gt;友元函数声明只能出现在类定义的内部，在类内部出现的位置不限（一般在类定义的开始或结束前的位置集中声明友元）。友元不是类的成员函数，也不受它所在区域访问控制级别的约束。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;友元&#34;&gt;友元
+&lt;/h3&gt;&lt;h4 id=&#34;友元函数&#34;&gt;友元函数
+&lt;/h4&gt;&lt;p&gt;友元函数声明只能出现在类定义的内部，在类内部出现的位置不限（一般在类定义的开始或结束前的位置集中声明友元）。友元不是类的成员函数，也不受它所在区域访问控制级别的约束。&lt;/p&gt;
 &lt;p&gt;友元声明仅仅指定了访问权限，而并非一个通常意义上的函数声明。如果希望类的用户能调用某个友元函数，就必须在友元声明之外再专门对函数进行一次声明（部分编译器没有该限制）。&lt;/p&gt;
 &lt;p&gt;为了使友元对类的用户可见，通常会把友元的声明（类的外部）与类本身放在同一个头文件中。&lt;/p&gt;
 &lt;p&gt;友元函数的定义在类外部，但与成员函数有相同的权限，所以可以访问类的所有私有（private）成员和保护（protected）成员。&lt;/p&gt;
@@ -3910,8 +3909,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ostream&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ostream&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Sales_data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;友元类&#34;&gt;友元类&lt;/h4&gt;
-&lt;p&gt;除了普通函数，类还可以把其他类或其他类的成员函数声明为友元。友元类的成员函数可以访问此类包括非公有成员在内的所有成员。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;友元类&#34;&gt;友元类
+&lt;/h4&gt;&lt;p&gt;除了普通函数，类还可以把其他类或其他类的成员函数声明为友元。友元类的成员函数可以访问此类包括非公有成员在内的所有成员。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -3981,8 +3980,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;【PRIMER 250~252】&lt;/p&gt;
-&lt;h4 id=&#34;友元访问控制与继承&#34;&gt;友元访问控制与继承&lt;/h4&gt;
-&lt;p&gt;一个类可以使用&lt;code&gt;protected&lt;/code&gt;关键字来声明外部代码无法访问，但是派生类对象可以访问的成员。&lt;/p&gt;
+&lt;h4 id=&#34;友元访问控制与继承&#34;&gt;友元访问控制与继承
+&lt;/h4&gt;&lt;p&gt;一个类可以使用&lt;code&gt;protected&lt;/code&gt;关键字来声明外部代码无法访问，但是派生类对象可以访问的成员。&lt;/p&gt;
 &lt;p&gt;派生类的成员或友元只能访问派生类对象中的基类部分的&lt;code&gt;protected&lt;/code&gt;成员。对于普通的&lt;strong&gt;基类对象&lt;/strong&gt;中的&lt;code&gt;protected&lt;/code&gt;成员没有任何访问权限。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -4025,8 +4024,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;【PRIMER 543】&lt;/p&gt;
-&lt;h3 id=&#34;内联函数&#34;&gt;内联函数&lt;/h3&gt;
-&lt;p&gt;C++ 内联函数是通常与类一起使用。如果一个函数是内联的，那么在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方。&lt;strong&gt;在类中定义的函数都是内联函数，即使不用 inline 说明符&lt;/strong&gt;。定义不在类里面，且声明和定义都没有inline，就不会隐式内联。&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_18343569/article/details/83755202&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h3 id=&#34;内联函数&#34;&gt;内联函数
+&lt;/h3&gt;&lt;p&gt;C++ 内联函数是通常与类一起使用。如果一个函数是内联的，那么在编译时，编译器会把该函数的代码副本放置在每个调用该函数的地方。&lt;strong&gt;在类中定义的函数都是内联函数，即使不用 inline 说明符&lt;/strong&gt;。定义不在类里面，且声明和定义都没有inline，就不会隐式内联。&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_18343569/article/details/83755202&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C++类里面的哪些成员函数是内联函数？&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;引入内联函数的目的是为了解决程序中函数调用的效率问题，因为编译器使用相同的函数代码代替函数调用，对于内联代码，程序无需跳转到另一个位置执行代码，再跳回来。因此内联函数的运行速度比常规函数稍快，但代价是需要占用更多的内存。如果在程序的多个不同的地方调用内联函数，该程序将包含该内联函数的多个副本。总的来说就是用空间换时间。所以内联函数一般都是1-5行的小函数。关于内联函数可以总结为：&lt;/p&gt;
 &lt;ul&gt;
@@ -4037,24 +4036,24 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;&lt;strong&gt;在类声明中定义的函数，除了虚函数的其他函数都会自动隐式地当成内联函数。在类外定义需要显式内联&lt;/strong&gt;；
 使用内联函数不过是向编译器提出一种申请，编译器可以拒绝你的申请。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;内联函数与宏的区别&#34;&gt;内联函数与宏的区别&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;内联函数与宏的区别&#34;&gt;内联函数与宏的区别
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;内联函数在编译时展开，宏在预编译（预处理）时展开；&lt;/li&gt;
 &lt;li&gt;在编译的时候，内联函数可以直接被镶嵌到目标代码里，而宏只是一个简单的文本替换；&lt;/li&gt;
 &lt;li&gt;内联函数可以完成诸如类型检测、语句是否正确等编译功能，宏就不具有这样的功能；&lt;/li&gt;
 &lt;li&gt;内联函数是函数，宏不是函数；&lt;/li&gt;
 &lt;li&gt;宏在定义时要小心处理宏参数（用括号括起来），否则会出现二义性，而内联函数定义时不会出现二义性&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;volatile&#34;&gt;volatile&lt;/h3&gt;
-&lt;p&gt;volatile 关键字是一种类型修饰符，用它声明的类型变量表示这个变量可能被意想不到的修改（比如：操作系统、硬件或者其它线程等）。遇到这个关键字声明的变量，编译器对访问该变量的代码就不再进行优化，从而可以提供对特殊地址的稳定访问。当要求使用 volatile 声明的变量的值的时候，系统总是重新从它所在的内存读取数据，即使它前面的指令刚刚从该处读取过数据。&lt;/p&gt;
+&lt;h3 id=&#34;volatile&#34;&gt;volatile
+&lt;/h3&gt;&lt;p&gt;volatile 关键字是一种类型修饰符，用它声明的类型变量表示这个变量可能被意想不到的修改（比如：操作系统、硬件或者其它线程等）。遇到这个关键字声明的变量，编译器对访问该变量的代码就不再进行优化，从而可以提供对特殊地址的稳定访问。当要求使用 volatile 声明的变量的值的时候，系统总是重新从它所在的内存读取数据，即使它前面的指令刚刚从该处读取过数据。&lt;/p&gt;
 &lt;p&gt;虽然volatile在嵌入式方面应用比较多，但是在PC软件的多线程中，volatile修饰的临界变量也是非常实用的。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.jb51.net/article/195277.htm#:~:text=C%2B%2B%E4%B8%AD%E4%BF%AE%E9%A5%B0%E6%95%B0%E6%8D%AE%E5%8F%AF%E5%8F%98%E7%9A%84%E5%85%B3%E9%94%AE%E5%AD%97%E6%9C%89%E4%B8%89%E4%B8%AA%EF%BC%9A%20const%20%E3%80%81%20volatile%20%E5%92%8C%20mutable%20%E3%80%82%20const,mutable%20%E6%81%B0%E5%A5%BD%E7%9B%B8%E5%8F%8D%EF%BC%8C%E6%8C%87%E7%A4%BA%E6%95%B0%E6%8D%AE%E6%80%BB%E6%98%AF%E5%8F%AF%E5%8F%98%E7%9A%84%E3%80%82%20mutable%20%E5%92%8C%20volatile%20%E5%9D%87%E5%8F%AF%E4%BB%A5%E5%92%8C%20const%20%E6%90%AD%E9%85%8D%E4%BD%BF%E7%94%A8%EF%BC%8C%E4%BD%86%E4%B8%A4%E8%80%85%E5%9C%A8%E4%BD%BF%E7%94%A8%E4%B8%8A%E6%9C%89%E6%AF%94%E8%BE%83%E5%A4%A7%E5%B7%AE%E5%88%AB%E3%80%82&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;聊聊C++的mutable和volatile&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;一个参数可以既是-const-又是-volatile-吗&#34;&gt;一个参数可以既是 const 又是 volatile 吗&lt;/h4&gt;
-&lt;p&gt;可以，用const和volatile同时修饰变量，表示这个变量在程序内部是只读的，不能改变的，只在程序外部条件变化下改变，并且编译器不会优化这个变量。每次使用这个变量时，都要小心地去内存读取这个变量的值，而不是去寄存器读取它的备份。&lt;/p&gt;
+&lt;h4 id=&#34;一个参数可以既是-const-又是-volatile-吗&#34;&gt;一个参数可以既是 const 又是 volatile 吗
+&lt;/h4&gt;&lt;p&gt;可以，用const和volatile同时修饰变量，表示这个变量在程序内部是只读的，不能改变的，只在程序外部条件变化下改变，并且编译器不会优化这个变量。每次使用这个变量时，都要小心地去内存读取这个变量的值，而不是去寄存器读取它的备份。&lt;/p&gt;
 &lt;p&gt;注意：在此一定要注意const的意思，const只是不允许程序中的代码改变某一变量，其在编译期发挥作用，它并没有实际地禁止某段内存的读写特性。&lt;/p&gt;
-&lt;h3 id=&#34;explicit&#34;&gt;explicit&lt;/h3&gt;
-&lt;p&gt;普通函数是能够被隐式调用（如使用=），而 explicit 构造函数只能被显式调用。&lt;/p&gt;
+&lt;h3 id=&#34;explicit&#34;&gt;explicit
+&lt;/h3&gt;&lt;p&gt;普通函数是能够被隐式调用（如使用=），而 explicit 构造函数只能被显式调用。&lt;/p&gt;
 &lt;p&gt;explicit 是用来防止隐式转换的，它只对一个实参的构造函数有效，且只允许出现在类内的构造函数声明处。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -4176,8 +4175,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;*/&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;const&#34;&gt;const&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h3 id=&#34;const&#34;&gt;const
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -4190,8 +4189,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;该函数显式的访问一个对象（参数），又隐式的访问另一个对象（调用的对象），并返回其中一个对象的引用。参数中的 const 表明，该函数不会修改被显式访问的对象（不会修改参数指针指向的内容），而括号后的 const 表明，该函数不会修改被隐式地访问的对象（该类方法 Stock::topval() 不会修改类里的数据），最前面的 const 表明函数的返回值不能被修改。&lt;/p&gt;
-&lt;h4 id=&#34;const形参和实参&#34;&gt;const形参和实参&lt;/h4&gt;
-&lt;p&gt;当形参有顶层&lt;code&gt;const&lt;/code&gt;时，传递给它常量对象或非常量对象都是可以的。&lt;/p&gt;
+&lt;h4 id=&#34;const形参和实参&#34;&gt;const形参和实参
+&lt;/h4&gt;&lt;p&gt;当形参有顶层&lt;code&gt;const&lt;/code&gt;时，传递给它常量对象或非常量对象都是可以的。&lt;/p&gt;
 &lt;p&gt;可以使用非常量对象初始化一个底层&lt;code&gt;const&lt;/code&gt;形参，但是反过来不行。&lt;/p&gt;
 &lt;p&gt;把函数不会改变的形参定义成普通引用会极大地限制函数所能接受的实参类型，同时也会给别人一种误导，即函数可以修改实参的值。&lt;/p&gt;
 &lt;p&gt;顶层cosnt作形参，不会重载。如：&lt;/p&gt;
@@ -4206,8 +4205,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;【PRIMER 191， 207】&lt;/p&gt;
-&lt;h4 id=&#34;函数返回引用&#34;&gt;函数返回引用&lt;/h4&gt;
-&lt;p&gt;返回引用能节省调用拷贝（复制）构造函数生成的副本所需的时间和析构函数删除副本所需的时间。但并不总是可以返回引用，函数不能返回在函数中创建的临时对象的引用，因为当函数结束，临时对象就消失了。
+&lt;h4 id=&#34;函数返回引用&#34;&gt;函数返回引用
+&lt;/h4&gt;&lt;p&gt;返回引用能节省调用拷贝（复制）构造函数生成的副本所需的时间和析构函数删除副本所需的时间。但并不总是可以返回引用，函数不能返回在函数中创建的临时对象的引用，因为当函数结束，临时对象就消失了。
 【PLUS 526】&lt;/p&gt;
 &lt;p&gt;引用返回左值【PRIMER 202】&lt;/p&gt;
 &lt;p&gt;一般地：可以取地址，有名字的就是左值；反之，右值。&lt;/p&gt;
@@ -4237,8 +4236,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;const作用&#34;&gt;const作用&lt;/h4&gt;
-&lt;ul&gt;
+&lt;/div&gt;&lt;h4 id=&#34;const作用&#34;&gt;const作用
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;修饰变量，说明该变量不可以被改变；&lt;/p&gt;
 &lt;/li&gt;
@@ -4371,8 +4370,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;function7&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;     &lt;span class=&#34;c1&#34;&gt;// 返回一个指向变量的常指针，使用：int* const p = function7();
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;const修饰指针&#34;&gt;const修饰指针&lt;/h4&gt;
-&lt;p&gt;指针本身是一个独立的对象，它又可以指向另一个对象。所以指针和 const 同时使用时，有两种情况：【PRIMER 57】&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;const修饰指针&#34;&gt;const修饰指针
+&lt;/h4&gt;&lt;p&gt;指针本身是一个独立的对象，它又可以指向另一个对象。所以指针和 const 同时使用时，有两种情况：【PRIMER 57】&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -4409,8 +4408,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// p 只能指向 i，且 p 指向的 i 也不可变
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;constexpr和常量表达式&#34;&gt;constexpr和常量表达式&lt;/h4&gt;
-&lt;p&gt;【PRIMER 58】&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;constexpr和常量表达式&#34;&gt;constexpr和常量表达式
+&lt;/h4&gt;&lt;p&gt;【PRIMER 58】&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;常量表达式（constant expressions）指值不会改变并且在编译过程就能得到计算结果的表达式。&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;一个对象是否为常量表达式由它的数据类型和初始值共同决定。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -4457,8 +4456,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;const&lt;/code&gt;和&lt;code&gt;constexpr&lt;/code&gt;限定的值都是常量。但&lt;code&gt;constexpr&lt;/code&gt;对象的值必须在编译期间确定，而&lt;code&gt;const&lt;/code&gt;对象的值可以延迟到运行期间确定。&lt;/p&gt;
 &lt;p&gt;建议使用&lt;code&gt;constexpr&lt;/code&gt;修饰表示数组大小的对象，因为数组的大小必须在编译期间确定且不能改变。&lt;/p&gt;
-&lt;h4 id=&#34;const-与-define&#34;&gt;const 与 #define&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h4 id=&#34;const-与-define&#34;&gt;const 与 #define
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -4473,8 +4472,8 @@ Vibrancy continued&lt;/p&gt;
 &lt;li&gt;宏定义是直接替换，它的生命周期止于编译期，不会分配内存，存储于程序的代码段中；
 const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;mutable&#34;&gt;mutable&lt;/h3&gt;
-&lt;p&gt;使用关键字&lt;code&gt;mutable&lt;/code&gt;可以声明可变数据成员（mutable data member）。可变数据成员永远不会是&lt;code&gt;const&lt;/code&gt;的，即使它在&lt;code&gt;const&lt;/code&gt;对象内。因此&lt;code&gt;const&lt;/code&gt;成员函数可以修改可变成员的值。&lt;/p&gt;
+&lt;h3 id=&#34;mutable&#34;&gt;mutable
+&lt;/h3&gt;&lt;p&gt;使用关键字&lt;code&gt;mutable&lt;/code&gt;可以声明可变数据成员（mutable data member）。可变数据成员永远不会是&lt;code&gt;const&lt;/code&gt;的，即使它在&lt;code&gt;const&lt;/code&gt;对象内。因此&lt;code&gt;const&lt;/code&gt;成员函数可以修改可变成员的值。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -4509,9 +4508,9 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;存储类&#34;&gt;存储类&lt;/h3&gt;
-&lt;h4 id=&#34;auto&#34;&gt;auto&lt;/h4&gt;
-&lt;p&gt;C++ 11 以来，auto 关键字用于两种情况：声明变量时根据初始化表达式自动推断该变量的类型、声明函数时函数返回值的占位符。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;存储类&#34;&gt;存储类
+&lt;/h3&gt;&lt;h4 id=&#34;auto&#34;&gt;auto
+&lt;/h4&gt;&lt;p&gt;C++ 11 以来，auto 关键字用于两种情况：声明变量时根据初始化表达式自动推断该变量的类型、声明函数时函数返回值的占位符。&lt;/p&gt;
 &lt;p&gt;auto是类型推导，让使用者获得动态语言的使用体验；但是有区别，那就是 auto 声明的变量类型，你可以不知道，但是编译器一定要知道，这样才不会报错。&lt;/p&gt;
 &lt;p&gt;根据初始化表达式自动推断被声明的变量的类型，如：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -4544,8 +4543,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;li&gt;auto 不可直接用来声明数组：因为不知道要开辟多大空间。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;em&gt;auto 在实际中最常见的优势用法是 C++11 提供的新式 for 循环，还有 lambda 表达式等进行配合使用。&lt;/em&gt;&lt;/p&gt;
-&lt;h4 id=&#34;static作用&#34;&gt;static作用&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;static作用&#34;&gt;static作用
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;修饰变量：修改变量的存储区域和生命周期，使变量存储在静态区，变量只初始化一次。&lt;/p&gt;
 &lt;ul&gt;
@@ -4568,16 +4567,16 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/ul&gt;
 &lt;p&gt;【对1，2条的总结】&lt;/p&gt;
 &lt;p&gt;static 最重要的一条在于修饰普通变量与普通函数时，隐藏普通变量与普通函数。因为未加 static 前缀的全局变量和函数都具有全局可见性。&lt;/p&gt;
-&lt;h5 id=&#34;静态数据成员与全局变量相比的优势&#34;&gt;静态数据成员与全局变量相比的优势&lt;/h5&gt;
-&lt;ul&gt;
+&lt;h5 id=&#34;静态数据成员与全局变量相比的优势&#34;&gt;静态数据成员与全局变量相比的优势
+&lt;/h5&gt;&lt;ul&gt;
 &lt;li&gt;静态数据成员没有进入程序的全局命名空间，因此不存在与其他全局变量名字冲突的可能；&lt;/li&gt;
 &lt;li&gt;使用静态数据成员可以隐藏信息。因为静态数据成员可以是 private 成员，而全局变量不能；&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;extern&#34;&gt;extern&lt;/h4&gt;
-&lt;p&gt;extern 存储类用于提供一个全局变量的引用，全局变量对所有的程序文件都可见。使用 &amp;rsquo;extern&amp;rsquo; 时，对于无法初始化的变量，会把变量名指向一个之前定义过的存储位置(定义只有一次，不可重复定义)。&lt;/p&gt;
+&lt;h4 id=&#34;extern&#34;&gt;extern
+&lt;/h4&gt;&lt;p&gt;extern 存储类用于提供一个全局变量的引用，全局变量对所有的程序文件都可见。使用 &amp;rsquo;extern&amp;rsquo; 时，对于无法初始化的变量，会把变量名指向一个之前定义过的存储位置(定义只有一次，不可重复定义)。&lt;/p&gt;
 &lt;p&gt;多个文件定义了一个可以在其他文件中使用的全局变量或函数时，可以在其他文件中使用 extern 来得到已定义的变量或函数的引用。可以这么理解，extern 是用来在另一个文件中声明一个全局变量或函数。&lt;/p&gt;
-&lt;h3 id=&#34;类型转换运算符&#34;&gt;类型转换运算符&lt;/h3&gt;
-&lt;p&gt;C++ 中四种类型转换是：&lt;code&gt;static_cast, dynamic_cast, const_cast, reinterpret_cast &lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;类型转换运算符&#34;&gt;类型转换运算符
+&lt;/h3&gt;&lt;p&gt;C++ 中四种类型转换是：&lt;code&gt;static_cast, dynamic_cast, const_cast, reinterpret_cast &lt;/code&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -4617,18 +4616,18 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;p&gt;几乎什么都可以转，比如将 int 转指针，可能会出问题，尽量少用；&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;为什么不使用-c-的强制转换&#34;&gt;为什么不使用 C 的强制转换&lt;/h4&gt;
-&lt;p&gt;C 的强制转换表面上看起来功能强大什么都能转，但是转化不够明确，不能进行错误检查，容易出错。&lt;/p&gt;
-&lt;h3 id=&#34;this指针&#34;&gt;this指针&lt;/h3&gt;
-&lt;p&gt;每个非静态成员函数（包含构造函数和析构函数）都有一个&lt;code&gt;this&lt;/code&gt;指针，&lt;code&gt;this&lt;/code&gt;指针指向调用对象，&lt;code&gt;this&lt;/code&gt;是地址，如果要引用调用对象本身，用&lt;code&gt;*this&lt;/code&gt;。&lt;/p&gt;
+&lt;h4 id=&#34;为什么不使用-c-的强制转换&#34;&gt;为什么不使用 C 的强制转换
+&lt;/h4&gt;&lt;p&gt;C 的强制转换表面上看起来功能强大什么都能转，但是转化不够明确，不能进行错误检查，容易出错。&lt;/p&gt;
+&lt;h3 id=&#34;this指针&#34;&gt;this指针
+&lt;/h3&gt;&lt;p&gt;每个非静态成员函数（包含构造函数和析构函数）都有一个&lt;code&gt;this&lt;/code&gt;指针，&lt;code&gt;this&lt;/code&gt;指针指向调用对象，&lt;code&gt;this&lt;/code&gt;是地址，如果要引用调用对象本身，用&lt;code&gt;*this&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;（只有成员函数才有 this 指针，静态成员函数和友元函数都不含 this 指针）&lt;/p&gt;
 &lt;p&gt;当一个成员函数被调用时，自动向它传递一个隐含的参数，该参数是一个指向这个成员函数所在的对象的指针。this 指针被隐含地声明为: &lt;code&gt;ClassName *const this&lt;/code&gt;，这意味着不能给 &lt;code&gt;this&lt;/code&gt; 指针赋值；在 &lt;code&gt;ClassName&lt;/code&gt; 类的 &lt;code&gt;const&lt;/code&gt; 成员函数中，&lt;code&gt;this&lt;/code&gt; 指针的类型为：&lt;code&gt;const ClassName* const&lt;/code&gt;，这说明 &lt;code&gt;this&lt;/code&gt; 指针所指向的这种对象是不可修改的（即不能对这种对象的数据成员进行赋值操作）。&lt;/p&gt;
 &lt;p&gt;一个类的成员函数只有一份，并不是每一个对象对应一个单独的成员函数体，而成员函数之所以能把属于此类的各个对象的数据区分开，就在于每次执行类成员函数时，都会把当前的&lt;code&gt;this&lt;/code&gt;指针（对象首地址）传入成员函数，函数体内所有对类数据成员的访问都会转化为&lt;code&gt;this-&amp;gt;数据成员&lt;/code&gt;的方式。&lt;/p&gt;
 &lt;p&gt;【PLUS 364】&lt;/p&gt;
 &lt;p&gt;【注意】静态成员函数里，不能使用 this 指针：&lt;/p&gt;
 &lt;p&gt;静态成员函数并不是针对某个类的实例对象，而是属于整个类的，为所有的对象实例所共有。他在作用域的范围内是全局的，独立于类的对象之外的。他只对类内部的静态成员变量做操作。当实例化一个类的对象时候，里面不存在静态成员的。this 指针是相当于一个类的实例的指针，this 是用来操作对象实例的内容的，既然静态成员函数和变量都是独立于类的实例对象之外的，它就不能用 this 指针，也不能操作非静态成员。&lt;/p&gt;
-&lt;h3 id=&#34;虚函数&#34;&gt;虚函数&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;虚函数&#34;&gt;虚函数
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -4718,8 +4717,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;p&gt;虚函数也可以有默认实参，每次函数调用的默认实参值由本次调用的静态类型决定。如果通过基类的指针或引用调用函数，则使用基类中定义的默认实参，即使实际运行的是派生类中的函数版本也是如此。&lt;/p&gt;
 &lt;p&gt;如果虚函数使用默认实参，则基类和派生类中定义的默认实参值最好一致。&lt;/p&gt;
 &lt;p&gt;【PRIMER 536~538】&lt;/p&gt;
-&lt;h4 id=&#34;回避虚函数&#34;&gt;回避虚函数&lt;/h4&gt;
-&lt;p&gt;在某些情况下，我们希望对虚函数的调用不要进行动态绑定，而是强迫执行虚函数的某一个特定版本。使用作用域运算符&lt;code&gt;::&lt;/code&gt;可以强制执行虚函数的某个版本，不进行动态绑定。&lt;/p&gt;
+&lt;h4 id=&#34;回避虚函数&#34;&gt;回避虚函数
+&lt;/h4&gt;&lt;p&gt;在某些情况下，我们希望对虚函数的调用不要进行动态绑定，而是强迫执行虚函数的某一个特定版本。使用作用域运算符&lt;code&gt;::&lt;/code&gt;可以强制执行虚函数的某个版本，不进行动态绑定。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -4733,19 +4732,19 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;&lt;p&gt;通常情况下，只有成员函数或友元中的代码才需要使用作用域运算符来回避虚函数的动态绑定机制。&lt;/p&gt;
 &lt;p&gt;如果一个派生类虚函数需要调用它的基类版本，但没有使用作用域运算符，则在运行时该调用会被解析为对派生类版本自身的调用，从而导致无限递归。&lt;/p&gt;
 &lt;p&gt;【PRIMER 539】&lt;/p&gt;
-&lt;h4 id=&#34;虚函数是怎么实现的&#34;&gt;虚函数是怎么实现的&lt;/h4&gt;
-&lt;p&gt;虚函数是通过虚函数表实现的。如果一个类中有一个虚函数，则系统会为这个类分配一个指针成员指向一张虚函数表（vtbl），表中每一项指向一个虚函数地址，虚函数表实际上就是一个函数指针数组。&lt;/p&gt;
+&lt;h4 id=&#34;虚函数是怎么实现的&#34;&gt;虚函数是怎么实现的
+&lt;/h4&gt;&lt;p&gt;虚函数是通过虚函数表实现的。如果一个类中有一个虚函数，则系统会为这个类分配一个指针成员指向一张虚函数表（vtbl），表中每一项指向一个虚函数地址，虚函数表实际上就是一个函数指针数组。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_40673608/article/details/88551020&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C++虚函数原理&lt;/a&gt;&lt;/p&gt;
 &lt;h4 id=&#34;虚函数是否可以内联httpswwwyuquecomhuihutinterviewreadmeikirca&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.yuque.com/huihut/interview/readme#ikirca&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;虚函数是否可以内联&lt;/a&gt;&lt;/h4&gt;
-&lt;ul&gt;
+    &gt;虚函数是否可以内联&lt;/a&gt;
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;虚函数可以是内联函数，内联是可以修饰虚函数的，但是当虚函数表现多态性的时候不能内联。&lt;/li&gt;
 &lt;li&gt;内联是在编译期间编译器内联，而虚函数的多态性在运行期，编译器无法知道运行期调用哪个代码，因此虚函数表现为多态性时（运行期）不可以内联。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;inline virtual&lt;/code&gt; 唯一可以内联的时候是：编译器知道所调用的对象是哪个类，这只有在编译器具有实际对象而不是对象的指针或引用时才会发生。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4 id=&#34;虚析构函数&#34;&gt;虚析构函数&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h4 id=&#34;虚析构函数&#34;&gt;虚析构函数
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -4777,12 +4776,12 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;			&lt;span class=&#34;c1&#34;&gt;// 因为 pe 是 Singer* 类型指针，而不是 Employee* 类型指针。
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;静态联编和动态联编&#34;&gt;静态联编和动态联编&lt;/h4&gt;
-&lt;p&gt;将源程序中的函数调用解释为执行特定的函数代码块被称为函数名联编。在 C 语言中由于不支持函数重载，这很容易，在 C++ 中，由于支持函数重载，编译器必须查看函数的参数才知道调用的是哪一个函数。C++ 在编译过程中就可以完成这种联编，故称为静态联编，又称为早期联编。编译器总是对非虚方法使用静态联编。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;静态联编和动态联编&#34;&gt;静态联编和动态联编
+&lt;/h4&gt;&lt;p&gt;将源程序中的函数调用解释为执行特定的函数代码块被称为函数名联编。在 C 语言中由于不支持函数重载，这很容易，在 C++ 中，由于支持函数重载，编译器必须查看函数的参数才知道调用的是哪一个函数。C++ 在编译过程中就可以完成这种联编，故称为静态联编，又称为早期联编。编译器总是对非虚方法使用静态联编。&lt;/p&gt;
 &lt;p&gt;然而虚函数使编译器不知道在编译时到底用哪一个函数，因为编译器不知道用户将选择哪种类型的对象，所以编译器必须生成能够在程序运行时选择正确的虚函数的代码，这被称之为动态联编，也被称为晚期联编。&lt;/p&gt;
 &lt;p&gt;【PLUS 501】&lt;/p&gt;
-&lt;h4 id=&#34;有关虚函数的注意事项&#34;&gt;有关虚函数的注意事项&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;有关虚函数的注意事项&#34;&gt;有关虚函数的注意事项
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;构造函数不能是虚函数。先构造父类对象，然后才能是子类对象，如果构造函数设为虚函数，那么当你在构造父类的构造函数时就不得不显式的调用构造，还有一个原因就是为了防错，试想如果你在子类中一不小心重写了个跟父类构造函数一样的函数，那么你的父类的构造函数将被覆盖，即不能完成父类的构造，就会出错。&lt;/li&gt;
 &lt;li&gt;析构函数应当是虚函数，除非类不用做基类。即使类不用作基类，通常应给基类提供一个虚析构函数&lt;/li&gt;
 &lt;li&gt;友元不能是虚函数，因为友元不是类成员，只有类成员才能是虚函数&lt;/li&gt;
@@ -4796,8 +4795,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;li&gt;成员函数如果没有被声明为虚函数，则其解析过程发生在编译阶段而非运行阶段。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;【PRIMER 528】&lt;/p&gt;
-&lt;h4 id=&#34;纯虚函数&#34;&gt;纯虚函数&lt;/h4&gt;
-&lt;p&gt;纯虚函数是一种特殊的虚函数，纯虚函数只是一个接口，是让派生类实现细节的，在纯虚函数中也可以定义具体实现，但没意义。**包含纯虚函数的类是抽象基类（ABC，abstract base class），它只能作为基类，不能创建对象。**可以从抽象基类派生出具体类（普通类），这些类可以创建对象。&lt;/p&gt;
+&lt;h4 id=&#34;纯虚函数&#34;&gt;纯虚函数
+&lt;/h4&gt;&lt;p&gt;纯虚函数是一种特殊的虚函数，纯虚函数只是一个接口，是让派生类实现细节的，在纯虚函数中也可以定义具体实现，但没意义。**包含纯虚函数的类是抽象基类（ABC，abstract base class），它只能作为基类，不能创建对象。**可以从抽象基类派生出具体类（普通类），这些类可以创建对象。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -4815,15 +4814,15 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;【PLUS 509，510】&lt;/p&gt;
-&lt;h4 id=&#34;虚函数纯虚函数&#34;&gt;虚函数、纯虚函数&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;虚函数纯虚函数&#34;&gt;虚函数、纯虚函数
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;类里如果声明了虚函数，这个函数是实现的，哪怕是空实现，它的作用就是为了能让这个函数在它的子类里面可以被覆盖，这样的话，这样编译器就可以使用后期绑定来达到多态了。纯虚函数只是一个接口，是个函数的声明而已，它要留到子类里去实现。&lt;/li&gt;
 &lt;li&gt;虚函数在子类里面也可以不重载的；但纯虚函数必须在子类去实现。&lt;/li&gt;
 &lt;li&gt;虚函数的类用于 “实作继承”，继承接口的同时也继承了父类的实现。当然大家也可以完成自己的实现。纯虚函数关注的是接口的统一性，实现由子类完成。&lt;/li&gt;
 &lt;li&gt;带纯虚函数的类叫抽象类（虚基类），这种类不能直接生成对象，而只有被继承，并重写其虚函数后，才能使用。抽象类和大家口头常说的虚基类还是有区别的，在 C# 中用 abstract 定义抽象类，而在 C++ 中有抽象类的概念，但是没有这个关键字。抽象类被继承后，子类可以继续是抽象类，也可以是普通类，而虚基类，是含有纯虚函数的类，它如果被继承，那么子类就必须实现虚基类里面的所有纯虚函数，其子类不能是抽象类。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;继承-1&#34;&gt;继承&lt;/h3&gt;
-&lt;ul&gt;
+&lt;h3 id=&#34;继承-1&#34;&gt;继承
+&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;类派生列表中的访问说明符用于控制派生类从基类继承而来的成员是否对派生类的用户可见。&lt;/p&gt;
 &lt;/li&gt;
@@ -4889,8 +4888,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;【PRIMER 529~533】&lt;/p&gt;
-&lt;h4 id=&#34;访问控制&#34;&gt;访问控制&lt;/h4&gt;
-&lt;p&gt;基类中成员的访问说明符和派生列表中的访问说明符都会影响某个类对其继承成员的访问权限。&lt;/p&gt;
+&lt;h4 id=&#34;访问控制&#34;&gt;访问控制
+&lt;/h4&gt;&lt;p&gt;基类中成员的访问说明符和派生列表中的访问说明符都会影响某个类对其继承成员的访问权限。&lt;/p&gt;
 &lt;p&gt;派生访问说明符对于派生类的成员及友元能否访问其直接基类的成员没有影响，对基类成员的访问权限只与基类中的访问说明符有关。&lt;/p&gt;
 &lt;p&gt;派生访问说明符的作用是控制派生类（包括派生类的派生类）用户对于基类成员的访问权限。&lt;/p&gt;
 &lt;ul&gt;
@@ -4909,8 +4908,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;p&gt;友元关系不能继承，每个类负责控制各自成员的访问权限。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/FdWzy/p/12596238.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;c++ 派生类向基类转换的可访问性&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;改变成员的可访问性&#34;&gt;改变成员的可访问性&lt;/h4&gt;
-&lt;p&gt;使用&lt;code&gt;using&lt;/code&gt;声明可以改变派生类继承的某个名字的访问级别。新的访问级别由该&lt;code&gt;using&lt;/code&gt;声明之前的访问说明符决定。&lt;/p&gt;
+&lt;h4 id=&#34;改变成员的可访问性&#34;&gt;改变成员的可访问性
+&lt;/h4&gt;&lt;p&gt;使用&lt;code&gt;using&lt;/code&gt;声明可以改变派生类继承的某个名字的访问级别。新的访问级别由该&lt;code&gt;using&lt;/code&gt;声明之前的访问说明符决定。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -4954,10 +4953,10 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;&lt;p&gt;派生类只能为那些它可以访问的名字提供&lt;code&gt;using&lt;/code&gt;声明。&lt;/p&gt;
 &lt;p&gt;默认情况下，使用&lt;code&gt;class&lt;/code&gt;关键字定义的派生类是私有继承的，而使用&lt;code&gt;struct&lt;/code&gt;关键字定义的派生类是公有继承的。&lt;/p&gt;
 &lt;p&gt;建议显式地声明派生类的继承方式，不要仅仅依赖于默认设置。&lt;/p&gt;
-&lt;h4 id=&#34;不存在从基类向派生类的隐式转换&#34;&gt;不存在从基类向派生类的隐式转换&lt;/h4&gt;
-&lt;p&gt;之所以存在派生类向基类的隐式转换，是因为每个派生类对象都包含一个基类部分，而基类的引用或指针可以绑定到该基类部分上。一个基类既可以独立存在，也可以作为派生类的一部分存在。如果基类对象不是派生类对象的一部分，则它只含有基类定义的成员，而不含有派生类定义的成员，所以用基类的指针去访问派生类中基类没有的方法或成员，必然出现错误。（&lt;strong&gt;承诺过多&lt;/strong&gt;）【PRIMER 534】&lt;/p&gt;
-&lt;h4 id=&#34;多重继承与虚继承以及消除二义性方法&#34;&gt;多重继承与虚继承以及消除二义性方法&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h4 id=&#34;不存在从基类向派生类的隐式转换&#34;&gt;不存在从基类向派生类的隐式转换
+&lt;/h4&gt;&lt;p&gt;之所以存在派生类向基类的隐式转换，是因为每个派生类对象都包含一个基类部分，而基类的引用或指针可以绑定到该基类部分上。一个基类既可以独立存在，也可以作为派生类的一部分存在。如果基类对象不是派生类对象的一部分，则它只含有基类定义的成员，而不含有派生类定义的成员，所以用基类的指针去访问派生类中基类没有的方法或成员，必然出现错误。（&lt;strong&gt;承诺过多&lt;/strong&gt;）【PRIMER 534】&lt;/p&gt;
+&lt;h4 id=&#34;多重继承与虚继承以及消除二义性方法&#34;&gt;多重继承与虚继承以及消除二义性方法
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -5072,16 +5071,16 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;【总结】多重继承的优点是对象可以调用多个基类中的接口，但是容易出现继承上的二义性。&lt;/p&gt;
-&lt;h4 id=&#34;多继承中构造函数的调用顺序&#34;&gt;多继承中构造函数的调用顺序&lt;/h4&gt;
-&lt;p&gt;多继承中构造函数的调用顺序总结，构造顺序从上到下依次为：&lt;/p&gt;
+&lt;h4 id=&#34;多继承中构造函数的调用顺序&#34;&gt;多继承中构造函数的调用顺序
+&lt;/h4&gt;&lt;p&gt;多继承中构造函数的调用顺序总结，构造顺序从上到下依次为：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;任何虚拟基类的构造函数按照它们被继承的顺序构造（而不是构造函数的初始化列表的顺序）；&lt;/li&gt;
 &lt;li&gt;任何非虚拟基类的构造函数按照它们被构造的顺序构造；&lt;/li&gt;
 &lt;li&gt;任何成员对象的构造按照它们声明的顺序构造，而不是在初始化列表中的顺序；&lt;/li&gt;
 &lt;li&gt;类自身的构造函数；&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;右值引用&#34;&gt;右值引用&lt;/h3&gt;
-&lt;p&gt;右值引用就是必须绑定到右值的引用。可以通过&lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt;来获得右值引用。&lt;/p&gt;
+&lt;h3 id=&#34;右值引用&#34;&gt;右值引用
+&lt;/h3&gt;&lt;p&gt;右值引用就是必须绑定到右值的引用。可以通过&lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt;来获得右值引用。&lt;/p&gt;
 &lt;p&gt;一般而言，一个左值表达式表示的是一个对象的身份，而一个右值表达式表示的是对象的值。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -5124,8 +5123,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;调用&lt;code&gt;move&lt;/code&gt;函数可以获得绑定在左值上的右值引用，此函数定义在头文件&lt;em&gt;utility&lt;/em&gt;中。&lt;/p&gt;
-&lt;h4 id=&#34;左值与右值&#34;&gt;左值与右值&lt;/h4&gt;
-&lt;p&gt;&lt;strong&gt;左值持久，右值短暂&lt;/strong&gt;：左值有持久的状态，而右值要么是字面常量，要么是表达式求值的过程中创建的临时对象。&lt;/p&gt;
+&lt;h4 id=&#34;左值与右值&#34;&gt;左值与右值
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;左值持久，右值短暂&lt;/strong&gt;：左值有持久的状态，而右值要么是字面常量，要么是表达式求值的过程中创建的临时对象。&lt;/p&gt;
 &lt;p&gt;由于右值引用只能绑定到临时的 对象上，可知：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;所引用的对象将要被销毁&lt;/li&gt;
@@ -5133,8 +5132,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/ul&gt;
 &lt;p&gt;这两个特性意味着：使用右值引用的代码可以自由地接管所引用的对象的资源。&lt;/p&gt;
 &lt;p&gt;【PRIMER 471, 472】&lt;/p&gt;
-&lt;h2 id=&#34;智能指针&#34;&gt;智能指针&lt;/h2&gt;
-&lt;p&gt;智能指针主要用于管理在堆上分配的内存，它将普通的指针封装为一个栈对象。当栈对象的生存周期结束后，会在析构函数中释放掉申请的内存，从而防止内存泄漏。C++  11中最常用的智能指针类型为&lt;code&gt;shared_ptr&lt;/code&gt;，它采用引用计数的方法，记录当前内存资源被多少个智能指针引用。该引用计数的内存在堆上分配。当新增一个时引用计数加 1 ，当过期时引用计数减一。只有引用计数为 0 时，智能指针才会自动释放引用的内存资源。对shared_ptr进行初始化时不能将一个普通指针直接赋值给智能指针，因为一个是指针，一个是类，可以通过构造函数传入普通指针。（ 从&lt;code&gt;auto_ptr&lt;/code&gt;也带一点，虽然C++ 11已经遗弃）&lt;/p&gt;
+&lt;h2 id=&#34;智能指针&#34;&gt;智能指针
+&lt;/h2&gt;&lt;p&gt;智能指针主要用于管理在堆上分配的内存，它将普通的指针封装为一个栈对象。当栈对象的生存周期结束后，会在析构函数中释放掉申请的内存，从而防止内存泄漏。C++  11中最常用的智能指针类型为&lt;code&gt;shared_ptr&lt;/code&gt;，它采用引用计数的方法，记录当前内存资源被多少个智能指针引用。该引用计数的内存在堆上分配。当新增一个时引用计数加 1 ，当过期时引用计数减一。只有引用计数为 0 时，智能指针才会自动释放引用的内存资源。对shared_ptr进行初始化时不能将一个普通指针直接赋值给智能指针，因为一个是指针，一个是类，可以通过构造函数传入普通指针。（ 从&lt;code&gt;auto_ptr&lt;/code&gt;也带一点，虽然C++ 11已经遗弃）&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;std::auto_ptr&amp;lt;string&amp;gt; ptr(new string);&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;std::shared_ptr&amp;lt;string&amp;gt; p1;&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;std::shared_ptr&amp;lt;list&amp;lt;int&amp;gt;&amp;gt; p2;&lt;/code&gt;&lt;/p&gt;
@@ -5209,11 +5208,11 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;p&gt;weak_ptr 是为了配合shared_ptr而引入的一种智能指针，因为它不具有普通指针的行为，没有重载operator*和-&amp;gt;,它的最大作用在于协助shared_ptr工作，像旁观者那样观测资源的使用情况。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;智能指针的内存泄露以及解决方法&#34;&gt;智能指针的内存泄露以及解决方法&lt;/h3&gt;
-&lt;p&gt;当两个对象相互使用一个 &lt;code&gt;shared_ptr&lt;/code&gt; 成员变量指向对方，会造成循环引用，使引用计数失效，从而导致内存泄漏。&lt;/p&gt;
+&lt;h3 id=&#34;智能指针的内存泄露以及解决方法&#34;&gt;智能指针的内存泄露以及解决方法
+&lt;/h3&gt;&lt;p&gt;当两个对象相互使用一个 &lt;code&gt;shared_ptr&lt;/code&gt; 成员变量指向对方，会造成循环引用，使引用计数失效，从而导致内存泄漏。&lt;/p&gt;
 &lt;p&gt;为了解决循环引用导致的内存泄漏，引入了 &lt;code&gt;weak_ptr&lt;/code&gt; 弱指针，&lt;code&gt;weak_ptr&lt;/code&gt; 的构造函数不会修改引用计数的值，从而不会对对象的内存进行管理，其类似一个普通指针，但不指向引用计数的共享内存，但是其可以检测到所管理的对象是否已经被释放，从而避免非法访问。&lt;/p&gt;
-&lt;h3 id=&#34;为什么摒弃-auto_ptr&#34;&gt;为什么摒弃 auto_ptr&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;为什么摒弃-auto_ptr&#34;&gt;为什么摒弃 auto_ptr
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -5307,9 +5306,9 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.jianshu.com/p/d19fc8447eaa&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;左值，右值&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;更多用法c-11&#34;&gt;更多用法（C++ 11）&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;shared_ptr&lt;/code&gt;和&lt;code&gt;unique_ptr&lt;/code&gt;都支持的操作：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/12-1.png&#34;
+&lt;h3 id=&#34;更多用法c-11&#34;&gt;更多用法（C++ 11）
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;shared_ptr&lt;/code&gt;和&lt;code&gt;unique_ptr&lt;/code&gt;都支持的操作：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/12-1.png&#34;
 	
 	
 	
@@ -5320,7 +5319,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;shared_ptr&lt;/code&gt;独有的操作：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/12-2.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/12-2.png&#34;
 	
 	
 	
@@ -5331,8 +5330,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;make_shared&lt;/code&gt;函数（定义在头文件&lt;em&gt;memory&lt;/em&gt;中）在动态内存中分配一个对象并初始化它，返回指向此对象的&lt;code&gt;shared_ptr&lt;/code&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;智能指针与普通指针的转换&#34;&gt;智能指针与普通指针的转换&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;智能指针与普通指针的转换&#34;&gt;智能指针与普通指针的转换
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -5385,10 +5384,10 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;&lt;p&gt;智能指针的&lt;code&gt;get&lt;/code&gt;函数返回一个内置指针，指向智能指针管理的对象。主要用于向不能使用智能指针的代码传递内置指针。使用&lt;code&gt;get&lt;/code&gt;返回指针的代码不能&lt;code&gt;delete&lt;/code&gt;此指针。&lt;/p&gt;
 &lt;p&gt;不要使用&lt;code&gt;get&lt;/code&gt;初始化另一个智能指针或为智能指针赋值。&lt;/p&gt;
 &lt;p&gt;【PRIMER 414】&lt;/p&gt;
-&lt;h3 id=&#34;shared_ptr是否线程安全&#34;&gt;shared_ptr是否线程安全&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;std::shared_ptr&lt;/code&gt;的引用计数本身是安全且无锁的，但对象的读写则不是。也就是说&lt;code&gt;std::shared_ptr&lt;/code&gt;对象的创建析构是线程安全的，但是多线程读写&lt;code&gt;std::shared_ptr&lt;/code&gt;对象不是线程安全的。&lt;code&gt;std::shared_ptr&lt;/code&gt; 内存是由于两个组成部分： 指向管理对象的指针 和 引用计数器。在读/写时，是直接对两个变量操作，不可能是原子类型的。因为 &lt;code&gt;std::shared_ptr&lt;/code&gt; 有两个数据成员，读写操作不能原子化。使得多线程读写同一个 std::shared_ptr 对象需要加锁。&lt;/p&gt;
-&lt;h3 id=&#34;unique_ptr&#34;&gt;unique_ptr&lt;/h3&gt;
-&lt;p&gt;与&lt;code&gt;shared_ptr&lt;/code&gt;不同，同一时刻只能有一个&lt;code&gt;unique_ptr&lt;/code&gt;指向给定的对象。当&lt;code&gt;unique_ptr&lt;/code&gt;被销毁时，它指向的对象也会被销毁。&lt;/p&gt;
+&lt;h3 id=&#34;shared_ptr是否线程安全&#34;&gt;shared_ptr是否线程安全
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;std::shared_ptr&lt;/code&gt;的引用计数本身是安全且无锁的，但对象的读写则不是。也就是说&lt;code&gt;std::shared_ptr&lt;/code&gt;对象的创建析构是线程安全的，但是多线程读写&lt;code&gt;std::shared_ptr&lt;/code&gt;对象不是线程安全的。&lt;code&gt;std::shared_ptr&lt;/code&gt; 内存是由于两个组成部分： 指向管理对象的指针 和 引用计数器。在读/写时，是直接对两个变量操作，不可能是原子类型的。因为 &lt;code&gt;std::shared_ptr&lt;/code&gt; 有两个数据成员，读写操作不能原子化。使得多线程读写同一个 std::shared_ptr 对象需要加锁。&lt;/p&gt;
+&lt;h3 id=&#34;unique_ptr&#34;&gt;unique_ptr
+&lt;/h3&gt;&lt;p&gt;与&lt;code&gt;shared_ptr&lt;/code&gt;不同，同一时刻只能有一个&lt;code&gt;unique_ptr&lt;/code&gt;指向给定的对象。当&lt;code&gt;unique_ptr&lt;/code&gt;被销毁时，它指向的对象也会被销毁。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;make_unique&lt;/code&gt;函数（C++14新增，定义在头文件&lt;em&gt;memory&lt;/em&gt;中）在动态内存中分配一个对象并初始化它，返回指向此对象的&lt;code&gt;unique_ptr&lt;/code&gt;。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -5404,7 +5403,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;由于&lt;code&gt;unique_ptr&lt;/code&gt;独占其指向的对象，因此&lt;code&gt;unique_ptr&lt;/code&gt;不支持普通的拷贝或赋值操作。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;unique_ptr&lt;/code&gt;操作：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/12-4.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/12-4.png&#34;
 	
 	
 	
@@ -5494,9 +5493,9 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 当 p 被摧毁时，自动调用 end_connection 函数
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;weak_ptr&#34;&gt;weak_ptr&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;weak_ptr&lt;/code&gt;是一种不控制所指向对象生存期的智能指针，它指向一个由&lt;code&gt;shared_ptr&lt;/code&gt;管理的对象。将&lt;code&gt;weak_ptr&lt;/code&gt;绑定到&lt;code&gt;shared_ptr&lt;/code&gt;不会改变&lt;code&gt;shared_ptr&lt;/code&gt;的引用计数。如果&lt;code&gt;shared_ptr&lt;/code&gt;被销毁，即使有&lt;code&gt;weak_ptr&lt;/code&gt;指向对象，对象仍然有可能被释放。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/12-5.png&#34;
+&lt;/div&gt;&lt;h3 id=&#34;weak_ptr&#34;&gt;weak_ptr
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;weak_ptr&lt;/code&gt;是一种不控制所指向对象生存期的智能指针，它指向一个由&lt;code&gt;shared_ptr&lt;/code&gt;管理的对象。将&lt;code&gt;weak_ptr&lt;/code&gt;绑定到&lt;code&gt;shared_ptr&lt;/code&gt;不会改变&lt;code&gt;shared_ptr&lt;/code&gt;的引用计数。如果&lt;code&gt;shared_ptr&lt;/code&gt;被销毁，即使有&lt;code&gt;weak_ptr&lt;/code&gt;指向对象，对象仍然有可能被释放。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/12-5.png&#34;
 	
 	
 	
@@ -5534,8 +5533,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;使用weak_ptr防止循环引用&#34;&gt;使用weak_ptr防止循环引用&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h4 id=&#34;使用weak_ptr防止循环引用&#34;&gt;使用weak_ptr防止循环引用
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -5755,8 +5754,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;p&gt;这个&lt;code&gt;_M_weak_this&lt;/code&gt;不是这个类中初始化，而是在&lt;code&gt;shared_ptr&lt;/code&gt;中初始化，初始化的值就是&lt;code&gt;this&lt;/code&gt;。因此如果智能指针类型是&lt;code&gt;std::shared_ptr&lt;/code&gt;，那么这个类对象一旦创建，引用计数就是1，那么永远也无法析构。&lt;/p&gt;
 &lt;p&gt;为什么不直接传回&lt;code&gt;this&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;std::shared_ptr&lt;/code&gt;的引用计数增加是需要用&lt;code&gt;operator=&lt;/code&gt;实现的。&lt;/p&gt;
-&lt;h3 id=&#34;基于引用计数的智能指针实现&#34;&gt;基于引用计数的智能指针实现&lt;/h3&gt;
-&lt;p&gt;源码在&lt;a class=&#34;link&#34; href=&#34;./sources/mine/SmartPtr.cpp&#34; &gt;./sources/mine/SmartPtr.cpp&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;基于引用计数的智能指针实现&#34;&gt;基于引用计数的智能指针实现
+&lt;/h3&gt;&lt;p&gt;源码在&lt;a class=&#34;link&#34; href=&#34;./sources/mine/SmartPtr.cpp&#34; &gt;./sources/mine/SmartPtr.cpp&lt;/a&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;  1
@@ -6019,8 +6018,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cm&#34;&gt;*/&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;基于范围的-for-循环&#34;&gt;基于范围的 for 循环&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h2 id=&#34;基于范围的-for-循环&#34;&gt;基于范围的 for 循环
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -6052,8 +6051,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;//	2 3 4 5 6 7 1 1 1 1
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;处理多维数组&#34;&gt;处理多维数组&lt;/h3&gt;
-&lt;p&gt;使用范围&lt;code&gt;for&lt;/code&gt;语句处理多维数组时，为了避免数组被自动转换成指针，语句中的外层循环控制变量必须声明成引用类型。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;处理多维数组&#34;&gt;处理多维数组
+&lt;/h3&gt;&lt;p&gt;使用范围&lt;code&gt;for&lt;/code&gt;语句处理多维数组时，为了避免数组被自动转换成指针，语句中的外层循环控制变量必须声明成引用类型。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -6078,8 +6077,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;使用范围&lt;code&gt;for&lt;/code&gt;语句处理多维数组时，除了最内层的循环，其他所有外层循环的控制变量都应该定义成引用类型。&lt;/p&gt;
-&lt;h2 id=&#34;lambda-表达式&#34;&gt;lambda 表达式&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;find_if&lt;/code&gt;函数接受两个迭代器参数和一个谓词参数。迭代器参数用于指定序列范围，之后对序列中的每个元素调用给定谓词，并返回第一个使谓词返回非0值的元素。如果不存在，则返回尾迭代器。&lt;/p&gt;
+&lt;h2 id=&#34;lambda-表达式&#34;&gt;lambda 表达式
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;find_if&lt;/code&gt;函数接受两个迭代器参数和一个谓词参数。迭代器参数用于指定序列范围，之后对序列中的每个元素调用给定谓词，并返回第一个使谓词返回非0值的元素。如果不存在，则返回尾迭代器。&lt;/p&gt;
 &lt;p&gt;对于一个对象或表达式，如果可以对其使用调用运算符&lt;code&gt;()&lt;/code&gt;，则称它为可调用对象（callable object）。可以向算法传递任何类别的可调用对象。&lt;/p&gt;
 &lt;p&gt;一个&lt;code&gt;lambda&lt;/code&gt;表达式表示一个可调用的代码单元，类似未命名的内联函数，但可以定义在函数内部。其形式如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -6128,8 +6127,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cout&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34; &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;lambda捕获变量和返回&#34;&gt;lambda捕获变量和返回&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;被&lt;code&gt;lambda&lt;/code&gt;捕获的变量的值是在&lt;code&gt;lambda&lt;/code&gt;创建时拷贝，而不是调用时拷贝。在&lt;code&gt;lambda&lt;/code&gt;创建后修改局部变量不会影响&lt;code&gt;lambda&lt;/code&gt;内对应的值。&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;lambda捕获变量和返回&#34;&gt;lambda捕获变量和返回
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;被&lt;code&gt;lambda&lt;/code&gt;捕获的变量的值是在&lt;code&gt;lambda&lt;/code&gt;创建时拷贝，而不是调用时拷贝。在&lt;code&gt;lambda&lt;/code&gt;创建后修改局部变量不会影响&lt;code&gt;lambda&lt;/code&gt;内对应的值。&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -6205,7 +6204,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;lambda&lt;/code&gt;捕获列表形式：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/10-2.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/10-2.png&#34;
 	
 	
 	
@@ -6216,8 +6215,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;本小节在【PRIMER 350~354】&lt;/p&gt;
-&lt;h3 id=&#34;参数绑定&#34;&gt;参数绑定&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;std::bind&lt;/code&gt;可以绑定普通函数，但不能区分重载，也可以绑定类内成员函数。也可以通过占位符方便更换形参。&lt;/p&gt;
+&lt;h3 id=&#34;参数绑定&#34;&gt;参数绑定
+&lt;/h3&gt;&lt;p&gt;&lt;code&gt;std::bind&lt;/code&gt;可以绑定普通函数，但不能区分重载，也可以绑定类内成员函数。也可以通过占位符方便更换形参。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;std::bind&lt;/code&gt;在默认情况下，是依靠值传递，使用了&lt;code&gt;std::ref&lt;/code&gt;来包裹传入参数才是使用引用传递。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -6391,9 +6390,9 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;【PRIMER 354~356】&lt;/p&gt;
-&lt;h2 id=&#34;函数调用运算符&#34;&gt;函数调用运算符&lt;/h2&gt;
-&lt;h3 id=&#34;重载operator运算符&#34;&gt;重载operator()运算符&lt;/h3&gt;
-&lt;p&gt;函数调用运算符必须定义为成员函数。一个类可以定义多个不同版本的调用运算符，相互之间必须在参数数量或类型上有所区别。&lt;/p&gt;
+&lt;h2 id=&#34;函数调用运算符&#34;&gt;函数调用运算符
+&lt;/h2&gt;&lt;h3 id=&#34;重载operator运算符&#34;&gt;重载operator()运算符
+&lt;/h3&gt;&lt;p&gt;函数调用运算符必须定义为成员函数。一个类可以定义多个不同版本的调用运算符，相互之间必须在参数数量或类型上有所区别。&lt;/p&gt;
 &lt;p&gt;该类也可以称为可调用对象，或函数对象。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -6444,8 +6443,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;for_each&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;begin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;vs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PrintString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cerr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;sc&#34;&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;lambda是函数对象&#34;&gt;lambda是函数对象&lt;/h3&gt;
-&lt;p&gt;编写一个&lt;code&gt;lambda&lt;/code&gt;后，编译器会将该表达式转换成一个未命名类的未命名对象，类中含有一个重载的函数调用运算符。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;lambda是函数对象&#34;&gt;lambda是函数对象
+&lt;/h3&gt;&lt;p&gt;编写一个&lt;code&gt;lambda&lt;/code&gt;后，编译器会将该表达式转换成一个未命名类的未命名对象，类中含有一个重载的函数调用运算符。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -6525,7 +6524,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;lambda&lt;/code&gt;产生的类不包含默认构造函数、赋值运算符和默认析构函数，它是否包含默认拷贝/移动构造函数则通常要视捕获的变量类型而定。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;标准库定义的函数对象&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;标准库在头文件&lt;em&gt;functional&lt;/em&gt;中定义了一组表示算术运算符、关系运算符和逻辑运算符的类，每个类分别定义了一个执行命名操作的调用运算符。这些类都被定义为模板的形式，可以为其指定具体的应用类型（即调用运算符的形参类型）。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/14-2.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/14-2.png&#34;
 	
 	
 	
@@ -6554,10 +6553,10 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sort&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;nameTable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;begin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;nameTable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;less&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;可调用对象与function&#34;&gt;可调用对象与function&lt;/h3&gt;
-&lt;p&gt;调用形式指明了调用返回的类型以及传递给调用的实参类型。不同的可调用对象可能具有相同的调用形式。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id=&#34;可调用对象与function&#34;&gt;可调用对象与function
+&lt;/h3&gt;&lt;p&gt;调用形式指明了调用返回的类型以及传递给调用的实参类型。不同的可调用对象可能具有相同的调用形式。&lt;/p&gt;
 &lt;p&gt;标准库&lt;code&gt;function&lt;/code&gt;类型是一个模板，定义在头文件&lt;em&gt;functional&lt;/em&gt;中，用来表示对象的调用形式。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/14-3.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/14-3.png&#34;
 	
 	
 	
@@ -6616,10 +6615,10 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
         </item>
         <item>
         <title>Vue学习</title>
-        <link>https://qiyueliuhuo.github.io/posts/vue%E5%AD%A6%E4%B9%A0/</link>
+        <link>http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Wed, 06 Jan 2021 22:02:52 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/posts/vue%E5%AD%A6%E4%B9%A0/</guid>
+        <guid>http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0/</guid>
         <description>&lt;blockquote&gt;
 &lt;p&gt;vue学习记录。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -6634,9 +6633,9 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
     &gt;Vue学习&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;一邂逅vuejs&#34;&gt;一、邂逅Vuejs&lt;/h2&gt;
-&lt;h3 id=&#34;认识vuejs&#34;&gt;认识Vuejs&lt;/h3&gt;
-&lt;ul&gt;
+&lt;h2 id=&#34;一邂逅vuejs&#34;&gt;一、邂逅Vuejs
+&lt;/h2&gt;&lt;h3 id=&#34;认识vuejs&#34;&gt;认识Vuejs
+&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Vue在国内相比于React使用更加广泛、更火。&lt;/br&gt;&lt;/p&gt;
 &lt;/li&gt;
@@ -6677,9 +6676,9 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;vuejs安装方式&#34;&gt;Vuejs安装方式&lt;/h3&gt;
-&lt;h4 id=&#34;方式一直接cdn引入&#34;&gt;方式一：直接CDN引入&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210106223502.png&#34;
+&lt;h3 id=&#34;vuejs安装方式&#34;&gt;Vuejs安装方式
+&lt;/h3&gt;&lt;h4 id=&#34;方式一直接cdn引入&#34;&gt;方式一：直接CDN引入
+&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210106223502.png&#34;
 	
 	
 	
@@ -6687,8 +6686,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 	
 &gt;&lt;/p&gt;
-&lt;h4 id=&#34;方式二下载和引入&#34;&gt;方式二：下载和引入&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210106223618.png&#34;
+&lt;h4 id=&#34;方式二下载和引入&#34;&gt;方式二：下载和引入
+&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210106223618.png&#34;
 	
 	
 	
@@ -6698,12 +6697,12 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &gt;&lt;/p&gt;
 &lt;p&gt;另：
 - 直接下载，拷贝到项目里面就可以使用，只有一个vue.js文件，hin方便。&lt;/p&gt;
-&lt;h4 id=&#34;方式三npm安装&#34;&gt;方式三：NPM安装&lt;/h4&gt;
-&lt;ul&gt;
+&lt;h4 id=&#34;方式三npm安装&#34;&gt;方式三：NPM安装
+&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;后续通过webpack和CLI的使用，然后再使用这种方式。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;vuejs初体验&#34;&gt;Vuejs初体验&lt;/h3&gt;
-&lt;ul&gt;
+&lt;h3 id=&#34;vuejs初体验&#34;&gt;Vuejs初体验
+&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;script&lt;/code&gt;引入vue并使用：&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210106231454.png&#34;
@@ -6870,8 +6869,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;vuejs的mvvm&#34;&gt;Vuejs的MVVM&lt;/h3&gt;
-&lt;ul&gt;
+&lt;h3 id=&#34;vuejs的mvvm&#34;&gt;Vuejs的MVVM
+&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;什么是MVVM：&lt;a class=&#34;link&#34; href=&#34;https://zh.wikipedia.org/wiki/MVVM&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;维基百科MVVM&lt;/a&gt;。 （需要再详细阅读）&lt;/li&gt;
 &lt;li&gt;Vue的MVVM：图不清楚，需要重新找。
@@ -6884,8 +6883,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 &gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;创建vue实例传入的options&#34;&gt;创建Vue实例传入的options&lt;/h3&gt;
-&lt;ul&gt;
+&lt;h3 id=&#34;创建vue实例传入的options&#34;&gt;创建Vue实例传入的options
+&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;el: string | HTML Element&lt;/li&gt;
 &lt;li&gt;data: Object | Function  (组件中data必须是一个函数)&lt;/li&gt;
 &lt;li&gt;methods: { [key: string]: Function }  （后面换成ES6的语法来写）&lt;/li&gt;
@@ -6900,8 +6899,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;vue的生命周期简单理解下&#34;&gt;Vue的生命周期（简单理解下）&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107104540.png&#34;
+&lt;h3 id=&#34;vue的生命周期简单理解下&#34;&gt;Vue的生命周期（简单理解下）
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107104540.png&#34;
 	
 	
 	
@@ -6916,13 +6915,13 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;二vue基础语法&#34;&gt;二、Vue基础语法&lt;/h2&gt;
-&lt;h3 id=&#34;代码规范&#34;&gt;代码规范&lt;/h3&gt;
-&lt;ol&gt;
+&lt;h2 id=&#34;二vue基础语法&#34;&gt;二、Vue基础语法
+&lt;/h2&gt;&lt;h3 id=&#34;代码规范&#34;&gt;代码规范
+&lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;前端开发，缩进&lt;strong&gt;两个空格&lt;/strong&gt;更加合适。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;重复代码建立模板&#34;&gt;重复代码建立模板&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107110820.png&#34;
+&lt;h3 id=&#34;重复代码建立模板&#34;&gt;重复代码建立模板
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107110820.png&#34;
 	
 	
 	
@@ -6931,9 +6930,9 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;将重复输入的内容设置到模板当中，在HTML（需要设置）中直接输入vue，点击回车，就可以自动填充模板中的内容。&lt;/p&gt;
-&lt;h3 id=&#34;插值语法&#34;&gt;插值语法&lt;/h3&gt;
-&lt;h4 id=&#34;mustache语法-也就是双大括号用的最多&#34;&gt;Mustache语法 （也就是双大括号，用的最多）※&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;插值语法&#34;&gt;插值语法
+&lt;/h3&gt;&lt;h4 id=&#34;mustache语法-也就是双大括号用的最多&#34;&gt;Mustache语法 （也就是双大括号，用的最多）※
+&lt;/h4&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
@@ -6953,8 +6952,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;div&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;v-once指令的使用&#34;&gt;v-once指令的使用&lt;/h4&gt;
-&lt;p&gt;只展示一次，后面网页界面内容不会随着&lt;code&gt;message&lt;/code&gt;值的&lt;strong&gt;改变而改变&lt;/strong&gt;。也就是第二个&lt;code&gt;h2&lt;/code&gt;标签显示的内容不会随着&lt;code&gt;vue&lt;/code&gt;的&lt;code&gt;app&lt;/code&gt;里面数据改变。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;v-once指令的使用&#34;&gt;v-once指令的使用
+&lt;/h4&gt;&lt;p&gt;只展示一次，后面网页界面内容不会随着&lt;code&gt;message&lt;/code&gt;值的&lt;strong&gt;改变而改变&lt;/strong&gt;。也就是第二个&lt;code&gt;h2&lt;/code&gt;标签显示的内容不会随着&lt;code&gt;vue&lt;/code&gt;的&lt;code&gt;app&lt;/code&gt;里面数据改变。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;一般情况下不用，特殊情况下需要使用。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -6972,8 +6971,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;div&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;v-html指令的使用&#34;&gt;v-html指令的使用&lt;/h4&gt;
-&lt;p&gt;数据以HTML形式展示。
+&lt;/div&gt;&lt;h4 id=&#34;v-html指令的使用&#34;&gt;v-html指令的使用
+&lt;/h4&gt;&lt;p&gt;数据以HTML形式展示。
 &lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107113412.png&#34;
 	
 	
@@ -6990,8 +6989,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 	
 &gt;&lt;/p&gt;
-&lt;h4 id=&#34;v-text指令的使用-一般不用没有双括号灵活&#34;&gt;v-text指令的使用 （一般不用，没有双括号灵活）&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107113954.png&#34;
+&lt;h4 id=&#34;v-text指令的使用-一般不用没有双括号灵活&#34;&gt;v-text指令的使用 （一般不用，没有双括号灵活）
+&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107113954.png&#34;
 	
 	
 	
@@ -6999,8 +6998,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 	
 &gt;&lt;/p&gt;
-&lt;h4 id=&#34;v-pre指令的使用-很少使用&#34;&gt;v-pre指令的使用 （很少使用）&lt;/h4&gt;
-&lt;p&gt;将&lt;code&gt;v-pre&lt;/code&gt;设置的标签内容原封不动展示，不进行解析。&lt;/p&gt;
+&lt;h4 id=&#34;v-pre指令的使用-很少使用&#34;&gt;v-pre指令的使用 （很少使用）
+&lt;/h4&gt;&lt;p&gt;将&lt;code&gt;v-pre&lt;/code&gt;设置的标签内容原封不动展示，不进行解析。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -7015,18 +7014,18 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;div&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;v-cloak指令的使用-基本不用&#34;&gt;v-cloak指令的使用 （基本不用）&lt;/h4&gt;
-&lt;blockquote&gt;
+&lt;/div&gt;&lt;h4 id=&#34;v-cloak指令的使用-基本不用&#34;&gt;v-cloak指令的使用 （基本不用）
+&lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;cloak: 斗篷。 clock: 时钟。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;和&lt;code&gt;css&lt;/code&gt;样式结合使用，可以实现当&lt;code&gt;JS&lt;/code&gt;脚本未执行完，不显示内容，而不是显示一些未渲染的“乱码”，对用户友好。&lt;/p&gt;
-&lt;h4 id=&#34;v-bind&#34;&gt;v-bind&lt;/h4&gt;
-&lt;blockquote&gt;
+&lt;h4 id=&#34;v-bind&#34;&gt;v-bind
+&lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;v-bind之前都是将数据插到内容中，而这个是将值插到标签的属性中，比如&lt;code&gt;img&lt;/code&gt;标签的&lt;code&gt;src&lt;/code&gt;属性，改变这个属性值。又比如&lt;code&gt;a&lt;/code&gt;标签的&lt;code&gt;href&lt;/code&gt;属性。不能用&lt;strong&gt;双括号语法&lt;/strong&gt;操作，双括号是在标签内容中使用的。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;strong&gt;作用&lt;/strong&gt;：动态绑定标签属性。&lt;/p&gt;
-&lt;h5 id=&#34;v-bind基本使用&#34;&gt;v-bind基本使用&lt;/h5&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107121506.png&#34;
+&lt;h5 id=&#34;v-bind基本使用&#34;&gt;v-bind基本使用
+&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107121506.png&#34;
 	
 	
 	
@@ -7034,8 +7033,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 	
 &gt;&lt;/p&gt;
-&lt;h5 id=&#34;v-bind语法糖-经常用&#34;&gt;v-bind语法糖 （经常用）※&lt;/h5&gt;
-&lt;p&gt;将&lt;code&gt;v-bind:&lt;/code&gt;简写成&lt;code&gt;:&lt;/code&gt;。&lt;/p&gt;
+&lt;h5 id=&#34;v-bind语法糖-经常用&#34;&gt;v-bind语法糖 （经常用）※
+&lt;/h5&gt;&lt;p&gt;将&lt;code&gt;v-bind:&lt;/code&gt;简写成&lt;code&gt;:&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107121734.png&#34;
 	
 	
@@ -7044,8 +7043,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 	
 &gt;&lt;/p&gt;
-&lt;h5 id=&#34;v-bind动态绑定class属性&#34;&gt;v-bind动态绑定&lt;code&gt;class&lt;/code&gt;属性&lt;/h5&gt;
-&lt;ol&gt;
+&lt;h5 id=&#34;v-bind动态绑定class属性&#34;&gt;v-bind动态绑定&lt;code&gt;class&lt;/code&gt;属性
+&lt;/h5&gt;&lt;ol&gt;
 &lt;li&gt;对象语法：&lt;code&gt;class = &amp;quot;&amp;quot;&lt;/code&gt; 双引号里面是个对象。 （经常用）※
 &lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107122912.png&#34;
 	
@@ -7079,8 +7078,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;&amp;lt;!-- active是个变量，定义在data中--&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;v-bind动态绑定style&#34;&gt;v-bind动态绑定&lt;code&gt;style&lt;/code&gt;&lt;/h5&gt;
-&lt;ol&gt;
+&lt;/div&gt;&lt;h5 id=&#34;v-bind动态绑定style&#34;&gt;v-bind动态绑定&lt;code&gt;style&lt;/code&gt;
+&lt;/h5&gt;&lt;ol&gt;
 &lt;li&gt;对象语法：&lt;code&gt;:style=&amp;quot;{key(属性名): value(属性值)}&amp;quot;&lt;/code&gt; 双引号里面是个对象。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -7124,9 +7123,9 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
 &lt;li&gt;数组语法：&lt;code&gt;&amp;lt;div v-bind: style=&amp;quot;[basestyles, overridingstyles]&amp;quot;&amp;gt;/div&amp;gt;&lt;/code&gt; ，basestyles和overridingstyles为对象 （很少用）&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;计算属性-computed很重要&#34;&gt;计算属性 &lt;code&gt;computed&lt;/code&gt;（很重要）※&lt;/h3&gt;
-&lt;h4 id=&#34;计算属性的使用&#34;&gt;计算属性的使用&lt;/h4&gt;
-&lt;blockquote&gt;
+&lt;h3 id=&#34;计算属性-computed很重要&#34;&gt;计算属性 &lt;code&gt;computed&lt;/code&gt;（很重要）※
+&lt;/h3&gt;&lt;h4 id=&#34;计算属性的使用&#34;&gt;计算属性的使用
+&lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;数据展示之前需要经过一定的处理，computed里面也是定义的函数，但是不要命名为动词，一般命名为名词。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -7191,13 +7190,13 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;strong&gt;应用场景&lt;/strong&gt;: 购物车选中多个商品，计算总价格。&lt;/p&gt;
 &lt;p&gt;另：计算属性只计算一次，有缓存，相比&lt;code&gt;method&lt;/code&gt;计算速度更快。&lt;/p&gt;
-&lt;h4 id=&#34;计算属性setter和getter&#34;&gt;计算属性setter和getter&lt;/h4&gt;
-&lt;h4 id=&#34;计算属性和methods的对比--&#34;&gt;计算属性和methods的对比  ※&lt;/h4&gt;
-&lt;blockquote&gt;
+&lt;h4 id=&#34;计算属性setter和getter&#34;&gt;计算属性setter和getter
+&lt;/h4&gt;&lt;h4 id=&#34;计算属性和methods的对比--&#34;&gt;计算属性和methods的对比  ※
+&lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;计算属性内部实现缓存，如果值不改变，直接调用缓存中的内容，而methods每次都会调用，效率比计算属性差&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id=&#34;补充es6语法&#34;&gt;补充：ES6语法&lt;/h3&gt;
-&lt;ol&gt;
+&lt;h3 id=&#34;补充es6语法&#34;&gt;补充：ES6语法
+&lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;let/var&lt;/li&gt;
 &lt;/ol&gt;
 &lt;blockquote&gt;
@@ -7216,32 +7215,32 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;li&gt;属性的增强写法&lt;/li&gt;
 &lt;li&gt;函数的增强写法&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;事件监听&#34;&gt;事件监听&lt;/h3&gt;
-&lt;h4 id=&#34;v-on的基本使用&#34;&gt;v-on的基本使用&lt;/h4&gt;
-&lt;blockquote&gt;
+&lt;h3 id=&#34;事件监听&#34;&gt;事件监听
+&lt;/h3&gt;&lt;h4 id=&#34;v-on的基本使用&#34;&gt;v-on的基本使用
+&lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;v-on语法糖：@&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4 id=&#34;v-on的参数&#34;&gt;v-on的参数&lt;/h4&gt;
-&lt;blockquote&gt;
+&lt;h4 id=&#34;v-on的参数&#34;&gt;v-on的参数
+&lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;事件监听的时候，若不需要传参数，则可以不写调用的小括号。（省略）&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;如何给事件监听函数传入，游览器生成的event对象？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;传入的参数为&lt;code&gt;$event&lt;/code&gt;就可以了。方法形参为&lt;code&gt;event&lt;/code&gt;。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4 id=&#34;v-on的修饰符&#34;&gt;v-on的修饰符&lt;/h4&gt;
-&lt;ol&gt;
+&lt;h4 id=&#34;v-on的修饰符&#34;&gt;v-on的修饰符
+&lt;/h4&gt;&lt;ol&gt;
 &lt;li&gt;&lt;code&gt;@click.stop&lt;/code&gt;防止事件冒泡。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;@click.prevent&lt;/code&gt;阻止默认行为的执行。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;@keyUp.enter&lt;/code&gt;监听&lt;code&gt;enter&lt;/code&gt;键的释放。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;@click.once&lt;/code&gt;只监听一次点击事件。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h4 id=&#34;关于事件监听参考&#34;&gt;关于事件监听参考&lt;/h4&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/m0_46613429/article/details/119008050&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h4 id=&#34;关于事件监听参考&#34;&gt;关于事件监听参考
+&lt;/h4&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/m0_46613429/article/details/119008050&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Vue事件监听&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;条件判断&#34;&gt;条件判断&lt;/h3&gt;
-&lt;h4 id=&#34;v-if的使用&#34;&gt;v-if的使用&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107182431.png&#34;
+&lt;h3 id=&#34;条件判断&#34;&gt;条件判断
+&lt;/h3&gt;&lt;h4 id=&#34;v-if的使用&#34;&gt;v-if的使用
+&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107182431.png&#34;
 	
 	
 	
@@ -7258,16 +7257,16 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;另：一般情况下，&lt;code&gt;v-else-if&lt;/code&gt;、&lt;code&gt;v-else&lt;/code&gt;不在HTML模板中使用，逻辑不放在界面代码处。&lt;/p&gt;
-&lt;h4 id=&#34;v-show的使用&#34;&gt;v-show的使用&lt;/h4&gt;
-&lt;blockquote&gt;
+&lt;h4 id=&#34;v-show的使用&#34;&gt;v-show的使用
+&lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;决定标签是否在界面显示：&lt;code&gt;&amp;lt;h2 v-show=&amp;quot;isShow&amp;quot;&amp;gt; &amp;lt;/h2&amp;gt;&lt;/code&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;v-if&lt;/code&gt; 和 &lt;code&gt;v-show&lt;/code&gt;的区别。  （v-if经常使用）&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;v-if：当条件为false时，包含v-if指令的元素，根本不会存在dom中。而v-show：当条件为false时，只是给元素添加了一个行内样式：display：none。前者dom中取掉，后者改样式。当展示切换频率很高，用v-show。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id=&#34;循环遍历v-for的使用&#34;&gt;循环遍历v-for的使用&lt;/h3&gt;
-&lt;ol&gt;
+&lt;h3 id=&#34;循环遍历v-for的使用&#34;&gt;循环遍历v-for的使用
+&lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;遍历数组  ※&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -7297,10 +7296,10 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;li v-for=&amp;#34;(value, key) in info&amp;#34;&amp;gt;{{value}} {{key}}&amp;lt;/li&amp;gt;  
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;v-for绑定key&#34;&gt;v-for绑定key&lt;/h4&gt;
-&lt;p&gt;省略。&lt;/p&gt;
-&lt;h4 id=&#34;数组中响应式方法数组内容改变展示内容跟着改变&#34;&gt;数组中响应式方法：数组内容改变，展示内容跟着改变。&lt;/h4&gt;
-&lt;blockquote&gt;
+&lt;/div&gt;&lt;h4 id=&#34;v-for绑定key&#34;&gt;v-for绑定key
+&lt;/h4&gt;&lt;p&gt;省略。&lt;/p&gt;
+&lt;h4 id=&#34;数组中响应式方法数组内容改变展示内容跟着改变&#34;&gt;数组中响应式方法：数组内容改变，展示内容跟着改变。
+&lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;push()、pop()、shift()、unshift()、splice()、sort()、reverse()&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;另:&lt;/p&gt;
@@ -7309,13 +7308,13 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;li&gt;letters[index] = &amp;lsquo;change&amp;rsquo; 索引方式改变数组是非响应式的。&lt;/li&gt;
 &lt;li&gt;上面的方式可以改用为vue内部实现的函数&lt;code&gt;vue.set()&lt;/code&gt;，更推荐&lt;code&gt;splice()&lt;/code&gt;方式。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;补充三个高阶函数--&#34;&gt;补充：三个高阶函数  ※&lt;/h3&gt;
-&lt;p&gt;filter、reduce、map函数&lt;/p&gt;
+&lt;h3 id=&#34;补充三个高阶函数--&#34;&gt;补充：三个高阶函数  ※
+&lt;/h3&gt;&lt;p&gt;filter、reduce、map函数&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;let total = nums.filter(n =&amp;gt; n&amp;lt;100).map(n =&amp;gt; n * 2).reduce((pre, n) =&amp;gt; pre + n);&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id=&#34;v-model双向绑定-暂时跳过&#34;&gt;v-model双向绑定 （暂时跳过）&lt;/h3&gt;
-&lt;h2 id=&#34;三组件化开发-&#34;&gt;三、组件化开发 ※&lt;/h2&gt;
-&lt;h3 id=&#34;什么是组件化&#34;&gt;什么是组件化？&lt;/h3&gt;
-&lt;blockquote&gt;
+&lt;h3 id=&#34;v-model双向绑定-暂时跳过&#34;&gt;v-model双向绑定 （暂时跳过）
+&lt;/h3&gt;&lt;h2 id=&#34;三组件化开发-&#34;&gt;三、组件化开发 ※
+&lt;/h2&gt;&lt;h3 id=&#34;什么是组件化&#34;&gt;什么是组件化？
+&lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;将复杂问题，拆分成很多个小问题。将一个页面拆分成一个个小的功能块，每个功能块完成属于自己这一部分独立的功能，那么整个页面的管理和维护就变得非常容易了。应用最后抽象为一个组件树。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210108203614.png&#34;
@@ -7334,15 +7333,15 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 	
 &gt;&lt;/p&gt;
-&lt;h3 id=&#34;组件化思想&#34;&gt;组件化思想&lt;/h3&gt;
-&lt;ol&gt;
+&lt;h3 id=&#34;组件化思想&#34;&gt;组件化思想
+&lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;任何的应用都会被抽象成一颗组件树。&lt;/li&gt;
 &lt;li&gt;有了组件化的思想，我们在之后的开发中就要充分的利用它。&lt;/li&gt;
 &lt;li&gt;尽可能的将页面拆分成一个个小的、可复用的组件。&lt;/li&gt;
 &lt;li&gt;这样让我们的代码更加方便组织和管理，并且扩展性也更强。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;组件使用步骤&#34;&gt;组件使用步骤&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422135236.png&#34;
+&lt;h3 id=&#34;组件使用步骤&#34;&gt;组件使用步骤
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422135236.png&#34;
 	
 	
 	
@@ -7376,8 +7375,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 	
 &gt;&lt;/p&gt;
-&lt;h3 id=&#34;全局组件和局部组件&#34;&gt;全局组件和局部组件&lt;/h3&gt;
-&lt;p&gt;在Vue实例创建之外，注册的组件为全局组件。&lt;/p&gt;
+&lt;h3 id=&#34;全局组件和局部组件&#34;&gt;全局组件和局部组件
+&lt;/h3&gt;&lt;p&gt;在Vue实例创建之外，注册的组件为全局组件。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -7417,8 +7416,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;父组件和子组件的区别---&#34;&gt;父组件和子组件的区别  ※ ※&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;/div&gt;&lt;h3 id=&#34;父组件和子组件的区别---&#34;&gt;父组件和子组件的区别  ※ ※
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -7472,8 +7471,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;注册组件的语法糖写法推荐写法-&#34;&gt;注册组件的语法糖写法（推荐写法）※ ※&lt;/h3&gt;
-&lt;p&gt;省略 &lt;code&gt;Vue.extend()&lt;/code&gt;，使用语法糖写法。
+&lt;/div&gt;&lt;h3 id=&#34;注册组件的语法糖写法推荐写法-&#34;&gt;注册组件的语法糖写法（推荐写法）※ ※
+&lt;/h3&gt;&lt;p&gt;省略 &lt;code&gt;Vue.extend()&lt;/code&gt;，使用语法糖写法。
 后面内容讲解，将tepmlate抽离出去，代码会&lt;strong&gt;更加清晰&lt;/strong&gt;。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -7533,8 +7532,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;模板的分离写法&#34;&gt;模板的分离写法&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422145235.png&#34;
+&lt;/div&gt;&lt;h3 id=&#34;模板的分离写法&#34;&gt;模板的分离写法
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422145235.png&#34;
 	
 	
 	
@@ -7542,8 +7541,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 	
 &gt;&lt;/p&gt;
-&lt;h3 id=&#34;为什么组件data必须是函数-&#34;&gt;为什么组件data必须是函数？ ※&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;h3 id=&#34;为什么组件data必须是函数-&#34;&gt;为什么组件data必须是函数？ ※
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
@@ -7583,10 +7582,10 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;li&gt;这个data属性必须是一个函数。&lt;/li&gt;
 &lt;li&gt;这个函数返回一个对象，对象内部保存着数据，多个相同组件各自使用各自的数据。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h4 id=&#34;script标签&#34;&gt;&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签&lt;/h4&gt;
-&lt;h4 id=&#34;template标签&#34;&gt;&lt;code&gt;&amp;lt;template&amp;gt;&lt;/code&gt;标签&lt;/h4&gt;
-&lt;h3 id=&#34;父子组件的通信---&#34;&gt;父子组件的通信 ※ ※ ※&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422152857.png&#34;
+&lt;h4 id=&#34;script标签&#34;&gt;&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签
+&lt;/h4&gt;&lt;h4 id=&#34;template标签&#34;&gt;&lt;code&gt;&amp;lt;template&amp;gt;&lt;/code&gt;标签
+&lt;/h4&gt;&lt;h3 id=&#34;父子组件的通信---&#34;&gt;父子组件的通信 ※ ※ ※
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422152857.png&#34;
 	
 	
 	
@@ -7602,8 +7601,8 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 	
 &gt;&lt;/p&gt;
-&lt;h4 id=&#34;父组件向子组件-props-常用-&#34;&gt;父组件向子组件 props (常用) ※&lt;/h4&gt;
-&lt;blockquote&gt;
+&lt;h4 id=&#34;父组件向子组件-props-常用-&#34;&gt;父组件向子组件 props (常用) ※
+&lt;/h4&gt;&lt;blockquote&gt;
 &lt;p&gt;props : properties 属性&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;通过props向子组件传递数据。&lt;/p&gt;
@@ -7769,11 +7768,11 @@ TODO&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-HTML&#34; data-lang=&#34;HTML&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;cpn&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;:cmessage&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;:cmovies&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;movies&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;cpn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id=&#34;子组件向父组件-emit-events-&#34;&gt;子组件向父组件 $emit events ※&lt;/h4&gt;
-&lt;p&gt;通过事件events向父组件发送消息。&lt;/p&gt;
+&lt;/div&gt;&lt;h4 id=&#34;子组件向父组件-emit-events-&#34;&gt;子组件向父组件 $emit events ※
+&lt;/h4&gt;&lt;p&gt;通过事件events向父组件发送消息。&lt;/p&gt;
 &lt;p&gt;看到P61&lt;/p&gt;
-&lt;h3 id=&#34;webpack的介绍与安装&#34;&gt;webpack的介绍与安装&lt;/h3&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.jianshu.com/p/1c4313715a82&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h3 id=&#34;webpack的介绍与安装&#34;&gt;webpack的介绍与安装
+&lt;/h3&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.jianshu.com/p/1c4313715a82&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Node, Npm 和 webpack&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;从本质上来讲，webpack是一个现代的JavRScript应用的静态模块打包工具。
@@ -7790,24 +7789,24 @@ TODO&lt;/p&gt;
 &lt;li&gt;webpack其中一个核心就是让我们可能进行模块化开发，并且会帮助我们处理模块间的依赖关系。&lt;/li&gt;
 &lt;li&gt;不仅仅是JavaScript文件，我们的CSS、图片、json文件等等在webpack中都可以被当做模块来使用（在后续我们会看到）。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h4 id=&#34;认识webpack&#34;&gt;认识webpack&lt;/h4&gt;
-&lt;h4 id=&#34;webpack的安装&#34;&gt;webpack的安装&lt;/h4&gt;
-&lt;h4 id=&#34;webpack的起步&#34;&gt;webpack的起步&lt;/h4&gt;
-&lt;h4 id=&#34;webpack的配置&#34;&gt;webpack的配置&lt;/h4&gt;
-&lt;h4 id=&#34;loader的使用&#34;&gt;loader的使用&lt;/h4&gt;
-&lt;h4 id=&#34;iwebpack中配置vue&#34;&gt;Iwebpack中配置Vue&lt;/h4&gt;
-&lt;h4 id=&#34;plugin的使用&#34;&gt;plugin的使用&lt;/h4&gt;
-&lt;h4 id=&#34;搭建本地服务器&#34;&gt;搭建本地服务器&lt;/h4&gt;
-&lt;h2 id=&#34;四vue-cli详解-脚手架&#34;&gt;四、Vue CLI详解 （脚手架）※&lt;/h2&gt;
-&lt;h2 id=&#34;五vue-router&#34;&gt;五、vue-router&lt;/h2&gt;
-&lt;h2 id=&#34;六vuex详解-状态管理&#34;&gt;六、Vuex详解 （状态管理）&lt;/h2&gt;
-&lt;h2 id=&#34;七网络封装&#34;&gt;七、网络封装&lt;/h2&gt;
-&lt;h2 id=&#34;八项目实战&#34;&gt;八、项目实战&lt;/h2&gt;
-&lt;blockquote&gt;
+&lt;h4 id=&#34;认识webpack&#34;&gt;认识webpack
+&lt;/h4&gt;&lt;h4 id=&#34;webpack的安装&#34;&gt;webpack的安装
+&lt;/h4&gt;&lt;h4 id=&#34;webpack的起步&#34;&gt;webpack的起步
+&lt;/h4&gt;&lt;h4 id=&#34;webpack的配置&#34;&gt;webpack的配置
+&lt;/h4&gt;&lt;h4 id=&#34;loader的使用&#34;&gt;loader的使用
+&lt;/h4&gt;&lt;h4 id=&#34;iwebpack中配置vue&#34;&gt;Iwebpack中配置Vue
+&lt;/h4&gt;&lt;h4 id=&#34;plugin的使用&#34;&gt;plugin的使用
+&lt;/h4&gt;&lt;h4 id=&#34;搭建本地服务器&#34;&gt;搭建本地服务器
+&lt;/h4&gt;&lt;h2 id=&#34;四vue-cli详解-脚手架&#34;&gt;四、Vue CLI详解 （脚手架）※
+&lt;/h2&gt;&lt;h2 id=&#34;五vue-router&#34;&gt;五、vue-router
+&lt;/h2&gt;&lt;h2 id=&#34;六vuex详解-状态管理&#34;&gt;六、Vuex详解 （状态管理）
+&lt;/h2&gt;&lt;h2 id=&#34;七网络封装&#34;&gt;七、网络封装
+&lt;/h2&gt;&lt;h2 id=&#34;八项目实战&#34;&gt;八、项目实战
+&lt;/h2&gt;&lt;blockquote&gt;
 &lt;p&gt;一步步学习，没什么耐心，那就项目驱动学习吧，开干。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id=&#34;创建项目&#34;&gt;创建项目&lt;/h3&gt;
-&lt;blockquote&gt;
+&lt;h3 id=&#34;创建项目&#34;&gt;创建项目
+&lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;Vue CLI教程&lt;a class=&#34;link&#34; href=&#34;https://cli.vuejs.org/zh/guide/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Vue CLI &lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -7821,8 +7820,8 @@ TODO&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;vue create supermall # 创新新的项目  
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;目录结构划分&#34;&gt;目录结构划分&lt;/h3&gt;
-&lt;blockquote&gt;
+&lt;/div&gt;&lt;h3 id=&#34;目录结构划分&#34;&gt;目录结构划分
+&lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;参考：https://blog.csdn.net/weixin_42290927/article/details/94432587&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210721142734.png&#34;
@@ -7833,9 +7832,9 @@ TODO&lt;/p&gt;
 	
 	
 &gt;&lt;/p&gt;
-&lt;h2 id=&#34;九项目部署&#34;&gt;九、项目部署&lt;/h2&gt;
-&lt;h2 id=&#34;十vuejs原理相关&#34;&gt;十、vuejs原理相关&lt;/h2&gt;
-</description>
+&lt;h2 id=&#34;九项目部署&#34;&gt;九、项目部署
+&lt;/h2&gt;&lt;h2 id=&#34;十vuejs原理相关&#34;&gt;十、vuejs原理相关
+&lt;/h2&gt;</description>
         </item>
         
     </channel>
