@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content=" vue学习记录。\n注：\n学习目录在Workplace/vueLearning。 学完要综合学过前端和后端知识，开发一个完整的应用，综合应用知识。 使用的开发IDE为WebStorm。 学习地址：Vue学习 一、邂逅Vuejs 认识Vuejs Vue在国内相比于React使用更加广泛、更火。\n三大框架：VueJs、AngularJs、React。 Vue：读音/vju:/，类似于view。 Vue是一个渐进式框架：\nVue可以作为你应用的一部分嵌入其中。（一点一点渐进式引入Vue） 也可以直接使用Vue核心库及其生态系统。（Vue全家桶） Vue的特点和高级功能：（目前不太了解，慢慢学习，慢慢体会）\n解耦视图和数据 可复用的组件 前端路由技术 状态管理 虚拟DOM 学习Vue前提：\n可以从零学习，不需要其他框架的知识为前提。 需要具备一定的HTML、CSS、JavaScript基础。 (JS※ 、ES6※。以后都会用ES6） 另： xcode 读音：叉code。 Vue不要读成v、u、e。 Vuejs安装方式 方式一：直接CDN引入 方式二：下载和引入 另： - 直接下载，拷贝到项目里面就可以使用，只有一个vue.js文件，hin方便。\n方式三：NPM安装 后续通过webpack和CLI的使用，然后再使用这种方式。 Vuejs初体验 script引入vue并使用： 修改数据：1. 界面不用改，声明式开发。 2. 响应式：当数据发生改变，界面自动改变。 创建Vue对象时候，传入参数含义：\n{}中包含了el属性：该属性决定了这个vue对象挂载到哪一个元素。 {}中包含了data属性:该属性中通常会存储一些数据。 数据可以是我们自己定义的。 也可以是来自网络，从服务器加载到的。 列表展示：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 &lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;title&gt;Title&lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;div id=&#34;app&#34;&gt; &lt;!--{{movies}} --&gt; &lt;!-- 这种会展示成json格式数据--&gt; &lt;ul&gt; &lt;li v-for=&#34;item in movies&#34;&gt;{{item}}&lt;/li&gt; &lt;/ul&gt; &lt;/div&gt; &lt;script src=&#34;../js/vue.js&#34;&gt;&lt;/script&gt; &lt;script&gt; const app = new Vue({ el: &#39;#app&#39;, data: { message: &#39;你好呀&#39;, movies: [&#39;星际穿越&#39;, &#39;大话西游&#39;, &#39;盗墓空间&#39;, &#39;切尔诺贝利&#39;] } }) &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; Vue计数器案例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 &lt;div id=&#34;app&#34;&gt; &lt;h2&gt;当前计数：{{counter}}&lt;/h2&gt; &lt;button v-on:click=&#34;add&#34;&gt;+&lt;/button&gt; &lt;button v-on:click=&#34;sub&#34;&gt;-&lt;/button&gt; &lt;/div&gt; &lt;script src=&#34;../js/vue.js&#34;&gt;&lt;/script&gt; &lt;script&gt; const app = new Vue({ el: &#34;#app&#34;, data: { counter: 0 }, methods: { add: function () { console.log(&#39;add被执行&#39;); this.counter++ }, sub: function () { console.log(&#39;sub被执行&#39;); this.counter-- } } }) &lt;/script&gt; 另： ES6不再使用var定义变量，而是使用let，let定义变量，const定义常量。 可以在游览器console中修改数据，会自动响应式展示。 @click是 v-on:click的语法糖。 Vuejs的MVVM 什么是MVVM：维基百科MVVM。 （需要再详细阅读） Vue的MVVM：图不清楚，需要重新找。 创建Vue实例传入的options el: string | HTML Element data: Object | Function (组件中data必须是一个函数) methods: { [key: string]: Function } （后面换成ES6的语法来写） 另： 开发中什么叫方法，什么称之为函数？ 答：都是通过function定义，类里面叫方法，定义在外面叫函数。 方法：method 函数：function Vue的生命周期（简单理解下） ">
+<title>Vue入门笔记</title>
+
+<link rel='canonical' href='https://qiyueliuhuo.github.io/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.9768e1ece02ab8863eb990f67f0561fb1fe386bc4d167d086c922110995ad8fc.css"><meta property='og:title' content="Vue入门笔记">
+<meta property='og:description' content=" vue学习记录。\n注：\n学习目录在Workplace/vueLearning。 学完要综合学过前端和后端知识，开发一个完整的应用，综合应用知识。 使用的开发IDE为WebStorm。 学习地址：Vue学习 一、邂逅Vuejs 认识Vuejs Vue在国内相比于React使用更加广泛、更火。\n三大框架：VueJs、AngularJs、React。 Vue：读音/vju:/，类似于view。 Vue是一个渐进式框架：\nVue可以作为你应用的一部分嵌入其中。（一点一点渐进式引入Vue） 也可以直接使用Vue核心库及其生态系统。（Vue全家桶） Vue的特点和高级功能：（目前不太了解，慢慢学习，慢慢体会）\n解耦视图和数据 可复用的组件 前端路由技术 状态管理 虚拟DOM 学习Vue前提：\n可以从零学习，不需要其他框架的知识为前提。 需要具备一定的HTML、CSS、JavaScript基础。 (JS※ 、ES6※。以后都会用ES6） 另： xcode 读音：叉code。 Vue不要读成v、u、e。 Vuejs安装方式 方式一：直接CDN引入 方式二：下载和引入 另： - 直接下载，拷贝到项目里面就可以使用，只有一个vue.js文件，hin方便。\n方式三：NPM安装 后续通过webpack和CLI的使用，然后再使用这种方式。 Vuejs初体验 script引入vue并使用： 修改数据：1. 界面不用改，声明式开发。 2. 响应式：当数据发生改变，界面自动改变。 创建Vue对象时候，传入参数含义：\n{}中包含了el属性：该属性决定了这个vue对象挂载到哪一个元素。 {}中包含了data属性:该属性中通常会存储一些数据。 数据可以是我们自己定义的。 也可以是来自网络，从服务器加载到的。 列表展示：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 &lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;title&gt;Title&lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;div id=&#34;app&#34;&gt; &lt;!--{{movies}} --&gt; &lt;!-- 这种会展示成json格式数据--&gt; &lt;ul&gt; &lt;li v-for=&#34;item in movies&#34;&gt;{{item}}&lt;/li&gt; &lt;/ul&gt; &lt;/div&gt; &lt;script src=&#34;../js/vue.js&#34;&gt;&lt;/script&gt; &lt;script&gt; const app = new Vue({ el: &#39;#app&#39;, data: { message: &#39;你好呀&#39;, movies: [&#39;星际穿越&#39;, &#39;大话西游&#39;, &#39;盗墓空间&#39;, &#39;切尔诺贝利&#39;] } }) &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; Vue计数器案例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 &lt;div id=&#34;app&#34;&gt; &lt;h2&gt;当前计数：{{counter}}&lt;/h2&gt; &lt;button v-on:click=&#34;add&#34;&gt;+&lt;/button&gt; &lt;button v-on:click=&#34;sub&#34;&gt;-&lt;/button&gt; &lt;/div&gt; &lt;script src=&#34;../js/vue.js&#34;&gt;&lt;/script&gt; &lt;script&gt; const app = new Vue({ el: &#34;#app&#34;, data: { counter: 0 }, methods: { add: function () { console.log(&#39;add被执行&#39;); this.counter++ }, sub: function () { console.log(&#39;sub被执行&#39;); this.counter-- } } }) &lt;/script&gt; 另： ES6不再使用var定义变量，而是使用let，let定义变量，const定义常量。 可以在游览器console中修改数据，会自动响应式展示。 @click是 v-on:click的语法糖。 Vuejs的MVVM 什么是MVVM：维基百科MVVM。 （需要再详细阅读） Vue的MVVM：图不清楚，需要重新找。 创建Vue实例传入的options el: string | HTML Element data: Object | Function (组件中data必须是一个函数) methods: { [key: string]: Function } （后面换成ES6的语法来写） 另： 开发中什么叫方法，什么称之为函数？ 答：都是通过function定义，类里面叫方法，定义在外面叫函数。 方法：method 函数：function Vue的生命周期（简单理解下） ">
+<meta property='og:url' content='https://qiyueliuhuo.github.io/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/'>
+<meta property='og:site_name' content='七月流火'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Vue' /><meta property='article:tag' content='前端' /><meta property='article:published_time' content='2021-01-06T22:02:52&#43;00:00'/><meta property='article:modified_time' content='2021-01-06T22:02:52&#43;00:00'/><meta property='og:image' content='https://qiyueliuhuo.github.io/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover.jpg' />
+<meta name="twitter:title" content="Vue入门笔记">
+<meta name="twitter:description" content=" vue学习记录。\n注：\n学习目录在Workplace/vueLearning。 学完要综合学过前端和后端知识，开发一个完整的应用，综合应用知识。 使用的开发IDE为WebStorm。 学习地址：Vue学习 一、邂逅Vuejs 认识Vuejs Vue在国内相比于React使用更加广泛、更火。\n三大框架：VueJs、AngularJs、React。 Vue：读音/vju:/，类似于view。 Vue是一个渐进式框架：\nVue可以作为你应用的一部分嵌入其中。（一点一点渐进式引入Vue） 也可以直接使用Vue核心库及其生态系统。（Vue全家桶） Vue的特点和高级功能：（目前不太了解，慢慢学习，慢慢体会）\n解耦视图和数据 可复用的组件 前端路由技术 状态管理 虚拟DOM 学习Vue前提：\n可以从零学习，不需要其他框架的知识为前提。 需要具备一定的HTML、CSS、JavaScript基础。 (JS※ 、ES6※。以后都会用ES6） 另： xcode 读音：叉code。 Vue不要读成v、u、e。 Vuejs安装方式 方式一：直接CDN引入 方式二：下载和引入 另： - 直接下载，拷贝到项目里面就可以使用，只有一个vue.js文件，hin方便。\n方式三：NPM安装 后续通过webpack和CLI的使用，然后再使用这种方式。 Vuejs初体验 script引入vue并使用： 修改数据：1. 界面不用改，声明式开发。 2. 响应式：当数据发生改变，界面自动改变。 创建Vue对象时候，传入参数含义：\n{}中包含了el属性：该属性决定了这个vue对象挂载到哪一个元素。 {}中包含了data属性:该属性中通常会存储一些数据。 数据可以是我们自己定义的。 也可以是来自网络，从服务器加载到的。 列表展示：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 &lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;title&gt;Title&lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;div id=&#34;app&#34;&gt; &lt;!--{{movies}} --&gt; &lt;!-- 这种会展示成json格式数据--&gt; &lt;ul&gt; &lt;li v-for=&#34;item in movies&#34;&gt;{{item}}&lt;/li&gt; &lt;/ul&gt; &lt;/div&gt; &lt;script src=&#34;../js/vue.js&#34;&gt;&lt;/script&gt; &lt;script&gt; const app = new Vue({ el: &#39;#app&#39;, data: { message: &#39;你好呀&#39;, movies: [&#39;星际穿越&#39;, &#39;大话西游&#39;, &#39;盗墓空间&#39;, &#39;切尔诺贝利&#39;] } }) &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; Vue计数器案例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 &lt;div id=&#34;app&#34;&gt; &lt;h2&gt;当前计数：{{counter}}&lt;/h2&gt; &lt;button v-on:click=&#34;add&#34;&gt;+&lt;/button&gt; &lt;button v-on:click=&#34;sub&#34;&gt;-&lt;/button&gt; &lt;/div&gt; &lt;script src=&#34;../js/vue.js&#34;&gt;&lt;/script&gt; &lt;script&gt; const app = new Vue({ el: &#34;#app&#34;, data: { counter: 0 }, methods: { add: function () { console.log(&#39;add被执行&#39;); this.counter++ }, sub: function () { console.log(&#39;sub被执行&#39;); this.counter-- } } }) &lt;/script&gt; 另： ES6不再使用var定义变量，而是使用let，let定义变量，const定义常量。 可以在游览器console中修改数据，会自动响应式展示。 @click是 v-on:click的语法糖。 Vuejs的MVVM 什么是MVVM：维基百科MVVM。 （需要再详细阅读） Vue的MVVM：图不清楚，需要重新找。 创建Vue实例传入的options el: string | HTML Element data: Object | Function (组件中data必须是一个函数) methods: { [key: string]: Function } （后面换成ES6的语法来写） 另： 开发中什么叫方法，什么称之为函数？ 答：都是通过function定义，类里面叫方法，定义在外面叫函数。 方法：method 函数：function Vue的生命周期（简单理解下） "><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://qiyueliuhuo.github.io/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover.jpg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "dark");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">七月流火</a></h1>
+            <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/qiyueliuhuo'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一邂逅vuejs">一、邂逅Vuejs</a>
+      <ol>
+        <li><a href="#认识vuejs">认识Vuejs</a></li>
+        <li><a href="#vuejs安装方式">Vuejs安装方式</a>
+          <ol>
+            <li><a href="#方式一直接cdn引入">方式一：直接CDN引入</a></li>
+            <li><a href="#方式二下载和引入">方式二：下载和引入</a></li>
+            <li><a href="#方式三npm安装">方式三：NPM安装</a></li>
+          </ol>
+        </li>
+        <li><a href="#vuejs初体验">Vuejs初体验</a></li>
+        <li><a href="#vuejs的mvvm">Vuejs的MVVM</a></li>
+        <li><a href="#创建vue实例传入的options">创建Vue实例传入的options</a></li>
+        <li><a href="#vue的生命周期简单理解下">Vue的生命周期（简单理解下）</a></li>
+      </ol>
+    </li>
+    <li><a href="#二vue基础语法">二、Vue基础语法</a>
+      <ol>
+        <li><a href="#代码规范">代码规范</a></li>
+        <li><a href="#重复代码建立模板">重复代码建立模板</a></li>
+        <li><a href="#插值语法">插值语法</a>
+          <ol>
+            <li><a href="#mustache语法-也就是双大括号用的最多">Mustache语法 （也就是双大括号，用的最多）※</a></li>
+            <li><a href="#v-once指令的使用">v-once指令的使用</a></li>
+            <li><a href="#v-html指令的使用">v-html指令的使用</a></li>
+            <li><a href="#v-text指令的使用-一般不用没有双括号灵活">v-text指令的使用 （一般不用，没有双括号灵活）</a></li>
+            <li><a href="#v-pre指令的使用-很少使用">v-pre指令的使用 （很少使用）</a></li>
+            <li><a href="#v-cloak指令的使用-基本不用">v-cloak指令的使用 （基本不用）</a></li>
+            <li><a href="#v-bind">v-bind</a></li>
+          </ol>
+        </li>
+        <li><a href="#计算属性-computed很重要">计算属性 <code>computed</code>（很重要）※</a>
+          <ol>
+            <li><a href="#计算属性的使用">计算属性的使用</a></li>
+            <li><a href="#计算属性setter和getter">计算属性setter和getter</a></li>
+            <li><a href="#计算属性和methods的对比--">计算属性和methods的对比  ※</a></li>
+          </ol>
+        </li>
+        <li><a href="#补充es6语法">补充：ES6语法</a></li>
+        <li><a href="#事件监听">事件监听</a>
+          <ol>
+            <li><a href="#v-on的基本使用">v-on的基本使用</a></li>
+            <li><a href="#v-on的参数">v-on的参数</a></li>
+            <li><a href="#v-on的修饰符">v-on的修饰符</a></li>
+            <li><a href="#关于事件监听参考">关于事件监听参考</a></li>
+          </ol>
+        </li>
+        <li><a href="#条件判断">条件判断</a>
+          <ol>
+            <li><a href="#v-if的使用">v-if的使用</a></li>
+            <li><a href="#v-show的使用">v-show的使用</a></li>
+          </ol>
+        </li>
+        <li><a href="#循环遍历v-for的使用">循环遍历v-for的使用</a>
+          <ol>
+            <li><a href="#v-for绑定key">v-for绑定key</a></li>
+            <li><a href="#数组中响应式方法数组内容改变展示内容跟着改变">数组中响应式方法：数组内容改变，展示内容跟着改变。</a></li>
+          </ol>
+        </li>
+        <li><a href="#补充三个高阶函数--">补充：三个高阶函数  ※</a></li>
+        <li><a href="#v-model双向绑定-暂时跳过">v-model双向绑定 （暂时跳过）</a></li>
+      </ol>
+    </li>
+    <li><a href="#三组件化开发-">三、组件化开发 ※</a>
+      <ol>
+        <li><a href="#什么是组件化">什么是组件化？</a></li>
+        <li><a href="#组件化思想">组件化思想</a></li>
+        <li><a href="#组件使用步骤">组件使用步骤</a></li>
+        <li><a href="#全局组件和局部组件">全局组件和局部组件</a></li>
+        <li><a href="#父组件和子组件的区别---">父组件和子组件的区别  ※ ※</a></li>
+        <li><a href="#注册组件的语法糖写法推荐写法-">注册组件的语法糖写法（推荐写法）※ ※</a></li>
+        <li><a href="#模板的分离写法">模板的分离写法</a></li>
+        <li><a href="#为什么组件data必须是函数-">为什么组件data必须是函数？ ※</a>
+          <ol>
+            <li><a href="#script标签"><code>&lt;script&gt;</code>标签</a></li>
+            <li><a href="#template标签"><code>&lt;template&gt;</code>标签</a></li>
+          </ol>
+        </li>
+        <li><a href="#父子组件的通信---">父子组件的通信 ※ ※ ※</a>
+          <ol>
+            <li><a href="#父组件向子组件-props-常用-">父组件向子组件 props (常用) ※</a></li>
+            <li><a href="#子组件向父组件-emit-events-">子组件向父组件 $emit events ※</a></li>
+          </ol>
+        </li>
+        <li><a href="#webpack的介绍与安装">webpack的介绍与安装</a>
+          <ol>
+            <li><a href="#认识webpack">认识webpack</a></li>
+            <li><a href="#webpack的安装">webpack的安装</a></li>
+            <li><a href="#webpack的起步">webpack的起步</a></li>
+            <li><a href="#webpack的配置">webpack的配置</a></li>
+            <li><a href="#loader的使用">loader的使用</a></li>
+            <li><a href="#iwebpack中配置vue">Iwebpack中配置Vue</a></li>
+            <li><a href="#plugin的使用">plugin的使用</a></li>
+            <li><a href="#搭建本地服务器">搭建本地服务器</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#四vue-cli详解-脚手架">四、Vue CLI详解 （脚手架）※</a></li>
+    <li><a href="#五vue-router">五、vue-router</a></li>
+    <li><a href="#六vuex详解-状态管理">六、Vuex详解 （状态管理）</a></li>
+    <li><a href="#七网络封装">七、网络封装</a></li>
+    <li><a href="#八项目实战">八、项目实战</a>
+      <ol>
+        <li><a href="#创建项目">创建项目</a></li>
+        <li><a href="#目录结构划分">目录结构划分</a></li>
+      </ol>
+    </li>
+    <li><a href="#九项目部署">九、项目部署</a></li>
+    <li><a href="#十vuejs原理相关">十、vuejs原理相关</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">
+                <img src="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover_hu6349396096157888552.jpg"
+                        srcset="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover_hu6349396096157888552.jpg 800w, /posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover_hu5027728615293909421.jpg 1600w"
+                        width="800" 
+                        height="334" 
+                        loading="lazy"
+                        alt="Featured image of post Vue入门笔记" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/" style="background-color: #1c62a9; color: #fff;">
+                编程开发
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">Vue入门笔记</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 06, 2021</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 6 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <blockquote>
+<p>vue学习记录。</p>
+</blockquote>
+<!-- more -->
+<p>注：</p>
+<blockquote>
+<ol>
+<li>学习目录在Workplace/vueLearning。</li>
+<li>学完要综合学过前端和后端知识，开发一个完整的应用，综合应用知识。</li>
+<li>使用的开发IDE为WebStorm。</li>
+<li>学习地址：<a class="link" href="https://www.youtube.com/watch?v=T5LGA8Qy1Fk&amp;list=PLYD7D0d62WlCUB2L5WEleVHLtfG8LnVC_&amp;index=61"  target="_blank" rel="noopener"
+    >Vue学习</a></li>
+</ol>
+</blockquote>
+<h2 id="一邂逅vuejs">一、邂逅Vuejs
+</h2><h3 id="认识vuejs">认识Vuejs
+</h3><ul>
+<li>
+<p>Vue在国内相比于React使用更加广泛、更火。</br></p>
+</li>
+<li>
+<p>三大框架：VueJs、AngularJs、React。 </br></p>
+</li>
+<li>
+<p>Vue：读音/vju:/，类似于view。 </br></p>
+</li>
+<li>
+<p>Vue是一个渐进式框架：</p>
+<ol>
+<li>Vue可以作为你应用的一部分嵌入其中。（一点一点渐进式引入Vue）</li>
+<li>也可以直接使用Vue核心库及其生态系统。（Vue全家桶）</li>
+</ol>
+</li>
+<li>
+<p>Vue的特点和高级功能：（目前不太了解，慢慢学习，慢慢体会）</p>
+</li>
+</ul>
+<ol>
+<li>解耦视图和数据</li>
+<li>可复用的组件</li>
+<li>前端路由技术</li>
+<li>状态管理</li>
+<li>虚拟DOM</li>
+</ol>
+<p>学习Vue前提：</p>
+<ol>
+<li>可以从零学习，不需要其他框架的知识为前提。</li>
+<li>需要具备一定的HTML、CSS、JavaScript基础。 (JS※ 、ES6※。以后都会用ES6）</li>
+</ol>
+<ul>
+<li>另：
+<ol>
+<li>xcode 读音：叉code。</li>
+<li>Vue不要读成v、u、e。</li>
+</ol>
+</li>
+</ul>
+<h3 id="vuejs安装方式">Vuejs安装方式
+</h3><h4 id="方式一直接cdn引入">方式一：直接CDN引入
+</h4><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210106223502.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h4 id="方式二下载和引入">方式二：下载和引入
+</h4><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210106223618.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>另：
+- 直接下载，拷贝到项目里面就可以使用，只有一个vue.js文件，hin方便。</p>
+<h4 id="方式三npm安装">方式三：NPM安装
+</h4><ul>
+<li>后续通过webpack和CLI的使用，然后再使用这种方式。</li>
+</ul>
+<h3 id="vuejs初体验">Vuejs初体验
+</h3><ul>
+<li><code>script</code>引入vue并使用：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210106231454.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>
+<p>修改数据：1. 界面不用改，声明式开发。 2. 响应式：当数据发生改变，界面自动改变。
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210106230810.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</li>
+<li>
+<p>创建Vue对象时候，传入参数含义：</p>
+<ol>
+<li>{}中包含了el属性：该属性决定了这个vue对象挂载到哪一个元素。</li>
+<li>{}中包含了data属性:该属性中通常会存储一些数据。
+<ul>
+<li>数据可以是我们自己定义的。</li>
+<li>也可以是来自网络，从服务器加载到的。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>列表展示：</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;UTF-8&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Title<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!--{{movies}}  --&gt;</span> <span class="c">&lt;!-- 这种会展示成json格式数据--&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">li</span> <span class="na">v-for</span><span class="o">=</span><span class="s">&#34;item in movies&#34;</span><span class="p">&gt;</span>{{item}}<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;../js/vue.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;#app&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;你好呀&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">movies</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;星际穿越&#39;</span><span class="p">,</span> <span class="s1">&#39;大话西游&#39;</span><span class="p">,</span> <span class="s1">&#39;盗墓空间&#39;</span><span class="p">,</span> <span class="s1">&#39;切尔诺贝利&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Vue计数器案例</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>当前计数：{{counter}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">v-on:click</span><span class="o">=</span><span class="s">&#34;add&#34;</span><span class="p">&gt;</span>+<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">v-on:click</span><span class="o">=</span><span class="s">&#34;sub&#34;</span><span class="p">&gt;</span>-<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;../js/vue.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">el</span><span class="o">:</span> <span class="s2">&#34;#app&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">counter</span><span class="o">:</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">methods</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">add</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;add被执行&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="nx">counter</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">sub</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;sub被执行&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="nx">counter</span><span class="o">--</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>另：
+<ol>
+<li>ES6不再使用<code>var</code>定义变量，而是使用<code>let</code>，<code>let</code>定义变量，<code>const</code>定义常量。</li>
+<li>可以在游览器console中修改数据，会自动响应式展示。</li>
+<li><code>@click</code>是 <code>v-on:click</code>的语法糖。</li>
+</ol>
+</li>
+</ul>
+<h3 id="vuejs的mvvm">Vuejs的MVVM
+</h3><ul>
+<li>什么是MVVM：<a class="link" href="https://zh.wikipedia.org/wiki/MVVM"  target="_blank" rel="noopener"
+    >维基百科MVVM</a>。 （需要再详细阅读）</li>
+<li>Vue的MVVM：图不清楚，需要重新找。
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210106235052.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></li>
+</ul>
+<h3 id="创建vue实例传入的options">创建Vue实例传入的options
+</h3><ul>
+<li>el: string | HTML Element</li>
+<li>data: Object | Function  (组件中data必须是一个函数)</li>
+<li>methods: { [key: string]: Function }  （后面换成ES6的语法来写）</li>
+<li>另：
+<ol>
+<li>开发中什么叫方法，什么称之为函数？ 答：都是通过function定义，类里面叫方法，定义在外面叫函数。
+<ul>
+<li>方法：method</li>
+<li>函数：function</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="vue的生命周期简单理解下">Vue的生命周期（简单理解下）
+</h3><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107104540.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ul>
+<li>另：
+<ol>
+<li>常用的生命周期函数：created、mounted。</li>
+</ol>
+</li>
+</ul>
+<h2 id="二vue基础语法">二、Vue基础语法
+</h2><h3 id="代码规范">代码规范
+</h3><ol>
+<li>前端开发，缩进<strong>两个空格</strong>更加合适。</li>
+</ol>
+<h3 id="重复代码建立模板">重复代码建立模板
+</h3><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107110820.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>将重复输入的内容设置到模板当中，在HTML（需要设置）中直接输入vue，点击回车，就可以自动填充模板中的内容。</p>
+<h3 id="插值语法">插值语法
+</h3><h4 id="mustache语法-也就是双大括号用的最多">Mustache语法 （也就是双大括号，用的最多）※
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>{{message}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- mustache语法中，不仅仅可以直接写变量，也可以写一些简单的表达式--&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>{{firstName + &#39; &#39; + lastName}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>{{firstName}} {{lastName}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>{{counter * 2}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="v-once指令的使用">v-once指令的使用
+</h4><p>只展示一次，后面网页界面内容不会随着<code>message</code>值的<strong>改变而改变</strong>。也就是第二个<code>h2</code>标签显示的内容不会随着<code>vue</code>的<code>app</code>里面数据改变。</p>
+<blockquote>
+<p>一般情况下不用，特殊情况下需要使用。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>{{message}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span> <span class="na">v-once</span><span class="p">&gt;</span>{{message}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="v-html指令的使用">v-html指令的使用
+</h4><p>数据以HTML形式展示。
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107113412.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+>
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107113535.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h4 id="v-text指令的使用-一般不用没有双括号灵活">v-text指令的使用 （一般不用，没有双括号灵活）
+</h4><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107113954.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h4 id="v-pre指令的使用-很少使用">v-pre指令的使用 （很少使用）
+</h4><p>将<code>v-pre</code>设置的标签内容原封不动展示，不进行解析。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>{{message}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span> <span class="na">v-pre</span><span class="p">&gt;</span>{{message}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="v-cloak指令的使用-基本不用">v-cloak指令的使用 （基本不用）
+</h4><blockquote>
+<p>cloak: 斗篷。 clock: 时钟。</p>
+</blockquote>
+<p>和<code>css</code>样式结合使用，可以实现当<code>JS</code>脚本未执行完，不显示内容，而不是显示一些未渲染的“乱码”，对用户友好。</p>
+<h4 id="v-bind">v-bind
+</h4><blockquote>
+<p>v-bind之前都是将数据插到内容中，而这个是将值插到标签的属性中，比如<code>img</code>标签的<code>src</code>属性，改变这个属性值。又比如<code>a</code>标签的<code>href</code>属性。不能用<strong>双括号语法</strong>操作，双括号是在标签内容中使用的。</p>
+</blockquote>
+<p><strong>作用</strong>：动态绑定标签属性。</p>
+<h5 id="v-bind基本使用">v-bind基本使用
+</h5><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107121506.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h5 id="v-bind语法糖-经常用">v-bind语法糖 （经常用）※
+</h5><p>将<code>v-bind:</code>简写成<code>:</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107121734.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h5 id="v-bind动态绑定class属性">v-bind动态绑定<code>class</code>属性
+</h5><ol>
+<li>对象语法：<code>class = &quot;&quot;</code> 双引号里面是个对象。 （经常用）※
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107122912.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107122834.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ol start="2">
+<li>数组语法  （很少用）</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;title&#34;</span> <span class="na">:class</span><span class="o">=</span><span class="s">&#34;[active,</span> <span class="err">&#39;</span><span class="na">line</span><span class="err">&#39;]</span><span class="p">&gt;</span>{{message}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!-- active是个变量，定义在data中--&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="v-bind动态绑定style">v-bind动态绑定<code>style</code>
+</h5><ol>
+<li>对象语法：<code>:style=&quot;{key(属性名): value(属性值)}&quot;</code> 双引号里面是个对象。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!--  &lt;h2 :style=&#34;{key(属性名): value(属性值)}&#34;&gt;{{message}}&lt;/h2&gt;--&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span> <span class="na">:style</span><span class="o">=</span><span class="s">&#34;{fontSize: finalSize, color: finalColor}&#34;</span><span class="p">&gt;</span>{{message}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>  <span class="c">&lt;!-- key不需要加单引号，但是value要加，否则20px当作成变量了 --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;../js/vue.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">el</span><span class="o">:</span> <span class="s2">&#34;#app&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;你好呀&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">finalSize</span><span class="o">:</span> <span class="s1">&#39;100px&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">finalColor</span><span class="o">:</span> <span class="s1">&#39;red&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>数组语法：<code>&lt;div v-bind: style=&quot;[basestyles, overridingstyles]&quot;&gt;/div&gt;</code> ，basestyles和overridingstyles为对象 （很少用）</li>
+</ol>
+<h3 id="计算属性-computed很重要">计算属性 <code>computed</code>（很重要）※
+</h3><h4 id="计算属性的使用">计算属性的使用
+</h4><blockquote>
+<p>数据展示之前需要经过一定的处理，computed里面也是定义的函数，但是不要命名为动词，一般命名为名词。</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!--  &lt;h2&gt;{{firstName + &#39; &#39; + lastName}}&lt;/h2&gt;--&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c">&lt;!--  &lt;h2&gt;{{fullName()}}&lt;/h2&gt;--&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>{{fullName}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>  <span class="c">&lt;!-- 不需要加函数的括号 --&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;../js/vue.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">el</span><span class="o">:</span> <span class="s2">&#34;#app&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;你好呀&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">firstName</span><span class="o">:</span> <span class="s1">&#39;lebron&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">lastName</span><span class="o">:</span> <span class="s1">&#39;James&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">computed</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">fullName</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span> <span class="o">+</span> <span class="s1">&#39; 根据computed得到的&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">methods</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// fullName: function () {
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">//   return this.firstName + &#39; &#39; + this.lastName;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>应用场景</strong>: 购物车选中多个商品，计算总价格。</p>
+<p>另：计算属性只计算一次，有缓存，相比<code>method</code>计算速度更快。</p>
+<h4 id="计算属性setter和getter">计算属性setter和getter
+</h4><h4 id="计算属性和methods的对比--">计算属性和methods的对比  ※
+</h4><blockquote>
+<p>计算属性内部实现缓存，如果值不改变，直接调用缓存中的内容，而methods每次都会调用，效率比计算属性差</p>
+</blockquote>
+<h3 id="补充es6语法">补充：ES6语法
+</h3><ol>
+<li>let/var</li>
+</ol>
+<blockquote>
+<p>let有if和for块级作用域，而var没有if和for块级作用域。</p>
+</blockquote>
+<ol start="2">
+<li>const</li>
+</ol>
+<blockquote>
+<p>标识符修饰为常量。定义时就需要赋值。对象不能修改，但是可以改变对象里面的属性。</p>
+</blockquote>
+<ol start="3">
+<li>对象的字面量增强写法</li>
+</ol>
+<ul>
+<li>属性的增强写法</li>
+<li>函数的增强写法</li>
+</ul>
+<h3 id="事件监听">事件监听
+</h3><h4 id="v-on的基本使用">v-on的基本使用
+</h4><blockquote>
+<p>v-on语法糖：@</p>
+</blockquote>
+<h4 id="v-on的参数">v-on的参数
+</h4><blockquote>
+<p>事件监听的时候，若不需要传参数，则可以不写调用的小括号。（省略）</p>
+</blockquote>
+<p>如何给事件监听函数传入，游览器生成的event对象？</p>
+<blockquote>
+<p>传入的参数为<code>$event</code>就可以了。方法形参为<code>event</code>。</p>
+</blockquote>
+<h4 id="v-on的修饰符">v-on的修饰符
+</h4><ol>
+<li><code>@click.stop</code>防止事件冒泡。</li>
+<li><code>@click.prevent</code>阻止默认行为的执行。</li>
+<li><code>@keyUp.enter</code>监听<code>enter</code>键的释放。</li>
+<li><code>@click.once</code>只监听一次点击事件。</li>
+</ol>
+<h4 id="关于事件监听参考">关于事件监听参考
+</h4><p><a class="link" href="https://blog.csdn.net/m0_46613429/article/details/119008050"  target="_blank" rel="noopener"
+    >Vue事件监听</a></p>
+<h3 id="条件判断">条件判断
+</h3><h4 id="v-if的使用">v-if的使用
+</h4><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107182431.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107182803.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>另：一般情况下，<code>v-else-if</code>、<code>v-else</code>不在HTML模板中使用，逻辑不放在界面代码处。</p>
+<h4 id="v-show的使用">v-show的使用
+</h4><blockquote>
+<p>决定标签是否在界面显示：<code>&lt;h2 v-show=&quot;isShow&quot;&gt; &lt;/h2&gt;</code></p>
+</blockquote>
+<p><code>v-if</code> 和 <code>v-show</code>的区别。  （v-if经常使用）</p>
+<blockquote>
+<p>v-if：当条件为false时，包含v-if指令的元素，根本不会存在dom中。而v-show：当条件为false时，只是给元素添加了一个行内样式：display：none。前者dom中取掉，后者改样式。当展示切换频率很高，用v-show。</p>
+</blockquote>
+<h3 id="循环遍历v-for的使用">循环遍历v-for的使用
+</h3><ol>
+<li>遍历数组  ※</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="o">&lt;</span><span class="nx">li</span> <span class="nx">v</span><span class="o">-</span><span class="k">for</span><span class="o">=</span><span class="s2">&#34;(item, index) in movies&#34;</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">item</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/li&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>遍历对象</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;!-- 获取到的是value --&gt;
+</span></span><span class="line"><span class="cl">&lt;li v-for=&#34;item in info&#34;&gt;{{item}}&lt;/li&gt;  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;!-- 获取到value和key --&gt;
+</span></span><span class="line"><span class="cl">&lt;li v-for=&#34;(value, key) in info&#34;&gt;{{value}} {{key}}&lt;/li&gt;  
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="v-for绑定key">v-for绑定key
+</h4><p>省略。</p>
+<h4 id="数组中响应式方法数组内容改变展示内容跟着改变">数组中响应式方法：数组内容改变，展示内容跟着改变。
+</h4><blockquote>
+<p>push()、pop()、shift()、unshift()、splice()、sort()、reverse()</p>
+</blockquote>
+<p>另:</p>
+<ol>
+<li>splice() ※</li>
+<li>letters[index] = &lsquo;change&rsquo; 索引方式改变数组是非响应式的。</li>
+<li>上面的方式可以改用为vue内部实现的函数<code>vue.set()</code>，更推荐<code>splice()</code>方式。</li>
+</ol>
+<h3 id="补充三个高阶函数--">补充：三个高阶函数  ※
+</h3><p>filter、reduce、map函数</p>
+<p><code>let total = nums.filter(n =&gt; n&lt;100).map(n =&gt; n * 2).reduce((pre, n) =&gt; pre + n);</code></p>
+<h3 id="v-model双向绑定-暂时跳过">v-model双向绑定 （暂时跳过）
+</h3><h2 id="三组件化开发-">三、组件化开发 ※
+</h2><h3 id="什么是组件化">什么是组件化？
+</h3><blockquote>
+<p>将复杂问题，拆分成很多个小问题。将一个页面拆分成一个个小的功能块，每个功能块完成属于自己这一部分独立的功能，那么整个页面的管理和维护就变得非常容易了。应用最后抽象为一个组件树。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210108203614.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+>
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422134427.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="组件化思想">组件化思想
+</h3><ol>
+<li>任何的应用都会被抽象成一颗组件树。</li>
+<li>有了组件化的思想，我们在之后的开发中就要充分的利用它。</li>
+<li>尽可能的将页面拆分成一个个小的、可复用的组件。</li>
+<li>这样让我们的代码更加方便组织和管理，并且扩展性也更强。</li>
+</ol>
+<h3 id="组件使用步骤">组件使用步骤
+</h3><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422135236.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+>
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422135636.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ol>
+<li>创建组件构造器。</li>
+<li>注册组件。</li>
+<li>使用组件。</li>
+</ol>
+<p>另：</p>
+<ol>
+<li>开发中用的最多的是局部组件。</li>
+<li>一般只创建一个Vue实例。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422141641.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="全局组件和局部组件">全局组件和局部组件
+</h3><p>在Vue实例创建之外，注册的组件为全局组件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// 注册全局组件(全局组件, 意味着可以在多个Vue的实例下面使用，app，app2)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">&#39;cpn&#39;</span><span class="p">,</span> <span class="nx">cpnC</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在Vue实例创建时，注册的组件为局部组件。 <span style="color:#773098;font-weight:bold;">用的最多的还是局部组件。</span> ※ ※</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;#app&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;你好啊&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 局部组件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">components</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// cpn为使用组件时的标签名，cpnC为组件实例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nx">cpn</span><span class="o">:</span> <span class="nx">cpnC</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="父组件和子组件的区别---">父组件和子组件的区别  ※ ※
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// 1.创建第一个组件构造器(子组件)，Vue.extend()语法很少见了
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">cpnC1</span> <span class="o">=</span> <span class="nx">Vue</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;h2&gt;我是标题1&lt;/h2&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;p&gt;我是内容, 哈哈哈哈&lt;/p&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">  `</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 2.创建第二个组件构造器(父组件)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">cpnC2</span> <span class="o">=</span> <span class="nx">Vue</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;h2&gt;我是标题2&lt;/h2&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;p&gt;我是内容, 呵呵呵呵&lt;/p&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;cpn1&gt;&lt;/cpn1&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">  `</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">components</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">cpn1</span><span class="o">:</span> <span class="nx">cpnC1</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="注册组件的语法糖写法推荐写法-">注册组件的语法糖写法（推荐写法）※ ※
+</h3><p>省略 <code>Vue.extend()</code>，使用语法糖写法。
+后面内容讲解，将tepmlate抽离出去，代码会<strong>更加清晰</strong>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">&#39;cpn1&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;h2&gt;我是标题1&lt;/h2&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">      &lt;p&gt;我是内容, 哈哈哈哈&lt;/p&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">    &lt;/div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">  `</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 2.注册局部组件的语法糖
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;#app&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;你好啊&#39;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">components</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;cpn2&#39;</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">template</span><span class="o">:</span> <span class="sb">`
+</span></span></span><span class="line"><span class="cl"><span class="sb">        &lt;div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">          &lt;h2&gt;我是标题2&lt;/h2&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">          &lt;p&gt;我是内容, 呵呵呵&lt;/p&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">        &lt;/div&gt;
+</span></span></span><span class="line"><span class="cl"><span class="sb">  `</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="模板的分离写法">模板的分离写法
+</h3><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422145235.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h3 id="为什么组件data必须是函数-">为什么组件data必须是函数？ ※
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="c1">// 1.注册一个全局组件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">Vue</span><span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="s1">&#39;cpn&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">template</span><span class="o">:</span> <span class="s1">&#39;#cpn&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 组件数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;abc&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422150401.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<ol>
+<li>Vue组件应该有自己保存数据的地方，不能访问Vue实例中的数据。</li>
+<li>组件对象也有一个data属性(函数)，也可以有methods等属性。</li>
+<li>这个data属性必须是一个函数。</li>
+<li>这个函数返回一个对象，对象内部保存着数据，多个相同组件各自使用各自的数据。</li>
+</ol>
+<h4 id="script标签"><code>&lt;script&gt;</code>标签
+</h4><h4 id="template标签"><code>&lt;template&gt;</code>标签
+</h4><h3 id="父子组件的通信---">父子组件的通信 ※ ※ ※
+</h3><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220422152857.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220423134810.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h4 id="父组件向子组件-props-常用-">父组件向子组件 props (常用) ※
+</h4><blockquote>
+<p>props : properties 属性</p>
+</blockquote>
+<p>通过props向子组件传递数据。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;UTF-8&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Title<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;app&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!--&lt;cpn v-bind:cmovies=&#34;movies&#34;&gt;&lt;/cpn&gt;--&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!--&lt;cpn cmovies=&#34;movies&#34; cmessage=&#34;message&#34;&gt;&lt;/cpn&gt;--&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c">&lt;!-- v-bind --&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">cpn</span> <span class="na">:cmessage</span><span class="o">=</span><span class="s">&#34;message&#34;</span> <span class="na">:cmovies</span><span class="o">=</span><span class="s">&#34;movies&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">cpn</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">template</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;cpn&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">li</span> <span class="na">v-for</span><span class="o">=</span><span class="s">&#34;item in cmovies&#34;</span><span class="p">&gt;</span>{{item}}<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>{{cmessage}}<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;../js/vue.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 父传子: props
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">const</span> <span class="nx">cpn</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">template</span><span class="o">:</span> <span class="s1">&#39;#cpn&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// props: [&#39;cmovies&#39;, &#39;cmessage&#39;], 这种有些怪，字符串居然是变量！
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">props</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 1.类型限制
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// cmovies: Array,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="c1">// cmessage: String,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 2.提供一些默认值, 以及必传值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nx">cmessage</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">type</span><span class="o">:</span> <span class="nb">String</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="k">default</span><span class="o">:</span> <span class="s1">&#39;aaaaaaaa&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">required</span><span class="o">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 类型是对象或者数组时, 默认值必须是一个函数  js 中属性和函数的区别？？？
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="nx">cmovies</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">type</span><span class="o">:</span> <span class="nb">Array</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="k">default</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">methods</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;#app&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;你好啊&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">movies</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;海王&#39;</span><span class="p">,</span> <span class="s1">&#39;海贼王&#39;</span><span class="p">,</span> <span class="s1">&#39;海尔兄弟&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">components</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">cpn</span>  <span class="c1">// 对象字面量增强
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>问题：<br>
+TODO</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-HTML" data-lang="HTML"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">cpn</span> <span class="na">:cmessage</span><span class="o">=</span><span class="s">&#34;message&#34;</span> <span class="na">:cmovies</span><span class="o">=</span><span class="s">&#34;movies&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">cpn</span><span class="p">&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="子组件向父组件-emit-events-">子组件向父组件 $emit events ※
+</h4><p>通过事件events向父组件发送消息。</p>
+<p>看到P61</p>
+<h3 id="webpack的介绍与安装">webpack的介绍与安装
+</h3><p><a class="link" href="https://www.jianshu.com/p/1c4313715a82"  target="_blank" rel="noopener"
+    >Node, Npm 和 webpack</a></p>
+<blockquote>
+<p>从本质上来讲，webpack是一个现代的JavRScript应用的静态模块打包工具。
+<img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220423143552.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+</blockquote>
+<ol>
+<li>webpack其中一个核心就是让我们可能进行模块化开发，并且会帮助我们处理模块间的依赖关系。</li>
+<li>不仅仅是JavaScript文件，我们的CSS、图片、json文件等等在webpack中都可以被当做模块来使用（在后续我们会看到）。</li>
+</ol>
+<h4 id="认识webpack">认识webpack
+</h4><h4 id="webpack的安装">webpack的安装
+</h4><h4 id="webpack的起步">webpack的起步
+</h4><h4 id="webpack的配置">webpack的配置
+</h4><h4 id="loader的使用">loader的使用
+</h4><h4 id="iwebpack中配置vue">Iwebpack中配置Vue
+</h4><h4 id="plugin的使用">plugin的使用
+</h4><h4 id="搭建本地服务器">搭建本地服务器
+</h4><h2 id="四vue-cli详解-脚手架">四、Vue CLI详解 （脚手架）※
+</h2><h2 id="五vue-router">五、vue-router
+</h2><h2 id="六vuex详解-状态管理">六、Vuex详解 （状态管理）
+</h2><h2 id="七网络封装">七、网络封装
+</h2><h2 id="八项目实战">八、项目实战
+</h2><blockquote>
+<p>一步步学习，没什么耐心，那就项目驱动学习吧，开干。</p>
+</blockquote>
+<h3 id="创建项目">创建项目
+</h3><blockquote>
+<p>Vue CLI教程<a class="link" href="https://cli.vuejs.org/zh/guide/"  target="_blank" rel="noopener"
+    >Vue CLI </a></p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo cnpm  install -g vue-cli  # 安装
+</span></span><span class="line"><span class="cl">vue create supermall # 创新新的项目  
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="目录结构划分">目录结构划分
+</h3><blockquote>
+<p>参考：https://blog.csdn.net/weixin_42290927/article/details/94432587</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210721142734.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<h2 id="九项目部署">九、项目部署
+</h2><h2 id="十vuejs原理相关">十、vuejs原理相关
+</h2>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/vue/">Vue</a>
+        
+            <a href="/tags/%E5%89%8D%E7%AB%AF/">前端</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu12431349409231175071.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Vim-算法-刷题环境配置"
+                        data-key="Vim-算法-刷题环境配置" 
+                        data-hash="md5-fVk2jbZqwjswG2MTq4ToSQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Vim-算法-刷题环境配置</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu16517212594665624032.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post WebServer（C&#43;&#43;版）代码分析之线程池"
+                        data-key="WebServer（C&#43;&#43;版）代码分析之线程池" 
+                        data-hash="md5-q8PfSkaJGEYcDF53Dy/vAA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">WebServer（C&#43;&#43;版）代码分析之线程池</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9_hu12870970506028879207.gif" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post GDB调试学习"
+                        data-key="GDB调试学习" 
+                        data-hash="md5-NIXzv2PxNbT7vQTcgICn&#43;Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">GDB调试学习</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.a55b357ff9d2e033322598b57d591996_hu15019881840537993967.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post C&#43;&#43;知识点总结"
+                        data-key="C&#43;&#43;知识点总结" 
+                        data-hash="md5-pVs1f/nS4DMyJZi1fVkZlg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">C&#43;&#43;知识点总结</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2018 - 
+        
+        2024 七月流火
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
+    </body>
+</html>

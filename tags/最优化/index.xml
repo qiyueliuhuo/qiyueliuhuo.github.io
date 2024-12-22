@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>最优化 on 七月流火</title>
-        <link>http://localhost:1313/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</link>
         <description>Recent content in 最优化 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 23 Jun 2022 11:17:44 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E6%9C%80%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 23 Jun 2022 11:17:44 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E6%9C%80%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>机器学习中的优化方法</title>
-        <link>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</link>
+        <link>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</link>
         <pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate>
         
-        <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/method_of_neural_network_optimization.jpg" alt="Featured image of post 机器学习中的优化方法" /&gt;&lt;h2 id=&#34;梯度下降法推导&#34;&gt;梯度下降法推导
+        <guid>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</guid>
+        <description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/method_of_neural_network_optimization.jpg" alt="Featured image of post 机器学习中的优化方法" /&gt;&lt;h2 id=&#34;梯度下降法推导&#34;&gt;梯度下降法推导
 &lt;/h2&gt;&lt;h3 id=&#34;什么是梯度&#34;&gt;什么是梯度？
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;梯度&lt;/strong&gt;的本意是一个向量（矢量），表示某一函数在该点处的方向导数沿着该方向取得最大值，即函数在该点处沿着该方向（此梯度的方向）变化最快，变化率最大（为该梯度的模）。&lt;/p&gt;
 &lt;p&gt;通俗来说，梯度就是表示某一函数在该点处的方向导数沿着该方向取得（模）较大值，即函数在当前位置的导数。&lt;strong&gt;笔者理解&lt;/strong&gt;：在高维空间中参数 $\boldsymbol{\theta}$ 和 $f(\boldsymbol{\theta})$ 形成超曲面上，当 $\boldsymbol{\theta}$ 移动相同的 $\lVert\nabla\boldsymbol{\theta}\lVert$ 模值（超距离）时，沿着梯度的方向，可以使得 $f(\boldsymbol{\theta})$ 变化量（增加）最大。梯度表示为如下：

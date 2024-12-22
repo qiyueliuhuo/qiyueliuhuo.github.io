@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>模型评估 on 七月流火</title>
-        <link>http://localhost:1313/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/</link>
         <description>Recent content in 模型评估 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 21 Jun 2021 10:45:26 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 21 Jun 2021 10:45:26 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>目标检测模型的评估方法</title>
-        <link>http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/</link>
+        <link>https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/</link>
         <pubDate>Mon, 21 Jun 2021 10:45:26 +0800</pubDate>
         
-        <guid>http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/target_detection_cover.jpg" alt="Featured image of post 目标检测模型的评估方法" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+        <guid>https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/</guid>
+        <description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/target_detection_cover.jpg" alt="Featured image of post 目标检测模型的评估方法" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;如何评价一个算法模型的检测结果是好还是不好呢？&lt;/p&gt;
 &lt;h2 id=&#34;检测结果的正确错误类型&#34;&gt;检测结果的正确/错误类型
 &lt;/h2&gt;&lt;ul&gt;
@@ -21,10 +21,10 @@
 &lt;li&gt;假阴性 (False Negative)：算法没有检测到物体 (Negative)，但图中其实有某类物体，检测结果错误(False)。通常，我们把它也称为漏检。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;这里&lt;strong&gt;检测到&lt;/strong&gt;的衡量标准：对于某个检测框，图中&lt;strong&gt;存在同类型的真值框&lt;/strong&gt;且与之交并比大于阈值（通常取0.5）
-&lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42.png&#34;
+&lt;img src=&#34;https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42.png&#34;
 	width=&#34;1291&#34;
 	height=&#34;426&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu2418027556458035093.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu9556632467753866613.png 1024w&#34;
+	srcset=&#34;https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu2418027556458035093.png 480w, https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu9556632467753866613.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;检测结果示例&#34;
@@ -36,10 +36,10 @@
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;例子：
-&lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2.png&#34;
+&lt;img src=&#34;https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2.png&#34;
 	width=&#34;809&#34;
 	height=&#34;446&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu415412087098922318.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu17359873281064812625.png 1024w&#34;
+	srcset=&#34;https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu415412087098922318.png 480w, https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu17359873281064812625.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;多张图像检测结果示例&#34;
@@ -51,10 +51,10 @@
 	
 &gt;
 上面检测有 7 张图像，其中绿色边界框表示 15 个真值框，红色边界框表示 24 个检测框。每个检测到的对象都有一个&lt;strong&gt;置信度&lt;/strong&gt;，并由一个字母 (A,B,&amp;hellip;,Y) 标识。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2.png&#34;
 	width=&#34;332&#34;
 	height=&#34;705&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu15070469870161165776.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu2573344215508920506.png 1024w&#34;
+	srcset=&#34;https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu15070469870161165776.png 480w, https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu2573344215508920506.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;多张图像检测结果分析&#34;
@@ -70,10 +70,10 @@
     &gt;目标检测指标&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;目标检测评价指标&#34;&gt;目标检测评价指标
 &lt;/h2&gt;&lt;h3 id=&#34;召回率准确率&#34;&gt;召回率、准确率
-&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07.png&#34;
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07.png&#34;
 	width=&#34;746&#34;
 	height=&#34;201&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu5765300025566985294.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu16317770309019673399.png 1024w&#34;
+	srcset=&#34;https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu5765300025566985294.png 480w, https://qiyueliuhuo.github.io/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu16317770309019673399.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	

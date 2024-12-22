@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>算子 on 七月流火</title>
-        <link>http://localhost:1313/tags/%E7%AE%97%E5%AD%90/</link>
+        <link>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E5%AD%90/</link>
         <description>Recent content in 算子 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 25 Apr 2021 21:41:56 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E7%AE%97%E5%AD%90/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 25 Apr 2021 21:41:56 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E7%AE%97%E5%AD%90/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>拆解神经网络算子：参数量与计算量的秘密</title>
-        <link>http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/</link>
+        <link>https://qiyueliuhuo.github.io/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/</link>
         <pubDate>Sun, 25 Apr 2021 21:41:56 +0000</pubDate>
         
-        <guid>http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/operator_parameters_and_calculation.jpg" alt="Featured image of post 拆解神经网络算子：参数量与计算量的秘密" /&gt;&lt;p&gt;在学习机器学习和神经网络过程中，对于模型参数和模型计算量需要做出评估，这篇文章介绍几种常见操作对模型带来的参数量和计算量，更专业的表示为空间复杂度和时间复杂度，后续再补充。&lt;/p&gt;
+        <guid>https://qiyueliuhuo.github.io/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/</guid>
+        <description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/operator_parameters_and_calculation.jpg" alt="Featured image of post 拆解神经网络算子：参数量与计算量的秘密" /&gt;&lt;p&gt;在学习机器学习和神经网络过程中，对于模型参数和模型计算量需要做出评估，这篇文章介绍几种常见操作对模型带来的参数量和计算量，更专业的表示为空间复杂度和时间复杂度，后续再补充。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;注意：下面计算的是都是&lt;strong&gt;单层&lt;/strong&gt;的&lt;strong&gt;参数量&lt;/strong&gt;和&lt;strong&gt;计算量&lt;/strong&gt;，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以&lt;strong&gt;BatchSize&lt;/strong&gt;。&lt;/p&gt;
 &lt;/blockquote&gt;
