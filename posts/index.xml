@@ -6,25 +6,13 @@
         <description>Recent content in Posts on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 24 Oct 2022 09:59:59 +0800</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Opencv与pytorch仿射变换探究</title>
-        <link>http://localhost:1313/posts/opencv%E4%B8%8Epytorch%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E6%8E%A2%E7%A9%B6/</link>
-        <pubDate>Mon, 24 Oct 2022 09:59:59 +0800</pubDate>
-        
-        <guid>http://localhost:1313/posts/opencv%E4%B8%8Epytorch%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E6%8E%A2%E7%A9%B6/</guid>
-        <description>&lt;h2 id=&#34;问题一&#34;&gt;问题一
-&lt;/h2&gt;&lt;p&gt;已知 Pytorch 中 &lt;code&gt;torch.nn.functional.affine_grid(theta, size, align_corners=None)&lt;/code&gt; 仿射变换 $\theta$。&lt;/p&gt;
-&lt;p&gt;如何将一些坐标点（ground truth）采用参数为 $\theta$ 的仿射变换进行坐标变换，变换后的坐标为正常图像坐标下的坐标位置？&lt;/p&gt;
-&lt;p&gt;设 $\theta=\left[\left[\begin{array}{lll}\theta_1 &amp;amp; \theta_2 &amp;amp; t_1 \ \theta_3 &amp;amp; \theta_4 &amp;amp; t_2\end{array}\right]\right]$&lt;/p&gt;
-</description>
-        </item>
-        <item>
+        <lastBuildDate>Sat, 17 Sep 2022 19:34:41 +0800</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Vim-算法-刷题环境配置</title>
         <link>http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link>
         <pubDate>Sat, 17 Sep 2022 19:34:41 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</guid>
-        <description>&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.jpg" alt="Featured image of post Vim-算法-刷题环境配置" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;笔者大概从五年前大二开始接触 vim 编辑器，当时有很多关于两款“史前”编辑器 Vim 和 Emacs 的争论，对于一些较早前的极客一般分为 Vim 党、 Emacs 党 和其他。 笔者自开始接触 Linux 系统就学习的 Vim ，一直使用到现在，几乎所有 IDE 、游览器和笔记系统Logseq都开启 vim 模式，也算是一个 Vim 党。然而，笔者无心参与 Vim 和 Emacs 两款编辑器之争；很明显，现代大型项目的开发，已经几乎必须采取像 idea、clion、vscode 这些优秀的 IDE ；当下，笔者更多地使用 Vim（终端界面）编写一些算法题，这样既减少成熟 IDE 自动的补全机制对于笔者自身的驯化（经常知道某些函数，然而自己拼不对，非常依赖IDE智能提示），又能让笔者对 Vim 操作和 shell 脚本编程更加熟练；此篇博客介绍笔者在终端界面下使用 Vim 编写算法题搭建的自动化编译运行环境。&lt;/p&gt;
 &lt;h2 id=&#34;相关环境&#34;&gt;相关环境
 &lt;/h2&gt;&lt;p&gt;系统：macOS Monterey 12.5.1&lt;br&gt;
@@ -321,7 +309,7 @@ vim：MacVim 8.2&lt;br&gt;
         <pubDate>Tue, 12 Jul 2022 16:59:57 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</guid>
-        <description>&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.gif" alt="Featured image of post GDB调试学习" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;笔者近几年使用 Python 语言来做深度学习、计算机视觉领域相关科研与工作，对于调试程序，使用较多的工具除了 JetBrains 家的各个 IDE 以外，就是使用 Python 自带的 pdb 模块来调试 Python 程序，命令行界面调试代码既灵活，而且速度也快，非常好用。最近，因为项目原因接触 c/c++ 代码更多一些，通过本篇博客对 GDB 学习并且记录相关常用命令。&lt;/p&gt;
 &lt;p&gt;GDB是一个由GNU开源组织发布的、UNIX / LINUX操作系统下的、基于命令行的、功能强大的程序调试工具。 对于一名Linux下工作的c/c++程序员，gdb是必不可少的工具，另外，GDB可以调试Ada、C、 C++、 Asm、 Minimal、 D、 Fortran、 Objective-c、 Go、 Java、 Pascal等语言。标准的 GDB 是纯命令行式的，但也有一些基于它的图形化工具（比如 DDD、Data Display Debugger），但用好 GDB 命令行调试，还是我们的一项基本素质。&lt;/p&gt;
 &lt;p&gt;本篇文章将简单地介绍 GDB 常见用法，更多内容通过本博客下面的参考资料学习。&lt;/p&gt;
@@ -653,7 +641,7 @@ vim：MacVim 8.2&lt;br&gt;
         <pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</guid>
-        <description>&lt;h2 id=&#34;梯度下降法推导&#34;&gt;梯度下降法推导
+        <description>&lt;img src="http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/method_of_neural_network_optimization.jpg" alt="Featured image of post 机器学习中的优化方法" /&gt;&lt;h2 id=&#34;梯度下降法推导&#34;&gt;梯度下降法推导
 &lt;/h2&gt;&lt;h3 id=&#34;什么是梯度&#34;&gt;什么是梯度？
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;梯度&lt;/strong&gt;的本意是一个向量（矢量），表示某一函数在该点处的方向导数沿着该方向取得最大值，即函数在该点处沿着该方向（此梯度的方向）变化最快，变化率最大（为该梯度的模）。&lt;/p&gt;
 &lt;p&gt;通俗来说，梯度就是表示某一函数在该点处的方向导数沿着该方向取得（模）较大值，即函数在当前位置的导数。&lt;strong&gt;笔者理解&lt;/strong&gt;：在高维空间中参数 $\boldsymbol{\theta}$ 和 $f(\boldsymbol{\theta})$ 形成超曲面上，当 $\boldsymbol{\theta}$ 移动相同的 $\lVert\nabla\boldsymbol{\theta}\lVert$ 模值（超距离）时，沿着梯度的方向，可以使得 $f(\boldsymbol{\theta})$ 变化量（增加）最大。梯度表示为如下：
@@ -787,7 +775,7 @@ $$
         <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/</guid>
-        <description>&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31.jpg" alt="Featured image of post 基于mmdetection源码:Faster R-CNN算法解读" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;OpenMMLab学习资料：&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV19Z4y1q7Q5?spm_id_from=333.999.0.0&amp;amp;vd_source=b29b63fd496fceb0b963804f6a1853e1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;OpenMMLab 模块化设计背后的功臣&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;对于mmdetection的学习，可以&lt;strong&gt;直接阅读官方的文档&lt;/strong&gt;，现在官方提供了中文文档，非常详细，点击&lt;a class=&#34;link&#34; href=&#34;https://mmdetection.readthedocs.io/zh_CN/latest/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -2223,49 +2211,12 @@ $$
 </description>
         </item>
         <item>
-        <title>My First Hugo Post</title>
-        <link>http://localhost:1313/posts/my-first-hugo-post/</link>
-        <pubDate>Fri, 03 Jun 2022 17:22:13 +0800</pubDate>
-        
-        <guid>http://localhost:1313/posts/my-first-hugo-post/</guid>
-        <description>&lt;p&gt;博客迁移到hugo，这是第一篇测试文章。&lt;/p&gt;
-&lt;h2 id=&#34;hugo常用命令&#34;&gt;hugo常用命令
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;hugo new --kind post-bundle posts/测试文章   &lt;span class=&#34;c1&#34;&gt;# 创建一个文章目录&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;hugo server -D &lt;span class=&#34;c1&#34;&gt;# 启动服务器，显示草稿文章&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;hugo   &lt;span class=&#34;c1&#34;&gt;# 默认在 public/ 目录中生成您的网站&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;发布博客&#34;&gt;发布博客
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; public/    &lt;span class=&#34;c1&#34;&gt;# 进入到 public 目录下&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git remote -v &lt;span class=&#34;c1&#34;&gt;# 查看远端关联仓库，确认关联到远程仓库&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git commit -am &lt;span class=&#34;s2&#34;&gt;&amp;#34;some message&amp;#34;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 提交修改&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git push  &lt;span class=&#34;c1&#34;&gt;# 推送到远端仓库后，多次刷新博客页面即可&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description>
-        </item>
-        <item>
         <title>LeetCode 进阶指南：解题思路与算法题分类总结</title>
         <link>http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/</link>
         <pubDate>Fri, 18 Feb 2022 13:08:49 +0000</pubDate>
         
         <guid>http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_img.png" alt="Featured image of post LeetCode 进阶指南：解题思路与算法题分类总结" /&gt;&lt;blockquote&gt;
+        <description>&lt;img src="http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_cover.jpg" alt="Featured image of post LeetCode 进阶指南：解题思路与算法题分类总结" /&gt;&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;人生亦有命，安能行叹复坐愁？ —— 拟行路难·其四&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;目前只做字节跳动、腾讯的算法和后端的高频leetcode算法题。刷题之前先复习经典的一些算法，有相当多算法是经典算法的修改版。&lt;/p&gt;
@@ -2278,7 +2229,7 @@ $$
 &lt;/h2&gt;&lt;p&gt;当输入规模足够大，使得运行时间只与增长量级有关时，需要研究算法的渐近效率。也就是，当输入规模无限增加时，在极限中，算法的运行时间如何随着输入规模的变大而增加。这里仅引入两个常用的渐进记号。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;$\Theta$ (西塔) 渐近紧确界，如$\frac{1}{2} n^{2}-3 n=\Theta\left(n^{2}\right)$，$6n^{3} \neq \Theta (n^{2})$，$n \neq \Theta (n^{2})$。&lt;/li&gt;
-&lt;li&gt;$O$（大o）渐进上界，如$\frc{1}{2} n^{2}-3 n=O\left(n^{2}\right)$，$6n^{3} \neq O(n^{2})$，$n = O (n^{2})$。&lt;/li&gt;
+&lt;li&gt;$O$（大o）渐进上界，如 $\frc{1}{2} n^{2}-3 n=O\left(n^{2}\right)$，$6n^{3} \neq O(n^{2})$，$n = O (n^{2})$。&lt;/li&gt;
 &lt;li&gt;渐进记号代表的是集合，这里的$=$更多地代表$\in$。&lt;/li&gt;
 &lt;li&gt;算法复杂度分为时间复杂度和空间复杂度。时间复杂度衡量了执行算法所需要的计算工作量；而空间复杂度是指执行这个算法所需要的内存空间。&lt;/li&gt;
 &lt;li&gt;&lt;font color=#E3B&gt;在相当多文献资料中，有时我们发现$O$记号非形式化地描述&lt;strong&gt;渐进确界&lt;/strong&gt;，即已经使用$\Theta$记号定义的东西。&lt;/font&gt;&lt;/li&gt;
@@ -3344,7 +3295,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;图结构&#34;&gt;图结构
-&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220309105509.png&#34;
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220309105509.png#center&#34;
 	
 	
 	
@@ -3562,15 +3513,12 @@ $$
 &lt;h3 id=&#34;动态规划算法&#34;&gt;动态规划算法
 &lt;/h3&gt;&lt;h4 id=&#34;引子计算斐波那契数列&#34;&gt;引子：计算斐波那契数列
 &lt;/h4&gt;&lt;p&gt;&lt;strong&gt;斐波那契数列&lt;/strong&gt;是指这样一个数列：0、1、1、2、3、5、8、13、21、34、55&amp;hellip;&amp;hellip;&lt;/p&gt;
-&lt;p&gt;斐波纳契数列可以用下面的方法定义：
-$$
-\left{\begin{array}{l}
-F(0)=0, F(1)=1 \
-F(n)=F(n-1)+F(n-2), n \text { 为 } \geq 2 \text { 的整数 }
-\end{array}\right.
-$$
-如果我们要计算F(5)，递归计算图如下：
-&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220219152921.png&#34;
+&lt;p&gt;斐波纳契数列可以用下面的方法定义：&lt;/p&gt;
+&lt;p&gt;$$
+\left{\begin{array}{l}F(0)=0, F(1)=1 \ F(n)=F(n-1)+F(n-2), n \text { 为 } \geq 2 \text { 的整数 }\end{array}\right.
+$$&lt;/p&gt;
+&lt;p&gt;如果我们要计算F(5)，递归计算图如下：
+&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220219152921.png#center&#34;
 	
 	
 	
@@ -3981,186 +3929,130 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 </description>
         </item>
         <item>
-        <title>神经网络矩阵分析</title>
+        <title>矩阵运算在深度学习中的理论与应用</title>
         <link>http://localhost:1313/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/</link>
         <pubDate>Fri, 29 Oct 2021 11:20:28 +0000</pubDate>
         
         <guid>http://localhost:1313/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/</guid>
-        <description>&lt;p&gt;用矩阵推导网络。 &lt;!-- more --&gt;&lt;/p&gt;
-&lt;h2 id=&#34;符号定义&#34;&gt;符号定义&lt;/h2&gt;
-&lt;ol type=&#34;1&#34;&gt;
-&lt;li&gt;使用小写字母&lt;span
-class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt;表示标量，粗体小写字母&lt;span
-class=&#34;math inline&#34;&gt;\(\boldsymbol{x}\)&lt;/span&gt;表示向量，&lt;strong&gt;注意&lt;/strong&gt;向量可能为&lt;strong&gt;行向量&lt;/strong&gt;或者&lt;strong&gt;列向量&lt;/strong&gt;，大写字母&lt;span
-class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt;表示矩阵。&lt;/li&gt;
-&lt;li&gt;&lt;span
-class=&#34;math inline&#34;&gt;\(\sigma\)&lt;/span&gt;为&lt;strong&gt;逐元素&lt;/strong&gt;sigmoid函数：&lt;span
-class=&#34;math inline&#34;&gt;\(\sigma(z)=\frac{1}{1+\mathrm{e}^{-z}}\)&lt;/span&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(\boldsymbol{1}\)&lt;/span&gt;为列向量，&lt;span
-class=&#34;math inline&#34;&gt;\(\boldsymbol{1}=(1, 1, 1 \cdots 1, 1,
-1)^{T}\)&lt;/span&gt;，非指示函数。&lt;/li&gt;
-&lt;li&gt;&lt;span
-class=&#34;math inline&#34;&gt;\(exp(\boldsymbol{a})\)&lt;/span&gt;表示&lt;strong&gt;逐元素&lt;/strong&gt;求指数。&lt;/li&gt;
-&lt;li&gt;&lt;span
-class=&#34;math inline&#34;&gt;\(log(\boldsymbol{a})\)&lt;/span&gt;表示&lt;strong&gt;逐元素&lt;/strong&gt;求自然对数。&lt;/li&gt;
+        <description>&lt;img src="http://localhost:1313/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/matrix_analysis.png" alt="Featured image of post 矩阵运算在深度学习中的理论与应用" /&gt;&lt;p&gt;用矩阵推导网络。&lt;/p&gt;
+&lt;h2 id=&#34;符号定义&#34;&gt;符号定义
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;使用小写字母$x$表示标量，粗体小写字母$\boldsymbol{x}$表示向量，&lt;strong&gt;注意&lt;/strong&gt;向量可能为&lt;strong&gt;行向量&lt;/strong&gt;或者&lt;strong&gt;列向量&lt;/strong&gt;，大写字母$X$表示矩阵。&lt;/li&gt;
+&lt;li&gt;$\sigma$为&lt;strong&gt;逐元素&lt;/strong&gt;sigmoid函数：$\sigma(z)=\frac{1}{1+\mathrm{e}^{-z}}$。&lt;/li&gt;
+&lt;li&gt;$\boldsymbol{1}$为列向量，$\boldsymbol{1}=(1, 1, 1 \cdots 1, 1, 1)^{T}$，非指示函数。&lt;/li&gt;
+&lt;li&gt;$exp(\boldsymbol{a})$表示&lt;strong&gt;逐元素&lt;/strong&gt;求指数。&lt;/li&gt;
+&lt;li&gt;$log(\boldsymbol{a})$表示&lt;strong&gt;逐元素&lt;/strong&gt;求自然对数。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;符号含义&#34;&gt;符号含义&lt;/h2&gt;
-&lt;ol type=&#34;1&#34;&gt;
-&lt;li&gt;列向量&lt;span class=&#34;math inline&#34;&gt;\(\boldsymbol{x}=\left(x_{1}, x_{2},
-x_{3} \cdots x_{n-2}, x_{n-1},
-x_{n}\right)^{T}\)&lt;/span&gt;代表一个输入样本，具有&lt;span
-class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt;个特征值。&lt;/li&gt;
-&lt;li&gt;设列向量&lt;span class=&#34;math inline&#34;&gt;\(\boldsymbol{z}=\left(z_{1},
-z_{2}, z_{3} \cdots z_{n-2}, z_{n-1}, z_{n}\right)^{T}\)&lt;/span&gt;，&lt;br /&gt;
-&lt;span class=&#34;math inline&#34;&gt;\(\sigma(\boldsymbol{z}) =
-\left(\sigma(z_{1}), \sigma(z_{2}), \sigma(z_{3}) \cdots
-\sigma(z_{n-2}), \sigma(z_{n-1}), \sigma(z_{n})\right)\)&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;设列向量&lt;span class=&#34;math inline&#34;&gt;\(\boldsymbol{a}=\left(a_{1},
-a_{2}, a_{3} \cdots a_{n-2}, a_{n-1}, a_{n}\right)^{T}\)&lt;/span&gt;，&lt;span
-class=&#34;math inline&#34;&gt;\(\operatorname{softmax}(\boldsymbol{a})=\frac{\exp
-(\boldsymbol{a})}{\mathbf{1}^{T} \exp
-(\boldsymbol{a})}\)&lt;/span&gt;，分母为&lt;strong&gt;行向量&lt;/strong&gt;乘以&lt;strong&gt;列向量&lt;/strong&gt;为标量，分子为列向量，所以结果仍为&lt;strong&gt;列向量&lt;/strong&gt;。&lt;/li&gt;
+&lt;h2 id=&#34;符号含义&#34;&gt;符号含义
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;列向量$\boldsymbol{x}=\left(x_{1}, x_{2}, x_{3} \cdots x_{n-2}, x_{n-1}, x_{n}\right)^{T}$代表一个输入样本，具有$n$个特征值。&lt;/li&gt;
+&lt;li&gt;设列向量$\boldsymbol{z}=\left(z_{1}, z_{2}, z_{3} \cdots z_{n-2}, z_{n-1}, z_{n}\right)^{T}$，&lt;br&gt;
+$\sigma(\boldsymbol{z}) = \left(\sigma(z_{1}), \sigma(z_{2}), \sigma(z_{3}) \cdots \sigma(z_{n-2}), \sigma(z_{n-1}), \sigma(z_{n})\right)$&lt;/li&gt;
+&lt;li&gt;设列向量$\boldsymbol{a}=\left(a_{1}, a_{2}, a_{3} \cdots a_{n-2}, a_{n-1}, a_{n}\right)^{T}$，$\operatorname{softmax}(\boldsymbol{a})=\frac{\exp (\boldsymbol{a})}{\mathbf{1}^{T} \exp (\boldsymbol{a})}$，分母为&lt;strong&gt;行向量&lt;/strong&gt;乘以&lt;strong&gt;列向量&lt;/strong&gt;为标量，分子为列向量，所以结果仍为&lt;strong&gt;列向量&lt;/strong&gt;。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;运算法则&#34;&gt;运算法则&lt;/h2&gt;
-&lt;h3 id=&#34;矩阵运算法则&#34;&gt;矩阵运算法则&lt;/h3&gt;
-&lt;ol type=&#34;1&#34;&gt;
-&lt;li&gt;对尺寸相同的矩阵&lt;span class=&#34;math inline&#34;&gt;\(A, B\)&lt;/span&gt;，&lt;span
-class=&#34;math inline&#34;&gt;\(\operatorname{tr}\left(A^{T} B\right)=\sum_{i, j}
-A_{i j} B_{i j}\)&lt;/span&gt;。&lt;/li&gt;
+&lt;h2 id=&#34;运算法则&#34;&gt;运算法则
+&lt;/h2&gt;&lt;h3 id=&#34;矩阵运算法则&#34;&gt;矩阵运算法则
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;对尺寸相同的矩阵$A, B$，$\operatorname{tr}\left(A^{T} B\right)=\sum_{i, j} A_{i j} B_{i j}$。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h3 id=&#34;矩阵微分运算符法则&#34;&gt;矩阵微分运算符法则&lt;/h3&gt;
-&lt;ol type=&#34;1&#34;&gt;
-&lt;li&gt;加减法、矩阵乘法、转置、求迹。 &lt;span class=&#34;math display&#34;&gt;\[
+&lt;h3 id=&#34;矩阵微分运算符法则&#34;&gt;矩阵微分运算符法则
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;加减法、矩阵乘法、转置、求迹。
+$$
 d(X \pm Y)=d X \pm d Y
-\]&lt;/span&gt; &lt;span class=&#34;math display&#34;&gt;\[
+$$
+$$
 d(X Y)=(d X) Y+X d Y
-\]&lt;/span&gt; &lt;span class=&#34;math display&#34;&gt;\[
+$$
+$$
 d\left(X^{T}\right)=(d X)^{T}
-\]&lt;/span&gt; &lt;span class=&#34;math display&#34;&gt;\[
+$$
+$$
 d \operatorname{tr}(X)=\operatorname{tr}(d X)
-\]&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;求逆。 &lt;span class=&#34;math display&#34;&gt;\[
+$$&lt;/li&gt;
+&lt;li&gt;求逆。
+$$
 d X^{-1}=-X^{-1} d X X^{-1}
-\]&lt;/span&gt; 此式可以在 $ X X^{-1}=I $ 两侧求微分来证明。&lt;/li&gt;
+$$
+此式可以在 $ X X^{-1}=I $ 两侧求微分来证明。&lt;/li&gt;
 &lt;li&gt;行列式。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img
-src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029145157.png#center&#34; /&gt;&lt;/p&gt;
-&lt;h3 id=&#34;理解&#34;&gt;理解&lt;/h3&gt;
-&lt;ol type=&#34;1&#34;&gt;
-&lt;li&gt;&lt;p&gt;定义：标量f对矩阵 &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; 的导数,
-定义为 &lt;span class=&#34;math inline&#34;&gt;\(\frac{\partial f}{\partial
-X}=\left[\frac{\partial f}{\partial X_{i
-j}}\right]\)&lt;/span&gt;，即f对X逐元素求导排成与X尺寸相同的矩阵。&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;将矩阵导数与微分建立联系：&lt;span class=&#34;math inline&#34;&gt;\(d
-f=\sum_{i=1}^{m} \sum_{j=1}^{n} \frac{\partial f}{\partial X_{i j}} d
-X_{i j}=\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d
-X\right)\)&lt;/span&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029145157.png#center&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;理解&#34;&gt;理解
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;定义：标量f对矩阵 $X$ 的导数, 定义为 $\frac{\partial f}{\partial X}=\left[\frac{\partial f}{\partial X_{i j}}\right]$，即f对X逐元素求导排成与X尺寸相同的矩阵。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将矩阵导数与微分建立联系：$d f=\sum_{i=1}^{m} \sum_{j=1}^{n} \frac{\partial f}{\partial X_{i j}} d X_{i j}=\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)$。&lt;/p&gt;
 &lt;blockquote&gt;
-理解：
-&lt;ol type=&#34;1&#34;&gt;
-&lt;li&gt;微分算子&lt;span class=&#34;math inline&#34;&gt;\(d\)&lt;/span&gt;作用于矩阵&lt;span
-class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt;，表示为&lt;strong&gt;逐元素&lt;/strong&gt;作用。&lt;/li&gt;
-&lt;li&gt;第一个等号是全微分公式，第二个等号表达了矩阵导数与微分的联系。&lt;/li&gt;
-&lt;li&gt;&lt;span
-class=&#34;math inline&#34;&gt;\(tr()\)&lt;/span&gt;代表迹(trace)是方阵对角线元素之和。&lt;/li&gt;
-&lt;li&gt;举例：设&lt;span class=&#34;math inline&#34;&gt;\(X=\left[\begin{array}{l}X_{0_0},
-X_{01} \\\\ X_{10}, X_{11}\end{array}\right]\)&lt;/span&gt;, &lt;span
-class=&#34;math inline&#34;&gt;\(d X=\left[\begin{array}{l}dX_{00}, dX_{01} \\\\
-dX_{10}, dX_{11}\end{array}\right]\)&lt;/span&gt;，&lt;span
-class=&#34;math inline&#34;&gt;\(\frac{d f}{d
-X}=\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}},
-\frac{\partial f}{\partial X_{01}} \\\\ \frac{\partial f}{\partial
-X_{10}}, \frac{\partial f}{\partial
-X_{11}}\end{array}\right]\)&lt;/span&gt;，&lt;span
-class=&#34;math inline&#34;&gt;\(\operatorname{tr}\left(\frac{\partial
-f^{T}}{\partial X} d
-X\right)=\operatorname{tr}\left(\left[\begin{array}{ll}\frac{\partial
-f}{\partial X_{00}}, \frac{\partial f}{\partial X_{10}} \\\\
-\frac{\partial f}{\partial X_{01}}, \frac{\partial f}{\partial
-X_{11}}\end{array}\right]\left[\begin{array}{l}dX_{00}, dX_{01} \\\\
-dX_{10}, dX_{11}\end{array}\right]\right)\)&lt;/span&gt;&lt;/li&gt;
+&lt;p&gt;理解：
+1. 微分算子$d$作用于矩阵$X$，表示为&lt;strong&gt;逐元素&lt;/strong&gt;作用。
+2. 第一个等号是全微分公式，第二个等号表达了矩阵导数与微分的联系。
+3. $tr()$代表迹(trace)是方阵对角线元素之和。
+4. 举例：设$X=\left[\begin{array}{l}X_{0_0}, X_{01} \\ X_{10}, X_{11}\end{array}\right]$, $d X=\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]$，$\frac{d f}{d X}=\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{01}} \\ \frac{\partial f}{\partial X_{10}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]$，$\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)=\operatorname{tr}\left(\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{10}} \\ \frac{\partial f}{\partial X_{01}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]\right)$&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/blockquote&gt;&lt;/li&gt;
+&lt;h2 id=&#34;思考&#34;&gt;思考
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;样本特征值排列为列向量，方便统一形式为权重参数$W$放在$\boldsymbol{x}$前，进行乘积。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;思考&#34;&gt;思考&lt;/h2&gt;
-&lt;ol type=&#34;1&#34;&gt;
-&lt;li&gt;样本特征值排列为列向量，方便统一形式为权重参数&lt;span
-class=&#34;math inline&#34;&gt;\(W\)&lt;/span&gt;放在&lt;span
-class=&#34;math inline&#34;&gt;\(\boldsymbol{x}\)&lt;/span&gt;前，进行乘积。&lt;/li&gt;
+&lt;h2 id=&#34;全连接网络&#34;&gt;全连接网络
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029133900.png#center&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;$$
+l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(W_{2} \sigma\left(W_{1} \boldsymbol{x}\right)\right)
+$$&lt;/p&gt;
+&lt;h3 id=&#34;符号说明&#34;&gt;符号说明
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;$l$为损失函数。&lt;/li&gt;
+&lt;li&gt;$\boldsymbol{x}$为单样本，则$l$只包含一个样本的损失函数。&lt;/li&gt;
+&lt;li&gt;分类网络类别数为$m$，$\boldsymbol{y}$ 是除一个元素为1外其它元素为 0 的的 $m \times 1$ 列向量, $W_{2}$ 是 $m \times p$ 矩阵, $W_{1}$ 是 $p \times n$ 矩阵, $\boldsymbol{x}$ 是 $n \times 1$ 列向量, $l$ 是标量&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;全连接网络&#34;&gt;全连接网络&lt;/h2&gt;
-&lt;p&gt;&lt;img
-src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029133900.png#center&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
-l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(W_{2}
-\sigma\left(W_{1} \boldsymbol{x}\right)\right)
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;h3 id=&#34;符号说明&#34;&gt;符号说明&lt;/h3&gt;
-&lt;ol type=&#34;1&#34;&gt;
-&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(l\)&lt;/span&gt;为损失函数。&lt;/li&gt;
-&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(\boldsymbol{x}\)&lt;/span&gt;为单样本，则&lt;span
-class=&#34;math inline&#34;&gt;\(l\)&lt;/span&gt;只包含一个样本的损失函数。&lt;/li&gt;
-&lt;li&gt;分类网络类别数为&lt;span class=&#34;math inline&#34;&gt;\(m\)&lt;/span&gt;，&lt;span
-class=&#34;math inline&#34;&gt;\(\boldsymbol{y}\)&lt;/span&gt;
-是除一个元素为1外其它元素为 0 的的 &lt;span class=&#34;math inline&#34;&gt;\(m \times
-1\)&lt;/span&gt; 列向量, &lt;span class=&#34;math inline&#34;&gt;\(W_{2}\)&lt;/span&gt; 是 &lt;span
-class=&#34;math inline&#34;&gt;\(m \times p\)&lt;/span&gt; 矩阵, &lt;span
-class=&#34;math inline&#34;&gt;\(W_{1}\)&lt;/span&gt; 是 &lt;span class=&#34;math inline&#34;&gt;\(p
-\times n\)&lt;/span&gt; 矩阵, &lt;span
-class=&#34;math inline&#34;&gt;\(\boldsymbol{x}\)&lt;/span&gt; 是 &lt;span
-class=&#34;math inline&#34;&gt;\(n \times 1\)&lt;/span&gt; 列向量, &lt;span
-class=&#34;math inline&#34;&gt;\(l\)&lt;/span&gt; 是标量&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;推导-fracpartial-lpartial-w_1-和-fracpartial-lpartial-w_2&#34;&gt;推导
-&lt;span class=&#34;math inline&#34;&gt;\(\frac{\partial l}{\partial W_{1}}\)&lt;/span&gt;
-和 &lt;span class=&#34;math inline&#34;&gt;\(\frac{\partial l}{\partial
-W_{2}}\)&lt;/span&gt;&lt;/h3&gt;
-&lt;p&gt;定义：&lt;span
-class=&#34;math inline&#34;&gt;\(\boldsymbol{a_{1}}=W_{1}\boldsymbol{x}\)&lt;/span&gt;，&lt;span
-class=&#34;math inline&#34;&gt;\(\boldsymbol{h_{1}}=\sigma\left(\boldsymbol{a_{1}}\right)\)&lt;/span&gt;，&lt;span
-class=&#34;math inline&#34;&gt;\(\boldsymbol{a_{2}}=W_{2}\boldsymbol{h_{1}}\)&lt;/span&gt;，则
-&lt;span class=&#34;math inline&#34;&gt;\(l=-\boldsymbol{y}^{T} \log
-\operatorname{softmax}\left(\boldsymbol{a}_{2}\right)\)&lt;/span&gt;。&lt;/p&gt;
-&lt;p&gt;已知 &lt;span class=&#34;math inline&#34;&gt;\(\frac{\partial l}{\partial
-\boldsymbol{a_{2}}}=\operatorname{softmax}\left(\boldsymbol{a}_{2}\right)-\boldsymbol{y}\)&lt;/span&gt;
-。&lt;/p&gt;
-&lt;p&gt;推导结果： &lt;span class=&#34;math display&#34;&gt;\[
-\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial
-\boldsymbol{a_{2}}} \boldsymbol{h_{1}}^{T}
-\]&lt;/span&gt; &lt;span class=&#34;math display&#34;&gt;\[
-\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial
-\boldsymbol{a}_{1}} \boldsymbol{x}^{T}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;h3 id=&#34;推广到多个样本&#34;&gt;推广到多个样本&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;使用矩阵来表示N个样本，以简化形式。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;定义：&lt;span class=&#34;math inline&#34;&gt;\(X=\left[\boldsymbol{x_{1}}, \cdots,
-\boldsymbol{x_{N}}\right]\)&lt;/span&gt;，&lt;span
-class=&#34;math inline&#34;&gt;\(A_{1}=\left[\boldsymbol{a_{1,1}}, \cdots
-\boldsymbol{a_{1, N}}\right]=W_{1} X+\boldsymbol{b_{1}} \mathbf{1}^{T},
-\quad H_{1}=\left[\boldsymbol{h_{1,1}}, \cdots, \boldsymbol{h}_{1,
-N}\right]=\sigma\left(A_{1}\right) \text {, }\)&lt;/span&gt;，&lt;span
-class=&#34;math inline&#34;&gt;\(A_{2}=\left[\boldsymbol{a_{2,1}}, \cdots,
-\boldsymbol{a_{2, N}}\right]=W_{2} H_{1}+\boldsymbol{b_{2}}
-\mathbf{1}^{T}\)&lt;/span&gt;, 注意这里使用全1向量来扩展维度。&lt;/p&gt;
-&lt;p&gt;推导结果： &lt;span class=&#34;math display&#34;&gt;\[
-\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial A_{1}}
-X^{T}, \quad \frac{\partial l}{\partial
-\boldsymbol{b}_{1}}=\frac{\partial l}{\partial A_{1}} \mathbf{1}
-\]&lt;/span&gt; &lt;span class=&#34;math display&#34;&gt;\[
-\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial A_{2}}
-H_{1}^{T}, \quad \frac{\partial l}{\partial
-\boldsymbol{b}_{2}}=\frac{\partial l}{\partial A_{2}} \mathbf{1}
-\]&lt;/span&gt;&lt;/p&gt;
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-&lt;p&gt;&lt;a
-href=&#34;https://zhuanlan.zhihu.com/p/94805436&#34;&gt;神经网络的一些公式总结&lt;/a&gt;&lt;br /&gt;
-&lt;a
-href=&#34;https://zhuanlan.zhihu.com/p/24709748&#34;&gt;矩阵求导术（上）&lt;/a&gt;&lt;br /&gt;
-&lt;a href=&#34;https://zhuanlan.zhihu.com/p/24863977&#34;&gt;矩阵求导术（下）&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;更新记录&#34;&gt;更新记录&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;调整格式和排版。 —— 2022.07.19&lt;/p&gt;
+&lt;h3 id=&#34;推导-fracpartial-lpartial-w_1-和-fracpartial-lpartial-w_2&#34;&gt;推导 $\frac{\partial l}{\partial W_{1}}$ 和 $\frac{\partial l}{\partial W_{2}}$
+&lt;/h3&gt;&lt;p&gt;定义：$\boldsymbol{a_{1}}=W_{1}\boldsymbol{x}$，$\boldsymbol{h_{1}}=\sigma\left(\boldsymbol{a_{1}}\right)$，$\boldsymbol{a_{2}}=W_{2}\boldsymbol{h_{1}}$，则 $l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(\boldsymbol{a}_{2}\right)$。&lt;/p&gt;
+&lt;p&gt;已知 $\frac{\partial l}{\partial \boldsymbol{a_{2}}}=\operatorname{softmax}\left(\boldsymbol{a}_{2}\right)-\boldsymbol{y}$ 。&lt;/p&gt;
+&lt;p&gt;推导结果：
+$$
+\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial \boldsymbol{a_{2}}} \boldsymbol{h_{1}}^{T}
+$$
+$$
+\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial \boldsymbol{a}_{1}} \boldsymbol{x}^{T}
+$$&lt;/p&gt;
+&lt;h3 id=&#34;推广到多个样本&#34;&gt;推广到多个样本
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;使用矩阵来表示N个样本，以简化形式。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;定义：$X=\left[\boldsymbol{x_{1}}, \cdots, \boldsymbol{x_{N}}\right]$，$A_{1}=\left[\boldsymbol{a_{1,1}}, \cdots \boldsymbol{a_{1, N}}\right]=W_{1} X+\boldsymbol{b_{1}} \mathbf{1}^{T}, \quad H_{1}=\left[\boldsymbol{h_{1,1}}, \cdots, \boldsymbol{h}&lt;em&gt;{1, N}\right]=\sigma\left(A&lt;/em&gt;{1}\right) \text {, }$，$A_{2}=\left[\boldsymbol{a_{2,1}}, \cdots, \boldsymbol{a_{2, N}}\right]=W_{2} H_{1}+\boldsymbol{b_{2}} \mathbf{1}^{T}$, 注意这里使用全1向量来扩展维度。&lt;/p&gt;
+&lt;p&gt;推导结果：
+$$
+\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial A_{1}} X^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}&lt;em&gt;{1}}=\frac{\partial l}{\partial A&lt;/em&gt;{1}} \mathbf{1}
+$$
+$$
+\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial A_{2}} H_{1}^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}&lt;em&gt;{2}}=\frac{\partial l}{\partial A&lt;/em&gt;{2}} \mathbf{1}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/94805436&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;神经网络的一些公式总结&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/24709748&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;矩阵求导术（上）&lt;/a&gt;&lt;br&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/24863977&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;矩阵求导术（下）&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;更新记录&#34;&gt;更新记录
+&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;调整格式和排版。  —— 2022.07.19&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;blockquote&gt;
 &lt;p&gt;使用 pandoc 渲染，对公式展示更友好。 —— 2022.08.27&lt;/p&gt;
@@ -4173,7 +4065,7 @@ href=&#34;https://zhuanlan.zhihu.com/p/24709748&#34;&gt;矩阵求导术（上）
         <pubDate>Fri, 22 Oct 2021 15:15:50 +0000</pubDate>
         
         <guid>http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</guid>
-        <description>&lt;p&gt;为了更深入理解卷积神经网络，这篇博客介绍在卷积神经网络中常用的卷积操作底层是如何实现的。&lt;/p&gt;
+        <description>&lt;img src="http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/convolutional_calculation.png" alt="Featured image of post 卷积计算底层实现" /&gt;&lt;p&gt;为了更深入理解卷积神经网络，这篇博客介绍在卷积神经网络中常用的卷积操作底层是如何实现的。&lt;/p&gt;
 &lt;h2 id=&#34;卷积&#34;&gt;卷积
 &lt;/h2&gt;&lt;p&gt;卷积本身的执行过程是通过在特征图上滑动卷积核来完成的，如下面两个动图，形象地展示了单通道卷积和多通道卷积操作。&lt;/p&gt;
 &lt;h3 id=&#34;单通道卷积&#34;&gt;单通道卷积
@@ -4377,7 +4269,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
         <pubDate>Thu, 08 Jul 2021 20:18:41 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</guid>
-        <description>&lt;h2 id=&#34;c编程基础&#34;&gt;C++编程基础
+        <description>&lt;img src="http://localhost:1313/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.jpg" alt="Featured image of post C&#43;&#43;知识点总结" /&gt;&lt;h2 id=&#34;c编程基础&#34;&gt;C++编程基础
 &lt;/h2&gt;&lt;h3 id=&#34;hello-world&#34;&gt;Hello, world!
 &lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -10350,161 +10242,12 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 </description>
         </item>
         <item>
-        <title>主题测试文章</title>
-        <link>http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</link>
-        <pubDate>Wed, 23 Jun 2021 11:17:44 +0800</pubDate>
-        
-        <guid>http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post 主题测试文章" /&gt;&lt;h2 id=&#34;正文测试&#34;&gt;正文测试
-&lt;/h2&gt;&lt;p&gt;而这些并不是完全重要，更加重要的问题是， 带着这些问题，我们来审视一下学生会退会。 既然如何， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 我们不得不面对一个非常尴尬的事实，那就是， 可是，即使是这样，学生会退会的出现仍然代表了一定的意义。 学生会退会，发生了会如何，不发生又会如何。 经过上述讨论， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 学生会退会，到底应该如何实现。 这样看来， 在这种困难的抉择下，本人思来想去，寝食难安。 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 就我个人来说，学生会退会对我的意义，不能不说非常重大。 莎士比亚曾经提到过，人的一生是短的，但如果卑劣地过这一生，就太长了。这似乎解答了我的疑惑。 莫扎特说过一句富有哲理的话，谁和我一样用功，谁就会和我一样成功。这启发了我， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 学生会退会，到底应该如何实现。 一般来说， 从这个角度来看， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 在这种困难的抉择下，本人思来想去，寝食难安。 了解清楚学生会退会到底是一种怎么样的存在，是解决一切问题的关键。 一般来说， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 问题的关键究竟为何？ 而这些并不是完全重要，更加重要的问题是。&lt;/p&gt;
-&lt;p&gt;奥斯特洛夫斯基曾经说过，共同的事业，共同的斗争，可以使人们产生忍受一切的力量。　带着这句话，我们还要更加慎重的审视这个问题： 一般来讲，我们都必须务必慎重的考虑考虑。 既然如此， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 带着这些问题，我们来审视一下学生会退会。 我认为， 我认为， 在这种困难的抉择下，本人思来想去，寝食难安。 问题的关键究竟为何？ 每个人都不得不面对这些问题。 在面对这种问题时， 要想清楚，学生会退会，到底是一种怎么样的存在。 我认为， 既然如此， 每个人都不得不面对这些问题。 在面对这种问题时， 那么， 我认为， 学生会退会因何而发生。&lt;/p&gt;
-&lt;h2 id=&#34;引用&#34;&gt;引用
-&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;思念是最暖的忧伤像一双翅膀&lt;br&gt;
-让我停不了飞不远在过往游荡&lt;br&gt;
-不告而别的你 就算为了我着想&lt;br&gt;
-这么沉痛的呵护 我怎么能翱翔&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=3aypp_ylbzi&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;最暖的憂傷 - 田馥甄&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;图片&#34;&gt;图片
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/florian-klauer-nptLmg6jqDo-unsplash.jpg&#34;
-	width=&#34;667&#34;
-	height=&#34;1000&#34;
-	srcset=&#34;http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/florian-klauer-nptLmg6jqDo-unsplash_hu13768363498926278726.jpg 480w, http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/florian-klauer-nptLmg6jqDo-unsplash_hu13380208884366868750.jpg 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;photo by florian klauer on unsplash&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;66&#34;
-		data-flex-basis=&#34;160px&#34;
-	
-&gt;  &lt;img src=&#34;http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/luca-bravo-alS7ewQ41M8-unsplash.jpg&#34;
-	width=&#34;1000&#34;
-	height=&#34;667&#34;
-	srcset=&#34;http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/luca-bravo-alS7ewQ41M8-unsplash_hu1712544344331247820.jpg 480w, http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/luca-bravo-alS7ewQ41M8-unsplash_hu12475395149584884402.jpg 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;photo by luca bravo on unsplash&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;149&#34;
-		data-flex-basis=&#34;359px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/helena-hertz-wWZzXlDpMog-unsplash.jpg&#34;
-	width=&#34;1000&#34;
-	height=&#34;750&#34;
-	srcset=&#34;http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/helena-hertz-wWZzXlDpMog-unsplash_hu8363585391189779282.jpg 480w, http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/helena-hertz-wWZzXlDpMog-unsplash_hu15102473124145023839.jpg 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;photo by helena hertz on unsplash&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;133&#34;
-		data-flex-basis=&#34;320px&#34;
-	
-&gt;  &lt;img src=&#34;http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg&#34;
-	width=&#34;667&#34;
-	height=&#34;1000&#34;
-	srcset=&#34;http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/hudai-gayiran-3Od_VKcDEAA-unsplash_hu15886963791847885497.jpg 480w, http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/hudai-gayiran-3Od_VKcDEAA-unsplash_hu11726476772237334826.jpg 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;photo by hudai gayiran on unsplash&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;66&#34;
-		data-flex-basis=&#34;160px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;![&lt;span class=&#34;nt&#34;&gt;photo by florian klauer on unsplash&lt;/span&gt;](&lt;span class=&#34;na&#34;&gt;florian-klauer-nptlmg6jqdo-unsplash.jpg&lt;/span&gt;)  ![&lt;span class=&#34;nt&#34;&gt;photo by luca bravo on unsplash&lt;/span&gt;](&lt;span class=&#34;na&#34;&gt;luca-bravo-als7ewq41m8-unsplash.jpg&lt;/span&gt;) 
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;![&lt;span class=&#34;nt&#34;&gt;photo by helena hertz on unsplash&lt;/span&gt;](&lt;span class=&#34;na&#34;&gt;helena-hertz-wwzzxldpmog-unsplash.jpg&lt;/span&gt;)  ![&lt;span class=&#34;nt&#34;&gt;photo by hudai gayiran on unsplash&lt;/span&gt;](&lt;span class=&#34;na&#34;&gt;hudai-gayiran-3od_vkcdeaa-unsplash.jpg&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;相册语法来自 &lt;a class=&#34;link&#34; href=&#34;https://typlog.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;typlog&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;代码&#34;&gt;代码
-&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;ch&#34;&gt;#!/usr/bin/env python3&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;hello, world!&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 这是一个注释&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h2 id=&#34;图片居中显示&#34;&gt;图片居中显示
-&lt;/h2&gt;&lt;p&gt;在&lt;code&gt;HUGO_SITE_FOLDER/assets/scss/custom.scss &lt;/code&gt;文件中增加以下&lt;code&gt;scss&lt;/code&gt;代码片段：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-scss&#34; data-lang=&#34;scss&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;img&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;src&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;#center&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;display&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;ni&#34;&gt;block&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;margin&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;.0&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;rem&lt;/span&gt; &lt;span class=&#34;ni&#34;&gt;auto&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;max-width&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;%&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;height&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;ni&#34;&gt;auto&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;在文章插入的图片链接末尾增加&lt;code&gt;#center&lt;/code&gt;，就可以使图片在文章居中显示，待解决问题：在文章中插入文章目录的图片，没有居中效果。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg&#34;
-	width=&#34;667&#34;
-	height=&#34;1000&#34;
-	srcset=&#34;http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/hudai-gayiran-3Od_VKcDEAA-unsplash_hu15886963791847885497.jpg 480w, http://localhost:1313/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/hudai-gayiran-3Od_VKcDEAA-unsplash_hu11726476772237334826.jpg 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;photo by florian klauer on unsplash&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;66&#34;
-		data-flex-basis=&#34;160px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;h2 id=&#34;math&#34;&gt;math
-&lt;/h2&gt;&lt;p&gt;$$
-\boldsymbol{H}=\left(\begin{array}{cccc}
-\frac{\partial^{2}}{\partial \theta_{1} \partial \theta_{1}} f(\boldsymbol{\theta}) &amp;amp; \frac{\partial^{2}}{\partial \theta_{1} \partial \theta_{2}} f(\boldsymbol{\theta}) &amp;amp; \cdots &amp;amp; \frac{\partial^{2}}{\partial \theta_{1} \partial \theta_{n}} f(\boldsymbol{\theta}) \\
-\frac{\partial^{2}}{\partial \theta_{2} \partial \theta_{1}} f(\boldsymbol{\theta}) &amp;amp; \frac{\partial^{2}}{\partial \theta_{2} \partial \theta_{2}} f(\boldsymbol{\theta}) &amp;amp; \cdots &amp;amp; \frac{\partial^{2}}{\partial \theta_{2} \partial \theta_{n}} f(\boldsymbol{\theta}) \\
-\vdots &amp;amp; \vdots &amp;amp; &amp;amp; \vdots \\
-\frac{\partial^{2}}{\partial \theta_{n} \partial \theta_{1}} f(\boldsymbol{\theta}) &amp;amp; \frac{\partial^{2}}{\partial \theta_{n} \partial \theta_{2}} f(\boldsymbol{\theta}) &amp;amp; \cdots &amp;amp; \frac{\partial^{2}}{\partial \theta_{n} \partial \theta_{n}} f(\boldsymbol{\theta})
-\end{array}\right)
-$$&lt;/p&gt;
-&lt;p&gt;当latex公式中存在换行时，需要用&lt;code&gt;\\\\&lt;/code&gt;替代&lt;code&gt;\\&lt;/code&gt;，&lt;code&gt;\\&lt;/code&gt; 会被 MarkDown 处理掉，具体查看&lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack/issues/102&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;katex 分段函数不能正常显示&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;$\boldsymbol{a_{1}}=W_{1}\boldsymbol{x}$ 只能这样写 &lt;code&gt;$\boldsymbol{a_{1}}=W_{1}\boldsymbol{x}$&lt;/code&gt;，不能这样写 &lt;code&gt;$\boldsymbol{a}_{1}=W_{1}\boldsymbol{x}$&lt;/code&gt; 或者 &lt;code&gt;${\boldsymbol{a}}_{1}=W_{1}\boldsymbol{x}$&lt;/code&gt;。&lt;/p&gt;
-</description>
-        </item>
-        <item>
         <title>目标检测模型的评估方法</title>
         <link>http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/</link>
         <pubDate>Mon, 21 Jun 2021 10:45:26 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/</guid>
-        <description>&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/target_detection_cover.jpg" alt="Featured image of post 目标检测模型的评估方法" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;如何评价一个算法模型的检测结果是好还是不好呢？&lt;/p&gt;
 &lt;h2 id=&#34;检测结果的正确错误类型&#34;&gt;检测结果的正确/错误类型
 &lt;/h2&gt;&lt;ul&gt;
@@ -10601,17 +10344,17 @@ $$&lt;/p&gt;
 </description>
         </item>
         <item>
-        <title>神经网络中常用算子参数量和计算量估计</title>
-        <link>http://localhost:1313/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/</link>
+        <title>拆解神经网络算子：参数量与计算量的秘密</title>
+        <link>http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/</link>
         <pubDate>Sun, 25 Apr 2021 21:41:56 +0000</pubDate>
         
-        <guid>http://localhost:1313/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E5%92%8C%E8%AE%A1%E7%AE%97%E9%87%8F%E4%BC%B0%E8%AE%A1/</guid>
-        <description>&lt;p&gt;在学习机器学习和神经网络过程中，对于模型参数和模型计算量需要做出评估，这篇文章介绍几种常见操作对模型带来的参数量和计算量，更专业的表示为空间复杂度和时间复杂度，后续再补充。&lt;/p&gt;
+        <guid>http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/</guid>
+        <description>&lt;img src="http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/operator_parameters_and_calculation.jpg" alt="Featured image of post 拆解神经网络算子：参数量与计算量的秘密" /&gt;&lt;p&gt;在学习机器学习和神经网络过程中，对于模型参数和模型计算量需要做出评估，这篇文章介绍几种常见操作对模型带来的参数量和计算量，更专业的表示为空间复杂度和时间复杂度，后续再补充。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;注意：下面计算的是都是&lt;strong&gt;单层&lt;/strong&gt;的&lt;strong&gt;参数量&lt;/strong&gt;和&lt;strong&gt;计算量&lt;/strong&gt;，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以&lt;strong&gt;BatchSize&lt;/strong&gt;。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;卷积层&#34;&gt;卷积层
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425214848.png&#34;
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425214848.png#center&#34;
 	
 	
 	
@@ -10633,7 +10376,7 @@ $$&lt;/p&gt;
 &lt;p&gt;$FLOPs=\left[\left(C_{i n} \times k_{w} \times k_{h}\right)+\left(C_{i n} \times k_{w} \times k_{h}-1\right)+1\right] \times C_{o u t} \times W_{out} \times H_{out}$&lt;br&gt;
 $k_{w}$ 和 $k_{h}$ 分别表示卷积核的宽和高，其中 $C_{i n} \times k_{w} \times k_{h}$ 表示乘法计算量, $C_{i n} \times k_{w} \times k_{h}-1$ 表示加法计算量(可以这样理解，需要把乘法计算得到的$C_{i n} \times k_{w} \times k_{h}$个数字加这么多次), $+1$ 表示偏置, $C_{\text {out }} \times W_{out} \times H_{out}$ 表示 feature $\operatorname{map}$ 中的所有元素， $W_{out} \text{、} H_{out}$ 表示feature map的宽和高。&lt;/p&gt;
 &lt;h2 id=&#34;全连接层&#34;&gt;全连接层
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425234554.png&#34;
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425234554.png#center&#34;
 	
 	
 	
@@ -10649,7 +10392,7 @@ $N_{i n}$ 表示输入特征向量的维数, +1表示偏置, $N_{out}$ 表示输
 $N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。&lt;br&gt;
 其中$N_{in}$表示乘法运算量, $N_{in}-1$ 表示加法运算量，+1表示偏置。&lt;/p&gt;
 &lt;h2 id=&#34;池化层&#34;&gt;池化层
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425233642.png&#34;
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425233642.png#center&#34;
 	
 	
 	
@@ -10664,7 +10407,7 @@ $N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。&lt
 $k \times k$ 代表在原特征图区域$k \times k$ 的 max ，sum或者avg池化操作；&lt;br&gt;
 $H_{out} \times W_{out}$代表输出特征图大小，$C_{out}$代表输出通道数。&lt;/p&gt;
 &lt;h2 id=&#34;案例&#34;&gt;案例
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210422151056.png&#34;
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210422151056.png#center&#34;
 	
 	
 	
@@ -11365,12 +11108,12 @@ $$
 </description>
         </item>
         <item>
-        <title>Vue学习</title>
-        <link>http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0/</link>
+        <title>Vue入门笔记</title>
+        <link>http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/</link>
         <pubDate>Wed, 06 Jan 2021 22:02:52 +0000</pubDate>
         
-        <guid>http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0/</guid>
-        <description>&lt;blockquote&gt;
+        <guid>http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/</guid>
+        <description>&lt;img src="http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover.jpg" alt="Featured image of post Vue入门笔记" /&gt;&lt;blockquote&gt;
 &lt;p&gt;vue学习记录。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;!-- more --&gt;
@@ -13296,7 +13039,7 @@ TODO&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;              calculation involving the length of a :class:`~torch.utils.data.DataLoader`.
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;def&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;__init__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data_source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;S&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ized&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;def&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;__init__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data_source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Optional&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Sized&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pass&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;def&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;__iter__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Iterator&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;T_co&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
@@ -13932,15 +13675,7 @@ TODO&lt;/p&gt;
         <pubDate>Tue, 14 Jul 2020 17:46:32 +0000</pubDate>
         
         <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</guid>
-        <description>&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20201203171952.png&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
-&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20201203171952.png" alt="Featured image of post 机器学习之支持向量机" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;支持向量机即Support Vector Machine，简称SVM。我最开始听说这个机器的时候，一头雾水，“支持”，“向量”，“机”，这三个词组合在一起让我在一开始觉得这个东西好抽象。首先，SVM实际上是一个二分类模型，也可以用来解决回归问题。了解过一些原理后，我觉得这种模型（方法）被称为Vector Support Machine更好一些，简单且不严谨的理解是: 这种模型通过某些向量（高维空间中的点）支持（支撑）而形成的一种机器（方法），或者称之为模型。&lt;/p&gt;
 &lt;p&gt;引用&lt;a class=&#34;link&#34; href=&#34;https://blog.pluskid.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Free Mind&lt;/a&gt;在介绍SVM中一句话：&lt;strong&gt;“SVM 一直被认为是效果最好的现成可用的分类算法之一（其实有很多人都相信，“之一”是可以去掉的）”&lt;/strong&gt;。刚开始接触机器学习（大半年🤦‍♂️），目前没有做太多实践，并不清楚SVM的效果有多好，后面应该多了解些SVM的实际应用。&lt;/p&gt;
@@ -13948,7 +13683,7 @@ TODO&lt;/p&gt;
 &lt;h2 id=&#34;支持向量机原理&#34;&gt;支持向量机原理
 &lt;/h2&gt;&lt;p&gt;现在有一些数据$\mathbf{x}={\boldsymbol{x_1}, \boldsymbol{x_2}, \boldsymbol{x_3}, &amp;hellip;, \boldsymbol{x_n}}$，这些数据的标签也已知$\mathbf{y}={y_1, y_2, y_3, &amp;hellip;, y_n}$。其中每个数据$\boldsymbol{x_i}$为有两个特征值，即$\boldsymbol{x_i} = (x_{i1}, x_{i2})$，为二维空间上的一点，标签$y_i\in{-1, +1}$，一般我们将$+1$称作正类，将$-1$称为负类。这里假设$\boldsymbol{x_i}$只有两个特征值是为了能够在二维坐标中将数据表示出来，方便理解。更一般地，$\boldsymbol{x}_{i} \in \mathbb{R}^{n}$，即每个数据有$n$个特征值，每个数据都是$n$维空间中的一个点。&lt;/br&gt;&lt;/p&gt;
 &lt;p&gt;下图在二维坐标系中将这些数据表示出来，其中红色代表正类，蓝色代表负类。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210118122747.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210118122747.png#center&#34;
 	
 	
 	
@@ -13958,7 +13693,7 @@ TODO&lt;/p&gt;
 &gt;&lt;/p&gt;
 &lt;p&gt;可能有人要问了：为什么这些点分布的很有规律（特点）？即正类的这些红色点都分布在一边，而蓝色的这些数据点分布在另外一边。的确，现实中的数据往往不会这么理想，可能会是两部分数据交叉在一起，并不是直观上那么明显的分为两边，&lt;font color=#E3B&gt;这里我们从最简单的原数据&lt;strong&gt;线性可分&lt;/strong&gt;的问题入手，所以先假设数据比较理想。&lt;/font&gt;之后我们会慢慢介绍一些复杂数据的情况是如何处理的。&lt;/p&gt;
 &lt;p&gt;那么如果有上图一些较为理想的数据，需要寻找到一个线性边界将它们划分开来，如何找到这个线性边界呢？这个问题大概小学生也能做到。如下图，我们在红色数据点和蓝色数据点之间画一条直线，使得两类点分割到直线的两边，这条直线显然就是一个线性边界，并且可以正确地将所给的数据集分为两类。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210118131813.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210118131813.png#center&#34;
 	
 	
 	
@@ -13967,7 +13702,7 @@ TODO&lt;/p&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;然而，或许你想说你画出来的直线和上图不一样，它或许是下图中的某一条。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210118132308.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210118132308.png#center&#34;
 	
 	
 	
@@ -13977,7 +13712,7 @@ TODO&lt;/p&gt;
 &gt;&lt;/p&gt;
 &lt;p&gt;这里，我们很容易想到这样的直线有无数条。用这些直线对于已知的上图数据分类，它们的确都可以产生正确的分类结果。然而，机器学习建模的目的并不是对于已知点（标签已知）成功分类即可，&lt;font color=#E3B&gt;学习的目的是需要对于未知情况也能够适用&lt;/font&gt;，即对于一个未知分类的数据点，我们的建立的模型需要告诉我们这个数据点它是属于哪一类的，正类或者是负类。机器学习建立的模型试图去寻找数据中&lt;font color=#E3B&gt;&lt;strong&gt;一般的规律&lt;/strong&gt;，而不是对于已有数据正确的表示。&lt;/font&gt;&lt;/br&gt;&lt;/p&gt;
 &lt;p&gt;假如对于一个&lt;strong&gt;新的未知分类的数据&lt;/strong&gt;，它在二维坐标位置为&lt;strong&gt;X&lt;/strong&gt;所在的位置如下图。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210118133622.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210118133622.png#center&#34;
 	
 	
 	

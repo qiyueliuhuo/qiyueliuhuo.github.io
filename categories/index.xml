@@ -6,29 +6,21 @@
         <description>Recent content in Categories on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 24 Oct 2022 09:59:59 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>测试</title>
-        <link>http://localhost:1313/categories/%E6%B5%8B%E8%AF%95/</link>
-        <pubDate>Mon, 24 Oct 2022 09:59:59 +0800</pubDate>
-        
-        <guid>http://localhost:1313/categories/%E6%B5%8B%E8%AF%95/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>技术</title>
-        <link>http://localhost:1313/categories/%E6%8A%80%E6%9C%AF/</link>
+        <lastBuildDate>Sat, 17 Sep 2022 19:34:41 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>编程开发</title>
+        <link>http://localhost:1313/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/</link>
         <pubDate>Sat, 17 Sep 2022 19:34:41 +0800</pubDate>
         
-        <guid>http://localhost:1313/categories/%E6%8A%80%E6%9C%AF/</guid>
-        <description>&lt;img src="http://localhost:1313/categories/%E6%8A%80%E6%9C%AF/luca-bravo-XJXWbfSo2f0-unsplash.jpg" alt="Featured image of post 技术" /&gt;</description>
+        <guid>http://localhost:1313/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/</guid>
+        <description>&lt;img src="http://localhost:1313/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/luca-bravo-XJXWbfSo2f0-unsplash.jpg" alt="Featured image of post 编程开发" /&gt;</description>
         </item>
         <item>
-        <title>算法</title>
-        <link>http://localhost:1313/categories/%E7%AE%97%E6%B3%95/</link>
+        <title>算法解析</title>
+        <link>http://localhost:1313/categories/%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90/</link>
         <pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate>
         
-        <guid>http://localhost:1313/categories/%E7%AE%97%E6%B3%95/</guid>
-        <description>&lt;img src="http://localhost:1313/categories/%E7%AE%97%E6%B3%95/jeswin-thomas-hecib2an4T4-unsplash.jpg" alt="Featured image of post 算法" /&gt;</description>
+        <guid>http://localhost:1313/categories/%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90/</guid>
+        <description>&lt;img src="http://localhost:1313/categories/%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90/jeswin-thomas-hecib2an4T4-unsplash.jpg" alt="Featured image of post 算法解析" /&gt;</description>
         </item>
         
     </channel>

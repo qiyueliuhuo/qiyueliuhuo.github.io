@@ -12,7 +12,7 @@
         <pubDate>Fri, 22 Oct 2021 15:15:50 +0000</pubDate>
         
         <guid>http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</guid>
-        <description>&lt;p&gt;为了更深入理解卷积神经网络，这篇博客介绍在卷积神经网络中常用的卷积操作底层是如何实现的。&lt;/p&gt;
+        <description>&lt;img src="http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/convolutional_calculation.png" alt="Featured image of post 卷积计算底层实现" /&gt;&lt;p&gt;为了更深入理解卷积神经网络，这篇博客介绍在卷积神经网络中常用的卷积操作底层是如何实现的。&lt;/p&gt;
 &lt;h2 id=&#34;卷积&#34;&gt;卷积
 &lt;/h2&gt;&lt;p&gt;卷积本身的执行过程是通过在特征图上滑动卷积核来完成的，如下面两个动图，形象地展示了单通道卷积和多通道卷积操作。&lt;/p&gt;
 &lt;h3 id=&#34;单通道卷积&#34;&gt;单通道卷积

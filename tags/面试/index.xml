@@ -12,7 +12,7 @@
         <pubDate>Fri, 18 Feb 2022 13:08:49 +0000</pubDate>
         
         <guid>http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_img.png" alt="Featured image of post LeetCode 进阶指南：解题思路与算法题分类总结" /&gt;&lt;blockquote&gt;
+        <description>&lt;img src="http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_cover.jpg" alt="Featured image of post LeetCode 进阶指南：解题思路与算法题分类总结" /&gt;&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;人生亦有命，安能行叹复坐愁？ —— 拟行路难·其四&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;目前只做字节跳动、腾讯的算法和后端的高频leetcode算法题。刷题之前先复习经典的一些算法，有相当多算法是经典算法的修改版。&lt;/p&gt;
@@ -25,7 +25,7 @@
 &lt;/h2&gt;&lt;p&gt;当输入规模足够大，使得运行时间只与增长量级有关时，需要研究算法的渐近效率。也就是，当输入规模无限增加时，在极限中，算法的运行时间如何随着输入规模的变大而增加。这里仅引入两个常用的渐进记号。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;$\Theta$ (西塔) 渐近紧确界，如$\frac{1}{2} n^{2}-3 n=\Theta\left(n^{2}\right)$，$6n^{3} \neq \Theta (n^{2})$，$n \neq \Theta (n^{2})$。&lt;/li&gt;
-&lt;li&gt;$O$（大o）渐进上界，如$\frc{1}{2} n^{2}-3 n=O\left(n^{2}\right)$，$6n^{3} \neq O(n^{2})$，$n = O (n^{2})$。&lt;/li&gt;
+&lt;li&gt;$O$（大o）渐进上界，如 $\frc{1}{2} n^{2}-3 n=O\left(n^{2}\right)$，$6n^{3} \neq O(n^{2})$，$n = O (n^{2})$。&lt;/li&gt;
 &lt;li&gt;渐进记号代表的是集合，这里的$=$更多地代表$\in$。&lt;/li&gt;
 &lt;li&gt;算法复杂度分为时间复杂度和空间复杂度。时间复杂度衡量了执行算法所需要的计算工作量；而空间复杂度是指执行这个算法所需要的内存空间。&lt;/li&gt;
 &lt;li&gt;&lt;font color=#E3B&gt;在相当多文献资料中，有时我们发现$O$记号非形式化地描述&lt;strong&gt;渐进确界&lt;/strong&gt;，即已经使用$\Theta$记号定义的东西。&lt;/font&gt;&lt;/li&gt;
@@ -1091,7 +1091,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;图结构&#34;&gt;图结构
-&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220309105509.png&#34;
+&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220309105509.png#center&#34;
 	
 	
 	
@@ -1309,15 +1309,12 @@
 &lt;h3 id=&#34;动态规划算法&#34;&gt;动态规划算法
 &lt;/h3&gt;&lt;h4 id=&#34;引子计算斐波那契数列&#34;&gt;引子：计算斐波那契数列
 &lt;/h4&gt;&lt;p&gt;&lt;strong&gt;斐波那契数列&lt;/strong&gt;是指这样一个数列：0、1、1、2、3、5、8、13、21、34、55&amp;hellip;&amp;hellip;&lt;/p&gt;
-&lt;p&gt;斐波纳契数列可以用下面的方法定义：
-$$
-\left{\begin{array}{l}
-F(0)=0, F(1)=1 \
-F(n)=F(n-1)+F(n-2), n \text { 为 } \geq 2 \text { 的整数 }
-\end{array}\right.
-$$
-如果我们要计算F(5)，递归计算图如下：
-&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220219152921.png&#34;
+&lt;p&gt;斐波纳契数列可以用下面的方法定义：&lt;/p&gt;
+&lt;p&gt;$$
+\left{\begin{array}{l}F(0)=0, F(1)=1 \ F(n)=F(n-1)+F(n-2), n \text { 为 } \geq 2 \text { 的整数 }\end{array}\right.
+$$&lt;/p&gt;
+&lt;p&gt;如果我们要计算F(5)，递归计算图如下：
+&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220219152921.png#center&#34;
 	
 	
 	

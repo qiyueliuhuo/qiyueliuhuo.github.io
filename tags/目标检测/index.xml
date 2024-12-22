@@ -12,7 +12,7 @@
         <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/</guid>
-        <description>&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31.jpg" alt="Featured image of post 基于mmdetection源码:Faster R-CNN算法解读" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;OpenMMLab学习资料：&lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV19Z4y1q7Q5?spm_id_from=333.999.0.0&amp;amp;vd_source=b29b63fd496fceb0b963804f6a1853e1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;OpenMMLab 模块化设计背后的功臣&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;对于mmdetection的学习，可以&lt;strong&gt;直接阅读官方的文档&lt;/strong&gt;，现在官方提供了中文文档，非常详细，点击&lt;a class=&#34;link&#34; href=&#34;https://mmdetection.readthedocs.io/zh_CN/latest/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -1453,7 +1453,7 @@
         <pubDate>Mon, 21 Jun 2021 10:45:26 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/</guid>
-        <description>&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/target_detection_cover.jpg" alt="Featured image of post 目标检测模型的评估方法" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;如何评价一个算法模型的检测结果是好还是不好呢？&lt;/p&gt;
 &lt;h2 id=&#34;检测结果的正确错误类型&#34;&gt;检测结果的正确/错误类型
 &lt;/h2&gt;&lt;ul&gt;
