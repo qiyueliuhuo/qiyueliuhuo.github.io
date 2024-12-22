@@ -648,7 +648,18 @@
 </div>
 </div><p>上面代码为 <code>WebServer</code> 服务器实例化时资源加载和实例启动源码，该阶段完成上面时序图 <code>Resource initialization</code> 框标的过程。</p>
 <p>编译运行后，当我们启动时，首先通过上面代码启动服务，这时一个 HTTP 服务器开始对外服务，我们可以在游览器中访问地址：<code>http://127.0.0.1:1316</code> ，打开如下界面。</p>
-<p>![[Pasted image 20230128122020.png]]</p>
+<p><img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230128122020.png"
+	width="1920"
+	height="1010"
+	srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230128122020_hu3050355349569153767.png 480w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230128122020_hu6620091844162953603.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="190"
+		data-flex-basis="456px"
+	
+></p>
 <p>通过游览器访问时，这里游览器给服务器发送了一个处于应用层 <code>HTTP</code> 协议的 <code>GET</code> 请求，上面时序图<strong>绿色箭头</strong>代表客户端用户主动发起请求路径为 <code>/</code> 的请求，该请求会被 <code>Linux</code> 内核提供给应用程序的<strong>同时监听多个文件描述符的事件通知机制 <code>epoll</code> 响应</strong>，那么为什么 <code>epoll</code> 会处理这样的网络请求呢？</p>
 <p>在 <code>Resource initialization</code> 资源初始化阶段，就在 <code>WebServer::InitSocket_()</code> 函数中通过 <code>socket</code> 传输层编程设置一个<strong>绑定到协议为 <code>TCP</code> 且端口为 <code>1316</code></strong> 上的网络监听套接字 <code>listenFd_</code> ，通过调用 <code>listen(listenFd_, 6)</code> 该监听套接字一直处于监听状态；而且，通过 <code>epoller_-&gt;AddFd(listenFd_,  listenEvent_ | EPOLLIN)</code> 调用，将<strong>该套接字添加到多路复用机制 <code>epoll</code> 的注册事件中</strong>，该过程的代码如下：</p>
 <div class="highlight"><div class="chroma">
@@ -1185,7 +1196,18 @@
 </ul>
 <h4 id="代码解析">代码解析
 </h4><p>为了方便理解代码，在这里我先通过下面示意图，简单描述该版本的线程池大概机制。</p>
-<p>![[Pasted image 20230122192122.png]]</p>
+<p><img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230122192122.png"
+	width="1646"
+	height="558"
+	srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230122192122_hu16231596378880326964.png 480w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230122192122_hu11990487892743236621.png 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="294"
+		data-flex-basis="707px"
+	
+></p>
 <p>下面代码实现了一个如上图线程池，整个线程池是个生产者消费者模型，该线程池一开始创建 <code>threadCount</code> 个固定线程，这些线程作为消费者，当线程被唤醒时，从任务队列中获取任务，执行任务；而生产者通过 <code>AddTask(F&amp;&amp; task)</code> 方法将生产的任务添加到<strong>任务缓冲队列</strong>中。可以看到，整个<code>TaskQueue</code> 任务队列作为临界资源被多个线程异步访问，为了保障多个线程能够安全访问 <code>TaskQueue</code> 中 <del><code>std::queue&lt;std::function&lt;void()&gt;&gt; tasks</code> 队列</del>  变量时，每次操作都需要通过互斥量 <code>std::mutex mtx</code> 进行加锁后再进行访问。</p>
 <blockquote>
 <p>注：这里笔者将源码中 <code>Pool</code> 结构体改名成 <code>TaskQueue</code>，代表的含义更为合适。</p>

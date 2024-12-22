@@ -281,7 +281,18 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;上面代码为 &lt;code&gt;WebServer&lt;/code&gt; 服务器实例化时资源加载和实例启动源码，该阶段完成上面时序图 &lt;code&gt;Resource initialization&lt;/code&gt; 框标的过程。&lt;/p&gt;
 &lt;p&gt;编译运行后，当我们启动时，首先通过上面代码启动服务，这时一个 HTTP 服务器开始对外服务，我们可以在游览器中访问地址：&lt;code&gt;http://127.0.0.1:1316&lt;/code&gt; ，打开如下界面。&lt;/p&gt;
-&lt;p&gt;![[Pasted image 20230128122020.png]]&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020.png&#34;
+	width=&#34;1920&#34;
+	height=&#34;1010&#34;
+	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020_hu3050355349569153767.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020_hu6620091844162953603.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;190&#34;
+		data-flex-basis=&#34;456px&#34;
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;通过游览器访问时，这里游览器给服务器发送了一个处于应用层 &lt;code&gt;HTTP&lt;/code&gt; 协议的 &lt;code&gt;GET&lt;/code&gt; 请求，上面时序图&lt;strong&gt;绿色箭头&lt;/strong&gt;代表客户端用户主动发起请求路径为 &lt;code&gt;/&lt;/code&gt; 的请求，该请求会被 &lt;code&gt;Linux&lt;/code&gt; 内核提供给应用程序的&lt;strong&gt;同时监听多个文件描述符的事件通知机制 &lt;code&gt;epoll&lt;/code&gt; 响应&lt;/strong&gt;，那么为什么 &lt;code&gt;epoll&lt;/code&gt; 会处理这样的网络请求呢？&lt;/p&gt;
 &lt;p&gt;在 &lt;code&gt;Resource initialization&lt;/code&gt; 资源初始化阶段，就在 &lt;code&gt;WebServer::InitSocket_()&lt;/code&gt; 函数中通过 &lt;code&gt;socket&lt;/code&gt; 传输层编程设置一个&lt;strong&gt;绑定到协议为 &lt;code&gt;TCP&lt;/code&gt; 且端口为 &lt;code&gt;1316&lt;/code&gt;&lt;/strong&gt; 上的网络监听套接字 &lt;code&gt;listenFd_&lt;/code&gt; ，通过调用 &lt;code&gt;listen(listenFd_, 6)&lt;/code&gt; 该监听套接字一直处于监听状态；而且，通过 &lt;code&gt;epoller_-&amp;gt;AddFd(listenFd_,  listenEvent_ | EPOLLIN)&lt;/code&gt; 调用，将&lt;strong&gt;该套接字添加到多路复用机制 &lt;code&gt;epoll&lt;/code&gt; 的注册事件中&lt;/strong&gt;，该过程的代码如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -818,7 +829,18 @@
 &lt;/ul&gt;
 &lt;h4 id=&#34;代码解析&#34;&gt;代码解析
 &lt;/h4&gt;&lt;p&gt;为了方便理解代码，在这里我先通过下面示意图，简单描述该版本的线程池大概机制。&lt;/p&gt;
-&lt;p&gt;![[Pasted image 20230122192122.png]]&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122.png&#34;
+	width=&#34;1646&#34;
+	height=&#34;558&#34;
+	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122_hu16231596378880326964.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122_hu11990487892743236621.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;294&#34;
+		data-flex-basis=&#34;707px&#34;
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;下面代码实现了一个如上图线程池，整个线程池是个生产者消费者模型，该线程池一开始创建 &lt;code&gt;threadCount&lt;/code&gt; 个固定线程，这些线程作为消费者，当线程被唤醒时，从任务队列中获取任务，执行任务；而生产者通过 &lt;code&gt;AddTask(F&amp;amp;&amp;amp; task)&lt;/code&gt; 方法将生产的任务添加到&lt;strong&gt;任务缓冲队列&lt;/strong&gt;中。可以看到，整个&lt;code&gt;TaskQueue&lt;/code&gt; 任务队列作为临界资源被多个线程异步访问，为了保障多个线程能够安全访问 &lt;code&gt;TaskQueue&lt;/code&gt; 中 &lt;del&gt;&lt;code&gt;std::queue&amp;lt;std::function&amp;lt;void()&amp;gt;&amp;gt; tasks&lt;/code&gt; 队列&lt;/del&gt;  变量时，每次操作都需要通过互斥量 &lt;code&gt;std::mutex mtx&lt;/code&gt; 进行加锁后再进行访问。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;注：这里笔者将源码中 &lt;code&gt;Pool&lt;/code&gt; 结构体改名成 &lt;code&gt;TaskQueue&lt;/code&gt;，代表的含义更为合适。&lt;/p&gt;
