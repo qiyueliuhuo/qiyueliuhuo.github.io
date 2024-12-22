@@ -10,7 +10,7 @@
 <meta property='og:description' content="源码解读C++14打造的高性能WebServer，轻松实现上万QPS的优化与实践。">
 <meta property='og:url' content='http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/'>
 <meta property='og:site_name' content='七月流火'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:published_time' content='2024-12-22T17:34:15&#43;08:00'/><meta property='article:modified_time' content='2024-12-22T17:34:15&#43;08:00'/><meta property='og:image' content='http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:published_time' content='2024-06-22T17:34:15&#43;08:00'/><meta property='article:modified_time' content='2024-06-22T17:34:15&#43;08:00'/><meta property='og:image' content='http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.jpg' />
 <meta name="twitter:title" content="高效之美：C++14 WebServer 源码探秘">
 <meta name="twitter:description" content="源码解读C++14打造的高性能WebServer，轻松实现上万QPS的优化与实践。"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.jpg' />
@@ -349,7 +349,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Dec 22, 2024</time>
+                <time class="article-time--published">Jun 22, 2024</time>
             </div>
         
 
@@ -996,7 +996,7 @@
 </span></span><span class="line"><span class="cl">    <span class="k">do</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="n">accept</span><span class="p">(</span><span class="n">listenFd_</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="nc">sockaddr</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">len</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">        <span class="k">if</span><span class="p">(</span><span class="n">fd</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span><span class="p">;}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="nf">if</span><span class="p">(</span><span class="n">HttpConn</span><span class="o">::</span><span class="n">userCount</span> <span class="o">&gt;=</span> <span class="n">MAX_FD</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="nf">if</span><span class="err">(</span><span class="n">HttpConn</span><span class="o">::</span><span class="n">userCount</span> <span class="o">&gt;=</span> <span class="n">MAX_FD</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">            <span class="n">SendError_</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="s">&#34;Server busy!&#34;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">            <span class="n">LOG_WARN</span><span class="p">(</span><span class="s">&#34;Clients is full!&#34;</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">            <span class="k">return</span><span class="p">;</span>
