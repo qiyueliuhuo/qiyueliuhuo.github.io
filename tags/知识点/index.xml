@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>知识点 on 七月流火</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+        <link>http://localhost:1313/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
         <description>Recent content in 知识点 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 08 Jul 2021 20:18:41 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 08 Jul 2021 20:18:41 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>C&#43;&#43;知识点总结</title>
-        <link>https://qiyueliuhuo.github.io/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</link>
+        <link>http://localhost:1313/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</link>
         <pubDate>Thu, 08 Jul 2021 20:18:41 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</guid>
-        <description>&lt;img src="https://qiyueliuhuo.github.io/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.jpg" alt="Featured image of post C&#43;&#43;知识点总结" /&gt;&lt;h2 id=&#34;c编程基础&#34;&gt;C++编程基础
+        <guid>http://localhost:1313/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</guid>
+        <description>&lt;img src="http://localhost:1313/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.jpg" alt="Featured image of post C&#43;&#43;知识点总结" /&gt;&lt;h2 id=&#34;c编程基础&#34;&gt;C++编程基础
 &lt;/h2&gt;&lt;h3 id=&#34;hello-world&#34;&gt;Hello, world!
 &lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2046,7 +2046,7 @@
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;头文件&lt;em&gt;stdexcept&lt;/em&gt;定义了几种常用的异常类。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/5-2.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/5-2.png&#34;
 	
 	
 	
@@ -2063,7 +2063,7 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;标准库异常类的继承体系：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/5-3.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/5-3.png&#34;
 	
 	
 	
@@ -4679,7 +4679,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
     &gt;左值，右值&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;更多用法c-11&#34;&gt;更多用法（C++ 11）
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;shared_ptr&lt;/code&gt;和&lt;code&gt;unique_ptr&lt;/code&gt;都支持的操作：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/12-1.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/12-1.png&#34;
 	
 	
 	
@@ -4690,7 +4690,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;shared_ptr&lt;/code&gt;独有的操作：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/12-2.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/12-2.png&#34;
 	
 	
 	
@@ -4774,7 +4774,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;由于&lt;code&gt;unique_ptr&lt;/code&gt;独占其指向的对象，因此&lt;code&gt;unique_ptr&lt;/code&gt;不支持普通的拷贝或赋值操作。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;unique_ptr&lt;/code&gt;操作：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/12-4.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/12-4.png&#34;
 	
 	
 	
@@ -4866,7 +4866,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;weak_ptr&#34;&gt;weak_ptr
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;weak_ptr&lt;/code&gt;是一种不控制所指向对象生存期的智能指针，它指向一个由&lt;code&gt;shared_ptr&lt;/code&gt;管理的对象。将&lt;code&gt;weak_ptr&lt;/code&gt;绑定到&lt;code&gt;shared_ptr&lt;/code&gt;不会改变&lt;code&gt;shared_ptr&lt;/code&gt;的引用计数。如果&lt;code&gt;shared_ptr&lt;/code&gt;被销毁，即使有&lt;code&gt;weak_ptr&lt;/code&gt;指向对象，对象仍然有可能被释放。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/12-5.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/12-5.png&#34;
 	
 	
 	
@@ -5575,7 +5575,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;lambda&lt;/code&gt;捕获列表形式：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/10-2.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/10-2.png&#34;
 	
 	
 	
@@ -5895,7 +5895,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;lambda&lt;/code&gt;产生的类不包含默认构造函数、赋值运算符和默认析构函数，它是否包含默认拷贝/移动构造函数则通常要视捕获的变量类型而定。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;标准库定义的函数对象&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;标准库在头文件&lt;em&gt;functional&lt;/em&gt;中定义了一组表示算术运算符、关系运算符和逻辑运算符的类，每个类分别定义了一个执行命名操作的调用运算符。这些类都被定义为模板的形式，可以为其指定具体的应用类型（即调用运算符的形参类型）。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/14-2.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/14-2.png&#34;
 	
 	
 	
@@ -5927,7 +5927,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;&lt;h3 id=&#34;可调用对象与function&#34;&gt;可调用对象与function
 &lt;/h3&gt;&lt;p&gt;调用形式指明了调用返回的类型以及传递给调用的实参类型。不同的可调用对象可能具有相同的调用形式。&lt;/p&gt;
 &lt;p&gt;标准库&lt;code&gt;function&lt;/code&gt;类型是一个模板，定义在头文件&lt;em&gt;functional&lt;/em&gt;中，用来表示对象的调用形式。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://qiyueliuhuo.github.io/assets/C-plus-plus/14-3.png&#34;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/C-plus-plus/14-3.png&#34;
 	
 	
 	

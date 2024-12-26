@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>卷积 on 七月流火</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E5%8D%B7%E7%A7%AF/</link>
+        <link>http://localhost:1313/tags/%E5%8D%B7%E7%A7%AF/</link>
         <description>Recent content in 卷积 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 22 Oct 2021 15:15:50 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E5%8D%B7%E7%A7%AF/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 22 Oct 2021 15:15:50 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%8D%B7%E7%A7%AF/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>卷积计算底层实现</title>
-        <link>https://qiyueliuhuo.github.io/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</link>
+        <link>http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</link>
         <pubDate>Fri, 22 Oct 2021 15:15:50 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</guid>
-        <description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/convolutional_calculation.png" alt="Featured image of post 卷积计算底层实现" /&gt;&lt;p&gt;为了更深入理解卷积神经网络，这篇博客介绍在卷积神经网络中常用的卷积操作底层是如何实现的。&lt;/p&gt;
+        <guid>http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</guid>
+        <description>&lt;img src="http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/convolutional_calculation.png" alt="Featured image of post 卷积计算底层实现" /&gt;&lt;p&gt;为了更深入理解卷积神经网络，这篇博客介绍在卷积神经网络中常用的卷积操作底层是如何实现的。&lt;/p&gt;
 &lt;h2 id=&#34;卷积&#34;&gt;卷积
 &lt;/h2&gt;&lt;p&gt;卷积本身的执行过程是通过在特征图上滑动卷积核来完成的，如下面两个动图，形象地展示了单通道卷积和多通道卷积操作。&lt;/p&gt;
 &lt;h3 id=&#34;单通道卷积&#34;&gt;单通道卷积

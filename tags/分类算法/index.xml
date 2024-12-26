@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>分类算法 on 七月流火</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/</link>
+        <link>http://localhost:1313/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/</link>
         <description>Recent content in 分类算法 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 14 Jul 2020 17:46:32 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 14 Jul 2020 17:46:32 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>机器学习之支持向量机</title>
-        <link>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</link>
+        <link>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</link>
         <pubDate>Tue, 14 Jul 2020 17:46:32 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</guid>
+        <guid>http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</guid>
         <description>&lt;img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20201203171952.png" alt="Featured image of post 机器学习之支持向量机" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;支持向量机即Support Vector Machine，简称SVM。我最开始听说这个机器的时候，一头雾水，“支持”，“向量”，“机”，这三个词组合在一起让我在一开始觉得这个东西好抽象。首先，SVM实际上是一个二分类模型，也可以用来解决回归问题。了解过一些原理后，我觉得这种模型（方法）被称为Vector Support Machine更好一些，简单且不严谨的理解是: 这种模型通过某些向量（高维空间中的点）支持（支撑）而形成的一种机器（方法），或者称之为模型。&lt;/p&gt;
 &lt;p&gt;引用&lt;a class=&#34;link&#34; href=&#34;https://blog.pluskid.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -81,19 +81,12 @@ $$
 &lt;p&gt;让我们回到上面的SVM约束最优化问题：
 $$
 \begin{array}{ll}
-\max \limits_{\boldsymbol{w}, \boldsymbol{b}} &amp;amp; \gamma  &amp;amp;&amp;amp; (1) \
+\max \limits_{\boldsymbol{w}, \boldsymbol{b}} &amp;amp; \gamma  &amp;amp;&amp;amp; (1) \\
 \text { s.t. } &amp;amp; y_{i}\left(\frac{\boldsymbol{w}}{|\boldsymbol{w}|} \cdot \boldsymbol{x_{i}}+\frac{b}{|\boldsymbol{w}|}\right) \geqslant \gamma, \quad i=1,2, \cdots, N &amp;amp;&amp;amp; (2)
 \end{array}
 $$
 $\gamma$代表的是数据点到超平面的几何距离，$(2)$式括号内代表的是每个点到超平面的几何距离，然而，不同于上面的距离公式，该公式没有加绝对值，&lt;font color=#E3B&gt;括号部分的值可正可负&lt;/font&gt;，显然，正负对应于超平面的两侧，一开始我们有约定标签$y_i\in{-1, +1}$，那么当我们约定括号部分值为负的那一侧代表负类，即$y_i=-1$；为正的那一侧代表正类，即$y_i=+1$，这里更多的是一种约定的问题，这种约定方便我们建模求解问题。&lt;/p&gt;
 &lt;p&gt;我们可以试着理解下$(1) (2)$两式，当有某些数据点被分错时，$(2)$左侧结果为负值，那么$\gamma$也为负值，此时$\gamma$肯定不是最大值，只有当所有的数据点都被正确分类时（$\gamma$为正），而且超平面距离最近的点的距离最远时，$\gamma$达到最大。也就是说，如果我们的求解方法是&lt;strong&gt;对参数逐步迭代&lt;/strong&gt;达到$\gamma$最大时，那么&lt;strong&gt;一开始是由误分类点驱动，之后根据几何间隔最大驱动参数更新。&lt;/strong&gt; 上面最优化建模完美得到了&lt;strong&gt;正确划分训练数据集并且几何间隔最大&lt;/strong&gt;的目的。&lt;/p&gt;
-&lt;p&gt;SVM约束最优化问题：&lt;/p&gt;
-&lt;p&gt;$$
-\begin{array}{ll}
-\max \limits_{w, b} &amp;amp; \gamma &amp;amp; {(1)} \&lt;br&gt;
-\text { s.t. } &amp;amp; y_{i}\left(\frac{w}{|w|} \cdot x_{i}+\frac{b}{|w|}\right) \geqslant \gamma, \quad i=1,2, \cdots, N &amp;amp; {(2)}
-\end{array}
-$$&lt;/p&gt;
 &lt;p&gt;后续讨论：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;数据并不是线性可分的。&lt;/li&gt;

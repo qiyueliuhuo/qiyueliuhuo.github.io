@@ -2,240 +2,240 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Tags on 七月流火</title>
-        <link>https://qiyueliuhuo.github.io/tags/</link>
+        <link>http://localhost:1313/tags/</link>
         <description>Recent content in Tags on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 12 Jul 2022 16:59:57 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 12 Jul 2022 16:59:57 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Gdb</title>
-        <link>https://qiyueliuhuo.github.io/tags/gdb/</link>
+        <link>http://localhost:1313/tags/gdb/</link>
         <pubDate>Tue, 12 Jul 2022 16:59:57 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/gdb/</guid>
+        <guid>http://localhost:1313/tags/gdb/</guid>
         <description></description>
         </item>
         <item>
         <title>代码调试</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95/</link>
+        <link>http://localhost:1313/tags/%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95/</link>
         <pubDate>Tue, 12 Jul 2022 16:59:57 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95/</guid>
+        <guid>http://localhost:1313/tags/%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95/</guid>
         <description></description>
         </item>
         <item>
         <title>神经网络</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
+        <link>http://localhost:1313/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
         <pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
+        <guid>http://localhost:1313/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
         <description></description>
         </item>
         <item>
         <title>最优化</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</link>
+        <link>http://localhost:1313/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</link>
         <pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</guid>
+        <guid>http://localhost:1313/tags/%E6%9C%80%E4%BC%98%E5%8C%96/</guid>
         <description></description>
         </item>
         <item>
         <title>Faster R-CNN</title>
-        <link>https://qiyueliuhuo.github.io/tags/faster-r-cnn/</link>
+        <link>http://localhost:1313/tags/faster-r-cnn/</link>
         <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/faster-r-cnn/</guid>
+        <guid>http://localhost:1313/tags/faster-r-cnn/</guid>
         <description></description>
         </item>
         <item>
         <title>Mmdetection</title>
-        <link>https://qiyueliuhuo.github.io/tags/mmdetection/</link>
+        <link>http://localhost:1313/tags/mmdetection/</link>
         <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/mmdetection/</guid>
+        <guid>http://localhost:1313/tags/mmdetection/</guid>
         <description></description>
         </item>
         <item>
         <title>计算机视觉</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</link>
+        <link>http://localhost:1313/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</link>
         <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</guid>
+        <guid>http://localhost:1313/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</guid>
         <description></description>
         </item>
         <item>
         <title>目标检测</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</link>
+        <link>http://localhost:1313/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</link>
         <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</guid>
+        <guid>http://localhost:1313/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</guid>
         <description></description>
         </item>
         <item>
         <title>源码</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E6%BA%90%E7%A0%81/</link>
+        <link>http://localhost:1313/tags/%E6%BA%90%E7%A0%81/</link>
         <pubDate>Sat, 18 Jun 2022 17:14:15 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E6%BA%90%E7%A0%81/</guid>
+        <guid>http://localhost:1313/tags/%E6%BA%90%E7%A0%81/</guid>
         <description></description>
         </item>
         <item>
         <title>Leetcode</title>
-        <link>https://qiyueliuhuo.github.io/tags/leetcode/</link>
+        <link>http://localhost:1313/tags/leetcode/</link>
         <pubDate>Fri, 18 Feb 2022 13:08:49 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/leetcode/</guid>
+        <guid>http://localhost:1313/tags/leetcode/</guid>
         <description></description>
         </item>
         <item>
         <title>面试</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E9%9D%A2%E8%AF%95/</link>
+        <link>http://localhost:1313/tags/%E9%9D%A2%E8%AF%95/</link>
         <pubDate>Fri, 18 Feb 2022 13:08:49 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E9%9D%A2%E8%AF%95/</guid>
+        <guid>http://localhost:1313/tags/%E9%9D%A2%E8%AF%95/</guid>
         <description></description>
         </item>
         <item>
         <title>算法题</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95%E9%A2%98/</link>
+        <link>http://localhost:1313/tags/%E7%AE%97%E6%B3%95%E9%A2%98/</link>
         <pubDate>Fri, 18 Feb 2022 13:08:49 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95%E9%A2%98/</guid>
+        <guid>http://localhost:1313/tags/%E7%AE%97%E6%B3%95%E9%A2%98/</guid>
         <description></description>
         </item>
         <item>
         <title>理论</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E7%90%86%E8%AE%BA/</link>
+        <link>http://localhost:1313/tags/%E7%90%86%E8%AE%BA/</link>
         <pubDate>Fri, 29 Oct 2021 11:20:28 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E7%90%86%E8%AE%BA/</guid>
+        <guid>http://localhost:1313/tags/%E7%90%86%E8%AE%BA/</guid>
         <description></description>
         </item>
         <item>
         <title>算法</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95/</link>
+        <link>http://localhost:1313/tags/%E7%AE%97%E6%B3%95/</link>
         <pubDate>Fri, 29 Oct 2021 11:20:28 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E6%B3%95/</guid>
+        <guid>http://localhost:1313/tags/%E7%AE%97%E6%B3%95/</guid>
         <description></description>
         </item>
         <item>
         <title>卷积</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E5%8D%B7%E7%A7%AF/</link>
+        <link>http://localhost:1313/tags/%E5%8D%B7%E7%A7%AF/</link>
         <pubDate>Fri, 22 Oct 2021 15:15:50 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E5%8D%B7%E7%A7%AF/</guid>
+        <guid>http://localhost:1313/tags/%E5%8D%B7%E7%A7%AF/</guid>
         <description></description>
         </item>
         <item>
         <title>C&#43;&#43;</title>
-        <link>https://qiyueliuhuo.github.io/tags/c&#43;&#43;/</link>
+        <link>http://localhost:1313/tags/c&#43;&#43;/</link>
         <pubDate>Thu, 08 Jul 2021 20:18:41 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/c&#43;&#43;/</guid>
+        <guid>http://localhost:1313/tags/c&#43;&#43;/</guid>
         <description></description>
         </item>
         <item>
         <title>知识点</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+        <link>http://localhost:1313/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
         <pubDate>Thu, 08 Jul 2021 20:18:41 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
+        <guid>http://localhost:1313/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
         <description></description>
         </item>
         <item>
         <title>MAP</title>
-        <link>https://qiyueliuhuo.github.io/tags/map/</link>
+        <link>http://localhost:1313/tags/map/</link>
         <pubDate>Mon, 21 Jun 2021 10:45:26 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/map/</guid>
+        <guid>http://localhost:1313/tags/map/</guid>
         <description></description>
         </item>
         <item>
         <title>模型评估</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/</link>
+        <link>http://localhost:1313/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/</link>
         <pubDate>Mon, 21 Jun 2021 10:45:26 +0800</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/</guid>
+        <guid>http://localhost:1313/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/</guid>
         <description></description>
         </item>
         <item>
         <title>算子</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E5%AD%90/</link>
+        <link>http://localhost:1313/tags/%E7%AE%97%E5%AD%90/</link>
         <pubDate>Sun, 25 Apr 2021 21:41:56 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E7%AE%97%E5%AD%90/</guid>
+        <guid>http://localhost:1313/tags/%E7%AE%97%E5%AD%90/</guid>
         <description></description>
         </item>
         <item>
         <title>Pytorch</title>
-        <link>https://qiyueliuhuo.github.io/tags/pytorch/</link>
+        <link>http://localhost:1313/tags/pytorch/</link>
         <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/pytorch/</guid>
+        <guid>http://localhost:1313/tags/pytorch/</guid>
         <description></description>
         </item>
         <item>
         <title>数据集</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</link>
+        <link>http://localhost:1313/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</link>
         <pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</guid>
+        <guid>http://localhost:1313/tags/%E6%95%B0%E6%8D%AE%E9%9B%86/</guid>
         <description></description>
         </item>
         <item>
         <title>Vue</title>
-        <link>https://qiyueliuhuo.github.io/tags/vue/</link>
+        <link>http://localhost:1313/tags/vue/</link>
         <pubDate>Wed, 06 Jan 2021 22:02:52 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/vue/</guid>
+        <guid>http://localhost:1313/tags/vue/</guid>
         <description></description>
         </item>
         <item>
         <title>前端</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E5%89%8D%E7%AB%AF/</link>
+        <link>http://localhost:1313/tags/%E5%89%8D%E7%AB%AF/</link>
         <pubDate>Wed, 06 Jan 2021 22:02:52 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E5%89%8D%E7%AB%AF/</guid>
+        <guid>http://localhost:1313/tags/%E5%89%8D%E7%AB%AF/</guid>
         <description></description>
         </item>
         <item>
         <title>分类算法</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/</link>
+        <link>http://localhost:1313/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/</link>
         <pubDate>Tue, 14 Jul 2020 17:46:32 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/</guid>
+        <guid>http://localhost:1313/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/</guid>
         <description></description>
         </item>
         <item>
         <title>支持向量机</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</link>
+        <link>http://localhost:1313/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</link>
         <pubDate>Tue, 14 Jul 2020 17:46:32 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</guid>
+        <guid>http://localhost:1313/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</guid>
         <description></description>
         </item>
         <item>
         <title>反向传播</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/</link>
+        <link>http://localhost:1313/tags/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/</link>
         <pubDate>Sat, 13 Jun 2020 13:47:01 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/</guid>
+        <guid>http://localhost:1313/tags/%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/</guid>
         <description></description>
         </item>
         <item>
         <title>感知机</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E6%84%9F%E7%9F%A5%E6%9C%BA/</link>
+        <link>http://localhost:1313/tags/%E6%84%9F%E7%9F%A5%E6%9C%BA/</link>
         <pubDate>Sat, 13 Jun 2020 13:47:01 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E6%84%9F%E7%9F%A5%E6%9C%BA/</guid>
+        <guid>http://localhost:1313/tags/%E6%84%9F%E7%9F%A5%E6%9C%BA/</guid>
         <description></description>
         </item>
         <item>
         <title>梯度计算</title>
-        <link>https://qiyueliuhuo.github.io/tags/%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97/</link>
+        <link>http://localhost:1313/tags/%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97/</link>
         <pubDate>Sat, 13 Jun 2020 13:47:01 +0000</pubDate>
         
-        <guid>https://qiyueliuhuo.github.io/tags/%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97/</guid>
+        <guid>http://localhost:1313/tags/%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97/</guid>
         <description></description>
         </item>
         

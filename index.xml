@@ -26,7 +26,7 @@
 &lt;/h2&gt;&lt;h2 id=&#34;感悟&#34;&gt;感悟
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;目前来说，好好完善并思考这个项目就可以达到对于 &lt;code&gt;C++14&lt;/code&gt;、&lt;code&gt;Linux&lt;/code&gt; 网络编程综合学习与训练的目的了，后面进阶还需要真正参与到工业生产代码中，在实践中认真学习与总结。&lt;/li&gt;
-&lt;li&gt;这种比较偏底层的网络编程，对于应用层来说已经有了很多成熟库，大多数时候不用修改和优化。&lt;/li&gt;
+&lt;li&gt;这种比较偏底层的网络编程，对于应用层来说已经有了很多成熟的软件库，大多数时候不用修改和优化。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;项目简介&#34;&gt;项目简介
 &lt;/h2&gt;&lt;p&gt;该项目是用 C++14 实现的高性能WEB服务器，经过 webbenchh 压力测试可以实现上万的QPS，通过该项目达到以下目的：&lt;/p&gt;
@@ -629,7 +629,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fd&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;accept&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;listenFd_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;sockaddr&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fd&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpConn&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;userCount&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MAX_FD&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;HttpConn&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;userCount&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MAX_FD&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;SendError_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fd&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Server busy!&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;LOG_WARN&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Clients is full!&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
@@ -4048,7 +4048,7 @@ $$
 &lt;/h2&gt;&lt;p&gt;当输入规模足够大，使得运行时间只与增长量级有关时，需要研究算法的渐近效率。也就是，当输入规模无限增加时，在极限中，算法的运行时间如何随着输入规模的变大而增加。这里仅引入两个常用的渐进记号。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;$\Theta$ (西塔) 渐近紧确界，如$\frac{1}{2} n^{2}-3 n=\Theta\left(n^{2}\right)$，$6n^{3} \neq \Theta (n^{2})$，$n \neq \Theta (n^{2})$。&lt;/li&gt;
-&lt;li&gt;$O$（大o）渐进上界，如 $\frc{1}{2} n^{2}-3 n=O\left(n^{2}\right)$，$6n^{3} \neq O(n^{2})$，$n = O (n^{2})$。&lt;/li&gt;
+&lt;li&gt;$O$（大o）渐进上界，如 $\frac{1}{2} n^{2}-3 n=O\left(n^{2}\right)$，$6n^{3} \neq O(n^{2})$，$n = O (n^{2})$。&lt;/li&gt;
 &lt;li&gt;渐进记号代表的是集合，这里的$=$更多地代表$\in$。&lt;/li&gt;
 &lt;li&gt;算法复杂度分为时间复杂度和空间复杂度。时间复杂度衡量了执行算法所需要的计算工作量；而空间复杂度是指执行这个算法所需要的内存空间。&lt;/li&gt;
 &lt;li&gt;&lt;font color=#E3B&gt;在相当多文献资料中，有时我们发现$O$记号非形式化地描述&lt;strong&gt;渐进确界&lt;/strong&gt;，即已经使用$\Theta$记号定义的东西。&lt;/font&gt;&lt;/li&gt;
@@ -5334,7 +5334,13 @@ $$
 &lt;/h4&gt;&lt;p&gt;&lt;strong&gt;斐波那契数列&lt;/strong&gt;是指这样一个数列：0、1、1、2、3、5、8、13、21、34、55&amp;hellip;&amp;hellip;&lt;/p&gt;
 &lt;p&gt;斐波纳契数列可以用下面的方法定义：&lt;/p&gt;
 &lt;p&gt;$$
-\left{\begin{array}{l}F(0)=0, F(1)=1 \ F(n)=F(n-1)+F(n-2), n \text { 为 } \geq 2 \text { 的整数 }\end{array}\right.
+\left\{
+\begin{array}{l}
+F(0) = 0, \\
+F(1) = 1, \\
+F(n) = F(n-1) + F(n-2), \quad n \geq 2 \text{ 为整数}
+\end{array}
+\right.
 $$&lt;/p&gt;
 &lt;p&gt;如果我们要计算F(5)，递归计算图如下：
 &lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20220219152921.png#center&#34;
@@ -5369,15 +5375,13 @@ $$&lt;/p&gt;
 输出：12&lt;/p&gt;
 &lt;h4 id=&#34;递推公式&#34;&gt;递推公式
 &lt;/h4&gt;&lt;p&gt;$$
-\begin{equation}
-\left{\begin{array}{l}
+\left\{\begin{array}{l}
 dp[i][0] \text { 代表偷了第间房获得的最大收益 } \\
 dp[i][1] \text { 代表没有偷第 } \mathrm{i} \text { 间房获得的最大收益 }
 \end{array}\right.
-\end{equation}
 $$&lt;/p&gt;
 &lt;p&gt;$$
-\left{\begin{array}{l}
+\left\{\begin{array}{l}
 d p[i+1][0]=dp[i][1]+L[i+1] \\
 d p[i+1][1]=\max (d p[i][0], d p[i][1])
 \end{array}\right.
@@ -5418,7 +5422,7 @@ d p[i]=\max (d p[i-2]+n u m s[i], d p[i-1])
 $$
 边界条件为:
 $$
-\begin{cases}d p[0]=n u m s[0] &amp;amp; \text { 只有一间房屋, 则偷窄该房屋 } \ d p[1]=\max (n u m s[0], n u m s[1]) &amp;amp; \text { 只有两间房屋, 选择其中金额较高的房屋进行偷窃 }\end{cases}
+\begin{cases}d p[0]=n u m s[0] &amp;amp; \text { 只有一间房屋, 则偷窄该房屋 } \\ d p[1]=\max (n u m s[0], n u m s[1]) &amp;amp; \text { 只有两间房屋, 选择其中金额较高的房屋进行偷窃 }\end{cases}
 $$
 最终的答案即为 $d p[n-1]$, 其中 $n$ 是数组的长度。&lt;/p&gt;
 &lt;h5 id=&#34;例题2零钱兑换-力扣322httpsleetcode-cncomproblemscoin-change&#34;&gt;例题2：零钱兑换 (&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/coin-change/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -15563,19 +15567,12 @@ $$
 &lt;p&gt;让我们回到上面的SVM约束最优化问题：
 $$
 \begin{array}{ll}
-\max \limits_{\boldsymbol{w}, \boldsymbol{b}} &amp;amp; \gamma  &amp;amp;&amp;amp; (1) \
+\max \limits_{\boldsymbol{w}, \boldsymbol{b}} &amp;amp; \gamma  &amp;amp;&amp;amp; (1) \\
 \text { s.t. } &amp;amp; y_{i}\left(\frac{\boldsymbol{w}}{|\boldsymbol{w}|} \cdot \boldsymbol{x_{i}}+\frac{b}{|\boldsymbol{w}|}\right) \geqslant \gamma, \quad i=1,2, \cdots, N &amp;amp;&amp;amp; (2)
 \end{array}
 $$
 $\gamma$代表的是数据点到超平面的几何距离，$(2)$式括号内代表的是每个点到超平面的几何距离，然而，不同于上面的距离公式，该公式没有加绝对值，&lt;font color=#E3B&gt;括号部分的值可正可负&lt;/font&gt;，显然，正负对应于超平面的两侧，一开始我们有约定标签$y_i\in{-1, +1}$，那么当我们约定括号部分值为负的那一侧代表负类，即$y_i=-1$；为正的那一侧代表正类，即$y_i=+1$，这里更多的是一种约定的问题，这种约定方便我们建模求解问题。&lt;/p&gt;
 &lt;p&gt;我们可以试着理解下$(1) (2)$两式，当有某些数据点被分错时，$(2)$左侧结果为负值，那么$\gamma$也为负值，此时$\gamma$肯定不是最大值，只有当所有的数据点都被正确分类时（$\gamma$为正），而且超平面距离最近的点的距离最远时，$\gamma$达到最大。也就是说，如果我们的求解方法是&lt;strong&gt;对参数逐步迭代&lt;/strong&gt;达到$\gamma$最大时，那么&lt;strong&gt;一开始是由误分类点驱动，之后根据几何间隔最大驱动参数更新。&lt;/strong&gt; 上面最优化建模完美得到了&lt;strong&gt;正确划分训练数据集并且几何间隔最大&lt;/strong&gt;的目的。&lt;/p&gt;
-&lt;p&gt;SVM约束最优化问题：&lt;/p&gt;
-&lt;p&gt;$$
-\begin{array}{ll}
-\max \limits_{w, b} &amp;amp; \gamma &amp;amp; {(1)} \&lt;br&gt;
-\text { s.t. } &amp;amp; y_{i}\left(\frac{w}{|w|} \cdot x_{i}+\frac{b}{|w|}\right) \geqslant \gamma, \quad i=1,2, \cdots, N &amp;amp; {(2)}
-\end{array}
-$$&lt;/p&gt;
 &lt;p&gt;后续讨论：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;数据并不是线性可分的。&lt;/li&gt;
@@ -15893,49 +15890,20 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
         <description></description>
         </item>
         <item>
-        <title>链接</title>
-        <link>http://localhost:1313/%E9%93%BE%E6%8E%A5/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/%E9%93%BE%E6%8E%A5/</guid>
-        <description>&lt;p&gt;To use this feature, add &lt;code&gt;links&lt;/code&gt; section to frontmatter.&lt;/p&gt;
-&lt;p&gt;This page&amp;rsquo;s frontmatter:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;links&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;- &lt;span class=&#34;nt&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;GitHub&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;description&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;GitHub is the world&amp;#39;s largest software development platform.&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;website&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;https://github.com&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;- &lt;span class=&#34;nt&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;TypeScript&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;description&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;website&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;https://www.typescriptlang.org&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;ts-logo-128.jpg&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;code&gt;image&lt;/code&gt; field accepts both local and external images.&lt;/p&gt;
-</description>
-        </item>
-        <item>
         <title>七月流火</title>
         <link>http://localhost:1313/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</guid>
         <description>&lt;h2 id=&#34;-个人简介&#34;&gt;👤 个人简介
-&lt;/h2&gt;&lt;h2 id=&#34;-兴趣爱好&#34;&gt;🌟 兴趣爱好
-&lt;/h2&gt;&lt;h2 id=&#34;-个人信条&#34;&gt;🧭 个人信条
+&lt;/h2&gt;&lt;p&gt;理工男/喜欢折腾/喜欢学习/互联网大厂/世界500强/量子力学/区块链/沟通达人/强大好奇心&lt;/p&gt;
+&lt;h2 id=&#34;-兴趣爱好&#34;&gt;🌟 兴趣爱好
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;看书&lt;/li&gt;
+&lt;li&gt;打篮球&lt;/li&gt;
+&lt;li&gt;科技&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-个人信条&#34;&gt;🧭 个人信条
 &lt;/h2&gt;&lt;h2 id=&#34;-教育背景&#34;&gt;🎓 教育背景
 &lt;/h2&gt;&lt;h2 id=&#34;-术业专攻&#34;&gt;🔧 术业专攻
 &lt;/h2&gt;&lt;h2 id=&#34;-工作经历&#34;&gt;💼 工作经历
@@ -15948,6 +15916,14 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/search/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>友链</title>
+        <link>http://localhost:1313/%E5%8F%8B%E9%93%BE/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/%E5%8F%8B%E9%93%BE/</guid>
         <description></description>
         </item>
         

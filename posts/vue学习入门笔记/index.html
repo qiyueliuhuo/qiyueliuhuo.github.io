@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/'>
 
-<link rel="stylesheet" href="/scss/style.min.9768e1ece02ab8863eb990f67f0561fb1fe386bc4d167d086c922110995ad8fc.css"><meta property='og:title' content="Vue入门笔记">
+<link rel="stylesheet" href="/scss/style.min.682ebf8c12488ef7b72af44500656f33d9d646d390ba06f54bc82ef08fc2dfe5.css"><meta property='og:title' content="Vue入门笔记">
 <meta property='og:description' content=" vue学习记录。\n注：\n学习目录在Workplace/vueLearning。 学完要综合学过前端和后端知识，开发一个完整的应用，综合应用知识。 使用的开发IDE为WebStorm。 学习地址：Vue学习 一、邂逅Vuejs 认识Vuejs Vue在国内相比于React使用更加广泛、更火。\n三大框架：VueJs、AngularJs、React。 Vue：读音/vju:/，类似于view。 Vue是一个渐进式框架：\nVue可以作为你应用的一部分嵌入其中。（一点一点渐进式引入Vue） 也可以直接使用Vue核心库及其生态系统。（Vue全家桶） Vue的特点和高级功能：（目前不太了解，慢慢学习，慢慢体会）\n解耦视图和数据 可复用的组件 前端路由技术 状态管理 虚拟DOM 学习Vue前提：\n可以从零学习，不需要其他框架的知识为前提。 需要具备一定的HTML、CSS、JavaScript基础。 (JS※ 、ES6※。以后都会用ES6） 另： xcode 读音：叉code。 Vue不要读成v、u、e。 Vuejs安装方式 方式一：直接CDN引入 方式二：下载和引入 另： - 直接下载，拷贝到项目里面就可以使用，只有一个vue.js文件，hin方便。\n方式三：NPM安装 后续通过webpack和CLI的使用，然后再使用这种方式。 Vuejs初体验 script引入vue并使用： 修改数据：1. 界面不用改，声明式开发。 2. 响应式：当数据发生改变，界面自动改变。 创建Vue对象时候，传入参数含义：\n{}中包含了el属性：该属性决定了这个vue对象挂载到哪一个元素。 {}中包含了data属性:该属性中通常会存储一些数据。 数据可以是我们自己定义的。 也可以是来自网络，从服务器加载到的。 列表展示：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 &lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;title&gt;Title&lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;div id=&#34;app&#34;&gt; &lt;!--{{movies}} --&gt; &lt;!-- 这种会展示成json格式数据--&gt; &lt;ul&gt; &lt;li v-for=&#34;item in movies&#34;&gt;{{item}}&lt;/li&gt; &lt;/ul&gt; &lt;/div&gt; &lt;script src=&#34;../js/vue.js&#34;&gt;&lt;/script&gt; &lt;script&gt; const app = new Vue({ el: &#39;#app&#39;, data: { message: &#39;你好呀&#39;, movies: [&#39;星际穿越&#39;, &#39;大话西游&#39;, &#39;盗墓空间&#39;, &#39;切尔诺贝利&#39;] } }) &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; Vue计数器案例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 &lt;div id=&#34;app&#34;&gt; &lt;h2&gt;当前计数：{{counter}}&lt;/h2&gt; &lt;button v-on:click=&#34;add&#34;&gt;+&lt;/button&gt; &lt;button v-on:click=&#34;sub&#34;&gt;-&lt;/button&gt; &lt;/div&gt; &lt;script src=&#34;../js/vue.js&#34;&gt;&lt;/script&gt; &lt;script&gt; const app = new Vue({ el: &#34;#app&#34;, data: { counter: 0 }, methods: { add: function () { console.log(&#39;add被执行&#39;); this.counter++ }, sub: function () { console.log(&#39;sub被执行&#39;); this.counter-- } } }) &lt;/script&gt; 另： ES6不再使用var定义变量，而是使用let，let定义变量，const定义常量。 可以在游览器console中修改数据，会自动响应式展示。 @click是 v-on:click的语法糖。 Vuejs的MVVM 什么是MVVM：维基百科MVVM。 （需要再详细阅读） Vue的MVVM：图不清楚，需要重新找。 创建Vue实例传入的options el: string | HTML Element data: Object | Function (组件中data必须是一个函数) methods: { [key: string]: Function } （后面换成ES6的语法来写） 另： 开发中什么叫方法，什么称之为函数？ 答：都是通过function定义，类里面叫方法，定义在外面叫函数。 方法：method 函数：function Vue的生命周期（简单理解下） ">
 <meta property='og:url' content='http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/'>
 <meta property='og:site_name' content='七月流火'>
@@ -112,7 +112,7 @@
 
 
                 
-                <span>主页</span>
+                <span>首页</span>
             </a>
         </li>
         
@@ -176,7 +176,7 @@
         
         
         <li >
-            <a href='/%E9%93%BE%E6%8E%A5/' >
+            <a href='/%E5%8F%8B%E9%93%BE/' >
                 
                 
                 
@@ -189,7 +189,7 @@
 
 
                 
-                <span>链接</span>
+                <span>友链</span>
             </a>
         </li>
         
@@ -1685,7 +1685,7 @@ TODO</p>
 
 
 
-        <span>Licensed under CC BY-NC-SA 4.0</span>
+        <span>All Rights Reserved</span>
     </section>
     </footer>
 
@@ -1756,7 +1756,7 @@ TODO</p>
         
         
             <div class="article-image">
-                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849.7d59368db66ac23b301b6313ab84e849_hu12431349409231175071.jpg" 
+                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu12431349409231175071.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1853,48 +1853,6 @@ TODO</p>
      
     
         
-    <div class="disqus-container">
-    <div id="disqus_thread"></div>
-<script>
-    window.disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "hugo-theme-stack" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-</div>
-
-<style>
-    .disqus-container {
-        background-color: var(--card-background);
-        border-radius: var(--card-border-radius);
-        box-shadow: var(--shadow-l1);
-        padding: var(--card-padding);
-    }
-</style>
-
-<script>
-    window.addEventListener('onColorSchemeChange', (e) => {
-        if (typeof DISQUS == 'object') {
-            DISQUS.reset({
-                reload: true
-            });
-        }
-    })
-</script>
-
     
 
     <footer class="site-footer">
