@@ -23,11 +23,23 @@
 &lt;li&gt;《深入理解C++11：C++11 新特性解析与应用》书籍&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;前言&#34;&gt;前言
-&lt;/h2&gt;&lt;h2 id=&#34;感悟&#34;&gt;感悟
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;目前来说，好好完善并思考这个项目就可以达到对于 &lt;code&gt;C++14&lt;/code&gt;、&lt;code&gt;Linux&lt;/code&gt; 网络编程综合学习与训练的目的了，后面进阶还需要真正参与到工业生产代码中，在实践中认真学习与总结。&lt;/li&gt;
-&lt;li&gt;这种比较偏底层的网络编程，对于应用层来说已经有了很多成熟的软件库，大多数时候不用修改和优化。&lt;/li&gt;
+&lt;/h2&gt;&lt;h3 id=&#34;谁适合阅读这篇文章&#34;&gt;谁适合阅读这篇文章？
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;具备 C++ 基础&lt;/strong&gt;：对线程池和网络编程有一定了解，希望进一步深入相关技术。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;热衷于 C++14 的应用&lt;/strong&gt;：对现代 C++ 特性感兴趣，并追求更高的代码性能和效率。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;对 Web 服务器实现感兴趣&lt;/strong&gt;：想要理解 Web 服务器的核心原理和实现细节，从源码到原理全方位掌握。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h3 id=&#34;如何更好地阅读本篇文章&#34;&gt;如何更好地阅读本篇文章？
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;针对希望通过本篇文章了解 WebServer 实现原理的读者&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;建议使用 Snipaste 等贴图工具，将&lt;strong&gt;代码片段或原理示意图&lt;/strong&gt;固定在电脑屏幕的显眼位置。这样在阅读源码解析时，可以随时对照代码或参考原理图，帮助更直观地理解 WebServer 的设计思路和实现细节。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;针对希望深入研究源码并亲自动手实践的读者&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;强烈推荐使用 VS Code 等现代化 IDE，并确保安装支持 C++14 的编译器。参考&lt;a class=&#34;link&#34; href=&#34;http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/&#34; &gt;GDB 调试秘籍：像高手一样排查问题&lt;/a&gt;，&lt;strong&gt;通过逐步调试代码的方式，深入分析其运行过程&lt;/strong&gt;。这样的实践方法不仅能加深对源码的理解，还能有效提升调试技能和对程序逻辑的掌控能力。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
 &lt;h2 id=&#34;项目简介&#34;&gt;项目简介
 &lt;/h2&gt;&lt;p&gt;该项目是用 C++14 实现的高性能WEB服务器，经过 webbenchh 压力测试可以实现上万的QPS，通过该项目达到以下目的：&lt;/p&gt;
 &lt;ul&gt;
@@ -1808,6 +1820,11 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;当使用 &lt;code&gt;LOG_DEBUG&lt;/code&gt; 、 &lt;code&gt;LOG_INFO&lt;/code&gt; 、 &lt;code&gt;LOG_WARN&lt;/code&gt; 与 &lt;code&gt;LOG_ERROR&lt;/code&gt; 时，则会宏替换为 &lt;code&gt;LOG_BASE&lt;/code&gt; ， &lt;code&gt;LOG_BASE&lt;/code&gt; 继续宏替换至执行代码，然后依据日志开关与等级是否记录，如果记录则会调用 &lt;code&gt;write()&lt;/code&gt; 函数，在 &lt;code&gt;write()&lt;/code&gt; 函数中会制作日志记录如日志日期、日志行数、日志内容等至 &lt;code&gt;buff_&lt;/code&gt; 中，然后添加至阻塞队列中，在 &lt;code&gt;AsyncWrite_()&lt;/code&gt; 函数的循环能继续向下执行，向 &lt;code&gt;FILE*&lt;/code&gt; 类型的指针 &lt;code&gt;fp_&lt;/code&gt; 写入字符串，然后再调用 &lt;code&gt;flush()&lt;/code&gt; 函数刷新至日志文件中，这是日志记录的整个过程，可结合上述的具体实现。而 &lt;code&gt;write()&lt;/code&gt; 函数可自行查看源代码。&lt;/p&gt;
+&lt;h2 id=&#34;总结与感悟&#34;&gt;总结与感悟
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;目前来说，好好完善并思考这个项目就可以达到对于 &lt;code&gt;C++14&lt;/code&gt;、&lt;code&gt;Linux&lt;/code&gt; 网络编程综合学习与训练的目的了，后面进阶还需要真正参与到工业生产代码中，在实践中认真学习与总结。&lt;/li&gt;
+&lt;li&gt;这种比较偏底层的网络编程，对于应用层来说已经有了很多成熟的软件库，大多数时候不用修改和优化。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;源码阅读进阶&#34;&gt;源码阅读进阶
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;[[Redis 源码阅读]]&lt;/li&gt;
@@ -1826,12 +1843,12 @@
 </description>
         </item>
         <item>
-        <title>Vim-算法-刷题环境配置</title>
+        <title>Vim 与算法刷题：打造高效开发环境</title>
         <link>http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</link>
         <pubDate>Sat, 17 Sep 2022 19:34:41 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.jpg" alt="Featured image of post Vim-算法-刷题环境配置" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.jpg" alt="Featured image of post Vim 与算法刷题：打造高效开发环境" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;笔者大概从五年前大二开始接触 vim 编辑器，当时有很多关于两款“史前”编辑器 Vim 和 Emacs 的争论，对于一些较早前的极客一般分为 Vim 党、 Emacs 党 和其他。 笔者自开始接触 Linux 系统就学习的 Vim ，一直使用到现在，几乎所有 IDE 、游览器和笔记系统Logseq都开启 vim 模式，也算是一个 Vim 党。然而，笔者无心参与 Vim 和 Emacs 两款编辑器之争；很明显，现代大型项目的开发，已经几乎必须采取像 idea、clion、vscode 这些优秀的 IDE ；当下，笔者更多地使用 Vim（终端界面）编写一些算法题，这样既减少成熟 IDE 自动的补全机制对于笔者自身的驯化（经常知道某些函数，然而自己拼不对，非常依赖IDE智能提示），又能让笔者对 Vim 操作和 shell 脚本编程更加熟练；此篇博客介绍笔者在终端界面下使用 Vim 编写算法题搭建的自动化编译运行环境。&lt;/p&gt;
 &lt;h2 id=&#34;相关环境&#34;&gt;相关环境
 &lt;/h2&gt;&lt;p&gt;系统：macOS Monterey 12.5.1&lt;br&gt;
@@ -2123,12 +2140,12 @@ vim：MacVim 8.2&lt;br&gt;
 </description>
         </item>
         <item>
-        <title>GDB调试学习</title>
+        <title>GDB调试秘籍：像高手一样排查问题</title>
         <link>http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Tue, 12 Jul 2022 16:59:57 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.gif" alt="Featured image of post GDB调试学习" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.gif" alt="Featured image of post GDB调试秘籍：像高手一样排查问题" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;笔者近几年使用 Python 语言来做深度学习、计算机视觉领域相关科研与工作，对于调试程序，使用较多的工具除了 JetBrains 家的各个 IDE 以外，就是使用 Python 自带的 pdb 模块来调试 Python 程序，命令行界面调试代码既灵活，而且速度也快，非常好用。最近，因为项目原因接触 c/c++ 代码更多一些，通过本篇博客对 GDB 学习并且记录相关常用命令。&lt;/p&gt;
 &lt;p&gt;GDB是一个由GNU开源组织发布的、UNIX / LINUX操作系统下的、基于命令行的、功能强大的程序调试工具。 对于一名Linux下工作的c/c++程序员，gdb是必不可少的工具，另外，GDB可以调试Ada、C、 C++、 Asm、 Minimal、 D、 Fortran、 Objective-c、 Go、 Java、 Pascal等语言。标准的 GDB 是纯命令行式的，但也有一些基于它的图形化工具（比如 DDD、Data Display Debugger），但用好 GDB 命令行调试，还是我们的一项基本素质。&lt;/p&gt;
 &lt;p&gt;本篇文章将简单地介绍 GDB 常见用法，更多内容通过本博客下面的参考资料学习。&lt;/p&gt;
@@ -14155,14 +14172,14 @@ TODO&lt;/p&gt;
         </item>
         <item>
         <title>Pytorch源码阅读(一)：Dataset和DataLoader</title>
-        <link>http://localhost:1313/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/</link>
+        <link>http://localhost:1313/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%B8%80dataset%E5%92%8Cdataloader/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/</link>
         <pubDate>Sat, 05 Dec 2020 23:21:34 +0000</pubDate>
         
-        <guid>http://localhost:1313/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/</guid>
+        <guid>http://localhost:1313/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%B8%80dataset%E5%92%8Cdataloader/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%80/</guid>
         <description>&lt;p&gt;阅读开源代码是提高写代码能力最好的方式之一，现在入坑机器学习领域，在众多框架中选择pytorch框架作为自己基本的深度学习框架，现在开始从最简单的pytorch代码部分阅读，学习下python技巧顺便深入学习下神经网络的代码实践。&lt;/p&gt;
 &lt;p&gt;关于阅读源码，我一开始在项目中调用pytorch模块和类，通过pycharm追踪源码，在pycharm中可以直接查看依赖包torch中源码，但是这样也不方便阅读torch源码，一个原因是pycharm中查看依赖包的源码内容，查看源码文件的方式是只读模式，没法在里面注释一些自己理解的东西，另一个原因是通过单步调试阅读代码是最容易理解代码的方式，想了想pytorch源码里面应该有对源码的测试代码可以直接跑起来，然后一步步运行，这样看着更方便。&lt;/p&gt;
 &lt;p&gt;从github上下载pytorch代码，通过CONTRIBUTING.md文件中指导编译源码，注意使用：&lt;code&gt;python setup.py develop&lt;/code&gt; 以开发模式构建代码。这个过程在我的电脑上要跑将近两小时。。。忘了什么原因导致我跑了两次。。。四个小时没了(呜呜&amp;hellip;)&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20201206000548.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20201206000548.png#center&#34;
 	
 	
 	
@@ -14171,7 +14188,6 @@ TODO&lt;/p&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;&lt;span style=&#34;color:#35b378;font-weight:bold;&#34;&gt;先从加载和处理数据源码了解。&lt;/span&gt;&lt;/p&gt;
-&lt;!-- more --&gt;
 &lt;blockquote&gt;
 &lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
 &lt;/blockquote&gt;

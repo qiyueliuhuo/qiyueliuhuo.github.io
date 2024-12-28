@@ -7,12 +7,12 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <lastBuildDate>Tue, 12 Jul 2022 16:59:57 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/gdb/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>GDB调试学习</title>
+        <title>GDB调试秘籍：像高手一样排查问题</title>
         <link>http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</link>
         <pubDate>Tue, 12 Jul 2022 16:59:57 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.gif" alt="Featured image of post GDB调试学习" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.gif" alt="Featured image of post GDB调试秘籍：像高手一样排查问题" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;笔者近几年使用 Python 语言来做深度学习、计算机视觉领域相关科研与工作，对于调试程序，使用较多的工具除了 JetBrains 家的各个 IDE 以外，就是使用 Python 自带的 pdb 模块来调试 Python 程序，命令行界面调试代码既灵活，而且速度也快，非常好用。最近，因为项目原因接触 c/c++ 代码更多一些，通过本篇博客对 GDB 学习并且记录相关常用命令。&lt;/p&gt;
 &lt;p&gt;GDB是一个由GNU开源组织发布的、UNIX / LINUX操作系统下的、基于命令行的、功能强大的程序调试工具。 对于一名Linux下工作的c/c++程序员，gdb是必不可少的工具，另外，GDB可以调试Ada、C、 C++、 Asm、 Minimal、 D、 Fortran、 Objective-c、 Go、 Java、 Pascal等语言。标准的 GDB 是纯命令行式的，但也有一些基于它的图形化工具（比如 DDD、Data Display Debugger），但用好 GDB 命令行调试，还是我们的一项基本素质。&lt;/p&gt;
 &lt;p&gt;本篇文章将简单地介绍 GDB 常见用法，更多内容通过本博客下面的参考资料学习。&lt;/p&gt;

@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/'>
 
-<link rel="stylesheet" href="/scss/style.min.444e7a2a45e25c6147f6d03238537dfde06d0f8dc8235ce67355b7e17893a000.css"><meta property='og:title' content="高效之美：C++14 WebServer 源码探秘">
+<link rel="stylesheet" href="/scss/style.min.4b7fbab8508cc3b0a043797a0a5d943b55811dd2864edc1104367cb77d63508f.css"><meta property='og:title' content="高效之美：C++14 WebServer 源码探秘">
 <meta property='og:description' content="源码解读C++14打造的高性能WebServer，轻松实现上万QPS的优化与实践。">
 <meta property='og:url' content='http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/'>
 <meta property='og:site_name' content='七月流火'>
@@ -245,8 +245,12 @@
             <nav id="TableOfContents">
   <ol>
     <li><a href="#参考资料">参考资料</a></li>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#感悟">感悟</a></li>
+    <li><a href="#前言">前言</a>
+      <ol>
+        <li><a href="#谁适合阅读这篇文章">谁适合阅读这篇文章？</a></li>
+        <li><a href="#如何更好地阅读本篇文章">如何更好地阅读本篇文章？</a></li>
+      </ol>
+    </li>
     <li><a href="#项目简介">项目简介</a></li>
     <li><a href="#项目目录结构">项目目录结构</a></li>
     <li><a href="#项目启动">项目启动</a>
@@ -282,6 +286,7 @@
         </li>
       </ol>
     </li>
+    <li><a href="#总结与感悟">总结与感悟</a></li>
     <li><a href="#源码阅读进阶">源码阅读进阶</a></li>
     <li><a href="#扩展知识">扩展知识</a></li>
   </ol>
@@ -390,11 +395,23 @@
 <li>《深入理解C++11：C++11 新特性解析与应用》书籍</li>
 </ul>
 <h2 id="前言">前言
-</h2><h2 id="感悟">感悟
-</h2><ul>
-<li>目前来说，好好完善并思考这个项目就可以达到对于 <code>C++14</code>、<code>Linux</code> 网络编程综合学习与训练的目的了，后面进阶还需要真正参与到工业生产代码中，在实践中认真学习与总结。</li>
-<li>这种比较偏底层的网络编程，对于应用层来说已经有了很多成熟的软件库，大多数时候不用修改和优化。</li>
+</h2><h3 id="谁适合阅读这篇文章">谁适合阅读这篇文章？
+</h3><ul>
+<li><strong>具备 C++ 基础</strong>：对线程池和网络编程有一定了解，希望进一步深入相关技术。</li>
+<li><strong>热衷于 C++14 的应用</strong>：对现代 C++ 特性感兴趣，并追求更高的代码性能和效率。</li>
+<li><strong>对 Web 服务器实现感兴趣</strong>：想要理解 Web 服务器的核心原理和实现细节，从源码到原理全方位掌握。</li>
 </ul>
+<h3 id="如何更好地阅读本篇文章">如何更好地阅读本篇文章？
+</h3><ol>
+<li>
+<p><strong>针对希望通过本篇文章了解 WebServer 实现原理的读者</strong>：</p>
+<p>建议使用 Snipaste 等贴图工具，将<strong>代码片段或原理示意图</strong>固定在电脑屏幕的显眼位置。这样在阅读源码解析时，可以随时对照代码或参考原理图，帮助更直观地理解 WebServer 的设计思路和实现细节。</p>
+</li>
+<li>
+<p><strong>针对希望深入研究源码并亲自动手实践的读者</strong>：</p>
+<p>强烈推荐使用 VS Code 等现代化 IDE，并确保安装支持 C++14 的编译器。参考<a class="link" href="http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/" >GDB 调试秘籍：像高手一样排查问题</a>，<strong>通过逐步调试代码的方式，深入分析其运行过程</strong>。这样的实践方法不仅能加深对源码的理解，还能有效提升调试技能和对程序逻辑的掌控能力。</p>
+</li>
+</ol>
 <h2 id="项目简介">项目简介
 </h2><p>该项目是用 C++14 实现的高性能WEB服务器，经过 webbenchh 压力测试可以实现上万的QPS，通过该项目达到以下目的：</p>
 <ul>
@@ -2175,6 +2192,11 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>当使用 <code>LOG_DEBUG</code> 、 <code>LOG_INFO</code> 、 <code>LOG_WARN</code> 与 <code>LOG_ERROR</code> 时，则会宏替换为 <code>LOG_BASE</code> ， <code>LOG_BASE</code> 继续宏替换至执行代码，然后依据日志开关与等级是否记录，如果记录则会调用 <code>write()</code> 函数，在 <code>write()</code> 函数中会制作日志记录如日志日期、日志行数、日志内容等至 <code>buff_</code> 中，然后添加至阻塞队列中，在 <code>AsyncWrite_()</code> 函数的循环能继续向下执行，向 <code>FILE*</code> 类型的指针 <code>fp_</code> 写入字符串，然后再调用 <code>flush()</code> 函数刷新至日志文件中，这是日志记录的整个过程，可结合上述的具体实现。而 <code>write()</code> 函数可自行查看源代码。</p>
+<h2 id="总结与感悟">总结与感悟
+</h2><ul>
+<li>目前来说，好好完善并思考这个项目就可以达到对于 <code>C++14</code>、<code>Linux</code> 网络编程综合学习与训练的目的了，后面进阶还需要真正参与到工业生产代码中，在实践中认真学习与总结。</li>
+<li>这种比较偏底层的网络编程，对于应用层来说已经有了很多成熟的软件库，大多数时候不用修改和优化。</li>
+</ul>
 <h2 id="源码阅读进阶">源码阅读进阶
 </h2><ul>
 <li>[[Redis 源码阅读]]</li>
@@ -2258,7 +2280,7 @@
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post Vim-算法-刷题环境配置"
+                        alt="Featured image of post Vim 与算法刷题：打造高效开发环境"
                         data-key="Vim-算法-刷题环境配置" 
                         data-hash="md5-fVk2jbZqwjswG2MTq4ToSQ==">
                 
@@ -2266,7 +2288,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">Vim-算法-刷题环境配置</h2>
+            <h2 class="article-title">Vim 与算法刷题：打造高效开发环境</h2>
         </div>
     </a>
 </article>
@@ -2306,7 +2328,7 @@
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post GDB调试学习"
+                        alt="Featured image of post GDB调试秘籍：像高手一样排查问题"
                         data-key="GDB调试学习" 
                         data-hash="md5-NIXzv2PxNbT7vQTcgICn&#43;Q==">
                 
@@ -2314,7 +2336,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">GDB调试学习</h2>
+            <h2 class="article-title">GDB调试秘籍：像高手一样排查问题</h2>
         </div>
     </a>
 </article>
