@@ -853,7 +853,7 @@
 		data-flex-basis=&#34;707px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;下面代码实现了一个如上图线程池，整个线程池是个生产者消费者模型，该线程池一开始创建 &lt;code&gt;threadCount&lt;/code&gt; 个固定线程，这些线程作为消费者，当线程被唤醒时，从任务队列中获取任务，执行任务；而生产者通过 &lt;code&gt;AddTask(F&amp;amp;&amp;amp; task)&lt;/code&gt; 方法将生产的任务添加到&lt;strong&gt;任务缓冲队列&lt;/strong&gt;中。可以看到，整个&lt;code&gt;TaskQueue&lt;/code&gt; 任务队列作为临界资源被多个线程异步访问，为了保障多个线程能够安全访问 &lt;code&gt;TaskQueue&lt;/code&gt; 中 &lt;del&gt;&lt;code&gt;std::queue&amp;lt;std::function&amp;lt;void()&amp;gt;&amp;gt; tasks&lt;/code&gt; 队列&lt;/del&gt;  变量时，每次操作都需要通过互斥量 &lt;code&gt;std::mutex mtx&lt;/code&gt; 进行加锁后再进行访问。&lt;/p&gt;
+&lt;p&gt;下面代码实现了一个如上图线程池，整个线程池是个生产者消费者模型，该线程池一开始创建 &lt;code&gt;threadCount&lt;/code&gt; 个固定线程，这些线程作为消费者，当线程被唤醒时，从任务队列中获取任务，执行任务；而生产者通过 &lt;code&gt;AddTask(F&amp;amp;&amp;amp; task)&lt;/code&gt; 方法将生产的任务添加到&lt;strong&gt;任务缓冲队列&lt;/strong&gt;中。可以看到，整个&lt;code&gt;TaskQueue&lt;/code&gt; 任务队列作为临界资源被多个线程异步访问，为了保障多个线程能够安全访问 &lt;code&gt;TaskQueue&lt;/code&gt; 中 &lt;code&gt;std::queue&amp;lt;std::function&amp;lt;void()&amp;gt;&amp;gt; tasks&lt;/code&gt; 队列 变量时，每次操作都需要通过互斥量 &lt;code&gt;std::mutex mtx&lt;/code&gt; 进行加锁后再进行访问。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;注：这里笔者将源码中 &lt;code&gt;Pool&lt;/code&gt; 结构体改名成 &lt;code&gt;TaskQueue&lt;/code&gt;，代表的含义更为合适。&lt;/p&gt;
 &lt;/blockquote&gt;

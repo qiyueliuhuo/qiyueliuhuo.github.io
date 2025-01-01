@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/'>
 
-<link rel="stylesheet" href="/scss/style.min.4b7fbab8508cc3b0a043797a0a5d943b55811dd2864edc1104367cb77d63508f.css"><meta property='og:title' content="高效之美：C++14 WebServer 源码探秘">
+<link rel="stylesheet" href="/scss/style.min.bb3c58ab61be3fc5c372274816d5fb2884b5c8fe80e3300f87573b1b2c814290.css"><meta property='og:title' content="高效之美：C++14 WebServer 源码探秘">
 <meta property='og:description' content="源码解读C++14打造的高性能WebServer，轻松实现上万QPS的优化与实践。">
 <meta property='og:url' content='http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/'>
 <meta property='og:site_name' content='七月流火'>
@@ -132,6 +132,27 @@
 
                 
                 <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E4%B9%A6%E6%9E%B6/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bookshelf" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="3" width="18" height="18" rx="2" />
+  <line x1="3" y1="7" x2="21" y2="7" />
+  <line x1="3" y1="14" x2="21" y2="14" />
+  <line x1="9" y1="7" x2="9" y2="14" />
+  <line x1="15" y1="7" x2="15" y2="14" />
+  <line x1="9" y1="18" x2="9" y2="21" />
+  <line x1="15" y1="18" x2="15" y2="21" />
+</svg>
+                
+                <span>书架</span>
             </a>
         </li>
         
@@ -1225,7 +1246,7 @@
 		data-flex-basis="707px"
 	
 ></p>
-<p>下面代码实现了一个如上图线程池，整个线程池是个生产者消费者模型，该线程池一开始创建 <code>threadCount</code> 个固定线程，这些线程作为消费者，当线程被唤醒时，从任务队列中获取任务，执行任务；而生产者通过 <code>AddTask(F&amp;&amp; task)</code> 方法将生产的任务添加到<strong>任务缓冲队列</strong>中。可以看到，整个<code>TaskQueue</code> 任务队列作为临界资源被多个线程异步访问，为了保障多个线程能够安全访问 <code>TaskQueue</code> 中 <del><code>std::queue&lt;std::function&lt;void()&gt;&gt; tasks</code> 队列</del>  变量时，每次操作都需要通过互斥量 <code>std::mutex mtx</code> 进行加锁后再进行访问。</p>
+<p>下面代码实现了一个如上图线程池，整个线程池是个生产者消费者模型，该线程池一开始创建 <code>threadCount</code> 个固定线程，这些线程作为消费者，当线程被唤醒时，从任务队列中获取任务，执行任务；而生产者通过 <code>AddTask(F&amp;&amp; task)</code> 方法将生产的任务添加到<strong>任务缓冲队列</strong>中。可以看到，整个<code>TaskQueue</code> 任务队列作为临界资源被多个线程异步访问，为了保障多个线程能够安全访问 <code>TaskQueue</code> 中 <code>std::queue&lt;std::function&lt;void()&gt;&gt; tasks</code> 队列 变量时，每次操作都需要通过互斥量 <code>std::mutex mtx</code> 进行加锁后再进行访问。</p>
 <blockquote>
 <p>注：这里笔者将源码中 <code>Pool</code> 结构体改名成 <code>TaskQueue</code>，代表的含义更为合适。</p>
 </blockquote>
@@ -2229,7 +2250,7 @@
 
 
 
-        <span>All Rights Reserved</span>
+        <span>All Rights Reserved.（所有权利保留。禁止未经授权的复制或再分发。）</span>
     </section>
     </footer>
 
@@ -2405,7 +2426,7 @@
         
             2018 - 
         
-        2024 七月流火
+        2025 七月流火
     </section>
     
     <section class="powerby">

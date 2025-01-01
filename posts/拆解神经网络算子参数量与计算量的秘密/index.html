@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/'>
 
-<link rel="stylesheet" href="/scss/style.min.4b7fbab8508cc3b0a043797a0a5d943b55811dd2864edc1104367cb77d63508f.css"><meta property='og:title' content="拆解神经网络算子：参数量与计算量的秘密">
+<link rel="stylesheet" href="/scss/style.min.bb3c58ab61be3fc5c372274816d5fb2884b5c8fe80e3300f87573b1b2c814290.css"><meta property='og:title' content="拆解神经网络算子：参数量与计算量的秘密">
 <meta property='og:description' content="看懂深度学习中的计算与储存开销">
 <meta property='og:url' content='http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/'>
 <meta property='og:site_name' content='七月流火'>
@@ -132,6 +132,27 @@
 
                 
                 <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E4%B9%A6%E6%9E%B6/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bookshelf" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="3" width="18" height="18" rx="2" />
+  <line x1="3" y1="7" x2="21" y2="7" />
+  <line x1="3" y1="14" x2="21" y2="14" />
+  <line x1="9" y1="7" x2="9" y2="14" />
+  <line x1="15" y1="7" x2="15" y2="14" />
+  <line x1="9" y1="18" x2="9" y2="21" />
+  <line x1="15" y1="18" x2="15" y2="21" />
+</svg>
+                
+                <span>书架</span>
             </a>
         </li>
         
@@ -375,12 +396,16 @@
 <p>注意：下面计算的是都是<strong>单层</strong>的<strong>参数量</strong>和<strong>计算量</strong>，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以<strong>BatchSize</strong>。</p>
 </blockquote>
 <h2 id="卷积层">卷积层
-</h2><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425214848.png#center"
-	
-	
-	
+</h2><p><img src="/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848.png"
+	width="193"
+	height="187"
+	srcset="/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu1690272979079249509.png 480w, /posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu12359875175678289991.png 1024w"
 	loading="lazy"
 	
+	
+		class="gallery-image" 
+		data-flex-grow="103"
+		data-flex-basis="247px"
 	
 ></p>
 <h3 id="卷积运算的参数量">卷积运算的参数量
@@ -397,12 +422,16 @@
 <p>$FLOPs=\left[\left(C_{i n} \times k_{w} \times k_{h}\right)+\left(C_{i n} \times k_{w} \times k_{h}-1\right)+1\right] \times C_{o u t} \times W_{out} \times H_{out}$<br>
 $k_{w}$ 和 $k_{h}$ 分别表示卷积核的宽和高，其中 $C_{i n} \times k_{w} \times k_{h}$ 表示乘法计算量, $C_{i n} \times k_{w} \times k_{h}-1$ 表示加法计算量(可以这样理解，需要把乘法计算得到的$C_{i n} \times k_{w} \times k_{h}$个数字加这么多次), $+1$ 表示偏置, $C_{\text {out }} \times W_{out} \times H_{out}$ 表示 feature $\operatorname{map}$ 中的所有元素， $W_{out} \text{、} H_{out}$ 表示feature map的宽和高。</p>
 <h2 id="全连接层">全连接层
-</h2><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425234554.png#center"
-	
-	
-	
+</h2><p><img src="/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554.png"
+	width="187"
+	height="210"
+	srcset="/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu15809413396768328856.png 480w, /posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu4050310374003110611.png 1024w"
 	loading="lazy"
 	
+	
+		class="gallery-image" 
+		data-flex-grow="89"
+		data-flex-basis="213px"
 	
 ></p>
 <h3 id="全连接运算的参数量">全连接运算的参数量
@@ -413,12 +442,16 @@ $N_{i n}$ 表示输入特征向量的维数, +1表示偏置, $N_{out}$ 表示输
 $N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。<br>
 其中$N_{in}$表示乘法运算量, $N_{in}-1$ 表示加法运算量，+1表示偏置。</p>
 <h2 id="池化层">池化层
-</h2><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425233642.png#center"
-	
-	
-	
+</h2><p><img src="/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642.png"
+	width="285"
+	height="191"
+	srcset="/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu14298729690017617564.png 480w, /posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu4316019036069062409.png 1024w"
 	loading="lazy"
 	
+	
+		class="gallery-image" 
+		data-flex-grow="149"
+		data-flex-basis="358px"
 	
 ></p>
 <h3 id="池化层运算的参数量">池化层运算的参数量
@@ -428,12 +461,16 @@ $N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。<br
 $k \times k$ 代表在原特征图区域$k \times k$ 的 max ，sum或者avg池化操作；<br>
 $H_{out} \times W_{out}$代表输出特征图大小，$C_{out}$代表输出通道数。</p>
 <h2 id="案例">案例
-</h2><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210422151056.png#center"
-	
-	
-	
+</h2><p><img src="/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056.png"
+	width="794"
+	height="1858"
+	srcset="/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu8514699327283385200.png 480w, /posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu13974894953538455973.png 1024w"
 	loading="lazy"
 	
+	
+		class="gallery-image" 
+		data-flex-grow="42"
+		data-flex-basis="102px"
 	
 ></p>
 <h3 id="参数量">参数量
@@ -627,7 +664,7 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
 
 
 
-        <span>All Rights Reserved</span>
+        <span>All Rights Reserved.（所有权利保留。禁止未经授权的复制或再分发。）</span>
     </section>
     </footer>
 
@@ -698,13 +735,13 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
         
         
             <div class="article-image">
-                <img src="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/matrix_analysis.5370aa4f882947035d62c0d7520e321c_hu8420443517079463717.jpg" 
+                <img src="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/matrix_analysis.a32c4c8ffa6f38ebe580e715c018e7eb_hu4848236936210136919.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
                         alt="Featured image of post 矩阵运算在深度学习中的理论与应用"
                         data-key="神经网络矩阵分析" 
-                        data-hash="md5-U3CqT4gpRwNdYsDXUg4yHA==">
+                        data-hash="md5-oyxMj/pvOOvlgOcVwBjn6w==">
                 
             </div>
         
@@ -781,7 +818,7 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
         
             2018 - 
         
-        2024 七月流火
+        2025 七月流火
     </section>
     
     <section class="powerby">

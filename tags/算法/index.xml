@@ -34,9 +34,8 @@ $\sigma(\boldsymbol{z}) = \left(\sigma(z_{1}), \sigma(z_{2}), \sigma(z_{3}) \cdo
 &lt;li&gt;对尺寸相同的矩阵$A, B$，$\operatorname{tr}\left(A^{T} B\right)=\sum_{i, j} A_{i j} B_{i j}$。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;矩阵微分运算符法则&#34;&gt;矩阵微分运算符法则
-&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;加减法、矩阵乘法、转置、求迹。
-$$
+&lt;/h3&gt;&lt;h4 id=&#34;1-加减法矩阵乘法转置求迹&#34;&gt;1. 加减法、矩阵乘法、转置、求迹。
+&lt;/h4&gt;&lt;p&gt;$$
 d(X \pm Y)=d X \pm d Y
 $$
 $$
@@ -47,22 +46,39 @@ d\left(X^{T}\right)=(d X)^{T}
 $$
 $$
 d \operatorname{tr}(X)=\operatorname{tr}(d X)
-$$&lt;/li&gt;
-&lt;li&gt;求逆。
-$$
+$$&lt;/p&gt;
+&lt;h4 id=&#34;2-求逆&#34;&gt;2. 求逆。
+&lt;/h4&gt;&lt;p&gt;$$
 d X^{-1}=-X^{-1} d X X^{-1}
 $$
-此式可以在 $ X X^{-1}=I $ 两侧求微分来证明。&lt;/li&gt;
-&lt;li&gt;行列式。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029145157.png#center&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
+此式可以在 $ X X^{-1}=I $ 两侧求微分来证明。&lt;/p&gt;
+&lt;h4 id=&#34;3-行列式&#34;&gt;3. 行列式。
+&lt;/h4&gt;&lt;p&gt;$$
+d|X|=\operatorname{tr}\left(X^{\ast} d X\right)
+$$&lt;/p&gt;
+&lt;p&gt;其中$X^{\ast}$表示$X$的伴随矩阵，在$X$可逆时，上式又可以写作为 $d|X|=|X|\operatorname{tr}\left(X^{-1} d X\right)$。此式可以用Laplace展开证明，详见张贤达《矩阵分析与应用》。&lt;/p&gt;
+&lt;h4 id=&#34;4-逐元素乘法&#34;&gt;4. 逐元素乘法。
+&lt;/h4&gt;&lt;p&gt;$$
+d(X \odot Y)=d X \odot Y+X \odot d Y
+$$&lt;/p&gt;
+&lt;p&gt;$\odot$表示尺寸相同的矩阵$X$，$Y$逐元素相乘。&lt;/p&gt;
+&lt;h4 id=&#34;5-逐元素函数&#34;&gt;5. 逐元素函数。
+&lt;/h4&gt;&lt;p&gt;$$
+d \sigma(X)=\sigma^{\prime}(X) \odot d X
+$$&lt;/p&gt;
+&lt;p&gt;$\sigma(X)=\left[\sigma\left(X_{i j}\right)\right]$是逐元素标量函数运算，$\sigma^{\prime}(X)=\left[\sigma^{\prime}\left(X_{i j}\right)\right]$ 是逐元素求导数。例如：
+$$
+X=\left[\begin{array}{ll}
+X_{11} &amp;amp; X_{12} \\
+X_{21} &amp;amp; X_{22}
+\end{array}\right]
+$$&lt;/p&gt;
+&lt;p&gt;$$
+d \sin (X)=\left[\begin{array}{ll}
+\cos X_{11} d X_{11} &amp;amp; \cos X_{12} d X_{12} \\
+\cos X_{21} d X_{21} &amp;amp; \cos X_{22} d X_{22}
+\end{array}\right]=\cos (X) \odot d X
+$$&lt;/p&gt;
 &lt;h3 id=&#34;理解&#34;&gt;理解
 &lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;
@@ -70,13 +86,18 @@ $$
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;将矩阵导数与微分建立联系：$d f=\sum_{i=1}^{m} \sum_{j=1}^{n} \frac{\partial f}{\partial X_{i j}} d X_{i j}=\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)$。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;理解：
-1. 微分算子$d$作用于矩阵$X$，表示为&lt;strong&gt;逐元素&lt;/strong&gt;作用。
-2. 第一个等号是全微分公式，第二个等号表达了矩阵导数与微分的联系。
-3. $tr()$代表迹(trace)是方阵对角线元素之和。
-4. 举例：设$X=\left[\begin{array}{l}X_{0_0}, X_{01} \\ X_{10}, X_{11}\end{array}\right]$, $d X=\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]$，$\frac{d f}{d X}=\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{01}} \\ \frac{\partial f}{\partial X_{10}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]$，$\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)=\operatorname{tr}\left(\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{10}} \\ \frac{\partial f}{\partial X_{01}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]\right)$&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;微分算子$d$作用于矩阵$X$，表示为&lt;strong&gt;逐元素&lt;/strong&gt;作用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;第一个等号是全微分公式，第二个等号表达了矩阵导数与微分的联系。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$tr()$代表迹(trace)是方阵对角线元素之和。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;举例：设$X=\left[\begin{array}{l}X_{0_0}, X_{01} \\ X_{10}, X_{11}\end{array}\right]$, $d X=\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]$，$\frac{d f}{d X}=\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{01}} \\ \frac{\partial f}{\partial X_{10}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]$，$\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)=\operatorname{tr}\left(\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{10}} \\ \frac{\partial f}{\partial X_{01}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]\right)$&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;思考&#34;&gt;思考
@@ -102,7 +123,10 @@ $$&lt;/p&gt;
 &lt;li&gt;分类网络类别数为$m$，$\boldsymbol{y}$ 是除一个元素为1外其它元素为 0 的的 $m \times 1$ 列向量, $W_{2}$ 是 $m \times p$ 矩阵, $W_{1}$ 是 $p \times n$ 矩阵, $\boldsymbol{x}$ 是 $n \times 1$ 列向量, $l$ 是标量&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;推导-fracpartial-lpartial-w_1-和-fracpartial-lpartial-w_2&#34;&gt;推导 $\frac{\partial l}{\partial W_{1}}$ 和 $\frac{\partial l}{\partial W_{2}}$
-&lt;/h3&gt;&lt;p&gt;定义：$\boldsymbol{a_{1}}=W_{1}\boldsymbol{x}$，$\boldsymbol{h_{1}}=\sigma\left(\boldsymbol{a_{1}}\right)$，$\boldsymbol{a_{2}}=W_{2}\boldsymbol{h_{1}}$，则 $l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(\boldsymbol{a}_{2}\right)$。&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;定义：&lt;/p&gt;
+&lt;p&gt;$\boldsymbol{a_{1}}=W_{1}\boldsymbol{x}$&lt;/p&gt;
+&lt;p&gt;$\boldsymbol{h}_1=\sigma\left(\boldsymbol{a}_1\right)$&lt;/p&gt;
+&lt;p&gt;$ \boldsymbol{a_{2}}=W_{2}\boldsymbol{h_{1}}$ $l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(\boldsymbol{a}_{2}\right)$&lt;/p&gt;
 &lt;p&gt;已知 $\frac{\partial l}{\partial \boldsymbol{a_{2}}}=\operatorname{softmax}\left(\boldsymbol{a}_{2}\right)-\boldsymbol{y}$ 。&lt;/p&gt;
 &lt;p&gt;推导结果：
 $$
@@ -113,13 +137,18 @@ $$
 $$&lt;/p&gt;
 &lt;h3 id=&#34;推广到多个样本&#34;&gt;推广到多个样本
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;使用矩阵来表示N个样本，以简化形式。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;定义：$X=\left[\boldsymbol{x_{1}}, \cdots, \boldsymbol{x_{N}}\right]$，$A_{1}=\left[\boldsymbol{a_{1,1}}, \cdots \boldsymbol{a_{1, N}}\right]=W_{1} X+\boldsymbol{b_{1}} \mathbf{1}^{T}, \quad H_{1}=\left[\boldsymbol{h_{1,1}}, \cdots, \boldsymbol{h}&lt;em&gt;{1, N}\right]=\sigma\left(A&lt;/em&gt;{1}\right) \text {, }$，$A_{2}=\left[\boldsymbol{a_{2,1}}, \cdots, \boldsymbol{a_{2, N}}\right]=W_{2} H_{1}+\boldsymbol{b_{2}} \mathbf{1}^{T}$, 注意这里使用全1向量来扩展维度。&lt;/p&gt;
-&lt;p&gt;推导结果：
-$$
-\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial A_{1}} X^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}&lt;em&gt;{1}}=\frac{\partial l}{\partial A&lt;/em&gt;{1}} \mathbf{1}
-$$
-$$
-\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial A_{2}} H_{1}^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}&lt;em&gt;{2}}=\frac{\partial l}{\partial A&lt;/em&gt;{2}} \mathbf{1}
+&lt;p&gt;定义：&lt;/p&gt;
+&lt;p&gt;$X=\left[\boldsymbol{x_{1}}, \cdots, \boldsymbol{x_{N}}\right]$&lt;/p&gt;
+&lt;p&gt;$A_{1}=\left[\boldsymbol{a_{1,1}}, \cdots \boldsymbol{a_{1, N}}\right]=W_{1} X+\boldsymbol{b_{1}} \mathbf{1}^{T}$&lt;/p&gt;
+&lt;p&gt;$H_{1}=\left[\boldsymbol{h_{1,1}}, \cdots, \boldsymbol{h_{1, N}}\right]=\sigma\left(A_{1}\right)$&lt;/p&gt;
+&lt;p&gt;$A_{2}=\left[\boldsymbol{a_{2,1}}, \cdots, \boldsymbol{a_{2, N}}\right]=W_{2} H_{1}+\boldsymbol{b_{2}} \mathbf{1}^{T}$&lt;/p&gt;
+&lt;p&gt;注意这里使用全$\mathbf{1}$向量来扩展维度。&lt;/p&gt;
+&lt;p&gt;推导结果：&lt;/p&gt;
+&lt;p&gt;$$
+\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial A_{1}} X^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b_1}}=\frac{\partial l}{\partial A_{1}} \mathbf{1}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial A_{2}} H_{1}^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b_2}}=\frac{\partial l}{\partial A_{2}} \mathbf{1}
 $$&lt;/p&gt;
 &lt;h2 id=&#34;参考&#34;&gt;参考
 &lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/94805436&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

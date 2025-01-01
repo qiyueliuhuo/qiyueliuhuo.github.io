@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="AI 时代的技术进阶：快速深入 Rust 编程之道">
+<title>利用AI掌握Rust编程</title>
+
+<link rel='canonical' href='http://localhost:1313/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/'>
+
+<link rel="stylesheet" href="/scss/style.min.4b7fbab8508cc3b0a043797a0a5d943b55811dd2864edc1104367cb77d63508f.css"><meta property='og:title' content="利用AI掌握Rust编程">
+<meta property='og:description' content="AI 时代的技术进阶：快速深入 Rust 编程之道">
+<meta property='og:url' content='http://localhost:1313/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/'>
+<meta property='og:site_name' content='七月流火'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:published_time' content='2024-12-21T10:20:49&#43;08:00'/><meta property='article:modified_time' content='2024-12-21T10:20:49&#43;08:00'/><meta property='og:image' content='http://localhost:1313/rust_cover.jpg' />
+<meta name="twitter:title" content="利用AI掌握Rust编程">
+<meta name="twitter:description" content="AI 时代的技术进阶：快速深入 Rust 编程之道"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/rust_cover.jpg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "dark");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">七月流火</a></h1>
+            <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/qiyueliuhuo'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E4%B9%A6%E6%9E%B6/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bookshelf" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="3" width="18" height="18" rx="2" />
+  <line x1="3" y1="7" x2="21" y2="7" />
+  <line x1="3" y1="14" x2="21" y2="14" />
+  <line x1="9" y1="7" x2="9" y2="14" />
+  <line x1="15" y1="7" x2="15" y2="14" />
+  <line x1="9" y1="18" x2="9" y2="21" />
+  <line x1="15" y1="18" x2="15" y2="21" />
+</svg>
+                
+                <span>书架</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E9%93%BE/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#缘起">缘起</a></li>
+    <li><a href="#rust语言学习资料">Rust语言学习资料</a>
+      <ol>
+        <li><a href="#官方文档">官方文档</a></li>
+      </ol>
+    </li>
+    <li><a href="#rust语言学习路线">Rust语言学习路线</a></li>
+    <li><a href="#rust语言知识点">Rust语言知识点</a></li>
+    <li><a href="#疑问">疑问</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/">
+                
+                    <img src="/rust_cover.jpg" loading="lazy" alt="Featured image of post 利用AI掌握Rust编程" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/" style="background-color: #1c62a9; color: #fff;">
+                编程开发
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/">利用AI掌握Rust编程</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            AI 时代的技术进阶：快速深入 Rust 编程之道
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 21, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="缘起">缘起
+</h2><p>看了一眼，这篇博客的创建时间，2024年12月21日，八天前，已经想不起因为什么原因想要再学习一门语言了，似乎可能因为接触区块链Web3与加密货币比较多的信息，又想着能不能入门Web3，把握这个未来可能的风口，于是想要学习一门新的语言，问了ChatGPT，问它未来最有潜力的编程语言是什么，它输出的第一个语言是Rust，可能因为种种这些原因吧。</p>
+<p>考虑到自己已经不算是新手，有其他很多编程语言的基础，那么再想如果再学习其他语言，有更好的方式么？</p>
+<p>尤其是在这个AI迅猛发展的时代，这样一个时代，似乎知识变得触手可得，相比于早十年互联网时代，AI时代不仅仅获取信息更加方便，而且AI相比于传统的互联网已经可以快速整合知识，甚至于快速生成一篇论文或者报告。</p>
+<p>这个时代，或许对于每个人来说，都难免产生焦虑与恐慌，毕竟每个人努力三四年学习的知识与技能，在当下AI可能半年时间就超过一个正常人三四年的练习的水平了，这或许是焦虑的来源；此外，恐慌来源于AI快速发展，似乎越来越像人，拥有人类所谓的“自由意识”或“灵魂”，反观人类本身，似乎活得越来越像机器人或游戏中的NPC。</p>
+<p>总结，机器人AI越来越像人，人越来越像机器人，人与机器人之间的界限越来越模糊。</p>
+<p>2022年年底，ChatGPT发布，这年年底在网上冲浪，有幸算是较早接触到这样的自然语言领域的大模型，这两三年虽然说在人工智能领域读研究生，也看过非常多的AI方向论文，略微了解各种模型背后的原理，然而当ChatGPT发布时，还是给了我非常大的震撼，似乎小时候一直比较感兴趣的机器人，真的诞生了，它真的能够流畅自然的像人一样进行对话，以至于有那么多次觉得它真的有了人的意识，但是理智告诉我它还是一个基于概率论下的产物，它再尽量猜测下一个词语，它给我反馈的不过是它每次计算得到概率最大的结果。</p>
+<p>但是，这样的科技产物还是让我感到未来已经到来，似乎电影中小说里描述的未来机器人已经诞生，当时暗暗心想这个AI为了会影响整个世界，重塑我们的观念。</p>
+<p>话题说远了，回到前面的问题，如果再想学习一门语言，有更好的方式么？</p>
+<p>其实在互联网时代，每个人获取知识都已经非常便捷了，真的是量大管饱，各种电子书，各种教程，各种视频教程，可以说这个时代只有你想学，肯花时间，肯下功夫，就能学到非常多知识和技能，然而，借助AI再学习一个新的知识，一门新的编程语言，又能起到什么作用呢？</p>
+<p>思来想去，如果用AI获取知识，那这样的方式和互联网时代搜索知识，并没有本质的区别，只是更加方便和快速了，反思之前的教育经过和学习经历，学习一个新知识，最大的痛苦应该是自己的疑问和困惑没有得到解决，试想我们每个人有不同的知识背景，不同的熟悉领域，在学习一个新知识时，每个人都难免有着或大或小的对于新知识的问题或困惑，以往的经验是我们可以咨询一个老师，咨询同学，或者问问自己家长，但是应该每个人都有过自己耻于问别人问题的时刻吧，虽然古云“不耻下问”，但是真正能够对每个问题都不耻下问的人，也算是少数人吧。</p>
+<p>如今，AI不仅能够获取信息，它最重要一点就是可以针对你的问题进行回答，而且试图检索它见过的所有数据库与知识库，进行回答。那么，我突然明白AI赋予人的一个最大的用途，就是答疑解惑，并且像一个玄幻小说的智者一样，随时在你的身上，回答自己的困惑与并给出合理的建议。</p>
+<p>明确了AI的作用之外，还有另外一个问题，那就是人学习到的知识会随着时间慢慢忘却，这样的问题怎么解决呢？三年前，一直在思考这样的问题，现代社会信息量非常庞大，如何管理自己的知识呢？靠人脑记忆所有的知识已经完全不可能了。写到这里，先问问AI怎么回答的，ChatGPT回答得非常全面，“使用间隔重复法，主动回忆法，多感官参与学习，关联与应用，教别人或者输出知识，管理学习状态，重视复盘与整合，持续学习与循环暴露”。这些方法说实话自己看过相关的书籍都或多或少的熟知，然而说实话，自己执行力并没有那么强，虽说知道了很多，然而并没有做到“知行合一”。</p>
+<p>中午，百无聊赖时，翻起和渊老师的《成为学习高手：清华博士的高效学习秘籍》，里面又提到“输出”方法，里面说的案例，其实也是自己熟知的，学生回到家后将白天在课堂学习到的知识讲给自己的家长，不知不觉中，学生的成绩得到了提升。另外，昨天看到一个博主的博客文章，里面说到“只要会思考就能写作”，突然想到自己也会思考，为什么想了两三年的问题“如何学习写作”，自己没能做到呢？一来自己把写作这个事情看得太过于神圣，太过于严肃，似乎要成为作家，似乎要是文科生，才能写作自如；二来自己写点东西总觉得很矫情，没有什么价值。三来觉得自己的文笔不够好，表达内容总是思来想去，期待有更好的表达方式。</p>
+<p>昨天在看了几篇博客文章，其内容也比较偏口语化，像是与人聊天一样的文字表达，但是读起来却让人感到舒服与愉快，仔细想想虽然文字不像是ChatGPT等AI输出的内容表达得正式与书面化，但是这样的文字无形之间又让读者感到亲近感，尤其这些年阅读非常多的大牛作家的作品，发现他们的文字也都非常容易读，平易近人。这样上面的三个阻碍自己写作的心里障碍似乎都想通了。</p>
+<p>这两天折腾给博客和编辑器VS Code都换上新的字体霞鹜文楷LXGW WenKai，确实很好看，以上种种原因，再加上自己或许需要一个方式来表达，于是产生了这个缘分，写下来这些内容。</p>
+<p>回到本篇博文的主题：<strong>利用AI掌握Rust编程</strong>。</p>
+<p>首先我先让AI给我一个Rust语言的代码程序，使用到最常用的语言特性，输入语句为“你是一个rust语言资深开发工程师，写一段代码，代码中非常恰当合适的使用到rust语言最常用的语言特性，并对这段代码进行注释讲解”，下面是生成的代码，对于现在的我来说还是不太懂的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">collections</span>::<span class="n">HashMap</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 使用 Vec 存储一组数字，展示所有权与可变性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">numbers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">];</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 使用闭包对 Vec 中的每个元素进行平方运算
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="n">numbers</span><span class="p">.</span><span class="n">iter_mut</span><span class="p">().</span><span class="n">for_each</span><span class="p">(</span><span class="o">|</span><span class="n">x</span><span class="o">|</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Squared numbers: </span><span class="si">{:?}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">numbers</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 使用模式匹配从 Vec 中查找特定值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">numbers</span><span class="p">.</span><span class="n">iter</span><span class="p">().</span><span class="n">find</span><span class="p">(</span><span class="o">|&amp;&amp;</span><span class="n">x</span><span class="o">|</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nb">Some</span><span class="p">(</span><span class="o">&amp;</span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Found the value: </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nb">None</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Value not found&#34;</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 使用 HashMap 存储学生姓名和分数，展示集合类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">scores</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HashMap</span>::<span class="n">new</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">scores</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&#34;Alice&#34;</span><span class="p">,</span><span class="w"> </span><span class="mi">90</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">scores</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&#34;Bob&#34;</span><span class="p">,</span><span class="w"> </span><span class="mi">85</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">scores</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="s">&#34;Charlie&#34;</span><span class="p">,</span><span class="w"> </span><span class="mi">92</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 使用模式匹配和 Option 处理可能不存在的值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="o">&amp;</span><span class="n">score</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scores</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#34;Alice&#34;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Alice&#39;s score: </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">score</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Alice&#39;s score not found&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 演示错误处理，尝试解析字符串为数字
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#34;42&#34;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">input</span><span class="p">.</span><span class="n">parse</span>::<span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Parsed number: </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nb">Err</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Failed to parse number: </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 使用枚举定义和模式匹配处理不同的状态
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="k">enum</span> <span class="nc">TrafficLight</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Red</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Yellow</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Green</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">light</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TrafficLight</span>::<span class="n">Green</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">light</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">TrafficLight</span>::<span class="n">Red</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Stop!&#34;</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">TrafficLight</span>::<span class="n">Yellow</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Caution!&#34;</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">TrafficLight</span>::<span class="n">Green</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Go!&#34;</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>我清楚AI生成的内容不一定是正确的，但是自己运行后发现可以完全运行并输出，证明在语法层面代码是没有问题的，下面针对上面的代码片段，试图学懂它，并且查阅相关Rust语言资料。</p>
+<p>刚好自己前段时间，无聊时候配置的NVIM编程环境，这时候可以搭配起来，一边学习Rust语言，一边熟悉NVIM操作，为什么不用IDE呢，别问为什么，问就是为了装逼，这是情怀！</p>
+<h2 id="rust语言学习资料">Rust语言学习资料
+</h2><h3 id="官方文档">官方文档
+</h3><p>在这个信息爆炸的时代，学习先明确学习资料，尽量选择官方详细系统的学习资料，以下是整理的Rust语言学习资料，切记资料不在多，而在于吸收、整理、消化。</p>
+<ul>
+<li><a class="link" href="https://doc.rust-lang.org/book/"  target="_blank" rel="noopener"
+    >&ldquo;The Rust Programming Language&rdquo; book</a></li>
+<li><a class="link" href="https://rustwiki.org/zh-CN/book/"  target="_blank" rel="noopener"
+    >Rust 程序设计语言 中文版</a></li>
+<li><a class="link" href="https://github.com/rust-lang/rustlings?tab=readme-ov-file"  target="_blank" rel="noopener"
+    >rustlings</a></li>
+</ul>
+<h2 id="rust语言学习路线">Rust语言学习路线
+</h2><ol>
+<li>阅读官方文档，了解Rust语言的基本语法和特性。</li>
+</ol>
+<h2 id="rust语言知识点">Rust语言知识点
+</h2><ol>
+<li>
+<p>在 Rust 中，<strong>函数的返回值等同于函数体最后一个表达式的值</strong>。使用 return 关键字和指定值，可以从函数中提前返回；但大部分函数隐式返回最后一个表达式。</p>
+</li>
+<li>
+<p>在Rust中，引用（&amp;T）类似于 C/C++ 中的指针或引用，但更安全。引用允许你访问变量的值，而不需要拥有它的所有权。特点是：1）不可空：Rust 没有 <code>nullptr</code>，引用总是指向一个有效的值。2）自动解引用：无需手动 * 操作，引用可以直接使用。3）默认不可变：&amp;T 是不可变引用，值不能被修改。4）可变引用：<code>&amp;mut T</code> 是可变引用，允许修改值。</p>
+<p>知识点1和2示例：</p>
+</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// 代码来自rustlings/exercise/03_if/if2.rs 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">fn</span> <span class="nf">picky_eater</span><span class="p">(</span><span class="n">food</span>: <span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="kt">str</span> <span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">food</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&#34;strawberry&#34;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;Yummy!&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">food</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&#34;potato&#34;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="s">&#34;I guess I can eat that.&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">       </span><span class="s">&#34;No thanks!&#34;</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>在 let 语句中使用 <code>if</code>。因为 if 是一个表达式，我们可以在 let 语句的右侧使用它来将结果赋值给一个变量。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// 代码来自Rust 程序设计语言 中文版 3.5控制流
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">condition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">condition</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;The value of number is: </span><span class="si">{}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">number</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="疑问">疑问
+</h2><ol>
+<li>以下两种对元组的解构方式有什么区别呢？</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// 代码来自rustlings/exercise/04_primitive_types/primitive_types5.rs
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="n">cat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="s">&#34;Furry McFurson&#34;</span><span class="p">,</span><span class="w"> </span><span class="mf">3.5</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// TODO: Destructure the `cat` tuple in one statement so that the println works.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">// let /* your pattern here */ = cat;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cat</span><span class="p">;</span><span class="w">   </span><span class="c1">// 解构方式1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">// let (name, age) = &amp;cat;  // 解构方式2，我的答题方式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{}</span><span class="s"> is </span><span class="si">{}</span><span class="s"> years old.&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>array 与 vector 如何互相转换？</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="c1">// 代码来自rustlings/exercise/05_vecs/vecs1.rs
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">fn</span> <span class="nf">array_and_vec</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="p">([</span><span class="kt">i32</span><span class="p">;</span><span class="w"> </span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">];</span><span class="w"> </span><span class="c1">// Array
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// TODO: Create a vector called `v` which contains the exact same elements as in the array `a`.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">// Use the vector macro.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">// let v = ???;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]];</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>All Rights Reserved.（所有权利保留。禁止未经授权的复制或再分发。）</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.0f8d6300cf01d6898a79fa0f8086967d.0f8d6300cf01d6898a79fa0f8086967d_hu8984161256659165292.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 高效之美：C&#43;&#43;14 WebServer 源码探秘"
+                        data-key="高效之美：C&#43;&#43;14" 
+                        data-hash="md5-D41jAM8B1omKefoPgIaWfQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">高效之美：C&#43;&#43;14 WebServer 源码探秘</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849.7d59368db66ac23b301b6313ab84e849_hu12431349409231175071.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Vim 与算法刷题：打造高效开发环境"
+                        data-key="Vim-算法-刷题环境配置" 
+                        data-hash="md5-fVk2jbZqwjswG2MTq4ToSQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Vim 与算法刷题：打造高效开发环境</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00.abc3df4a468918461c0c5e770f2fef00_hu16517212594665624032.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post WebServer（C&#43;&#43;版）代码分析之线程池"
+                        data-key="WebServer（C&#43;&#43;版）代码分析之线程池" 
+                        data-hash="md5-q8PfSkaJGEYcDF53Dy/vAA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">WebServer（C&#43;&#43;版）代码分析之线程池</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9.3485f3bf63f135b4fbbd04dc8080a7f9_hu12870970506028879207.gif" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post GDB调试秘籍：像高手一样排查问题"
+                        data-key="GDB调试学习" 
+                        data-hash="md5-NIXzv2PxNbT7vQTcgICn&#43;Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">GDB调试秘籍：像高手一样排查问题</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.a55b357ff9d2e033322598b57d591996.a55b357ff9d2e033322598b57d591996_hu15019881840537993967.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post C&#43;&#43;知识点总结"
+                        data-key="C&#43;&#43;知识点总结" 
+                        data-hash="md5-pVs1f/nS4DMyJZi1fVkZlg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">C&#43;&#43;知识点总结</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2018 - 
+        
+        2025 七月流火
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
+    </body>
+</html>

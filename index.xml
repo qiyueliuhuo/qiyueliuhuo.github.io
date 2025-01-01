@@ -853,7 +853,7 @@
 		data-flex-basis=&#34;707px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;下面代码实现了一个如上图线程池，整个线程池是个生产者消费者模型，该线程池一开始创建 &lt;code&gt;threadCount&lt;/code&gt; 个固定线程，这些线程作为消费者，当线程被唤醒时，从任务队列中获取任务，执行任务；而生产者通过 &lt;code&gt;AddTask(F&amp;amp;&amp;amp; task)&lt;/code&gt; 方法将生产的任务添加到&lt;strong&gt;任务缓冲队列&lt;/strong&gt;中。可以看到，整个&lt;code&gt;TaskQueue&lt;/code&gt; 任务队列作为临界资源被多个线程异步访问，为了保障多个线程能够安全访问 &lt;code&gt;TaskQueue&lt;/code&gt; 中 &lt;del&gt;&lt;code&gt;std::queue&amp;lt;std::function&amp;lt;void()&amp;gt;&amp;gt; tasks&lt;/code&gt; 队列&lt;/del&gt;  变量时，每次操作都需要通过互斥量 &lt;code&gt;std::mutex mtx&lt;/code&gt; 进行加锁后再进行访问。&lt;/p&gt;
+&lt;p&gt;下面代码实现了一个如上图线程池，整个线程池是个生产者消费者模型，该线程池一开始创建 &lt;code&gt;threadCount&lt;/code&gt; 个固定线程，这些线程作为消费者，当线程被唤醒时，从任务队列中获取任务，执行任务；而生产者通过 &lt;code&gt;AddTask(F&amp;amp;&amp;amp; task)&lt;/code&gt; 方法将生产的任务添加到&lt;strong&gt;任务缓冲队列&lt;/strong&gt;中。可以看到，整个&lt;code&gt;TaskQueue&lt;/code&gt; 任务队列作为临界资源被多个线程异步访问，为了保障多个线程能够安全访问 &lt;code&gt;TaskQueue&lt;/code&gt; 中 &lt;code&gt;std::queue&amp;lt;std::function&amp;lt;void()&amp;gt;&amp;gt; tasks&lt;/code&gt; 队列 变量时，每次操作都需要通过互斥量 &lt;code&gt;std::mutex mtx&lt;/code&gt; 进行加锁后再进行访问。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;注：这里笔者将源码中 &lt;code&gt;Pool&lt;/code&gt; 结构体改名成 &lt;code&gt;TaskQueue&lt;/code&gt;，代表的含义更为合适。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -5796,9 +5796,8 @@ $\sigma(\boldsymbol{z}) = \left(\sigma(z_{1}), \sigma(z_{2}), \sigma(z_{3}) \cdo
 &lt;li&gt;对尺寸相同的矩阵$A, B$，$\operatorname{tr}\left(A^{T} B\right)=\sum_{i, j} A_{i j} B_{i j}$。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;矩阵微分运算符法则&#34;&gt;矩阵微分运算符法则
-&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;加减法、矩阵乘法、转置、求迹。
-$$
+&lt;/h3&gt;&lt;h4 id=&#34;1-加减法矩阵乘法转置求迹&#34;&gt;1. 加减法、矩阵乘法、转置、求迹。
+&lt;/h4&gt;&lt;p&gt;$$
 d(X \pm Y)=d X \pm d Y
 $$
 $$
@@ -5809,22 +5808,39 @@ d\left(X^{T}\right)=(d X)^{T}
 $$
 $$
 d \operatorname{tr}(X)=\operatorname{tr}(d X)
-$$&lt;/li&gt;
-&lt;li&gt;求逆。
-$$
+$$&lt;/p&gt;
+&lt;h4 id=&#34;2-求逆&#34;&gt;2. 求逆。
+&lt;/h4&gt;&lt;p&gt;$$
 d X^{-1}=-X^{-1} d X X^{-1}
 $$
-此式可以在 $ X X^{-1}=I $ 两侧求微分来证明。&lt;/li&gt;
-&lt;li&gt;行列式。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211029145157.png#center&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
+此式可以在 $ X X^{-1}=I $ 两侧求微分来证明。&lt;/p&gt;
+&lt;h4 id=&#34;3-行列式&#34;&gt;3. 行列式。
+&lt;/h4&gt;&lt;p&gt;$$
+d|X|=\operatorname{tr}\left(X^{\ast} d X\right)
+$$&lt;/p&gt;
+&lt;p&gt;其中$X^{\ast}$表示$X$的伴随矩阵，在$X$可逆时，上式又可以写作为 $d|X|=|X|\operatorname{tr}\left(X^{-1} d X\right)$。此式可以用Laplace展开证明，详见张贤达《矩阵分析与应用》。&lt;/p&gt;
+&lt;h4 id=&#34;4-逐元素乘法&#34;&gt;4. 逐元素乘法。
+&lt;/h4&gt;&lt;p&gt;$$
+d(X \odot Y)=d X \odot Y+X \odot d Y
+$$&lt;/p&gt;
+&lt;p&gt;$\odot$表示尺寸相同的矩阵$X$，$Y$逐元素相乘。&lt;/p&gt;
+&lt;h4 id=&#34;5-逐元素函数&#34;&gt;5. 逐元素函数。
+&lt;/h4&gt;&lt;p&gt;$$
+d \sigma(X)=\sigma^{\prime}(X) \odot d X
+$$&lt;/p&gt;
+&lt;p&gt;$\sigma(X)=\left[\sigma\left(X_{i j}\right)\right]$是逐元素标量函数运算，$\sigma^{\prime}(X)=\left[\sigma^{\prime}\left(X_{i j}\right)\right]$ 是逐元素求导数。例如：
+$$
+X=\left[\begin{array}{ll}
+X_{11} &amp;amp; X_{12} \\
+X_{21} &amp;amp; X_{22}
+\end{array}\right]
+$$&lt;/p&gt;
+&lt;p&gt;$$
+d \sin (X)=\left[\begin{array}{ll}
+\cos X_{11} d X_{11} &amp;amp; \cos X_{12} d X_{12} \\
+\cos X_{21} d X_{21} &amp;amp; \cos X_{22} d X_{22}
+\end{array}\right]=\cos (X) \odot d X
+$$&lt;/p&gt;
 &lt;h3 id=&#34;理解&#34;&gt;理解
 &lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;
@@ -5832,13 +5848,18 @@ $$
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;将矩阵导数与微分建立联系：$d f=\sum_{i=1}^{m} \sum_{j=1}^{n} \frac{\partial f}{\partial X_{i j}} d X_{i j}=\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)$。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;理解：
-1. 微分算子$d$作用于矩阵$X$，表示为&lt;strong&gt;逐元素&lt;/strong&gt;作用。
-2. 第一个等号是全微分公式，第二个等号表达了矩阵导数与微分的联系。
-3. $tr()$代表迹(trace)是方阵对角线元素之和。
-4. 举例：设$X=\left[\begin{array}{l}X_{0_0}, X_{01} \\ X_{10}, X_{11}\end{array}\right]$, $d X=\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]$，$\frac{d f}{d X}=\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{01}} \\ \frac{\partial f}{\partial X_{10}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]$，$\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)=\operatorname{tr}\left(\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{10}} \\ \frac{\partial f}{\partial X_{01}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]\right)$&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;微分算子$d$作用于矩阵$X$，表示为&lt;strong&gt;逐元素&lt;/strong&gt;作用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;第一个等号是全微分公式，第二个等号表达了矩阵导数与微分的联系。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$tr()$代表迹(trace)是方阵对角线元素之和。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;举例：设$X=\left[\begin{array}{l}X_{0_0}, X_{01} \\ X_{10}, X_{11}\end{array}\right]$, $d X=\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]$，$\frac{d f}{d X}=\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{01}} \\ \frac{\partial f}{\partial X_{10}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]$，$\operatorname{tr}\left(\frac{\partial f^{T}}{\partial X} d X\right)=\operatorname{tr}\left(\left[\begin{array}{ll}\frac{\partial f}{\partial X_{00}}, \frac{\partial f}{\partial X_{10}} \\ \frac{\partial f}{\partial X_{01}}, \frac{\partial f}{\partial X_{11}}\end{array}\right]\left[\begin{array}{l}dX_{00}, dX_{01} \\ dX_{10}, dX_{11}\end{array}\right]\right)$&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;思考&#34;&gt;思考
@@ -5864,7 +5885,10 @@ $$&lt;/p&gt;
 &lt;li&gt;分类网络类别数为$m$，$\boldsymbol{y}$ 是除一个元素为1外其它元素为 0 的的 $m \times 1$ 列向量, $W_{2}$ 是 $m \times p$ 矩阵, $W_{1}$ 是 $p \times n$ 矩阵, $\boldsymbol{x}$ 是 $n \times 1$ 列向量, $l$ 是标量&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;推导-fracpartial-lpartial-w_1-和-fracpartial-lpartial-w_2&#34;&gt;推导 $\frac{\partial l}{\partial W_{1}}$ 和 $\frac{\partial l}{\partial W_{2}}$
-&lt;/h3&gt;&lt;p&gt;定义：$\boldsymbol{a_{1}}=W_{1}\boldsymbol{x}$，$\boldsymbol{h_{1}}=\sigma\left(\boldsymbol{a_{1}}\right)$，$\boldsymbol{a_{2}}=W_{2}\boldsymbol{h_{1}}$，则 $l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(\boldsymbol{a}_{2}\right)$。&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;定义：&lt;/p&gt;
+&lt;p&gt;$\boldsymbol{a_{1}}=W_{1}\boldsymbol{x}$&lt;/p&gt;
+&lt;p&gt;$\boldsymbol{h}_1=\sigma\left(\boldsymbol{a}_1\right)$&lt;/p&gt;
+&lt;p&gt;$ \boldsymbol{a_{2}}=W_{2}\boldsymbol{h_{1}}$ $l=-\boldsymbol{y}^{T} \log \operatorname{softmax}\left(\boldsymbol{a}_{2}\right)$&lt;/p&gt;
 &lt;p&gt;已知 $\frac{\partial l}{\partial \boldsymbol{a_{2}}}=\operatorname{softmax}\left(\boldsymbol{a}_{2}\right)-\boldsymbol{y}$ 。&lt;/p&gt;
 &lt;p&gt;推导结果：
 $$
@@ -5875,13 +5899,18 @@ $$
 $$&lt;/p&gt;
 &lt;h3 id=&#34;推广到多个样本&#34;&gt;推广到多个样本
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;使用矩阵来表示N个样本，以简化形式。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;定义：$X=\left[\boldsymbol{x_{1}}, \cdots, \boldsymbol{x_{N}}\right]$，$A_{1}=\left[\boldsymbol{a_{1,1}}, \cdots \boldsymbol{a_{1, N}}\right]=W_{1} X+\boldsymbol{b_{1}} \mathbf{1}^{T}, \quad H_{1}=\left[\boldsymbol{h_{1,1}}, \cdots, \boldsymbol{h}&lt;em&gt;{1, N}\right]=\sigma\left(A&lt;/em&gt;{1}\right) \text {, }$，$A_{2}=\left[\boldsymbol{a_{2,1}}, \cdots, \boldsymbol{a_{2, N}}\right]=W_{2} H_{1}+\boldsymbol{b_{2}} \mathbf{1}^{T}$, 注意这里使用全1向量来扩展维度。&lt;/p&gt;
-&lt;p&gt;推导结果：
-$$
-\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial A_{1}} X^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}&lt;em&gt;{1}}=\frac{\partial l}{\partial A&lt;/em&gt;{1}} \mathbf{1}
-$$
-$$
-\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial A_{2}} H_{1}^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b}&lt;em&gt;{2}}=\frac{\partial l}{\partial A&lt;/em&gt;{2}} \mathbf{1}
+&lt;p&gt;定义：&lt;/p&gt;
+&lt;p&gt;$X=\left[\boldsymbol{x_{1}}, \cdots, \boldsymbol{x_{N}}\right]$&lt;/p&gt;
+&lt;p&gt;$A_{1}=\left[\boldsymbol{a_{1,1}}, \cdots \boldsymbol{a_{1, N}}\right]=W_{1} X+\boldsymbol{b_{1}} \mathbf{1}^{T}$&lt;/p&gt;
+&lt;p&gt;$H_{1}=\left[\boldsymbol{h_{1,1}}, \cdots, \boldsymbol{h_{1, N}}\right]=\sigma\left(A_{1}\right)$&lt;/p&gt;
+&lt;p&gt;$A_{2}=\left[\boldsymbol{a_{2,1}}, \cdots, \boldsymbol{a_{2, N}}\right]=W_{2} H_{1}+\boldsymbol{b_{2}} \mathbf{1}^{T}$&lt;/p&gt;
+&lt;p&gt;注意这里使用全$\mathbf{1}$向量来扩展维度。&lt;/p&gt;
+&lt;p&gt;推导结果：&lt;/p&gt;
+&lt;p&gt;$$
+\frac{\partial l}{\partial W_{1}}=\frac{\partial l}{\partial A_{1}} X^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b_1}}=\frac{\partial l}{\partial A_{1}} \mathbf{1}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\frac{\partial l}{\partial W_{2}}=\frac{\partial l}{\partial A_{2}} H_{1}^{T}, \quad \frac{\partial l}{\partial \boldsymbol{b_2}}=\frac{\partial l}{\partial A_{2}} \mathbf{1}
 $$&lt;/p&gt;
 &lt;h2 id=&#34;参考&#34;&gt;参考
 &lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/94805436&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -5928,22 +5957,30 @@ $$&lt;/p&gt;
 &gt;&lt;/p&gt;
 &lt;h2 id=&#34;多通道卷积计算底层实现&#34;&gt;多通道卷积计算底层实现
 &lt;/h2&gt;&lt;p&gt;假设输入图像及卷积和大小如下图所示：
-&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022155716.png&#34;
-	
-	
-	
+&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716.png&#34;
+	width=&#34;1299&#34;
+	height=&#34;605&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu7154423667077776749.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu15161256305760877554.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;214&#34;
+		data-flex-basis=&#34;515px&#34;
 	
 &gt;&lt;/p&gt;
 &lt;h3 id=&#34;第一步分别将特征图和卷积转换为矩阵&#34;&gt;第一步：分别将特征图和卷积转换为矩阵
 &lt;/h3&gt;&lt;h4 id=&#34;卷积核&#34;&gt;卷积核
-&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022161500.png&#34;
-	
-	
-	
+&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500.png&#34;
+	width=&#34;1376&#34;
+	height=&#34;375&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu9595334439086501891.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu4172800769463081073.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;366&#34;
+		data-flex-basis=&#34;880px&#34;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;对于2D卷积，本身是四维的卷积核，将其转换为二维由$C_{\text {out }} \times C \times K \times K$变为$C_{\text {out }} \times M$，其中$M=C \times K \times K$。&lt;/p&gt;
@@ -5980,12 +6017,16 @@ $$
 \end{array}\right]
 $$&lt;/p&gt;
 &lt;h4 id=&#34;特征图&#34;&gt;特征图
-&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022163257.png&#34;
-	
-	
-	
+&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257.png&#34;
+	width=&#34;1393&#34;
+	height=&#34;630&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu9948687688080604686.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu10709684138291102200.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;221&#34;
+		data-flex-basis=&#34;530px&#34;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;对于输入为$C \times H \times W$的特征图, 将其转换为$\left(H^{\prime} \times W^{\prime}\right) \times(C \times K \times K)$的矩阵。其中$H^{\prime}$和 $W^{\prime}$为输出特征图的长和宽。与卷积核kernel的变换不同，feature map不是单纯将矩阵resize一下就行, 而是要根据卷积核的尺寸、与特征图的作用过程需要的stride和padding，从输入特征中选择相应的值组成转换后的矩阵。&lt;/p&gt;
@@ -6017,12 +6058,16 @@ $$
 这样, 最终的计算结果就变成了&lt;br&gt;
 $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times K \times K)\right) \times\left(C_{\text {out }} \times(C \times K \times K)\right)^{T}=\left(H^{\prime} \times W^{\prime}\right) \times C_{\text {out }}$&lt;br&gt;
 整体的流程可以简化为
-&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022165625.png&#34;
-	
-	
-	
+&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625.png&#34;
+	width=&#34;1024&#34;
+	height=&#34;629&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu15639299619994512816.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu16997794664252562987.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;162&#34;
+		data-flex-basis=&#34;390px&#34;
 	
 &gt;
 下面用代码实现上面卷积过程：&lt;/p&gt;
@@ -6069,20 +6114,28 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;如果把特征图按照行优先展开为一维向量，那么对应的卷积操作如下：
-&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211022233622.png&#34;
-	
-	
-	
+&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622.png&#34;
+	width=&#34;855&#34;
+	height=&#34;737&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu9433974691840405427.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu2035181916524108223.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;116&#34;
+		data-flex-basis=&#34;278px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20211024221837.png&#34;
-	
-	
-	
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837.png&#34;
+	width=&#34;744&#34;
+	height=&#34;713&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu15356090554493613074.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu18062393443103439133.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;104&#34;
+		data-flex-basis=&#34;250px&#34;
 	
 &gt;&lt;/p&gt;
 &lt;h2 id=&#34;总结与分析&#34;&gt;总结与分析
@@ -12194,12 +12247,16 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;p&gt;注意：下面计算的是都是&lt;strong&gt;单层&lt;/strong&gt;的&lt;strong&gt;参数量&lt;/strong&gt;和&lt;strong&gt;计算量&lt;/strong&gt;，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以&lt;strong&gt;BatchSize&lt;/strong&gt;。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;卷积层&#34;&gt;卷积层
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425214848.png#center&#34;
-	
-	
-	
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848.png&#34;
+	width=&#34;193&#34;
+	height=&#34;187&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu1690272979079249509.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu12359875175678289991.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;103&#34;
+		data-flex-basis=&#34;247px&#34;
 	
 &gt;&lt;/p&gt;
 &lt;h3 id=&#34;卷积运算的参数量&#34;&gt;卷积运算的参数量
@@ -12216,12 +12273,16 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;p&gt;$FLOPs=\left[\left(C_{i n} \times k_{w} \times k_{h}\right)+\left(C_{i n} \times k_{w} \times k_{h}-1\right)+1\right] \times C_{o u t} \times W_{out} \times H_{out}$&lt;br&gt;
 $k_{w}$ 和 $k_{h}$ 分别表示卷积核的宽和高，其中 $C_{i n} \times k_{w} \times k_{h}$ 表示乘法计算量, $C_{i n} \times k_{w} \times k_{h}-1$ 表示加法计算量(可以这样理解，需要把乘法计算得到的$C_{i n} \times k_{w} \times k_{h}$个数字加这么多次), $+1$ 表示偏置, $C_{\text {out }} \times W_{out} \times H_{out}$ 表示 feature $\operatorname{map}$ 中的所有元素， $W_{out} \text{、} H_{out}$ 表示feature map的宽和高。&lt;/p&gt;
 &lt;h2 id=&#34;全连接层&#34;&gt;全连接层
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425234554.png#center&#34;
-	
-	
-	
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554.png&#34;
+	width=&#34;187&#34;
+	height=&#34;210&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu15809413396768328856.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu4050310374003110611.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;89&#34;
+		data-flex-basis=&#34;213px&#34;
 	
 &gt;&lt;/p&gt;
 &lt;h3 id=&#34;全连接运算的参数量&#34;&gt;全连接运算的参数量
@@ -12232,12 +12293,16 @@ $N_{i n}$ 表示输入特征向量的维数, +1表示偏置, $N_{out}$ 表示输
 $N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。&lt;br&gt;
 其中$N_{in}$表示乘法运算量, $N_{in}-1$ 表示加法运算量，+1表示偏置。&lt;/p&gt;
 &lt;h2 id=&#34;池化层&#34;&gt;池化层
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210425233642.png#center&#34;
-	
-	
-	
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642.png&#34;
+	width=&#34;285&#34;
+	height=&#34;191&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu14298729690017617564.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu4316019036069062409.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;149&#34;
+		data-flex-basis=&#34;358px&#34;
 	
 &gt;&lt;/p&gt;
 &lt;h3 id=&#34;池化层运算的参数量&#34;&gt;池化层运算的参数量
@@ -12247,12 +12312,16 @@ $N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。&lt
 $k \times k$ 代表在原特征图区域$k \times k$ 的 max ，sum或者avg池化操作；&lt;br&gt;
 $H_{out} \times W_{out}$代表输出特征图大小，$C_{out}$代表输出通道数。&lt;/p&gt;
 &lt;h2 id=&#34;案例&#34;&gt;案例
-&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210422151056.png#center&#34;
-	
-	
-	
+&lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056.png&#34;
+	width=&#34;794&#34;
+	height=&#34;1858&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu8514699327283385200.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu13974894953538455973.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;42&#34;
+		data-flex-basis=&#34;102px&#34;
 	
 &gt;&lt;/p&gt;
 &lt;h3 id=&#34;参数量&#34;&gt;参数量
@@ -15924,7 +15993,22 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
 &lt;/h2&gt;&lt;h2 id=&#34;-术业专攻&#34;&gt;🔧 术业专攻
 &lt;/h2&gt;&lt;h2 id=&#34;-工作经历&#34;&gt;💼 工作经历
 &lt;/h2&gt;&lt;h2 id=&#34;-我在探索&#34;&gt;🚀 我在探索
-&lt;/h2&gt;</description>
+&lt;/h2&gt;&lt;h2 id=&#34;-更新记录&#34;&gt;📝 更新记录
+&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;增加更新记录。  —— 2024.12.28&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;添加关于，补充个人介绍。 —— 2024.12.20&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
+        <title>书架</title>
+        <link>http://localhost:1313/%E4%B9%A6%E6%9E%B6/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/%E4%B9%A6%E6%9E%B6/</guid>
+        <description></description>
         </item>
         <item>
         <title>搜索</title>
