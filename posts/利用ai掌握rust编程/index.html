@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/'>
 
-<link rel="stylesheet" href="/scss/style.min.bb3c58ab61be3fc5c372274816d5fb2884b5c8fe80e3300f87573b1b2c814290.css"><meta property='og:title' content="利用AI掌握Rust编程">
+<link rel="stylesheet" href="/scss/style.min.e460b8d7eabe89e4f4bae506eaa6feb3eb535a19c85caa61e95db0347acaac78.css"><meta property='og:title' content="利用AI掌握Rust编程">
 <meta property='og:description' content="AI 时代的技术进阶：快速深入 Rust 编程之道">
 <meta property='og:url' content='http://localhost:1313/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/'>
 <meta property='og:site_name' content='七月流火'>
@@ -22,7 +22,7 @@
         (function() {
             const colorSchemeKey = 'StackColorScheme';
             if(!localStorage.getItem(colorSchemeKey)){
-                localStorage.setItem(colorSchemeKey, "dark");
+                localStorage.setItem(colorSchemeKey, "light");
             }
         })();
     </script><script>
@@ -274,7 +274,16 @@
     <li><a href="#rust语言学习路线">Rust语言学习路线</a></li>
     <li><a href="#rust语言基础知识点">Rust语言基础知识点</a></li>
     <li><a href="#rust语言特性">Rust语言特性</a></li>
-    <li><a href="#疑问">疑问</a></li>
+    <li><a href="#疑问">疑问</a>
+      <ol>
+        <li><a href="#1-以下两种对元组的解构方式有什么区别呢">1. 以下两种对元组的解构方式有什么区别呢？</a></li>
+        <li><a href="#2-array-与-vector-如何互相转换">2. array 与 vector 如何互相转换？</a>
+          <ol>
+            <li><a href="#解答">解答：</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
     <li><a href="#更新记录">更新记录</a></li>
   </ol>
 </nav>
@@ -571,10 +580,8 @@
 </div>
 </div><h2 id="rust语言特性">Rust语言特性
 </h2><h2 id="疑问">疑问
-</h2><ol>
-<li>以下两种对元组的解构方式有什么区别呢？</li>
-</ol>
-<div class="highlight"><div class="chroma">
+</h2><h3 id="1-以下两种对元组的解构方式有什么区别呢">1. 以下两种对元组的解构方式有什么区别呢？
+</h3><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
@@ -594,10 +601,8 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{}</span><span class="s"> is </span><span class="si">{}</span><span class="s"> years old.&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">);</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><ol start="2">
-<li>array 与 vector 如何互相转换？</li>
-</ol>
-<div class="highlight"><div class="chroma">
+</div><h3 id="2-array-与-vector-如何互相转换">2. array 与 vector 如何互相转换？
+</h3><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -618,9 +623,39 @@
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// TODO: Create a vector called `v` which contains the exact same elements as in the array `a`.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">// Use the vector macro.
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="c1">// let v = ???;
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]];</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]];</span><span class="w">  </span><span class="c1">// 另外两种方式如下
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="解答">解答：
+</h4><p>array转换为vector，可以使用<code>to_vec</code>方法或者<code>Vec::from</code>方法。示例代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">];</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 使用 `to_vec` 方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">vec1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">array</span><span class="p">.</span><span class="n">to_vec</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{:?}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">vec1</span><span class="p">);</span><span class="w"> </span><span class="c1">// 输出: [1, 2, 3, 4, 5]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// 使用 `Vec::from`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">vec2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Vec</span>::<span class="n">from</span><span class="p">(</span><span class="n">array</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;</span><span class="si">{:?}</span><span class="s">&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">vec2</span><span class="p">);</span><span class="w"> </span><span class="c1">// 输出: [1, 2, 3, 4, 5]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="w">
 </span></span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="更新记录">更新记录

@@ -31,7 +31,7 @@
 &gt;&lt;/p&gt;
 &lt;h3 id=&#34;卷积运算的参数量&#34;&gt;卷积运算的参数量
 &lt;/h3&gt;&lt;p&gt;计算公式：$parameter = (k_{w}  \times k_{h} \times C_{in} + 1 )\times filter\ number$；&lt;br&gt;
-即：$参数量\ =（kernal_wide \times kernal_high \times 输入的特征图的通道数 + 偏置 ）\times 当前层filter数量$；&lt;br&gt;
+即：$参数量\ =（kernal_{wide} \times kernal_{high} \times 输入的特征图的通道数 + 偏置 ）\times 当前层filter数量$；&lt;br&gt;
 以VGG-16模型的Conv1-1卷积为例，输入$224 \times 224 \times 3$，有$64$个$3 \times 3$大小filter，输出feature map为$224 \times 224 \times 64$，那么该层具有的参数量为：$(3 \times 3 \times 3 + 1)\times 64 = 1792$&lt;/p&gt;
 &lt;h3 id=&#34;卷积运算的计算量&#34;&gt;卷积运算的计算量
 &lt;/h3&gt;&lt;blockquote&gt;

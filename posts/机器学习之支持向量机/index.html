@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/'>
 
-<link rel="stylesheet" href="/scss/style.min.bb3c58ab61be3fc5c372274816d5fb2884b5c8fe80e3300f87573b1b2c814290.css"><meta property='og:title' content="机器学习之支持向量机">
+<link rel="stylesheet" href="/scss/style.min.e460b8d7eabe89e4f4bae506eaa6feb3eb535a19c85caa61e95db0347acaac78.css"><meta property='og:title' content="机器学习之支持向量机">
 <meta property='og:description' content="前言 支持向量机即Support Vector Machine，简称SVM。我最开始听说这个机器的时候，一头雾水，“支持”，“向量”，“机”，这三个词组合在一起让我在一开始觉得这个东西好抽象。首先，SVM实际上是一个二分类模型，也可以用来解决回归问题。了解过一些原理后，我觉得这种模型（方法）被称为Vector Support Machine更好一些，简单且不严谨的理解是: 这种模型通过某些向量（高维空间中的点）支持（支撑）而形成的一种机器（方法），或者称之为模型。\n引用Free Mind在介绍SVM中一句话：“SVM 一直被认为是效果最好的现成可用的分类算法之一（其实有很多人都相信，“之一”是可以去掉的）”。刚开始接触机器学习（大半年🤦\u200d♂️），目前没有做太多实践，并不清楚SVM的效果有多好，后面应该多了解些SVM的实际应用。\n支持向量机原理 现在有一些数据$\\mathbf{x}={\\boldsymbol{x_1}, \\boldsymbol{x_2}, \\boldsymbol{x_3}, &hellip;, \\boldsymbol{x_n}}$，这些数据的标签也已知$\\mathbf{y}={y_1, y_2, y_3, &hellip;, y_n}$。其中每个数据$\\boldsymbol{x_i}$为有两个特征值，即$\\boldsymbol{x_i} = (x_{i1}, x_{i2})$，为二维空间上的一点，标签$y_i\\in{-1, +1}$，一般我们将$+1$称作正类，将$-1$称为负类。这里假设$\\boldsymbol{x_i}$只有两个特征值是为了能够在二维坐标中将数据表示出来，方便理解。更一般地，$\\boldsymbol{x}_{i} \\in \\mathbb{R}^{n}$，即每个数据有$n$个特征值，每个数据都是$n$维空间中的一个点。\n下图在二维坐标系中将这些数据表示出来，其中红色代表正类，蓝色代表负类。\n可能有人要问了：为什么这些点分布的很有规律（特点）？即正类的这些红色点都分布在一边，而蓝色的这些数据点分布在另外一边。的确，现实中的数据往往不会这么理想，可能会是两部分数据交叉在一起，并不是直观上那么明显的分为两边，这里我们从最简单的原数据线性可分的问题入手，所以先假设数据比较理想。之后我们会慢慢介绍一些复杂数据的情况是如何处理的。\n那么如果有上图一些较为理想的数据，需要寻找到一个线性边界将它们划分开来，如何找到这个线性边界呢？这个问题大概小学生也能做到。如下图，我们在红色数据点和蓝色数据点之间画一条直线，使得两类点分割到直线的两边，这条直线显然就是一个线性边界，并且可以正确地将所给的数据集分为两类。\n然而，或许你想说你画出来的直线和上图不一样，它或许是下图中的某一条。\n这里，我们很容易想到这样的直线有无数条。用这些直线对于已知的上图数据分类，它们的确都可以产生正确的分类结果。然而，机器学习建模的目的并不是对于已知点（标签已知）成功分类即可，学习的目的是需要对于未知情况也能够适用，即对于一个未知分类的数据点，我们的建立的模型需要告诉我们这个数据点它是属于哪一类的，正类或者是负类。机器学习建立的模型试图去寻找数据中一般的规律，而不是对于已有数据正确的表示。\n假如对于一个新的未知分类的数据，它在二维坐标位置为X所在的位置如下图。\n这里，我们用上面得到的这些直线对新的数据X分类，$l_1$直线和其他直线分类的结果并不一样，它处在$l_1$右侧，将它标记为负类；它处在其他直线的左侧，将它标记为正类。不同的线性模型对于新的数据的分类结果不一样，那么，如何衡量这些直线的好坏，哪一个直线最好，更能代表这些数据中的一般规律呢？\nSVM给出的答案是：求解能够正确划分训练数据集并且几何间隔最大的分离超平面。 这也是SVM学习的基本想法。\n这里的几何间隔最大含义是：在无数正确划分数据集的分离超平面中，找到这样的超平面，该超平面离最近的数据点的距离最大。用数学语言描述为下面的约束最优化问题： $$ \\begin{array}{ll} \\max \\limits_{\\boldsymbol{w}, \\boldsymbol{b}} &amp; \\gamma \\ \\text { s.t. } &amp; y_{i}\\left(\\frac{\\boldsymbol{w}}{|\\boldsymbol{w}|} \\cdot \\boldsymbol{x_{i}}+\\frac{b}{|\\boldsymbol{w}|}\\right) \\geqslant \\gamma, \\quad i=1,2, \\cdots, N \\end{array} $$ 其中，第一行代表优化问题中目标函数，第二行代表约束条件，$s.t.$指的是subject to ，受限于。\n">
 <meta property='og:url' content='http://localhost:1313/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/'>
 <meta property='og:site_name' content='七月流火'>
@@ -537,6 +537,19 @@ $\gamma$代表的是数据点到超平面的几何距离，$(2)$式括号内代�
         <div class="flex article-list--tile">
             
                 
+<article class="">
+    <a href="/posts/opencv%E4%B8%8Epytorch%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2%E6%8E%A2%E7%A9%B6/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Opencv与pytorch仿射变换探究</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
 <article class="has-image">
     <a href="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
         
@@ -627,30 +640,6 @@ $\gamma$代表的是数据点到超平面的几何距离，$(2)$式括号内代�
 
         <div class="article-details">
             <h2 class="article-title">矩阵运算在深度学习中的理论与应用</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">
-        
-        
-            <div class="article-image">
-                <img src="/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/convolutional_calculation.8d71adfb21f8168db33ff6ebc7308630_hu18386934187028266606.png" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 卷积计算底层实现"
-                        data-key="卷积计算底层实现" 
-                        data-hash="md5-jXGt&#43;yH4Fo2zP/brxzCGMA==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">卷积计算底层实现</h2>
         </div>
     </a>
 </article>

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="测试驱动的自动编译及运行刷题环境配置">
-<title>Vim 与算法刷题：打造高效开发环境</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Success is the sum of small efforts, repeated day in and day out. – Robert Collier">
+<title>Step by Step: A Journey of Consistent English Learning</title>
 
-<link rel='canonical' href='http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/'>
+<link rel='canonical' href='http://localhost:1313/posts/step-by-step-a-journey-of-consistent-english-learning/'>
 
-<link rel="stylesheet" href="/scss/style.min.e460b8d7eabe89e4f4bae506eaa6feb3eb535a19c85caa61e95db0347acaac78.css"><meta property='og:title' content="Vim 与算法刷题：打造高效开发环境">
-<meta property='og:description' content="测试驱动的自动编译及运行刷题环境配置">
-<meta property='og:url' content='http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/'>
+<link rel="stylesheet" href="/scss/style.min.e460b8d7eabe89e4f4bae506eaa6feb3eb535a19c85caa61e95db0347acaac78.css"><meta property='og:title' content="Step by Step: A Journey of Consistent English Learning">
+<meta property='og:description' content="Success is the sum of small efforts, repeated day in and day out. – Robert Collier">
+<meta property='og:url' content='http://localhost:1313/posts/step-by-step-a-journey-of-consistent-english-learning/'>
 <meta property='og:site_name' content='七月流火'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:published_time' content='2022-09-17T19:34:41&#43;08:00'/><meta property='article:modified_time' content='2022-09-17T19:34:41&#43;08:00'/><meta property='og:image' content='http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.jpg' />
-<meta name="twitter:title" content="Vim 与算法刷题：打造高效开发环境">
-<meta name="twitter:description" content="测试驱动的自动编译及运行刷题环境配置"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:published_time' content='2025-01-05T19:22:33&#43;08:00'/><meta property='article:modified_time' content='2025-01-05T19:22:33&#43;08:00'/><meta property='og:image' content='http://localhost:1313/helena-hertz-wWZzXlDpMog-unsplash.jpg' />
+<meta name="twitter:title" content="Step by Step: A Journey of Consistent English Learning">
+<meta name="twitter:description" content="Success is the sum of small efforts, repeated day in and day out. – Robert Collier"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/helena-hertz-wWZzXlDpMog-unsplash.jpg' />
     </head>
     <body class="
     article-page
@@ -265,11 +265,11 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#相关环境">相关环境</a></li>
-    <li><a href="#vim-配置">Vim 配置</a></li>
-    <li><a href="#shell-脚本">Shell 脚本</a></li>
-    <li><a href="#问题">问题</a></li>
+    <li><a href="#正文">正文</a>
+      <ol>
+        <li><a href="#why-rich-people-dont-cover-their-windows">Why Rich People Don&rsquo;t Cover Their Windows</a></li>
+      </ol>
+    </li>
   </ol>
 </nav>
         </div>
@@ -284,13 +284,9 @@
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
-                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover_hu3279433575378326368.jpg"
-                        srcset="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover_hu3279433575378326368.jpg 800w, /posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover_hu6258378765290729279.jpg 1600w"
-                        width="800" 
-                        height="398" 
-                        loading="lazy"
-                        alt="Featured image of post Vim 与算法刷题：打造高效开发环境" />
+            <a href="/posts/step-by-step-a-journey-of-consistent-english-learning/">
+                
+                    <img src="/helena-hertz-wWZzXlDpMog-unsplash.jpg" loading="lazy" alt="Featured image of post Step by Step: A Journey of Consistent English Learning" />
                 
             </a>
         </div>
@@ -300,8 +296,8 @@
     
     <header class="article-category">
         
-            <a href="/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/" style="background-color: #1c62a9; color: #fff;">
-                编程开发
+            <a href="/categories/%E6%B5%8B%E8%AF%95/" >
+                测试
             </a>
         
     </header>
@@ -309,12 +305,12 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">Vim 与算法刷题：打造高效开发环境</a>
+            <a href="/posts/step-by-step-a-journey-of-consistent-english-learning/">Step by Step: A Journey of Consistent English Learning</a>
         </h2>
     
         
         <h3 class="article-subtitle">
-            测试驱动的自动编译及运行刷题环境配置
+            Success is the sum of small efforts, repeated day in and day out. – Robert Collier
         </h3>
         
     </div>
@@ -335,7 +331,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Sep 17, 2022</time>
+                <time class="article-time--published">Jan 05, 2025</time>
             </div>
         
 
@@ -365,96 +361,11 @@
     <section class="article-content">
     
     
-    <h2 id="前言">前言
-</h2><p>笔者大概从五年前大二开始接触 vim 编辑器，当时有很多关于两款“史前”编辑器 Vim 和 Emacs 的争论，对于一些较早前的极客一般分为 Vim 党、 Emacs 党 和其他。 笔者自开始接触 Linux 系统就学习的 Vim ，一直使用到现在，几乎所有 IDE 、游览器和笔记系统Logseq都开启 vim 模式，也算是一个 Vim 党。然而，笔者无心参与 Vim 和 Emacs 两款编辑器之争；很明显，现代大型项目的开发，已经几乎必须采取像 idea、clion、vscode 这些优秀的 IDE ；当下，笔者更多地使用 Vim（终端界面）编写一些算法题，这样既减少成熟 IDE 自动的补全机制对于笔者自身的驯化（经常知道某些函数，然而自己拼不对，非常依赖IDE智能提示），又能让笔者对 Vim 操作和 shell 脚本编程更加熟练；此篇博客介绍笔者在终端界面下使用 Vim 编写算法题搭建的自动化编译运行环境。</p>
-<h2 id="相关环境">相关环境
-</h2><p>系统：macOS Monterey 12.5.1<br>
-vim：MacVim 8.2<br>
-文件检测：fswatch 1.16.0</p>
-<h2 id="vim-配置">Vim 配置
-</h2><p>参考此篇博客：<a class="link" href="https://blog.csdn.net/RichDevos/article/details/123826404"  target="_blank" rel="noopener"
-    >2022 最新 Mac Vim 开发环境的部署与配置</a></p>
-<p>效果如下图（点击图片可以放大查看）：</p>
-<p><img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37.png"
-	width="3358"
-	height="2050"
-	srcset="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu6977684523373588805.png 480w, /posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu10228423325999653923.png 1024w"
-	loading="lazy"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="163"
-		data-flex-basis="393px"
-	
-></p>
-<h2 id="shell-脚本">Shell 脚本
-</h2><p>通过 Shell 脚本来实现当自己编写程序时，保存完后，自动进行编译及运行。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># fswatch.sh</span>
-</span></span><span class="line"><span class="cl"><span class="nv">FILE_NAME</span><span class="o">=</span><span class="nv">$1</span>
-</span></span><span class="line"><span class="cl">fswatch -0 ./<span class="si">${</span><span class="nv">FILE_NAME</span><span class="si">}</span> <span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> -d <span class="s2">&#34;&#34;</span> event<span class="p">;</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">	<span class="nb">echo</span> <span class="s2">&#34;[TIME: `date +&#34;</span>%Y-%m-%d <span class="se">\0</span>33<span class="o">[</span>47<span class="p">;</span>30m%H:%M:%S<span class="se">\0</span>33<span class="o">[</span>0m<span class="s2">&#34;`]\033[0m This file </span><span class="si">${</span><span class="nv">event</span><span class="si">}</span><span class="s2"> has changed. \033[0m&#34;</span>
-</span></span><span class="line"><span class="cl">	<span class="nb">echo</span> <span class="s2">&#34;[TIME: `date +&#34;</span>%Y-%m-%d <span class="se">\0</span>33<span class="o">[</span>47<span class="p">;</span>30m%H:%M:%S<span class="se">\0</span>33<span class="o">[</span>0m<span class="s2">&#34;`]\033[0m </span>$<span class="s2"> g++ -std=c++11 </span><span class="si">${</span><span class="nv">FILE_NAME</span><span class="si">}</span><span class="s2"> -o a.out&#34;</span>
-</span></span><span class="line"><span class="cl">	g++ -std<span class="o">=</span>c++11 <span class="si">${</span><span class="nv">FILE_NAME</span><span class="si">}</span> -o a.out
-</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span></span><span class="line"><span class="cl">		<span class="nb">echo</span> <span class="s2">&#34;[TIME: `date +&#34;</span>%Y-%m-%d <span class="se">\0</span>33<span class="o">[</span>47<span class="p">;</span>30m%H:%M:%S<span class="se">\0</span>33<span class="o">[</span>0m<span class="s2">&#34;`]\033[0m \033[36m 编译通过！ \033[0m&#34;</span>
-</span></span><span class="line"><span class="cl">		<span class="nb">echo</span> <span class="s2">&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">		<span class="nb">echo</span> <span class="s2">&#34;[TIME: `date +&#34;</span>%Y-%m-%d <span class="se">\0</span>33<span class="o">[</span>47<span class="p">;</span>30m%H:%M:%S<span class="se">\0</span>33<span class="o">[</span>0m<span class="s2">&#34;`]\033[0m </span>$<span class="s2"> ./a.out&#34;</span>
-</span></span><span class="line"><span class="cl">		./a.out
-</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-</span></span><span class="line"><span class="cl">		<span class="nb">echo</span> <span class="s2">&#34;[TIME: `date +&#34;</span>%Y-%m-%d <span class="se">\0</span>33<span class="o">[</span>47<span class="p">;</span>30m%H:%M:%S<span class="se">\0</span>33<span class="o">[</span>0m<span class="s2">&#34;`]\033[0m \033[32m执行完成，通过! \033[0m&#34;</span>
-</span></span><span class="line"><span class="cl">		<span class="nb">echo</span> <span class="s2">&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">		<span class="k">fi</span>
-</span></span><span class="line"><span class="cl">	<span class="k">fi</span>
-</span></span><span class="line"><span class="cl"><span class="k">done</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>通过在终端的另一个标签下执行：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./fswatch.sh template.cpp 
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>这样，每次对 <strong>template.cpp</strong> 文件进行修改并保存时，会自动触发 <strong>fswatch.sh</strong> 中编写的脚本，完成对程序的自动编译和运行。
-该脚本的效果如下图（点击可以查看大图）：</p>
-<p><img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02.png"
-	width="3358"
-	height="2050"
-	srcset="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu12252170667833130180.png 480w, /posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu7916995581846462568.png 1024w"
-	loading="lazy"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="163"
-		data-flex-basis="393px"
-	
-></p>
-<p>这样便可以愉快的刷题了，哈哈，加油！！！</p>
-<h2 id="问题">问题
-</h2><p>当在 Vim 进行一次保存时，fswatch 会触发两次，目前不清楚如何解决。</p>
+    <h2 id="正文">正文
+</h2><p><a class="link" href="https://www.youtube.com/watch?v=KWvx4RNFJN0&amp;list=PLChnMJZMAdP1s9wD3pXPEeOqt48Yt5Zge"  target="_blank" rel="noopener"
+    >https://www.youtube.com/watch?v=KWvx4RNFJN0&list=PLChnMJZMAdP1s9wD3pXPEeOqt48Yt5Zge</a></p>
+<h3 id="why-rich-people-dont-cover-their-windows">Why Rich People Don&rsquo;t Cover Their Windows
+</h3><p>An unexpected status symebol has become a fixture of high-end homes. Walk down the block of a wealthy neighborhood at night, and you might be surprised by how much you can see. One uncovered window might reveal the glow of a flatscreen TV across from a curved couch; through another, you might glimpse a marble kitchen island, a chandelier. Of course, some of the curtains are closed——but many are flung open, the home&rsquo;s interiors exposed, like you&rsquo;re peering into a showroom.</p>
 
 </section>
 
@@ -515,23 +426,18 @@ vim：MacVim 8.2<br>
             
                 
 <article class="has-image">
-    <a href="/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/">
+    <a href="/posts/%E6%99%BA%E8%83%BD%E7%BC%96%E7%A8%8B%E6%97%B6%E4%BB%A3%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8ai%E6%8F%90%E5%8D%87%E5%BC%80%E5%8F%91%E6%95%88%E7%8E%87/">
         
         
             <div class="article-image">
-                <img src="/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/rust_cover.56c0d504dcf77ce39c6eda81d9813e10_hu17050627731971328173.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 利用AI掌握Rust编程"
-                        data-key="利用AI掌握Rust编程" 
-                        data-hash="md5-VsDVBNz3fOOcbtqB2YE&#43;EA==">
+                
+                    <img src="/helena-hertz-wWZzXlDpMog-unsplash.jpg" loading="lazy" data-key="智能编程时代：如何利用AI提升开发效率" data-hash="/helena-hertz-wWZzXlDpMog-unsplash.jpg"/>
                 
             </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">利用AI掌握Rust编程</h2>
+            <h2 class="article-title">智能编程时代：如何利用AI提升开发效率</h2>
         </div>
     </a>
 </article>
@@ -539,23 +445,18 @@ vim：MacVim 8.2<br>
             
                 
 <article class="has-image">
-    <a href="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/">
+    <a href="/posts/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-tcp%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86%E6%80%BB%E7%BB%93/">
         
         
             <div class="article-image">
-                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.0f8d6300cf01d6898a79fa0f8086967d_hu8984161256659165292.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 高效之美：C&#43;&#43;14 WebServer 源码探秘"
-                        data-key="高效之美：C&#43;&#43;14" 
-                        data-hash="md5-D41jAM8B1omKefoPgIaWfQ==">
+                
+                    <img src="/helena-hertz-wWZzXlDpMog-unsplash.jpg" loading="lazy" data-key="计算机网络 TCP协议原理总结" data-hash="/helena-hertz-wWZzXlDpMog-unsplash.jpg"/>
                 
             </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">高效之美：C&#43;&#43;14 WebServer 源码探秘</h2>
+            <h2 class="article-title">计算机网络 TCP协议原理总结</h2>
         </div>
     </a>
 </article>
@@ -563,71 +464,23 @@ vim：MacVim 8.2<br>
             
                 
 <article class="has-image">
-    <a href="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+    <a href="/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/">
         
         
             <div class="article-image">
-                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu16517212594665624032.png" 
+                <img src="/posts/%E4%B8%BB%E9%A2%98%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/helena-hertz-wWZzXlDpMog-unsplash.46f61e8ea6a2df8fc5bf1d24a17c44a6.46f61e8ea6a2df8fc5bf1d24a17c44a6_hu3238087930799200081.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post WebServer（C&#43;&#43;版）代码分析之线程池"
-                        data-key="WebServer（C&#43;&#43;版）代码分析之线程池" 
-                        data-hash="md5-q8PfSkaJGEYcDF53Dy/vAA==">
+                        alt="Featured image of post 主题测试文章"
+                        data-key="主题测试文章" 
+                        data-hash="md5-RvYejqai34/Fvx0koXxEpg==">
                 
             </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">WebServer（C&#43;&#43;版）代码分析之线程池</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/">
-        
-        
-            <div class="article-image">
-                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9_hu12870970506028879207.gif" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post GDB调试秘籍：像高手一样排查问题"
-                        data-key="GDB调试学习" 
-                        data-hash="md5-NIXzv2PxNbT7vQTcgICn&#43;Q==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">GDB调试秘籍：像高手一样排查问题</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
-        
-        
-            <div class="article-image">
-                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.a55b357ff9d2e033322598b57d591996_hu15019881840537993967.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post C&#43;&#43;知识点总结"
-                        data-key="C&#43;&#43;知识点总结" 
-                        data-hash="md5-pVs1f/nS4DMyJZi1fVkZlg==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">C&#43;&#43;知识点总结</h2>
+            <h2 class="article-title">主题测试文章</h2>
         </div>
     </a>
 </article>
