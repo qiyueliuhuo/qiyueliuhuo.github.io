@@ -6,7 +6,15 @@
         <description>Recent content in Categories on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 22 Jun 2024 17:34:15 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 28 Jan 2025 20:32:25 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>阅读笔记</title>
+        <link>http://localhost:1313/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>
+        <pubDate>Tue, 28 Jan 2025 20:32:25 +0800</pubDate>
+        
+        <guid>http://localhost:1313/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>编程开发</title>
         <link>http://localhost:1313/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/</link>
         <pubDate>Sat, 22 Jun 2024 17:34:15 +0800</pubDate>
