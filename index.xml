@@ -6,7 +6,478 @@
         <description>Recent content on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 28 Jan 2025 20:32:25 +0800</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 16 Mar 2025 11:29:31 +0800</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>解剖Requests：从Python小白到源码猎手的进阶之路</title>
+        <link>http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/</link>
+        <pubDate>Sun, 16 Mar 2025 11:29:31 +0800</pubDate>
+        
+        <guid>http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/</guid>
+        <description>&lt;img src="http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover.jpg" alt="Featured image of post 解剖Requests：从Python小白到源码猎手的进阶之路" /&gt;&lt;blockquote&gt;
+&lt;p&gt;学而不能致用的人是一头背着书的牛马。蠢驴是否知道它背上背着的是一堆书而不是一捆柴？—— 本杰明·富兰克林&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;2025年2月底，我回顾了前五年学习工作经历以及技术发展趋势后，在编程语言方面树立以Python与C++为主的编程技能，Java、Rust、Go等其他语言为辅，这样我需要推动自己将Pyhon和C++的技能尽可能达到精通，熟记这两门语言核心知识。正如我在最近阅读的《富兰克林自传》中所看到，富兰克林早期以印刷技能作为自己的谋生手段，而近三年我也以&lt;strong&gt;编程技能作为自己的谋生手段&lt;/strong&gt;，未来路还很长，不能止步于此，需要不断学习其他领域与学科知识，学以致用，不能成为芒格口中的“铁锤人”。&lt;/p&gt;
+&lt;p&gt;Python语言大概是在我五六年前开始正式作为工作语言，当时以《Head First Python》书籍入门，在读研期间通过阅读与实践深度学习相关项目，如Numpy、Pytorch、mmdetection、mmocr等，对Python语言有了更深的应用理解。最近通过&lt;strong&gt;阅读《流畅的Python》第2版&lt;/strong&gt;，对该语言进行系统性地回顾与熟记；此次阅读&lt;strong&gt;Requests源码，一是对最近学习的一个总结与应用，二是给自己未来通过Python实现更大更复杂项目打下坚实的基础。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;谁适合阅读这篇文章&#34;&gt;谁适合阅读这篇文章？
+&lt;/h3&gt;&lt;h3 id=&#34;如何更好地阅读本篇文章&#34;&gt;如何更好地阅读本篇文章？
+&lt;/h3&gt;&lt;h2 id=&#34;项目简介&#34;&gt;项目简介
+&lt;/h2&gt;&lt;p&gt;这里直接引用官方对Requests的相关介绍，我们在后面源码解析中会逐步展开代码中是如何实现这些功能的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;A simple, yet elegant, HTTP library. Requests是一个简单而优雅的 HTTP 库。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Supported Features &amp;amp; Best–Practices 支持的功能和最佳实践&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Requests is ready for the demands of building robust and reliable HTTP–speaking applications, for the needs of today.&lt;br&gt;
+&lt;strong&gt;Requests&lt;/strong&gt;已准备好满足构建强大且可靠的 HTTP 应用程序的需求，以满足当今时代的需求。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Keep-Alive &amp;amp; Connection Pooling 保持连接和连接池&lt;/li&gt;
+&lt;li&gt;International Domains &amp;amp; URLs 国际域名和 URL&lt;/li&gt;
+&lt;li&gt;Sessions with Cookie Persistence 具有Cookie 持久性的会话机制&lt;/li&gt;
+&lt;li&gt;Browser-style SSL Verification 浏览器风格的 SSL 验证&lt;/li&gt;
+&lt;li&gt;Basic/Digest Authentication 基本身份验证和摘要身份认证&lt;/li&gt;
+&lt;li&gt;Familiar dict–like Cookies 熟悉的类似dict的 Cookies&lt;/li&gt;
+&lt;li&gt;Automatic Content Decompression and Decoding 内容自动解压缩和解码&lt;/li&gt;
+&lt;li&gt;Muti-part File Uploads 多部分文件上传&lt;/li&gt;
+&lt;li&gt;SOCKS Proxy Support 支持 SOCKS 代理&lt;/li&gt;
+&lt;li&gt;Connection Timeouts 连接超时&lt;/li&gt;
+&lt;li&gt;Streaming Downloads 流式下载&lt;/li&gt;
+&lt;li&gt;Automatic honoring of .netrc 自动遵循.netrc配置&lt;/li&gt;
+&lt;li&gt;Chunked HTTP Requests 分块 HTTP 请求&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;项目结构&#34;&gt;项目结构
+&lt;/h2&gt;&lt;p&gt;我们再来看一下Requests的项目的顶层结构，并简单介绍一下各个目录与文件的作用。
+这里采用&lt;code&gt;eza -a -T -L 1 --group-directories-first&lt;/code&gt;命令查看项目目录结构。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .git    &lt;span class=&#34;c1&#34;&gt;# Git 版本控制系统的目录，包含项目的版本历史和配置&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .github    &lt;span class=&#34;c1&#34;&gt;# GitHub 相关的配置文件和工作流，如持续集成（CI）配置等&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── docs    &lt;span class=&#34;c1&#34;&gt;# 文档目录，包含使用指南、API 文档等&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── ext    &lt;span class=&#34;c1&#34;&gt;# 外部扩展或依赖项，现已逐步弃用&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── src    &lt;span class=&#34;c1&#34;&gt;# 源码目录，包含主要的接口和功能实现代码&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── tests    &lt;span class=&#34;c1&#34;&gt;# 测试目录，包括单元测试与集成测试代码，覆盖请求发送、异常处理、Cookie 管理等关键功能。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .coveragerc 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .git-blame-ignore-revs
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .gitignore
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .pre-commit-config.yaml   &lt;span class=&#34;c1&#34;&gt;# Git钩子配置文件，在提交代码前自动执行，用于代码规范检查、格式化等&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .readthedocs.yaml    &lt;span class=&#34;c1&#34;&gt;# Read the Docs 平台用于配置项目构建过程的配置文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── AUTHORS.rst
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── HISTORY.md
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── LICENSE
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── Makefile    &lt;span class=&#34;c1&#34;&gt;# 自动化任务的文件，如构建、测试&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── MANIFEST.in
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── NOTICE
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── pyproject.toml
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── README.md
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── requirements-dev.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── setup.cfg
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── setup.py    &lt;span class=&#34;c1&#34;&gt;# 安装和打包配置文件，定义项目的元数据（如名称、版本、依赖项）并支持 pip install 和 setuptools 进行管理。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;└── tox.ini
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;上面项目组织结构中，我们可以学习到一个&lt;strong&gt;广泛遵循的约定&lt;/strong&gt;，即将项目的源码、测试、文档等内容分别放置在不同的目录中，以便于管理和维护。通常将源代码放在 src/ 目录，测试代码放在 tests/ 目录，文档资料放在 docs/ 目录，并使用 LICENSE 文件声明开源许可。&lt;/p&gt;
+&lt;p&gt;其他文件是一些Python项目工具的配置文件，如 pyproject.toml、setup.py、requirements-dev.txt、tox.ini 等，关于这些项目构建和运行的配置文件，&lt;strong&gt;平时在使用到这些工具时多多留意就好啦~&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;源码解析&#34;&gt;源码解析
+&lt;/h2&gt;&lt;p&gt;本想寻找两三个简单实用的示例，无意间查看源码目录的&lt;code&gt;src/requests/__init__.py&lt;/code&gt;文件，发现已经有两个示例了，我们在这里直接运行它们。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;common-env&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ➜  requests git:&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;main&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; python
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Python 3.12.9 &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; packaged by Anaconda, Inc. &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;main, Feb  &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt; 2025, 12:55:12&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Clang 14.0.6 &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; on darwin
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Type &lt;span class=&#34;s2&#34;&gt;&amp;#34;help&amp;#34;&lt;/span&gt;, &lt;span class=&#34;s2&#34;&gt;&amp;#34;copyright&amp;#34;&lt;/span&gt;, &lt;span class=&#34;s2&#34;&gt;&amp;#34;credits&amp;#34;&lt;/span&gt; or &lt;span class=&#34;s2&#34;&gt;&amp;#34;license&amp;#34;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; more information.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; import requests
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;span class=&#34;nv&#34;&gt;r&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; requests.get&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;https://www.python.org&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; r.status_code
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;200&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;span class=&#34;nv&#34;&gt;payload&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; dict&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;key1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;value1&amp;#39;&lt;/span&gt;, &lt;span class=&#34;nv&#34;&gt;key2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;value2&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;span class=&#34;nv&#34;&gt;r&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; requests.post&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;https://httpbin.org/post&amp;#39;&lt;/span&gt;, &lt;span class=&#34;nv&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;payload&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; print&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;r.text&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;: &lt;span class=&#34;o&#34;&gt;{}&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;data&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;files&amp;#34;&lt;/span&gt;: &lt;span class=&#34;o&#34;&gt;{}&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;form&amp;#34;&lt;/span&gt;: &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;key1&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;value1&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;key2&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;value2&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;: &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Accept&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;*/*&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Accept-Encoding&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;gzip, deflate&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Length&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;23&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Type&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;application/x-www-form-urlencoded&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;httpbin.org&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;python-requests/2.32.3&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;X-Amzn-Trace-Id&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;Root=1-67d7be38-6126bbec2e56917a24eda1a3&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;json&amp;#34;&lt;/span&gt;: null, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;origin&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;45.86.73.64&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://httpbin.org/post&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;下面正式开始对Requests源码进行解析，从&lt;code&gt;src/requests/__init__.py&lt;/code&gt;文件开始。&lt;/p&gt;
+&lt;h3 id=&#34;__init__py文件&#34;&gt;&lt;code&gt;__init__.py&lt;/code&gt;文件
+&lt;/h3&gt;&lt;p&gt;以下截取文件代码中的核心部分，省略部分使用三行&lt;code&gt;# ...&lt;/code&gt;表示。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;packages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;utils&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.__version__&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__author__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__author_email__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__build__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__cake__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__copyright__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__description__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__license__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__title__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__url__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__version__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.api&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;delete&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;patch&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;post&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;put&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.exceptions&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;ne&#34;&gt;ConnectionError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;ConnectTimeout&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;FileModeWarning&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;HTTPError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;JSONDecodeError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;ReadTimeout&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;RequestException&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;Timeout&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;TooManyRedirects&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;URLRequired&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.models&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PreparedRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Response&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.sessions&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.status_codes&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;codes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;getLogger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NullHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# FileModeWarnings go off per the default.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;warnings&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;simplefilter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FileModeWarning&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;append&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我们知道在Python中，&lt;code&gt;__init__.py&lt;/code&gt;文件的作用包含以下三点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;标记包目录：文件存在即表示该目录是一个Python包，允许导入子模块（空文件也可）。&lt;/li&gt;
+&lt;li&gt;初始化包：包被导入时自动执行，用于（1）定义包级变量/函数（如版本号、工具函数）；（2）批量导入子模块，简化外部调用，如&lt;code&gt;from . import submodule&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;控制导入行为：（1）通过&lt;code&gt;__all__&lt;/code&gt;指定&lt;code&gt;from package import *&lt;/code&gt;时导出的模块列表；（2）隐藏内部实现，仅暴露特定接口。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;具体到上面展示的Requests中&lt;code&gt;__init__.py&lt;/code&gt;文件核心代码，主要包含了：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;导入子模块&lt;/strong&gt;，如&lt;code&gt;packages&lt;/code&gt;、&lt;code&gt;utils&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入版本信息&lt;/strong&gt;，如&lt;code&gt;__version__&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入API接口&lt;/strong&gt;，如&lt;code&gt;delete&lt;/code&gt;、&lt;code&gt;get&lt;/code&gt;、&lt;code&gt;head&lt;/code&gt;、&lt;code&gt;options&lt;/code&gt;、&lt;code&gt;patch&lt;/code&gt;、&lt;code&gt;post&lt;/code&gt;、&lt;code&gt;put&lt;/code&gt;、&lt;code&gt;request&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入异常类&lt;/strong&gt;，如&lt;code&gt;ConnectionError&lt;/code&gt;、&lt;code&gt;ConnectTimeout&lt;/code&gt;、&lt;code&gt;HTTPError&lt;/code&gt;、&lt;code&gt;JSONDecodeError&lt;/code&gt;等；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入请求和响应模型类&lt;/strong&gt;，如&lt;code&gt;PreparedRequest&lt;/code&gt;、&lt;code&gt;Request&lt;/code&gt;、&lt;code&gt;Response&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入会话管理类&lt;/strong&gt;，如&lt;code&gt;Session&lt;/code&gt;、&lt;code&gt;session&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入状态码类&lt;/strong&gt;，如&lt;code&gt;codes&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;进行日志模块的初始化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在阅读和解析其他模块源码之前，我们先来看下Requests核心模块的架构设计。其源码目录结构如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;common-env&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ➜  requests git:&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;main&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ✗ lz src/requests 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;src/requests
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── __init__.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── __version__.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── _internal_utils.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── adapters.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── api.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── auth.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── certs.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── compat.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── cookies.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── exceptions.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── help.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── hooks.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── models.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── packages.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── sessions.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── status_codes.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── structures.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;└── utils.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Requests的核心模块主要包含&lt;code&gt;api.py&lt;/code&gt;、&lt;code&gt;sessions.py&lt;/code&gt;、&lt;code&gt;adapters.py&lt;/code&gt;、&lt;code&gt;models.py&lt;/code&gt;、&lt;code&gt;utils.py&lt;/code&gt;、&lt;code&gt;status_codes.py&lt;/code&gt;，下面通过PlantUML图展示Requests的核心模块架构设计。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/requests-core-module-architecture.png&#34;
+	width=&#34;695&#34;
+	height=&#34;674&#34;
+	srcset=&#34;http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/requests-core-module-architecture_hu_f9764fe703e6fb24.png 480w, http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/requests-core-module-architecture_hu_6a78a94348f26878.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Requests核心模块架构设计&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;103&#34;
+		data-flex-basis=&#34;247px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;apipy模块&#34;&gt;&lt;code&gt;api.py&lt;/code&gt;模块
+&lt;/h2&gt;&lt;p&gt;在查看&lt;code&gt;api.py&lt;/code&gt;模块源码之前，我们将通过运行测试用例并逐步跟踪代码执行流程，这样可以更好地理解代码的执行逻辑。&lt;/p&gt;
+&lt;h3 id=&#34;理解-tests-目录结构&#34;&gt;理解 &lt;code&gt;tests/&lt;/code&gt; 目录结构
+&lt;/h3&gt;&lt;p&gt;将该目录下文件按照功能分类，方便查找和阅读。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;核心功能测试&lt;/strong&gt;： &lt;code&gt;test_requests.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;适配器与底层传输&lt;/strong&gt;：&lt;code&gt;test_adapters.py&lt;/code&gt;, &lt;code&gt;test_lowlevel.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;工具与辅助功能&lt;/strong&gt;：&lt;code&gt;test_utils.py&lt;/code&gt;, &lt;code&gt;utils.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据结构与内部类&lt;/strong&gt;：&lt;code&gt;test_structures.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;钩子与扩展功能&lt;/strong&gt;：&lt;code&gt;test_hooks.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;测试基础设施&lt;/strong&gt;：&lt;code&gt;testserver/&lt;/code&gt;, &lt;code&gt;test_testserver.py&lt;/code&gt;, &lt;code&gt;certs/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;兼容性与环境验证&lt;/strong&gt;：&lt;code&gt;compat.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;帮助与文档&lt;/strong&gt;：&lt;code&gt;test_help.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;包与安装验证&lt;/strong&gt;：&lt;code&gt;test_packages.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;测试框架配置&lt;/strong&gt;：&lt;code&gt;conftest.py&lt;/code&gt;, &lt;code&gt;__init__.py&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;安装测试依赖&#34;&gt;安装测试依赖
+&lt;/h3&gt;&lt;p&gt;运行下面命令安装测试依赖，包含 &lt;code&gt;pytest&lt;/code&gt; 测试框架和 &lt;code&gt;pytest-httpbin&lt;/code&gt; 本地 HTTP 服务模拟。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv pip install -e .&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;socks&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 包含 socks 代理等可选依赖&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv ip install pytest pytest-httpbin  &lt;span class=&#34;c1&#34;&gt;# 测试框架和本地 HTTP 服务模拟&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;运行测试用例并进入调试模式&#34;&gt;运行测试用例并进入调试模式
+&lt;/h3&gt;&lt;p&gt;这里我们选择运行&lt;code&gt;test_HTTP_200_OK_GET_ALTERNATIVE&lt;/code&gt;测试方法，调试程序会在进入方法后暂停，方便我们跟踪代码执行流程。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pytest tests/test_requests.py -k test_HTTP_200_OK_GET_ALTERNATIVE --trace
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;接下来使用 n（下一步）、s（进入函数）等命令跟踪代码。&lt;/p&gt;
+&lt;h3 id=&#34;apipy模块源码解析&#34;&gt;&lt;code&gt;api.py&lt;/code&gt;模块源码解析
+&lt;/h3&gt;&lt;p&gt;本章我们重点关注&lt;code&gt;api.py&lt;/code&gt;模块，尤其是其中比较常用的&lt;code&gt;requests.get()&lt;/code&gt;和&lt;code&gt;requests.post()&lt;/code&gt;方法，上面示例的测试用例函数&lt;code&gt;test_HTTP_200_OK_GET_ALTERNATIVE&lt;/code&gt;中使用了&lt;code&gt;requests.Request()&lt;/code&gt;和&lt;code&gt;requests.Session()&lt;/code&gt;方法，我们在这里先不做详细展开。&lt;/p&gt;
+&lt;p&gt;我在&lt;code&gt;test_requests.py&lt;/code&gt;文件中找到了&lt;code&gt;test_HTTP_200_OK_GET_WITH_PARAMS&lt;/code&gt;测试用例，作为项目源码入手的起点，我们将逐步调试并解析这个测试用例。&lt;/p&gt;
+&lt;p&gt;此外，通过命令行中调试代码虽然方便，但是面对现代大型Python项目，采用IDE提供的调试工具更加方便。因此，创建以下VS Code调试配置文件。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;.vscode/launch.json&lt;/code&gt;具体内容如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Json&#34; data-lang=&#34;Json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;0.2.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;configurations&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Debug Tests&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;debugpy&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;request&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;launch&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;module&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;pytest&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;tests/test_requests.py::TestRequests::test_HTTP_200_OK_GET_WITH_PARAMS&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;cwd&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;${workspaceFolder}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// 指定工作目录
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;justMyCode&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// 允许跟踪 Requests 源码
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;同时，配置&lt;code&gt;.vscode/settings.json&lt;/code&gt;文件，指定 Python 解释器路径。这样，按下 F5 键即可在 VS Code 中调试&lt;code&gt;test_HTTP_200_OK_GET_WITH_PARAMS&lt;/code&gt;测试用例。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：在这里我踩了一个坑，一开始配置的&lt;code&gt;.vscode/launch.json&lt;/code&gt;文件中configurations的&lt;code&gt;args&lt;/code&gt;参数写成了&lt;code&gt;&amp;quot;args&amp;quot;: [&amp;quot;tests/test_requests.py::test_HTTP_200_OK_GET_WITH_PARAMS&amp;quot;, &amp;quot;--trace&amp;quot;]&lt;/code&gt;，导致调试时一直提示找不到测试用例，后来将测试类&lt;code&gt;TestRequests::&lt;/code&gt;加上即可。分析我犯的错误的原因，主要有两个：&lt;br&gt;
+（1）利用人工智能文件编辑提示功能，自动生成了&lt;code&gt;tests/test_requests.py:test_HTTP_200_OK_GET_ALTERNATIVE&lt;/code&gt;，我想当然得用&lt;code&gt;test_HTTP_200_OK_GET_WITH_PARAMS&lt;/code&gt;将其替换；&lt;br&gt;
+（2）没有熟悉pytest的用法，尤其是区分&lt;code&gt;pytest test_sample.py::TestMath::test_add&lt;/code&gt;和&lt;code&gt;pytest test_sample.py -k test_add&lt;/code&gt;的区别，&lt;strong&gt;前者需指定测试类和测试方法，后者可以模糊匹配测试方法。&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;配置完后，可以在测试代码旁打断点，再按 F5 键开始调试，这样就可以在 VS Code 中逐步调试测试用例代码了。如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/code_run.png&#34;
+	width=&#34;2310&#34;
+	height=&#34;1732&#34;
+	srcset=&#34;http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/code_run_hu_1d0948dbccee0350.png 480w, http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/code_run_hu_b011d914cb735523.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;VS Code代码调试&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;133&#34;
+		data-flex-basis=&#34;320px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;参考资料&#34;&gt;参考资料
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.python-requests.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Requests: HTTP for Humans™&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://nining.website/python/spider/requests&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;requests源码精读&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/taosiyu/p/15329254.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;requests模块源码阅读总结&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;知识点记忆&#34;&gt;知识点记忆
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;提示词：模块、包。在Python中，模块是一个单独的 .py 文件，包是一个包含多个模块的文件夹，且必须有 &lt;code&gt;__init__.py&lt;/code&gt; 文件。&lt;/li&gt;
+&lt;li&gt;提示词：主流工具。构建、打包和分发工具setuptools、测试框架pytest、代码格式化工具black、自动排序导入工具isort、代码静态分析工具flake8、自动化测试环境管理工具tox、文档生成工具Sphinx。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>构建可复用的知识引擎：我的终身学习体系设计</title>
+        <link>http://localhost:1313/posts/%E6%9E%84%E5%BB%BA%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BC%95%E6%93%8E%E6%88%91%E7%9A%84%E7%BB%88%E8%BA%AB%E5%AD%A6%E4%B9%A0%E4%BD%93%E7%B3%BB%E8%AE%BE%E8%AE%A1/</link>
+        <pubDate>Fri, 31 Jan 2025 09:12:11 +0800</pubDate>
+        
+        <guid>http://localhost:1313/posts/%E6%9E%84%E5%BB%BA%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BC%95%E6%93%8E%E6%88%91%E7%9A%84%E7%BB%88%E8%BA%AB%E5%AD%A6%E4%B9%A0%E4%BD%93%E7%B3%BB%E8%AE%BE%E8%AE%A1/</guid>
+        <description>&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%9E%84%E5%BB%BA%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BC%95%E6%93%8E%E6%88%91%E7%9A%84%E7%BB%88%E8%BA%AB%E5%AD%A6%E4%B9%A0%E4%BD%93%E7%B3%BB%E8%AE%BE%E8%AE%A1/the_architecture_of_my_knowledge_system.jpg&#34;
+	width=&#34;2128&#34;
+	height=&#34;1292&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%9E%84%E5%BB%BA%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BC%95%E6%93%8E%E6%88%91%E7%9A%84%E7%BB%88%E8%BA%AB%E5%AD%A6%E4%B9%A0%E4%BD%93%E7%B3%BB%E8%AE%BE%E8%AE%A1/the_architecture_of_my_knowledge_system_hu_619f1195a1e5e6ac.jpg 480w, http://localhost:1313/posts/%E6%9E%84%E5%BB%BA%E5%8F%AF%E5%A4%8D%E7%94%A8%E7%9A%84%E7%9F%A5%E8%AF%86%E5%BC%95%E6%93%8E%E6%88%91%E7%9A%84%E7%BB%88%E8%BA%AB%E5%AD%A6%E4%B9%A0%E4%BD%93%E7%B3%BB%E8%AE%BE%E8%AE%A1/the_architecture_of_my_knowledge_system_hu_f25e508bdccc962a.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;164&#34;
+		data-flex-basis=&#34;395px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;h2 id=&#34;正文&#34;&gt;正文
+&lt;/h2&gt;&lt;h2 id=&#34;阅读分类&#34;&gt;阅读分类
+&lt;/h2&gt;&lt;p&gt;基础阅读、检视阅读、分析阅读、主题阅读&lt;/p&gt;
+&lt;h2 id=&#34;避坑指南&#34;&gt;避坑指南
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;拒绝自我感动&lt;/strong&gt;：以“解决问题数量”与“项目实践”而非“笔记数量”评估体系有效性；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;避免信息过载&lt;/strong&gt;：避免过度关注工具的使用，而忽视了知识的消化；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;拒绝工具完美主义&lt;/strong&gt;：拒绝追求100%自动化，保留必要手动加工；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;拒绝工具癖好&lt;/strong&gt;：不要为了工具的使用而使用工具，保持简单；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;拒绝知识体系混乱&lt;/strong&gt;：持续优化精简，避免体系熵增。&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
         <title>书籍精简与写作实践计划之阅读《掌控习惯》</title>
         <link>http://localhost:1313/posts/%E4%B9%A6%E7%B1%8D%E7%B2%BE%E7%AE%80%E4%B8%8E%E5%86%99%E4%BD%9C%E5%AE%9E%E8%B7%B5%E8%AE%A1%E5%88%92%E4%B9%8B%E9%98%85%E8%AF%BB%E6%8E%8C%E6%8E%A7%E4%B9%A0%E6%83%AF/</link>
         <pubDate>Tue, 28 Jan 2025 20:32:25 +0800</pubDate>
@@ -89,17 +560,7 @@
         <pubDate>Sat, 22 Jun 2024 17:34:15 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.jpg" alt="Featured image of post 高效之美：C&#43;&#43;14 WebServer 源码探秘" /&gt;&lt;h2 id=&#34;参考资料&#34;&gt;参考资料
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/qiyueliuhuo/WebServer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;WebServer 源码&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/cpp/?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++ 语言文档 | Microsoft Learn&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://juejin.cn/post/7098659904721780749&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++ Linux轻量级WebServer&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;《深入理解C++11：C++11 新特性解析与应用》书籍&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.jpg" alt="Featured image of post 高效之美：C&#43;&#43;14 WebServer 源码探秘" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;h3 id=&#34;谁适合阅读这篇文章&#34;&gt;谁适合阅读这篇文章？
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;具备 C++ 基础&lt;/strong&gt;：对线程池和网络编程有一定了解，希望进一步深入相关技术。&lt;/li&gt;
@@ -304,7 +765,7 @@
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230119205336.png&#34;
 	width=&#34;817&#34;
 	height=&#34;154&#34;
-	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230119205336_hu3044889250887868869.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230119205336_hu6083240504045034431.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230119205336_hu_fd8a32b39cab5895.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230119205336_hu_523125e75ff01759.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -326,7 +787,7 @@
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/sequence_diagram.png&#34;
 	width=&#34;1071&#34;
 	height=&#34;1959&#34;
-	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/sequence_diagram_hu11580579612280791421.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/sequence_diagram_hu2815375168082296442.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/sequence_diagram_hu_3a58a4911fb2a63.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/sequence_diagram_hu_3315297527d6eee9.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -373,7 +834,7 @@
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020.png&#34;
 	width=&#34;1920&#34;
 	height=&#34;1010&#34;
-	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020_hu3050355349569153767.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020_hu6620091844162953603.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020_hu_87659836b29d02c6.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020_hu_db6533b0365e5b6.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -909,7 +1370,7 @@
 &lt;/h4&gt;&lt;p&gt;线程池（Thread Pool）是一种基于池化思想管理线程的工具，经常出现在多线程服务器中，如MySQL。&lt;/p&gt;
 &lt;p&gt;线程过多会带来额外的开销，其中包括创建销毁线程的开销、调度线程的开销等等，同时也降低了计算机的整体性能。线程池维护多个线程，等待监督管理者分配可并发执行的任务。这种做法，一方面避免了处理任务时创建销毁线程开销的代价，另一方面避免了线程数量膨胀导致的过分调度问题，保证了对内核的充分利用。&lt;/p&gt;
 &lt;p&gt;而本文描述的是一种简单的线程池实现方案，更复杂的线程池实现方法，请参考下面的资料学习。&lt;/p&gt;
-&lt;h4 id=&#34;参考资料-1&#34;&gt;参考资料
+&lt;h4 id=&#34;参考资料&#34;&gt;参考资料
 &lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://tech.meituan.com/2020/04/02/java-pooling-pratice-in-meituan.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Java线程池实现原理及其在美团业务中的实践 - 美团技术团队&lt;/a&gt;&lt;/li&gt;
@@ -921,7 +1382,7 @@
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122.png&#34;
 	width=&#34;1646&#34;
 	height=&#34;558&#34;
-	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122_hu16231596378880326964.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122_hu11990487892743236621.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122_hu_9f768a6bf772f3f4.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122_hu_987565257e80e494.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -932,8 +1393,7 @@
 &gt;&lt;/p&gt;
 &lt;p&gt;下面代码实现了一个如上图线程池，整个线程池是个生产者消费者模型，该线程池一开始创建 &lt;code&gt;threadCount&lt;/code&gt; 个固定线程，这些线程作为消费者，当线程被唤醒时，从任务队列中获取任务，执行任务；而生产者通过 &lt;code&gt;AddTask(F&amp;amp;&amp;amp; task)&lt;/code&gt; 方法将生产的任务添加到&lt;strong&gt;任务缓冲队列&lt;/strong&gt;中。可以看到，整个&lt;code&gt;TaskQueue&lt;/code&gt; 任务队列作为临界资源被多个线程异步访问，为了保障多个线程能够安全访问 &lt;code&gt;TaskQueue&lt;/code&gt; 中 &lt;code&gt;std::queue&amp;lt;std::function&amp;lt;void()&amp;gt;&amp;gt; tasks&lt;/code&gt; 队列 变量时，每次操作都需要通过互斥量 &lt;code&gt;std::mutex mtx&lt;/code&gt; 进行加锁后再进行访问。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注：这里笔者将源码中 &lt;code&gt;Pool&lt;/code&gt; 结构体改名成 &lt;code&gt;TaskQueue&lt;/code&gt;，代表的含义更为合适。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：这里笔者将源码中 &lt;code&gt;Pool&lt;/code&gt; 结构体改名成 &lt;code&gt;TaskQueue&lt;/code&gt;，代表的含义更为合适。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;可以先阅读下面源码，后面给出源码相关问题及回答。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1087,50 +1547,41 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;为什么该线程池所有的实现在 &lt;code&gt;threadpool.h&lt;/code&gt; 中完成？&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;上面源码为线程池的头文件 &lt;code&gt;threadpool.h&lt;/code&gt;，而且该线程池&lt;strong&gt;没有&lt;/strong&gt;对应的 &lt;code&gt;threadpool.cpp&lt;/code&gt; 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;上面源码为线程池的头文件 &lt;code&gt;threadpool.h&lt;/code&gt;，而且该线程池&lt;strong&gt;没有&lt;/strong&gt;对应的 &lt;code&gt;threadpool.cpp&lt;/code&gt; 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;explicit&lt;/code&gt; 修饰的构造函数如何理解？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;通过将构造函数声明为explicit（显式）的方式可以&lt;strong&gt;抑制隐式转换&lt;/strong&gt;。也就是说，explicit构造函数必须显式调用。按默认规定，只用传一个参数的构造函数也定义了一个隐式转换。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://veitchkyrie.github.io/2019/10/18/C&amp;#43;&amp;#43;-explicit%E5%85%B3%E9%94%AE%E5%AD%97-%E8%AF%A6%E8%A7%A3-%E7%94%A8%E4%BA%8E%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++ explicit关键字详解&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;C++ explicit关键字详解&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::make_shared&lt;/code&gt; 作用是什么？在什么场景下使用？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如有可能，第一次创建内存资源时，请使用 &lt;code&gt;make_shared&lt;/code&gt; 函数创建 &lt;code&gt;shared_ptr&lt;/code&gt;。 &lt;code&gt;make_shared&lt;/code&gt; 异常安全。 它使用同一调用为控制块和资源分配内存，这会减少构造开销。 如果不使用 &lt;code&gt;make_shared&lt;/code&gt;，则必须先使用显式 &lt;code&gt;new&lt;/code&gt; 表达式来创建对象，然后才能将其传递到 &lt;code&gt;shared_ptr&lt;/code&gt; 构造函数。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/cpp/how-to-create-and-use-shared-ptr-instances?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;如何：创建和使用 shared_ptr 实例&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;如何：创建和使用 shared_ptr 实例&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;void detach()&lt;/code&gt; 作用？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;拆离相关联的线程。 操作系统负责释放终止的线程资源。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/standard-library/thread-class?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;thread类-detach&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;thread类-detach&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::unique_lock&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;表示可进行实例化以创建管理 &lt;code&gt;mutex&lt;/code&gt; 锁定和解锁的对象的模板。&lt;code&gt;uniqie_lock&lt;/code&gt; 是个类模板，它的功能跟 &lt;code&gt;lock_quard&lt;/code&gt; 类似，但比 &lt;code&gt;lock_quard&lt;/code&gt; 更灵活。在工作中，一般用 &lt;code&gt;lock_quard&lt;/code&gt; （推荐使用）就足够了，但在一些特殊的场景下会用到 &lt;code&gt;uniqie_lock&lt;/code&gt;。 &lt;code&gt;lock_quard&lt;/code&gt; 取代了 &lt;code&gt;mutex&lt;/code&gt; 的 &lt;code&gt;lock()&lt;/code&gt; 和 &lt;code&gt;unlock()&lt;/code&gt;，在 &lt;code&gt;lock_quard&lt;/code&gt; 的构造函数中上锁，在析构函数中解锁，这点其实在 &lt;code&gt;uniqie_lock&lt;/code&gt; 中也是一样的。&lt;code&gt;uniqie_lock&lt;/code&gt; 在使用上比 &lt;code&gt;lock_quard&lt;/code&gt; 灵活，但代价就是效率会低一点，并且内存占用量也会相对高一些。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://www.w3cjava.com/technical-articles/C&amp;#43;&amp;#43;/125380206.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;unique_lock详解&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/standard-library/unique-lock-class?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;unique_lock 类&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;unique_lock 类&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::mutex&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;Mutex&lt;/code&gt; 又称互斥量，C++ 11中与 &lt;code&gt;Mutex&lt;/code&gt; 相关的类（包括锁类型）和函数都声明在 &lt;code&gt;&amp;lt;mutex&amp;gt;&lt;/code&gt; 头文件中，所以如果你需要使用 &lt;code&gt;std::mutex&lt;/code&gt;，就必须包含 &lt;code&gt;&amp;lt;mutex&amp;gt;&lt;/code&gt; 头文件。&lt;code&gt;std::mutex&lt;/code&gt; 是C++11 中最基本的互斥量，&lt;code&gt;std::mutex&lt;/code&gt; 对象提供了独占所有权的特性——即不支持递归地对 &lt;code&gt;std::mutex&lt;/code&gt; 对象上锁，而 &lt;code&gt;std::recursive_lock&lt;/code&gt; 则可以递归地对互斥量对象上锁。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/haippy/p/3237213.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++11 并发指南三(std::mutex 详解)&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;C++11 并发指南三(std::mutex 详解)&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::move&lt;/code&gt; 与 &lt;code&gt;std::forward&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::forward&lt;/code&gt; 比 &lt;code&gt;std::move&lt;/code&gt; 逻辑略复杂，&lt;code&gt;std::move&lt;/code&gt;  是无条件把参数转换为右值，而 &lt;code&gt;std::forward&lt;/code&gt; 在特定情况下才会这样做：仅当参数是用右值初始化时，才会把它转换为右值。它的意义是使外面的函数调用选择接受右值的版本，实际的移动工作是由外面的函数进行的；使用std::forward来转发参数一般被称为完美转发 (也叫精确传递)。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/xiangbaohui/article/details/103673177&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C++ 理解std::forward完美转发&lt;/a&gt;。这里，使用 &lt;code&gt;std::move&lt;/code&gt; 将 &lt;code&gt;pool-&amp;gt;tasks.front()&lt;/code&gt; 装换为右值，从而使得 &lt;code&gt;std::function&lt;/code&gt; 类型的 task 调用 &lt;code&gt;function&amp;amp; operator= (function&amp;amp;&amp;amp; rhs);&lt;/code&gt; 构造函数，避免资源重复申请创建。详细讨论参考：&lt;a class=&#34;link&#34; href=&#34;https://www.zhihu.com/search?type=content&amp;amp;q=std%3A%3Amove&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;知乎std::move回答&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;知乎std::move回答&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;ThreadPool(ThreadPool&amp;amp;&amp;amp;) = default;&lt;/code&gt; 该构造函数是什么含义？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;此语句代表&lt;strong&gt;显式默认构造函数&lt;/strong&gt;，而且该构造函数为移动构造函数，移动构造函数是特殊成员函数，它将现有对象数据的所有权移交给新变量，而不复制原始数据。 它采用 rvalue 引用作为其第一个参数，以后的任何参数都必须具有默认值。 **移动构造函数在传递大型对象时可以显著提高程序的效率。**具体参考：&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/cpp/explicitly-defaulted-and-deleted-functions?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;显式默认设置的函数和已删除的函数 | Microsoft Learn&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/cpp/constructors-cpp?view=msvc-170#move_constructors&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;移动构造函数 (C++) | Microsoft Learn&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;移动构造函数 (C++) | Microsoft Learn&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;代码 &lt;code&gt;task_queue_-&amp;gt;tasks.emplace(std::forward&amp;lt;F&amp;gt;(task));&lt;/code&gt; 语句如何理解？&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;首先，&lt;code&gt;task_queue_-&amp;gt;tasks&lt;/code&gt; 的类型是 &lt;code&gt;std::queue&amp;lt;std::function&amp;lt;void()&amp;gt;&amp;gt;&lt;/code&gt;，成员函数 &lt;code&gt;emplace&lt;/code&gt;，会在当前的最后一个元素之后，即队列的末尾添加了一个新元素。 这个新元素会采用元素类的构造函数够赞，并且将 &lt;code&gt;std::forward&amp;lt;F&amp;gt;(task))&lt;/code&gt; 作为其构造函数的参数；另外，此处，&lt;code&gt;std::forward&amp;lt;F&amp;gt;&lt;/code&gt; 将输入的参数原封不动地传递到下一个函数中，如果输入的参数是左值，那么传递给下一个函数的参数的也是左值；如果输入的参数是右值，那么传递给下一个函数的参数的也是右值。那么，当 &lt;code&gt;task&lt;/code&gt; 参数是右值时，完美转发后，将会调用移动构造函数 &lt;code&gt;function( function&amp;amp;&amp;amp; other );&lt;/code&gt; 进行构造。此处，还需更深入理解。可以参考书籍《深入理解C++11：C++11新特性解析与应用》&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;首先，&lt;code&gt;task_queue_-&amp;gt;tasks&lt;/code&gt; 的类型是 &lt;code&gt;std::queue&amp;lt;std::function&amp;lt;void()&amp;gt;&amp;gt;&lt;/code&gt;，成员函数 &lt;code&gt;emplace&lt;/code&gt;，会在当前的最后一个元素之后，即队列的末尾添加了一个新元素。 这个新元素会采用元素类的构造函数够赞，并且将 &lt;code&gt;std::forward&amp;lt;F&amp;gt;(task))&lt;/code&gt; 作为其构造函数的参数；另外，此处，&lt;code&gt;std::forward&amp;lt;F&amp;gt;&lt;/code&gt; 将输入的参数原封不动地传递到下一个函数中，如果输入的参数是左值，那么传递给下一个函数的参数的也是左值；如果输入的参数是右值，那么传递给下一个函数的参数的也是右值。那么，当 &lt;code&gt;task&lt;/code&gt; 参数是右值时，完美转发后，将会调用移动构造函数 &lt;code&gt;function( function&amp;amp;&amp;amp; other );&lt;/code&gt; 进行构造。此处，还需更深入理解。可以参考书籍《深入理解C++11：C++11新特性解析与应用》&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;基于小根堆实现的定时器&#34;&gt;基于小根堆实现的定时器
 &lt;/h3&gt;&lt;h4 id=&#34;小根堆&#34;&gt;小根堆
 &lt;/h4&gt;&lt;p&gt;&lt;strong&gt;堆&lt;/strong&gt;（Heap）是计算机科学中的一种特别的&lt;a class=&#34;link&#34; href=&#34;https://zh.wikipedia.org/wiki/%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%8F%89%E6%A0%91&#34;  title=&#34;完全二叉树&#34;
@@ -1910,6 +2361,16 @@
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/chenshuo/muduo&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;chenshuo/muduo: Event-driven network library for multi-threaded Linux server in C++11&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;参考资料-1&#34;&gt;参考资料
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/qiyueliuhuo/WebServer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;WebServer 源码&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/cpp/?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;C++ 语言文档 | Microsoft Learn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://juejin.cn/post/7098659904721780749&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;C++ Linux轻量级WebServer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;《深入理解C++11：C++11 新特性解析与应用》书籍&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;扩展知识&#34;&gt;扩展知识
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/PlatformLab/NanoLog&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -1938,7 +2399,7 @@ vim：MacVim 8.2&lt;br&gt;
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37.png&#34;
 	width=&#34;3358&#34;
 	height=&#34;2050&#34;
-	srcset=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu6977684523373588805.png 480w, http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu10228423325999653923.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu_9c9384c7a325bb65.png 480w, http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu_6bd9f3a0c31cc003.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -2003,7 +2464,7 @@ vim：MacVim 8.2&lt;br&gt;
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02.png&#34;
 	width=&#34;3358&#34;
 	height=&#34;2050&#34;
-	srcset=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu12252170667833130180.png 480w, http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu7916995581846462568.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu_a4f25f45518f3a2f.png 480w, http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu_f191a1028ad919ba.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -2180,40 +2641,33 @@ vim：MacVim 8.2&lt;br&gt;
 &lt;/div&gt;&lt;h2 id=&#34;源码分析&#34;&gt;源码分析
 &lt;/h2&gt;&lt;p&gt;为什么该线程池所有的实现在 &lt;code&gt;threadpool.h&lt;/code&gt; 中完成？&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;上面源码为线程池的头文件 &lt;code&gt;threadpool.h&lt;/code&gt;，而且该线程池&lt;strong&gt;没有&lt;/strong&gt;对应的 &lt;code&gt;threadpool.cpp&lt;/code&gt; 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;上面源码为线程池的头文件 &lt;code&gt;threadpool.h&lt;/code&gt;，而且该线程池&lt;strong&gt;没有&lt;/strong&gt;对应的 &lt;code&gt;threadpool.cpp&lt;/code&gt; 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;explicit&lt;/code&gt; 修饰的构造函数如何理解？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;通过将构造函数声明为explicit（显式）的方式可以&lt;strong&gt;抑制隐式转换&lt;/strong&gt;。也就是说，explicit构造函数必须显式调用。按默认规定，只用传一个参数的构造函数也定义了一个隐式转换。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://veitchkyrie.github.io/2019/10/18/C&amp;#43;&amp;#43;-explicit%E5%85%B3%E9%94%AE%E5%AD%97-%E8%AF%A6%E8%A7%A3-%E7%94%A8%E4%BA%8E%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++ explicit关键字详解&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;C++ explicit关键字详解&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::make_shared&lt;/code&gt; 作用是什么？在什么场景下使用？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如有可能，第一次创建内存资源时，请使用 &lt;code&gt;make_shared&lt;/code&gt; 函数创建 &lt;code&gt;shared_ptr&lt;/code&gt;。 &lt;code&gt;make_shared&lt;/code&gt; 异常安全。 它使用同一调用为控制块和资源分配内存，这会减少构造开销。 如果不使用 &lt;code&gt;make_shared&lt;/code&gt;，则必须先使用显式 &lt;code&gt;new&lt;/code&gt; 表达式来创建对象，然后才能将其传递到 &lt;code&gt;shared_ptr&lt;/code&gt; 构造函数。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/cpp/how-to-create-and-use-shared-ptr-instances?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;如何：创建和使用 shared_ptr 实例&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;如何：创建和使用 shared_ptr 实例&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;void detach()&lt;/code&gt; 作用？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;拆离相关联的线程。 操作系统负责释放终止的线程资源。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/standard-library/thread-class?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;thread类-detach&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;thread类-detach&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::unique_lock&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;表示可进行实例化以创建管理 &lt;code&gt;mutex&lt;/code&gt; 锁定和解锁的对象的模板。&lt;code&gt;uniqie_lock&lt;/code&gt; 是个类模板，它的功能跟 &lt;code&gt;lock_quard&lt;/code&gt; 类似，但比 &lt;code&gt;lock_quard&lt;/code&gt; 更灵活。在工作中，一般用 &lt;code&gt;lock_quard&lt;/code&gt; （推荐使用）就足够了，但在一些特殊的场景下会用到 &lt;code&gt;uniqie_lock&lt;/code&gt;。 &lt;code&gt;lock_quard&lt;/code&gt; 取代了 &lt;code&gt;mutex&lt;/code&gt; 的 &lt;code&gt;lock()&lt;/code&gt; 和 &lt;code&gt;unlock()&lt;/code&gt;，在 &lt;code&gt;lock_quard&lt;/code&gt; 的构造函数中上锁，在析构函数中解锁，这点其实在 &lt;code&gt;uniqie_lock&lt;/code&gt; 中也是一样的。&lt;code&gt;uniqie_lock&lt;/code&gt; 在使用上比 &lt;code&gt;lock_quard&lt;/code&gt; 灵活，但代价就是效率会低一点，并且内存占用量也会相对高一些。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://www.w3cjava.com/technical-articles/C&amp;#43;&amp;#43;/125380206.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;unique_lock详解&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/standard-library/unique-lock-class?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;unique_lock 类&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;unique_lock 类&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::mutex&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;Mutex&lt;/code&gt; 又称互斥量，C++ 11中与 &lt;code&gt;Mutex&lt;/code&gt; 相关的类（包括锁类型）和函数都声明在 &lt;code&gt;&amp;lt;mutex&amp;gt;&lt;/code&gt; 头文件中，所以如果你需要使用 &lt;code&gt;std::mutex&lt;/code&gt;，就必须包含 &lt;code&gt;&amp;lt;mutex&amp;gt;&lt;/code&gt; 头文件。&lt;code&gt;std::mutex&lt;/code&gt; 是C++11 中最基本的互斥量，&lt;code&gt;std::mutex&lt;/code&gt; 对象提供了独占所有权的特性——即不支持递归地对 &lt;code&gt;std::mutex&lt;/code&gt; 对象上锁，而 &lt;code&gt;std::recursive_lock&lt;/code&gt; 则可以递归地对互斥量对象上锁。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/haippy/p/3237213.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++11 并发指南三(std::mutex 详解)&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;C++11 并发指南三(std::mutex 详解)&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::move&lt;/code&gt; 与 &lt;code&gt;std::forward&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::forward&lt;/code&gt; 比 &lt;code&gt;std::move&lt;/code&gt; 逻辑略复杂，&lt;code&gt;std::move&lt;/code&gt; 是无条件把参数转换为右值，而 &lt;code&gt;std::forward&lt;/code&gt; 在特定情况下才会这样做：仅当参数是用右值初始化时，才会把它转换为右值。它的意义是使外面的函数调用选择接受右值的版本，实际的移动工作是由外面的函数进行的；使用std::forward来转发参数一般被称为完美转发 (也叫精确传递)。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/xiangbaohui/article/details/103673177&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C++ 理解std::forward完美转发&lt;/a&gt;。这里，使用 &lt;code&gt;std::move&lt;/code&gt; 将 &lt;code&gt;pool-&amp;gt;tasks.front()&lt;/code&gt; 装换为右值，从而使得 &lt;code&gt;std::function&lt;/code&gt; 类型的task调用 &lt;code&gt;function&amp;amp; operator= (function&amp;amp;&amp;amp; rhs);&lt;/code&gt; 构造函数，避免资源重复申请创建。详细讨论参考：&lt;a class=&#34;link&#34; href=&#34;https://www.zhihu.com/search?type=content&amp;amp;q=std%3A%3Amove&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;知乎std::move回答&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;知乎std::move回答&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -2721,7 +3175,7 @@ $$
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector.png&#34;
 	width=&#34;1540&#34;
 	height=&#34;808&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu14918993312572815672.png 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu3877068536877370882.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu_db7fe1995a1cc0a2.png 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu_d65c01ca4265eb3a.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;现代基于卷积神经网络目标检测框架&#34;
@@ -3791,7 +4245,7 @@ $$
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54.jpg&#34;
 	width=&#34;1807&#34;
 	height=&#34;726&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu15491644435613924462.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu17533262394151809902.jpg 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu_3c9e82925881d3a5.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu_4477a18723ba7d24.jpg 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;经典双阶段Faster R-CNN流程&#34;
@@ -4105,7 +4559,7 @@ $$
 &lt;img src=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31.jpg&#34;
 	width=&#34;1724&#34;
 	height=&#34;624&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu13630418249585153407.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu17290261013136255209.jpg 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu_3c0331994b8b1a0d.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu_11d5f9b3397ae60d.jpg 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;目标检测两阶段架构&#34;
@@ -4130,8 +4584,7 @@ $$
         
         <guid>http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/</guid>
         <description>&lt;img src="http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_cover.jpg" alt="Featured image of post LeetCode 进阶指南：解题思路与算法题分类总结" /&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;人生亦有命，安能行叹复坐愁？ —— 拟行路难·其四&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;人生亦有命，安能行叹复坐愁？ —— 拟行路难·其四&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;目前只做字节跳动、腾讯的算法和后端的高频leetcode算法题。刷题之前先复习经典的一些算法，有相当多算法是经典算法的修改版。&lt;/p&gt;
 &lt;p&gt;汇总地址：&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -4248,7 +4701,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题1-数组中的第k个最大元素力扣215httpsleetcode-cncomproblemskth-largest-element-in-an-array字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题1： 数组中的第K个最大元素（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/kth-largest-element-in-an-array/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题1-数组中的第k个最大元素力扣215字节-算法-频次6&#34;&gt;例题1： 数组中的第K个最大元素（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/kth-largest-element-in-an-array/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣215&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次6&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。&lt;br&gt;
@@ -4479,7 +4932,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题1合并两个有序数组-力扣88httpsleetcode-cncomproblemsmerge-sorted-array&#34;&gt;例题1：合并两个有序数组 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/merge-sorted-array/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题1合并两个有序数组-力扣88&#34;&gt;例题1：合并两个有序数组 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/merge-sorted-array/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣88&lt;/a&gt;）
 &lt;/h5&gt;&lt;h6 id=&#34;python代码-1&#34;&gt;python代码
 &lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -4548,7 +5001,7 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;数组&#34;&gt;数组
 &lt;/h3&gt;&lt;h4 id=&#34;二分查找&#34;&gt;二分查找
-&lt;/h4&gt;&lt;h5 id=&#34;例题1爱吃香蕉的珂珂力扣875httpsleetcode-cncomproblemskoko-eating-bananas&#34;&gt;例题1：爱吃香蕉的珂珂（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/koko-eating-bananas/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h4&gt;&lt;h5 id=&#34;例题1爱吃香蕉的珂珂力扣875&#34;&gt;例题1：爱吃香蕉的珂珂（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/koko-eating-bananas/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣875&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;珂珂喜欢吃香蕉。这里有 N 堆香蕉，第 i 堆中有 piles[i] 根香蕉。警卫已经离开了，将在 H 小时后回来。&lt;/p&gt;
 &lt;p&gt;珂珂可以决定她吃香蕉的速度 K（单位：根/小时）。每个小时，她将会选择一堆香蕉，从中吃掉 K 根。如果这堆香蕉少于 K 根，她将吃掉这堆的所有香蕉，然后这一小时内不会再吃更多的香蕉。&lt;/p&gt;
@@ -4603,7 +5056,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;h&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;h_&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题2-x-的平方根-力扣69httpsleetcode-cncomproblemssqrtx&#34;&gt;例题2： x 的平方根 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/sqrtx/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题2-x-的平方根-力扣69&#34;&gt;例题2： x 的平方根 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/sqrtx/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣69&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你一个非负整数 x ，计算并返回 x 的 算术平方根 。&lt;/p&gt;
 &lt;p&gt;由于返回类型是整数，结果只保留 整数部分 ，小数部分将被 舍去 。&lt;/p&gt;
@@ -4638,7 +5091,7 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;链表&#34;&gt;链表
 &lt;/h3&gt;&lt;h4 id=&#34;链表翻转&#34;&gt;链表翻转
-&lt;/h4&gt;&lt;h5 id=&#34;例题1k-个一组翻转链表力扣25httpsleetcode-cncomproblemsreverse-nodes-in-k-group字节-后端-频次60httpsgithubcomafatcoderleetcodetopblobmasterbytedancebackendmd&#34;&gt;例题1：K 个一组翻转链表（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/reverse-nodes-in-k-group/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h4&gt;&lt;h5 id=&#34;例题1k-个一组翻转链表力扣25字节-后端-频次60&#34;&gt;例题1：K 个一组翻转链表（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/reverse-nodes-in-k-group/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣25&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/backend.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-后端-频次60&lt;/a&gt;）
 &lt;/h5&gt;&lt;h6 id=&#34;python代码-4&#34;&gt;python代码
@@ -4842,7 +5295,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题1求根节点到叶节点数字之和力扣129httpsleetcode-cncomproblemssum-root-to-leaf-numbers&#34;&gt;例题1：求根节点到叶节点数字之和（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题1求根节点到叶节点数字之和力扣129&#34;&gt;例题1：求根节点到叶节点数字之和（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣129&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。
 每条从根节点到叶节点的路径都代表一个数字：&lt;/p&gt;
@@ -4896,7 +5349,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;do_sumNumbers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;root&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;right&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;current&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;root&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题2二叉树的最近公共祖先力扣236httpsleetcode-cncomproblemslowest-common-ancestor-of-a-binary-tree字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题2：二叉树的最近公共祖先（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题2二叉树的最近公共祖先力扣236字节-算法-频次6&#34;&gt;例题2：二叉树的最近公共祖先（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣236&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次6&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给定一个二叉树, 找到该树中两个指定节点的&lt;strong&gt;最近公共祖先。&lt;/strong&gt;
@@ -5077,9 +5530,9 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;root&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题1前序和中序遍历构造二叉树-力扣98httpsleetcode-cncomproblemsconstruct-binary-tree-from-preorder-and-inorder-traversal&#34;&gt;例题1：前序和中序遍历构造二叉树 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题1前序和中序遍历构造二叉树-力扣98&#34;&gt;例题1：前序和中序遍历构造二叉树 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣98&lt;/a&gt;）
-&lt;/h5&gt;&lt;h5 id=&#34;例题2二叉树的右侧视图-力扣199httpsleetcode-cncomproblemsbinary-tree-right-side-view&#34;&gt;例题2：二叉树的右侧视图 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/binary-tree-right-side-view/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h5&gt;&lt;h5 id=&#34;例题2二叉树的右侧视图-力扣199&#34;&gt;例题2：二叉树的右侧视图 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/binary-tree-right-side-view/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣199&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给定一个二叉树的 &lt;strong&gt;根节点&lt;/strong&gt; root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。&lt;/p&gt;
 &lt;h6 id=&#34;python代码-8&#34;&gt;python代码
@@ -5132,7 +5585,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h4 id=&#34;二叉搜索树中序遍历&#34;&gt;二叉搜索树中序遍历
-&lt;/h4&gt;&lt;h5 id=&#34;例题1二叉搜索树中第k小的元素力扣230httpsleetcode-cncomproblemskth-smallest-element-in-a-bst&#34;&gt;例题1：二叉搜索树中第K小的元素（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h4&gt;&lt;h5 id=&#34;例题1二叉搜索树中第k小的元素力扣230&#34;&gt;例题1：二叉搜索树中第K小的元素（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣230&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给定一个二叉搜索树的根节点 root ，和一个整数 k ，请你设计一个算法查找其中第 k 个最小元素（从 1 开始计数）。&lt;/p&gt;
 &lt;h6 id=&#34;python代码-9&#34;&gt;python代码
@@ -5240,8 +5693,7 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;h4 id=&#34;图遍历&#34;&gt;图遍历
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;下面的代码都是github copilot自动生成的代码，看起来非常不错。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;下面的代码都是github copilot自动生成的代码，看起来非常不错。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -5367,7 +5819,7 @@ $$
 &lt;/div&gt;&lt;p&gt;参考：&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/76596674&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;图的两种遍历方式：DFS、BFS&lt;/a&gt;&lt;/p&gt;
-&lt;h5 id=&#34;例题1岛屿数量力扣200httpsleetcode-cncomproblemsnumber-of-islands字节-算法-频次5httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题1：岛屿数量（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/number-of-islands/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h5 id=&#34;例题1岛屿数量力扣200字节-算法-频次5&#34;&gt;例题1：岛屿数量（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/number-of-islands/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣200&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次5&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你一个由 &amp;lsquo;1&amp;rsquo;（陆地）和 &amp;lsquo;0&amp;rsquo;（水）组成的的二维网格，请你计算网格中岛屿的数量。&lt;br&gt;
@@ -5459,10 +5911,9 @@ $$&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;两种算法得到的算法具有相同的渐近运行时间，仅有的差异在某些特殊情况下，自顶向下方法并未真正递归地考察所有可能的子问题。由于没有频繁的递归函数调用的开销，&lt;font color=#E3B&gt;&lt;strong&gt;自底向上方法的时间复杂性函数通常具有更小的系数。&lt;/strong&gt;&lt;/font&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;动态规划题一般情况，需要先找到合适的状态转移方程/递推公式，中间结果状态的保存一般用数组或者多维数组，这里，如果状态转移方程只依赖之前计算的有限项，且这些有限项符合固定的规则，并且最后计算的结果不是在所有状态中寻找（如max）求得，那么往往并不需要一个数组，只需要记录某几个之前的状态（变量可以重复利用），就可以递推后面的情况，降低空间复杂度。该想法总结自求解斐波那契数列。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;动态规划题一般情况，需要先找到合适的状态转移方程/递推公式，中间结果状态的保存一般用数组或者多维数组，这里，如果状态转移方程只依赖之前计算的有限项，且这些有限项符合固定的规则，并且最后计算的结果不是在所有状态中寻找（如max）求得，那么往往并不需要一个数组，只需要记录某几个之前的状态（变量可以重复利用），就可以递推后面的情况，降低空间复杂度。该想法总结自求解斐波那契数列。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h4 id=&#34;例题&#34;&gt;例题
-&lt;/h4&gt;&lt;h5 id=&#34;例题1打家劫舍力扣198httpsleetcode-cncomproblemshouse-robber&#34;&gt;例题1：打家劫舍（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/house-robber/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h4&gt;&lt;h5 id=&#34;例题1打家劫舍力扣198&#34;&gt;例题1：打家劫舍（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/house-robber/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣198&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，&lt;strong&gt;如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;给定一个代表每个房屋存放金额的非负整数数组，计算你&lt;strong&gt;不触动警报装置的情况下&lt;/strong&gt; ，一夜之内能够偷窃到的最高金额。如，输入：[2,7,9,3,1]
@@ -5519,7 +5970,7 @@ $$
 \begin{cases}d p[0]=n u m s[0] &amp;amp; \text { 只有一间房屋, 则偷窄该房屋 } \\ d p[1]=\max (n u m s[0], n u m s[1]) &amp;amp; \text { 只有两间房屋, 选择其中金额较高的房屋进行偷窃 }\end{cases}
 $$
 最终的答案即为 $d p[n-1]$, 其中 $n$ 是数组的长度。&lt;/p&gt;
-&lt;h5 id=&#34;例题2零钱兑换-力扣322httpsleetcode-cncomproblemscoin-change&#34;&gt;例题2：零钱兑换 (&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/coin-change/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h5 id=&#34;例题2零钱兑换-力扣322&#34;&gt;例题2：零钱兑换 (&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/coin-change/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣322&lt;/a&gt;)
 &lt;/h5&gt;&lt;p&gt;给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。计算并返回可以凑成总金额所需的最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;你可以认为每种硬币的数量是无限的。&lt;/strong&gt; 如，输入：coins = [1, 2, 5], amount = 11，输出：3&lt;/p&gt;
@@ -5550,7 +6001,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;amount&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;amount&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;float&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;inf&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题3-最长有效括号力扣32httpsleetcode-cncomproblemslongest-valid-parentheses&#34;&gt;例题3： 最长有效括号（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/longest-valid-parentheses/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题3-最长有效括号力扣32&#34;&gt;例题3： 最长有效括号（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/longest-valid-parentheses/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣32&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你一个只包含 &amp;lsquo;(&amp;rsquo; 和 &amp;lsquo;)&amp;rsquo; 的字符串，找出最长有效（格式正确且连续）括号子串的长度。如，输入：s = &amp;ldquo;)()())&amp;quot;，输出：4，解释：最长有效括号子串是 &amp;ldquo;()()&amp;rdquo;&lt;/p&gt;
 &lt;h6 id=&#34;python代码-13&#34;&gt;python代码
@@ -5580,7 +6031,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题4编辑距离-力扣72httpsleetcode-cncomproblemsedit-distance字节-算法-频次8httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题4：编辑距离 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/edit-distance/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题4编辑距离-力扣72字节-算法-频次8&#34;&gt;例题4：编辑距离 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/edit-distance/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣72&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次8&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数。&lt;/p&gt;
@@ -5592,8 +6043,7 @@ horse -&amp;gt; rorse (将 &amp;lsquo;h&amp;rsquo; 替换为 &amp;lsquo;r&amp;rs
 rorse -&amp;gt; rose (删除 &amp;lsquo;r&amp;rsquo;)&lt;br&gt;
 rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;官方给的思路如何保证是全局最小操作数呢？另外，处理dp边界时候，可以申请一个额外的空间i=0，j=0，即申请dp[0&amp;hellip;n + 1][0&amp;hellip;m + 1]空间，然后把第一行和第一列的值设置为边界，这样递推代码中不用额外考虑边界情况，这样可以简化代码。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;官方给的思路如何保证是全局最小操作数呢？另外，处理dp边界时候，可以申请一个额外的空间i=0，j=0，即申请dp[0&amp;hellip;n + 1][0&amp;hellip;m + 1]空间，然后把第一行和第一列的值设置为边界，这样递推代码中不用额外考虑边界情况，这样可以简化代码。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h6 id=&#34;python代码-14&#34;&gt;python代码
 &lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -5661,14 +6111,13 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;][&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;j&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题5最长递增子序列-力扣300httpsleetcode-cncomproblemslongest-increasing-subsequence字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题5：最长递增子序列 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/longest-increasing-subsequence/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题5最长递增子序列-力扣300字节-算法-频次6&#34;&gt;例题5：最长递增子序列 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/longest-increasing-subsequence/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣300&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次6&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;子序列&lt;/strong&gt; 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;看着有些难度，实际上只要想到动态规划，并且以nums[i]处作为子序列的结尾，从小递推到给定的序列的长度，就可以解决问题了。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;看着有些难度，实际上只要想到动态规划，并且以nums[i]处作为子序列的结尾，从小递推到给定的序列的长度，就可以解决问题了。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h6 id=&#34;python代码-15&#34;&gt;python代码
 &lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -5693,7 +6142,7 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h5 id=&#34;其他例题-1&#34;&gt;其他例题
-&lt;/h5&gt;&lt;h6 id=&#34;青蛙过河力扣403httpsleetcode-cncomproblemsfrog-jump&#34;&gt;青蛙过河（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/frog-jump/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h5&gt;&lt;h6 id=&#34;青蛙过河力扣403&#34;&gt;青蛙过河（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/frog-jump/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣403&lt;/a&gt;）
 &lt;/h6&gt;&lt;h4 id=&#34;动态规划中常用思想&#34;&gt;动态规划中常用思想
 &lt;/h4&gt;&lt;ol&gt;
@@ -5701,7 +6150,7 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;li&gt;在字符串表示的结构中，任何一个子串/子序列，都必须有一个结尾字符，往往可以考虑将以字符结尾的某个DP变量作为动态规划状态，从而考虑更长的字符串。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;奇淫技巧小题大做&#34;&gt;奇淫技巧（小题大做）
-&lt;/h2&gt;&lt;h3 id=&#34;例题1寻找重复数-力扣287httpsleetcode-cncomproblemsfind-the-duplicate-number字节-算法-频次3httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题1：寻找重复数 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/find-the-duplicate-number/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h2&gt;&lt;h3 id=&#34;例题1寻找重复数-力扣287字节-算法-频次3&#34;&gt;例题1：寻找重复数 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/find-the-duplicate-number/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣287&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次3&lt;/a&gt;）
 &lt;/h3&gt;&lt;h2 id=&#34;待解决&#34;&gt;待解决
@@ -5719,7 +6168,7 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32.png&#34;
 	width=&#34;217&#34;
 	height=&#34;189&#34;
-	srcset=&#34;http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu8666688849022667935.png 480w, http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu15695013204657258868.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu_36113c85745e02cc.png 480w, http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu_1ac2f51af6f919d5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;配置校验数&#34;
@@ -5998,11 +6447,9 @@ $$&lt;/p&gt;
     &gt;矩阵求导术（下）&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;更新记录&#34;&gt;更新记录
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;调整格式和排版。  —— 2022.07.19&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;调整格式和排版。  —— 2022.07.19&lt;/p&gt;&lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;使用 pandoc 渲染，对公式展示更友好。 —— 2022.08.27&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;使用 pandoc 渲染，对公式展示更友好。 —— 2022.08.27&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -6037,7 +6484,7 @@ $$&lt;/p&gt;
 &lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716.png&#34;
 	width=&#34;1299&#34;
 	height=&#34;605&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu7154423667077776749.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu15161256305760877554.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu_b401fb80d0394eff.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu_e7381181d74edd53.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -6051,7 +6498,7 @@ $$&lt;/p&gt;
 &lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500.png&#34;
 	width=&#34;1376&#34;
 	height=&#34;375&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu9595334439086501891.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu4172800769463081073.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu_d10b20a2782ee3b7.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu_5af5adc020579555.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -6097,7 +6544,7 @@ $$&lt;/p&gt;
 &lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257.png&#34;
 	width=&#34;1393&#34;
 	height=&#34;630&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu9948687688080604686.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu10709684138291102200.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu_6b4eecb1238398fa.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu_39ed0549b741c877.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -6138,7 +6585,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625.png&#34;
 	width=&#34;1024&#34;
 	height=&#34;629&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu15639299619994512816.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu16997794664252562987.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu_648d6551034fa832.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu_62db63e2f30235cc.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -6194,7 +6641,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622.png&#34;
 	width=&#34;855&#34;
 	height=&#34;737&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu9433974691840405427.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu2035181916524108223.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu_dd4119c788cf5fb5.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu_3e80b21c45d6e3f5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -6206,7 +6653,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837.png&#34;
 	width=&#34;744&#34;
 	height=&#34;713&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu15356090554493613074.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu18062393443103439133.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu_9a7663467b4bd496.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu_3a6fa32424b4b54b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -6229,8 +6676,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
     &gt;YJango的卷积神经网络&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;更新记录&#34;&gt;更新记录
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;调整格式和排版。 —— 2022.07.19&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;调整格式和排版。 —— 2022.07.19&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -8146,7 +8592,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// green 初始化为 5 ，blue 要满足比 green 大 1 即 blue = 6
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;c结构体c结构体c类的区别httpswwwcnblogscomcthonp9170596html&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/cthon/p/9170596.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h3 id=&#34;c结构体c结构体c类的区别&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/cthon/p/9170596.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C结构体、C++结构体、C++类的区别&lt;/a&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;C 结构体与 C++ 结构体&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -9217,7 +9663,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;/ul&gt;
 &lt;p&gt;有些书上只是简单的介绍了前四个函数。没有提及后面这两个函数。但后面这两个函数也是空类的默认函数。另外需要注意的是，只有当实际使用这些函数的时候，编译器才会去定义它们。&lt;/p&gt;
 &lt;h3 id=&#34;初始化列表&#34;&gt;初始化列表
-&lt;/h3&gt;&lt;h4 id=&#34;使用初始化列表的原因httpswwwcnblogscomgraphicsarchive201007041770900html&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h3&gt;&lt;h4 id=&#34;使用初始化列表的原因&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;使用初始化列表的原因&lt;/a&gt;
 &lt;/h4&gt;&lt;p&gt;初始化类的成员有两种方式，一是使用初始化列表，二是在构造函数体内进行赋值操作。&lt;/p&gt;
 &lt;p&gt;主要是性能问题，对于内置类型，如 int, float 等，使用初始化列表和在构造函数体内初始化差别不是很大，但是对于类类型来说，最好使用初始化列表，&lt;strong&gt;因为使用初始化列表少了一次调用默认构造函数的过程&lt;/strong&gt;，这对于数据密集型的类来说，是非常高效的（参考下文代码段例1）。&lt;/p&gt;
@@ -10334,7 +10780,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/h4&gt;&lt;p&gt;虚函数是通过虚函数表实现的。如果一个类中有一个虚函数，则系统会为这个类分配一个指针成员指向一张虚函数表（vtbl），表中每一项指向一个虚函数地址，虚函数表实际上就是一个函数指针数组。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_40673608/article/details/88551020&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C++虚函数原理&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;虚函数是否可以内联httpswwwyuquecomhuihutinterviewreadmeikirca&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.yuque.com/huihut/interview/readme#ikirca&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h4 id=&#34;虚函数是否可以内联&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.yuque.com/huihut/interview/readme#ikirca&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;虚函数是否可以内联&lt;/a&gt;
 &lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;虚函数可以是内联函数，内联是可以修饰虚函数的，但是当虚函数表现多态性的时候不能内联。&lt;/li&gt;
@@ -12229,7 +12675,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42.png&#34;
 	width=&#34;1291&#34;
 	height=&#34;426&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu2418027556458035093.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu9556632467753866613.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu_bc641245c1e136fe.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu_12f62f628955f226.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;检测结果示例&#34;
@@ -12244,7 +12690,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2.png&#34;
 	width=&#34;809&#34;
 	height=&#34;446&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu415412087098922318.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu17359873281064812625.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu_ac7b54bf958272d2.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu_604cfe2b4ad3ed72.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;多张图像检测结果示例&#34;
@@ -12259,7 +12705,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2.png&#34;
 	width=&#34;332&#34;
 	height=&#34;705&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu15070469870161165776.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu2573344215508920506.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu_1e0e8eea2ef80028.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu_1266ecb8e2654dd6.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;多张图像检测结果分析&#34;
@@ -12278,7 +12724,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07.png&#34;
 	width=&#34;746&#34;
 	height=&#34;201&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu5765300025566985294.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu16317770309019673399.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu_e0148dac7290efe2.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu_19ed66d4e1c04cf5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -12321,13 +12767,12 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
         <guid>http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/</guid>
         <description>&lt;img src="http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/operator_parameters_and_calculation.jpg" alt="Featured image of post 拆解神经网络算子：参数量与计算量的秘密" /&gt;&lt;p&gt;在学习机器学习和神经网络过程中，对于模型参数和模型计算量需要做出评估，这篇文章介绍几种常见操作对模型带来的参数量和计算量，更专业的表示为空间复杂度和时间复杂度，后续再补充。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注意：下面计算的是都是&lt;strong&gt;单层&lt;/strong&gt;的&lt;strong&gt;参数量&lt;/strong&gt;和&lt;strong&gt;计算量&lt;/strong&gt;，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以&lt;strong&gt;BatchSize&lt;/strong&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注意：下面计算的是都是&lt;strong&gt;单层&lt;/strong&gt;的&lt;strong&gt;参数量&lt;/strong&gt;和&lt;strong&gt;计算量&lt;/strong&gt;，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以&lt;strong&gt;BatchSize&lt;/strong&gt;。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;卷积层&#34;&gt;卷积层
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848.png&#34;
 	width=&#34;193&#34;
 	height=&#34;187&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu1690272979079249509.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu12359875175678289991.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu_3d1e61dcf1576c59.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu_685cbd2185e4f79b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -12345,15 +12790,14 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;ul&gt;
 &lt;li&gt;FLOPs(Floating Point Operations)，浮点运算次数，用来衡量算法的时间复杂度；&lt;/li&gt;
 &lt;li&gt;FLOPS(Floating Point Operations per Seconds)，单位时间浮点运算次数，用来衡量硬件计算性能。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;p&gt;$FLOPs=\left[\left(C_{i n} \times k_{w} \times k_{h}\right)+\left(C_{i n} \times k_{w} \times k_{h}-1\right)+1\right] \times C_{o u t} \times W_{out} \times H_{out}$&lt;br&gt;
 $k_{w}$ 和 $k_{h}$ 分别表示卷积核的宽和高，其中 $C_{i n} \times k_{w} \times k_{h}$ 表示乘法计算量, $C_{i n} \times k_{w} \times k_{h}-1$ 表示加法计算量(可以这样理解，需要把乘法计算得到的$C_{i n} \times k_{w} \times k_{h}$个数字加这么多次), $+1$ 表示偏置, $C_{\text {out }} \times W_{out} \times H_{out}$ 表示 feature $\operatorname{map}$ 中的所有元素， $W_{out} \text{、} H_{out}$ 表示feature map的宽和高。&lt;/p&gt;
 &lt;h2 id=&#34;全连接层&#34;&gt;全连接层
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554.png&#34;
 	width=&#34;187&#34;
 	height=&#34;210&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu15809413396768328856.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu4050310374003110611.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu_51732999204902e7.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu_fde92883ad4ae362.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -12373,7 +12817,7 @@ $N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。&lt
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642.png&#34;
 	width=&#34;285&#34;
 	height=&#34;191&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu14298729690017617564.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu4316019036069062409.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu_58504fecd7f21413.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu_7fa83199f53e728.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -12392,7 +12836,7 @@ $H_{out} \times W_{out}$代表输出特征图大小，$C_{out}$代表输出通�
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056.png&#34;
 	width=&#34;794&#34;
 	height=&#34;1858&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu8514699327283385200.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu13974894953538455973.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu_f8701f9d706cae21.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu_e1bf97e29a65f5b4.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -12565,8 +13009,7 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
     &gt;https://zhuanlan.zhihu.com/p/31575074&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;更新记录&#34;&gt;更新记录
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;增加网络模型统计工具，自动进行网络参数和计算量统计。 —— 2022.07.19&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;增加网络模型统计工具，自动进行网络参数和计算量统计。 —— 2022.07.19&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -12680,14 +13123,12 @@ $$
         
         <guid>http://localhost:1313/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</guid>
         <description>&lt;blockquote&gt;
-&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;在这篇博客文章中，我主要来写关于&lt;code&gt;pytorch&lt;/code&gt;中&lt;code&gt;transforms&lt;/code&gt;模块，该模块提供了对图像各种预处理方法，位于&lt;code&gt;torchvision/transforms/transforms.py&lt;/code&gt;，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。&lt;/p&gt;
 &lt;!-- more --&gt;
 &lt;blockquote&gt;
-&lt;p&gt;transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;transforms-模块相关源码分析&#34;&gt;transforms 模块相关源码分析
 &lt;/h2&gt;&lt;h3 id=&#34;transformscompose类&#34;&gt;transforms.Compose类
 &lt;/h3&gt;&lt;p&gt;先来看下&lt;code&gt;transforms.Compose&lt;/code&gt;在实际代码中是如何运用的，下面代码是使用&lt;code&gt;pytorch&lt;/code&gt;中的&lt;code&gt;Dataset&lt;/code&gt;方式定义ImageNet数据集，也就说&lt;code&gt;ImageNet&lt;/code&gt;继承自&lt;code&gt;data.Dataset&lt;/code&gt;。&lt;/p&gt;
@@ -12777,8 +13218,7 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;Compose&lt;/code&gt;是一个容器，它是对多个&lt;code&gt;transforms&lt;/code&gt;模块定义转换对象transform组合，本质上是对列表的包装（装饰模式？）。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;这里我将这些转换对象类定义为transform，包括&lt;code&gt;transforms.CenterCrop&lt;/code&gt;、&lt;code&gt;transforms.ToTensor&lt;/code&gt;等等。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;这里我将这些转换对象类定义为transform，包括&lt;code&gt;transforms.CenterCrop&lt;/code&gt;、&lt;code&gt;transforms.ToTensor&lt;/code&gt;等等。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;该类的&lt;strong&gt;构造器(constructor)&lt;strong&gt;函数入参为列表类型，列表里是多个transform转换对象；在&lt;code&gt;__call__&lt;/code&gt;中，通过&lt;code&gt;for&lt;/code&gt;循环遍历transforms列表，对图像依次进行调用&lt;code&gt;t(img)&lt;/code&gt;，可以看到每个transform都是一个可调用对象，通过依次调用这些transform，对图像进行预处理，这些处理是按照列表&lt;/strong&gt;顺序&lt;/strong&gt;处理。注：list是一种有序的集合。&lt;/p&gt;
 &lt;h3 id=&#34;transformsresize类&#34;&gt;transforms.Resize类
 &lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -13100,8 +13540,7 @@ $$
         
         <guid>http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/</guid>
         <description>&lt;img src="http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover.jpg" alt="Featured image of post Vue入门笔记" /&gt;&lt;blockquote&gt;
-&lt;p&gt;vue学习记录。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;vue学习记录。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;!-- more --&gt;
 &lt;p&gt;注：&lt;/p&gt;
 &lt;blockquote&gt;
@@ -13111,8 +13550,7 @@ $$
 &lt;li&gt;使用的开发IDE为WebStorm。&lt;/li&gt;
 &lt;li&gt;学习地址：&lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=T5LGA8Qy1Fk&amp;amp;list=PLYD7D0d62WlCUB2L5WEleVHLtfG8LnVC_&amp;amp;index=61&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Vue学习&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
+&lt;/ol&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;一邂逅vuejs&#34;&gt;一、邂逅Vuejs
 &lt;/h2&gt;&lt;h3 id=&#34;认识vuejs&#34;&gt;认识Vuejs
 &lt;/h3&gt;&lt;ul&gt;
@@ -13435,8 +13873,7 @@ $$
 &lt;/div&gt;&lt;h4 id=&#34;v-once指令的使用&#34;&gt;v-once指令的使用
 &lt;/h4&gt;&lt;p&gt;只展示一次，后面网页界面内容不会随着&lt;code&gt;message&lt;/code&gt;值的&lt;strong&gt;改变而改变&lt;/strong&gt;。也就是第二个&lt;code&gt;h2&lt;/code&gt;标签显示的内容不会随着&lt;code&gt;vue&lt;/code&gt;的&lt;code&gt;app&lt;/code&gt;里面数据改变。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;一般情况下不用，特殊情况下需要使用。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;一般情况下不用，特殊情况下需要使用。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -13496,13 +13933,11 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;h4 id=&#34;v-cloak指令的使用-基本不用&#34;&gt;v-cloak指令的使用 （基本不用）
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;cloak: 斗篷。 clock: 时钟。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;cloak: 斗篷。 clock: 时钟。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;和&lt;code&gt;css&lt;/code&gt;样式结合使用，可以实现当&lt;code&gt;JS&lt;/code&gt;脚本未执行完，不显示内容，而不是显示一些未渲染的“乱码”，对用户友好。&lt;/p&gt;
 &lt;h4 id=&#34;v-bind&#34;&gt;v-bind
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;v-bind之前都是将数据插到内容中，而这个是将值插到标签的属性中，比如&lt;code&gt;img&lt;/code&gt;标签的&lt;code&gt;src&lt;/code&gt;属性，改变这个属性值。又比如&lt;code&gt;a&lt;/code&gt;标签的&lt;code&gt;href&lt;/code&gt;属性。不能用&lt;strong&gt;双括号语法&lt;/strong&gt;操作，双括号是在标签内容中使用的。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;v-bind之前都是将数据插到内容中，而这个是将值插到标签的属性中，比如&lt;code&gt;img&lt;/code&gt;标签的&lt;code&gt;src&lt;/code&gt;属性，改变这个属性值。又比如&lt;code&gt;a&lt;/code&gt;标签的&lt;code&gt;href&lt;/code&gt;属性。不能用&lt;strong&gt;双括号语法&lt;/strong&gt;操作，双括号是在标签内容中使用的。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;strong&gt;作用&lt;/strong&gt;：动态绑定标签属性。&lt;/p&gt;
 &lt;h5 id=&#34;v-bind基本使用&#34;&gt;v-bind基本使用
 &lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107121506.png&#34;
@@ -13606,8 +14041,7 @@ $$
 &lt;h3 id=&#34;计算属性-computed很重要&#34;&gt;计算属性 &lt;code&gt;computed&lt;/code&gt;（很重要）※
 &lt;/h3&gt;&lt;h4 id=&#34;计算属性的使用&#34;&gt;计算属性的使用
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;数据展示之前需要经过一定的处理，computed里面也是定义的函数，但是不要命名为动词，一般命名为名词。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;数据展示之前需要经过一定的处理，computed里面也是定义的函数，但是不要命名为动词，一般命名为名词。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -13673,21 +14107,18 @@ $$
 &lt;h4 id=&#34;计算属性setter和getter&#34;&gt;计算属性setter和getter
 &lt;/h4&gt;&lt;h4 id=&#34;计算属性和methods的对比--&#34;&gt;计算属性和methods的对比  ※
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;计算属性内部实现缓存，如果值不改变，直接调用缓存中的内容，而methods每次都会调用，效率比计算属性差&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;计算属性内部实现缓存，如果值不改变，直接调用缓存中的内容，而methods每次都会调用，效率比计算属性差&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;补充es6语法&#34;&gt;补充：ES6语法
 &lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;let/var&lt;/li&gt;
 &lt;/ol&gt;
 &lt;blockquote&gt;
-&lt;p&gt;let有if和for块级作用域，而var没有if和for块级作用域。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;let有if和for块级作用域，而var没有if和for块级作用域。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;ol start=&#34;2&#34;&gt;
 &lt;li&gt;const&lt;/li&gt;
 &lt;/ol&gt;
 &lt;blockquote&gt;
-&lt;p&gt;标识符修饰为常量。定义时就需要赋值。对象不能修改，但是可以改变对象里面的属性。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;标识符修饰为常量。定义时就需要赋值。对象不能修改，但是可以改变对象里面的属性。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;ol start=&#34;3&#34;&gt;
 &lt;li&gt;对象的字面量增强写法&lt;/li&gt;
 &lt;/ol&gt;
@@ -13698,16 +14129,13 @@ $$
 &lt;h3 id=&#34;事件监听&#34;&gt;事件监听
 &lt;/h3&gt;&lt;h4 id=&#34;v-on的基本使用&#34;&gt;v-on的基本使用
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;v-on语法糖：@&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;v-on语法糖：@&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h4 id=&#34;v-on的参数&#34;&gt;v-on的参数
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;事件监听的时候，若不需要传参数，则可以不写调用的小括号。（省略）&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;事件监听的时候，若不需要传参数，则可以不写调用的小括号。（省略）&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;如何给事件监听函数传入，游览器生成的event对象？&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;传入的参数为&lt;code&gt;$event&lt;/code&gt;就可以了。方法形参为&lt;code&gt;event&lt;/code&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;传入的参数为&lt;code&gt;$event&lt;/code&gt;就可以了。方法形参为&lt;code&gt;event&lt;/code&gt;。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h4 id=&#34;v-on的修饰符&#34;&gt;v-on的修饰符
 &lt;/h4&gt;&lt;ol&gt;
 &lt;li&gt;&lt;code&gt;@click.stop&lt;/code&gt;防止事件冒泡。&lt;/li&gt;
@@ -13739,12 +14167,10 @@ $$
 &lt;p&gt;另：一般情况下，&lt;code&gt;v-else-if&lt;/code&gt;、&lt;code&gt;v-else&lt;/code&gt;不在HTML模板中使用，逻辑不放在界面代码处。&lt;/p&gt;
 &lt;h4 id=&#34;v-show的使用&#34;&gt;v-show的使用
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;决定标签是否在界面显示：&lt;code&gt;&amp;lt;h2 v-show=&amp;quot;isShow&amp;quot;&amp;gt; &amp;lt;/h2&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;决定标签是否在界面显示：&lt;code&gt;&amp;lt;h2 v-show=&amp;quot;isShow&amp;quot;&amp;gt; &amp;lt;/h2&amp;gt;&lt;/code&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;v-if&lt;/code&gt; 和 &lt;code&gt;v-show&lt;/code&gt;的区别。  （v-if经常使用）&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;v-if：当条件为false时，包含v-if指令的元素，根本不会存在dom中。而v-show：当条件为false时，只是给元素添加了一个行内样式：display：none。前者dom中取掉，后者改样式。当展示切换频率很高，用v-show。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;v-if：当条件为false时，包含v-if指令的元素，根本不会存在dom中。而v-show：当条件为false时，只是给元素添加了一个行内样式：display：none。前者dom中取掉，后者改样式。当展示切换频率很高，用v-show。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;循环遍历v-for的使用&#34;&gt;循环遍历v-for的使用
 &lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;遍历数组  ※&lt;/li&gt;
@@ -13780,8 +14206,7 @@ $$
 &lt;/h4&gt;&lt;p&gt;省略。&lt;/p&gt;
 &lt;h4 id=&#34;数组中响应式方法数组内容改变展示内容跟着改变&#34;&gt;数组中响应式方法：数组内容改变，展示内容跟着改变。
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;push()、pop()、shift()、unshift()、splice()、sort()、reverse()&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;push()、pop()、shift()、unshift()、splice()、sort()、reverse()&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;另:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;splice() ※&lt;/li&gt;
@@ -13795,8 +14220,7 @@ $$
 &lt;/h3&gt;&lt;h2 id=&#34;三组件化开发-&#34;&gt;三、组件化开发 ※
 &lt;/h2&gt;&lt;h3 id=&#34;什么是组件化&#34;&gt;什么是组件化？
 &lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;将复杂问题，拆分成很多个小问题。将一个页面拆分成一个个小的功能块，每个功能块完成属于自己这一部分独立的功能，那么整个页面的管理和维护就变得非常容易了。应用最后抽象为一个组件树。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;将复杂问题，拆分成很多个小问题。将一个页面拆分成一个个小的功能块，每个功能块完成属于自己这一部分独立的功能，那么整个页面的管理和维护就变得非常容易了。应用最后抽象为一个组件树。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210108203614.png&#34;
 	
 	
@@ -14083,8 +14507,7 @@ $$
 &gt;&lt;/p&gt;
 &lt;h4 id=&#34;父组件向子组件-props-常用-&#34;&gt;父组件向子组件 props (常用) ※
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;props : properties 属性&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;props : properties 属性&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;通过props向子组件传递数据。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -14263,8 +14686,7 @@ TODO&lt;/p&gt;
 	loading=&#34;lazy&#34;
 	
 	
-&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;ol&gt;
 &lt;li&gt;webpack其中一个核心就是让我们可能进行模块化开发，并且会帮助我们处理模块间的依赖关系。&lt;/li&gt;
 &lt;li&gt;不仅仅是JavaScript文件，我们的CSS、图片、json文件等等在webpack中都可以被当做模块来使用（在后续我们会看到）。&lt;/li&gt;
@@ -14283,13 +14705,11 @@ TODO&lt;/p&gt;
 &lt;/h2&gt;&lt;h2 id=&#34;七网络封装&#34;&gt;七、网络封装
 &lt;/h2&gt;&lt;h2 id=&#34;八项目实战&#34;&gt;八、项目实战
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;一步步学习，没什么耐心，那就项目驱动学习吧，开干。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;一步步学习，没什么耐心，那就项目驱动学习吧，开干。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;创建项目&#34;&gt;创建项目
 &lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;Vue CLI教程&lt;a class=&#34;link&#34; href=&#34;https://cli.vuejs.org/zh/guide/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Vue CLI &lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;Vue CLI &lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -14302,8 +14722,7 @@ TODO&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;目录结构划分&#34;&gt;目录结构划分
 &lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;参考：https://blog.csdn.net/weixin_42290927/article/details/94432587&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;参考：https://blog.csdn.net/weixin_42290927/article/details/94432587&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210721142734.png&#34;
 	
 	
@@ -14335,8 +14754,7 @@ TODO&lt;/p&gt;
 &gt;&lt;/p&gt;
 &lt;p&gt;&lt;span style=&#34;color:#35b378;font-weight:bold;&#34;&gt;先从加载和处理数据源码了解。&lt;/span&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;dataset-相关源码&#34;&gt;Dataset 相关源码
 &lt;/h2&gt;&lt;h3 id=&#34;mnist类&#34;&gt;MNIST类
 &lt;/h3&gt;&lt;p&gt;类继承图：&lt;/p&gt;
@@ -15780,8 +16198,7 @@ $\gamma$代表的是数据点到超平面的几何距离，$(2)$式括号内代�
 &lt;p&gt;四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。&lt;/p&gt;
 &lt;p&gt;这篇文章试图介绍深度学习中很重要的技术——神经网络，并重点介绍神经网络中运用到反向传播算法。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;在笔者大学期间，除了两场围棋人机大战外，还有一场比较有意思的大型实验：大贝尔实验——关于验证基础物理量子力学中非常有名且重要的贝尔不等式的实验。所谓“遇事不决，量子力学”，这个梗就表示了量子力学中存在一些无法解释（宏观世界难以理解）的现象，若有兴趣可以再了解下。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;在笔者大学期间，除了两场围棋人机大战外，还有一场比较有意思的大型实验：大贝尔实验——关于验证基础物理量子力学中非常有名且重要的贝尔不等式的实验。所谓“遇事不决，量子力学”，这个梗就表示了量子力学中存在一些无法解释（宏观世界难以理解）的现象，若有兴趣可以再了解下。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;感知机&#34;&gt;感知机
 &lt;/h2&gt;&lt;h3 id=&#34;感知机介绍&#34;&gt;感知机介绍
 &lt;/h3&gt;&lt;p&gt;首先让我们先来了解下神经网络中最简单也是最基础的一种结构——感知机（Perceptron），如下图：&lt;/p&gt;
@@ -15988,8 +16405,7 @@ $$ \frac{\partial f}{\partial y} = \frac{\partial f}{\partial q}\frac{\partial q
 利用上面得到的结论就可以得到每个遍历的偏导数，这个计算图和上面计算图区别之处在于：在乘法节点的结果输出到两个节点，分别是除法节点和减法节点，导数反向传播时，需要将上游传递的两个导数相加，即-0.25 + 1 = 0.75 这是基于下面的定理：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;定理：若函数$u=\varphi(t), v=\psi(t)$在点 t 可导，$z=f(u,v)$在点(u,v)处偏导连续，则复合函数$z=f(\varphi(t),\psi(t))$在点 t 可导，则有链式法则
-$$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \frac{\mathrm{d} u }{\mathrm{d} t} + \frac{\partial z}{\partial v} \cdot \frac{\mathrm{d} v }{\mathrm{d} t} $$&lt;/p&gt;
-&lt;/blockquote&gt;
+$$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \frac{\mathrm{d} u }{\mathrm{d} t} + \frac{\partial z}{\partial v} \cdot \frac{\mathrm{d} v }{\mathrm{d} t} $$&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;矩阵形式反向传播算法&#34;&gt;矩阵形式反向传播算法
 &lt;/h3&gt;&lt;p&gt;下面介绍矩阵形式计算图及反向传播公式，如下图神经网络 Affine 层。
 &lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20200628140209.png&#34;
@@ -16003,8 +16419,7 @@ $$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \fra
 	
 &gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Affine 层：神经网络在正向传播中进行的矩阵的乘积运算在几何学领域被称为“仿射变换”。因此，这里将进行的仿射变换的处理称为“Affine 层”。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;Affine 层：神经网络在正向传播中进行的矩阵的乘积运算在几何学领域被称为“仿射变换”。因此，这里将进行的仿射变换的处理称为“Affine 层”。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;神经网络中还有其他比较复杂的层，梯度推导比上面 Affine 层线性偏导数推导更为复杂，在此略过介绍及推导，但运用到的知识与上面方式类似，强烈建议自己手动推导下 Affine 层反向传播，对自己理解有帮助。&lt;/p&gt;
 &lt;p&gt;前面介绍神经网络学习策略也是一个最优化问题，即
 $$ loss \ function = E = \varphi(y, t) $$
@@ -16059,7 +16474,7 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
         <guid>http://localhost:1313/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</guid>
         <description>&lt;h2 id=&#34;-个人简介&#34;&gt;👤 个人简介
 &lt;/h2&gt;&lt;p&gt;理工男/喜欢折腾/喜欢学习/互联网大厂/世界500强/量子力学/区块链/沟通达人/强大好奇心&lt;/p&gt;
-&lt;p&gt;欢迎来到我的博客，我是七月流火，一名终身学习者（读者、写作者、算法应用与研究员），专注于不断提升自我，目前探索机器学习和深度学习的前沿技术，通过博客文章分享我的研究成果和实践经验。&lt;/p&gt;
+&lt;p&gt;欢迎来到我的博客，我是七月流火，一名终身学习者（算法应用与研究员、读者、写作者），专注于不断提升自我，目前探索机器学习和深度学习的前沿技术，通过博客文章分享我的研究成果和实践经验。&lt;/p&gt;
 &lt;h2 id=&#34;-兴趣爱好&#34;&gt;🌟 兴趣爱好
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;看书&lt;/li&gt;
@@ -16073,11 +16488,9 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
 &lt;/h2&gt;&lt;h2 id=&#34;-我在探索&#34;&gt;🚀 我在探索
 &lt;/h2&gt;&lt;h2 id=&#34;-更新记录&#34;&gt;📝 更新记录
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;增加更新记录。  —— 2024.12.28&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;增加更新记录。  —— 2024.12.28&lt;/p&gt;&lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;添加关于，补充个人介绍。 —— 2024.12.20&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;添加关于，补充个人介绍。 —— 2024.12.20&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>

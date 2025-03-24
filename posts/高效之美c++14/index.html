@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/'>
 
-<link rel="stylesheet" href="/scss/style.min.e460b8d7eabe89e4f4bae506eaa6feb3eb535a19c85caa61e95db0347acaac78.css"><meta property='og:title' content="高效之美：C++14 WebServer 源码探秘">
+<link rel="stylesheet" href="/scss/style.min.8977e359d53ae8ca856a2fca5b84c07371ac3e5815675d7479ecabddb44e7a3d.css"><meta property='og:title' content="高效之美：C++14 WebServer 源码探秘">
 <meta property='og:description' content="源码解读C++14打造的高性能WebServer，轻松实现上万QPS的优化与实践。">
 <meta property='og:url' content='http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/'>
 <meta property='og:site_name' content='七月流火'>
@@ -59,7 +59,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
+                        <img src="/img/avatar_hu_791ba457c31eae4c.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -267,7 +267,6 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#参考资料">参考资料</a></li>
     <li><a href="#前言">前言</a>
       <ol>
         <li><a href="#谁适合阅读这篇文章">谁适合阅读这篇文章？</a></li>
@@ -291,7 +290,7 @@
         <li><a href="#线程池">线程池</a>
           <ol>
             <li><a href="#简介">简介</a></li>
-            <li><a href="#参考资料-1">参考资料</a></li>
+            <li><a href="#参考资料">参考资料</a></li>
             <li><a href="#代码解析">代码解析</a></li>
           </ol>
         </li>
@@ -311,6 +310,7 @@
     </li>
     <li><a href="#总结与感悟">总结与感悟</a></li>
     <li><a href="#源码阅读进阶">源码阅读进阶</a></li>
+    <li><a href="#参考资料-1">参考资料</a></li>
     <li><a href="#扩展知识">扩展知识</a></li>
   </ol>
 </nav>
@@ -327,8 +327,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/">
-                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover_hu6934887694014871526.jpg"
-                        srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover_hu6934887694014871526.jpg 800w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover_hu4759247491841406622.jpg 1600w"
+                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover_hu_532d3d0640438c41.jpg"
+                        srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover_hu_532d3d0640438c41.jpg 800w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover_hu_21dff13ea24dcdca.jpg 1600w"
                         width="800" 
                         height="289" 
                         loading="lazy"
@@ -407,17 +407,7 @@
     <section class="article-content">
     
     
-    <h2 id="参考资料">参考资料
-</h2><ul>
-<li><a class="link" href="https://github.com/qiyueliuhuo/WebServer"  target="_blank" rel="noopener"
-    >WebServer 源码</a></li>
-<li><a class="link" href="https://learn.microsoft.com/zh-cn/cpp/cpp/?view=msvc-170"  target="_blank" rel="noopener"
-    >C++ 语言文档 | Microsoft Learn</a></li>
-<li><a class="link" href="https://juejin.cn/post/7098659904721780749"  target="_blank" rel="noopener"
-    >C++ Linux轻量级WebServer</a></li>
-<li>《深入理解C++11：C++11 新特性解析与应用》书籍</li>
-</ul>
-<h2 id="前言">前言
+    <h2 id="前言">前言
 </h2><h3 id="谁适合阅读这篇文章">谁适合阅读这篇文章？
 </h3><ul>
 <li><strong>具备 C++ 基础</strong>：对线程池和网络编程有一定了解，希望进一步深入相关技术。</li>
@@ -622,7 +612,7 @@
 <p><img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230119205336.png"
 	width="817"
 	height="154"
-	srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230119205336_hu3044889250887868869.png 480w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230119205336_hu6083240504045034431.png 1024w"
+	srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230119205336_hu_fd8a32b39cab5895.png 480w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230119205336_hu_523125e75ff01759.png 1024w"
 	loading="lazy"
 	
 	
@@ -644,7 +634,7 @@
 </h2><p><img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/sequence_diagram.png"
 	width="1071"
 	height="1959"
-	srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/sequence_diagram_hu11580579612280791421.png 480w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/sequence_diagram_hu2815375168082296442.png 1024w"
+	srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/sequence_diagram_hu_3a58a4911fb2a63.png 480w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/sequence_diagram_hu_3315297527d6eee9.png 1024w"
 	loading="lazy"
 	
 	
@@ -691,7 +681,7 @@
 <p><img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230128122020.png"
 	width="1920"
 	height="1010"
-	srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230128122020_hu3050355349569153767.png 480w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230128122020_hu6620091844162953603.png 1024w"
+	srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230128122020_hu_87659836b29d02c6.png 480w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230128122020_hu_db6533b0365e5b6.png 1024w"
 	loading="lazy"
 	
 	
@@ -1227,7 +1217,7 @@
 </h4><p>线程池（Thread Pool）是一种基于池化思想管理线程的工具，经常出现在多线程服务器中，如MySQL。</p>
 <p>线程过多会带来额外的开销，其中包括创建销毁线程的开销、调度线程的开销等等，同时也降低了计算机的整体性能。线程池维护多个线程，等待监督管理者分配可并发执行的任务。这种做法，一方面避免了处理任务时创建销毁线程开销的代价，另一方面避免了线程数量膨胀导致的过分调度问题，保证了对内核的充分利用。</p>
 <p>而本文描述的是一种简单的线程池实现方案，更复杂的线程池实现方法，请参考下面的资料学习。</p>
-<h4 id="参考资料-1">参考资料
+<h4 id="参考资料">参考资料
 </h4><ul>
 <li><a class="link" href="https://tech.meituan.com/2020/04/02/java-pooling-pratice-in-meituan.html"  target="_blank" rel="noopener"
     >Java线程池实现原理及其在美团业务中的实践 - 美团技术团队</a></li>
@@ -1239,7 +1229,7 @@
 <p><img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230122192122.png"
 	width="1646"
 	height="558"
-	srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230122192122_hu16231596378880326964.png 480w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230122192122_hu11990487892743236621.png 1024w"
+	srcset="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230122192122_hu_9f768a6bf772f3f4.png 480w, /posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/Pasted_image_20230122192122_hu_987565257e80e494.png 1024w"
 	loading="lazy"
 	
 	
@@ -1250,8 +1240,7 @@
 ></p>
 <p>下面代码实现了一个如上图线程池，整个线程池是个生产者消费者模型，该线程池一开始创建 <code>threadCount</code> 个固定线程，这些线程作为消费者，当线程被唤醒时，从任务队列中获取任务，执行任务；而生产者通过 <code>AddTask(F&amp;&amp; task)</code> 方法将生产的任务添加到<strong>任务缓冲队列</strong>中。可以看到，整个<code>TaskQueue</code> 任务队列作为临界资源被多个线程异步访问，为了保障多个线程能够安全访问 <code>TaskQueue</code> 中 <code>std::queue&lt;std::function&lt;void()&gt;&gt; tasks</code> 队列 变量时，每次操作都需要通过互斥量 <code>std::mutex mtx</code> 进行加锁后再进行访问。</p>
 <blockquote>
-<p>注：这里笔者将源码中 <code>Pool</code> 结构体改名成 <code>TaskQueue</code>，代表的含义更为合适。</p>
-</blockquote>
+<p>注：这里笔者将源码中 <code>Pool</code> 结构体改名成 <code>TaskQueue</code>，代表的含义更为合适。</p></blockquote>
 <p>可以先阅读下面源码，后面给出源码相关问题及回答。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1405,50 +1394,41 @@
 </div>
 </div><p>为什么该线程池所有的实现在 <code>threadpool.h</code> 中完成？</p>
 <blockquote>
-<p>上面源码为线程池的头文件 <code>threadpool.h</code>，而且该线程池<strong>没有</strong>对应的 <code>threadpool.cpp</code> 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。</p>
-</blockquote>
+<p>上面源码为线程池的头文件 <code>threadpool.h</code>，而且该线程池<strong>没有</strong>对应的 <code>threadpool.cpp</code> 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。</p></blockquote>
 <p><code>explicit</code> 修饰的构造函数如何理解？</p>
 <blockquote>
 <p>通过将构造函数声明为explicit（显式）的方式可以<strong>抑制隐式转换</strong>。也就是说，explicit构造函数必须显式调用。按默认规定，只用传一个参数的构造函数也定义了一个隐式转换。具体参考：<a class="link" href="https://veitchkyrie.github.io/2019/10/18/C&#43;&#43;-explicit%E5%85%B3%E9%94%AE%E5%AD%97-%E8%AF%A6%E8%A7%A3-%E7%94%A8%E4%BA%8E%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/"  target="_blank" rel="noopener"
-    >C++ explicit关键字详解</a></p>
-</blockquote>
+    >C++ explicit关键字详解</a></p></blockquote>
 <p><code>std::make_shared</code> 作用是什么？在什么场景下使用？</p>
 <blockquote>
 <p>如有可能，第一次创建内存资源时，请使用 <code>make_shared</code> 函数创建 <code>shared_ptr</code>。 <code>make_shared</code> 异常安全。 它使用同一调用为控制块和资源分配内存，这会减少构造开销。 如果不使用 <code>make_shared</code>，则必须先使用显式 <code>new</code> 表达式来创建对象，然后才能将其传递到 <code>shared_ptr</code> 构造函数。具体参考：<a class="link" href="https://docs.microsoft.com/zh-cn/cpp/cpp/how-to-create-and-use-shared-ptr-instances?view=msvc-170"  target="_blank" rel="noopener"
-    >如何：创建和使用 shared_ptr 实例</a></p>
-</blockquote>
+    >如何：创建和使用 shared_ptr 实例</a></p></blockquote>
 <p><code>void detach()</code> 作用？</p>
 <blockquote>
 <p>拆离相关联的线程。 操作系统负责释放终止的线程资源。具体参考：<a class="link" href="https://learn.microsoft.com/zh-cn/cpp/standard-library/thread-class?view=msvc-170"  target="_blank" rel="noopener"
-    >thread类-detach</a></p>
-</blockquote>
+    >thread类-detach</a></p></blockquote>
 <p><code>std::unique_lock</code> 作用及应用场景？</p>
 <blockquote>
 <p>表示可进行实例化以创建管理 <code>mutex</code> 锁定和解锁的对象的模板。<code>uniqie_lock</code> 是个类模板，它的功能跟 <code>lock_quard</code> 类似，但比 <code>lock_quard</code> 更灵活。在工作中，一般用 <code>lock_quard</code> （推荐使用）就足够了，但在一些特殊的场景下会用到 <code>uniqie_lock</code>。 <code>lock_quard</code> 取代了 <code>mutex</code> 的 <code>lock()</code> 和 <code>unlock()</code>，在 <code>lock_quard</code> 的构造函数中上锁，在析构函数中解锁，这点其实在 <code>uniqie_lock</code> 中也是一样的。<code>uniqie_lock</code> 在使用上比 <code>lock_quard</code> 灵活，但代价就是效率会低一点，并且内存占用量也会相对高一些。具体参考：<a class="link" href="https://www.w3cjava.com/technical-articles/C&#43;&#43;/125380206.html"  target="_blank" rel="noopener"
     >unique_lock详解</a> 和 <a class="link" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/unique-lock-class?view=msvc-170"  target="_blank" rel="noopener"
-    >unique_lock 类</a></p>
-</blockquote>
+    >unique_lock 类</a></p></blockquote>
 <p><code>std::mutex</code> 作用及应用场景？</p>
 <blockquote>
 <p><code>Mutex</code> 又称互斥量，C++ 11中与 <code>Mutex</code> 相关的类（包括锁类型）和函数都声明在 <code>&lt;mutex&gt;</code> 头文件中，所以如果你需要使用 <code>std::mutex</code>，就必须包含 <code>&lt;mutex&gt;</code> 头文件。<code>std::mutex</code> 是C++11 中最基本的互斥量，<code>std::mutex</code> 对象提供了独占所有权的特性——即不支持递归地对 <code>std::mutex</code> 对象上锁，而 <code>std::recursive_lock</code> 则可以递归地对互斥量对象上锁。具体参考：<a class="link" href="https://www.cnblogs.com/haippy/p/3237213.html"  target="_blank" rel="noopener"
-    >C++11 并发指南三(std::mutex 详解)</a></p>
-</blockquote>
+    >C++11 并发指南三(std::mutex 详解)</a></p></blockquote>
 <p><code>std::move</code> 与 <code>std::forward</code> 作用及应用场景？</p>
 <blockquote>
 <p><code>std::forward</code> 比 <code>std::move</code> 逻辑略复杂，<code>std::move</code>  是无条件把参数转换为右值，而 <code>std::forward</code> 在特定情况下才会这样做：仅当参数是用右值初始化时，才会把它转换为右值。它的意义是使外面的函数调用选择接受右值的版本，实际的移动工作是由外面的函数进行的；使用std::forward来转发参数一般被称为完美转发 (也叫精确传递)。具体参考：<a class="link" href="https://blog.csdn.net/xiangbaohui/article/details/103673177"  target="_blank" rel="noopener"
     >C++ 理解std::forward完美转发</a>。这里，使用 <code>std::move</code> 将 <code>pool-&gt;tasks.front()</code> 装换为右值，从而使得 <code>std::function</code> 类型的 task 调用 <code>function&amp; operator= (function&amp;&amp; rhs);</code> 构造函数，避免资源重复申请创建。详细讨论参考：<a class="link" href="https://www.zhihu.com/search?type=content&amp;q=std%3A%3Amove"  target="_blank" rel="noopener"
-    >知乎std::move回答</a></p>
-</blockquote>
+    >知乎std::move回答</a></p></blockquote>
 <p><code>ThreadPool(ThreadPool&amp;&amp;) = default;</code> 该构造函数是什么含义？</p>
 <blockquote>
 <p>此语句代表<strong>显式默认构造函数</strong>，而且该构造函数为移动构造函数，移动构造函数是特殊成员函数，它将现有对象数据的所有权移交给新变量，而不复制原始数据。 它采用 rvalue 引用作为其第一个参数，以后的任何参数都必须具有默认值。 **移动构造函数在传递大型对象时可以显著提高程序的效率。**具体参考：<a class="link" href="https://learn.microsoft.com/zh-cn/cpp/cpp/explicitly-defaulted-and-deleted-functions?view=msvc-170"  target="_blank" rel="noopener"
     >显式默认设置的函数和已删除的函数 | Microsoft Learn</a> 和 <a class="link" href="https://learn.microsoft.com/zh-cn/cpp/cpp/constructors-cpp?view=msvc-170#move_constructors"  target="_blank" rel="noopener"
-    >移动构造函数 (C++) | Microsoft Learn</a></p>
-</blockquote>
+    >移动构造函数 (C++) | Microsoft Learn</a></p></blockquote>
 <p>代码 <code>task_queue_-&gt;tasks.emplace(std::forward&lt;F&gt;(task));</code> 语句如何理解？</p>
 <blockquote>
-<p>首先，<code>task_queue_-&gt;tasks</code> 的类型是 <code>std::queue&lt;std::function&lt;void()&gt;&gt;</code>，成员函数 <code>emplace</code>，会在当前的最后一个元素之后，即队列的末尾添加了一个新元素。 这个新元素会采用元素类的构造函数够赞，并且将 <code>std::forward&lt;F&gt;(task))</code> 作为其构造函数的参数；另外，此处，<code>std::forward&lt;F&gt;</code> 将输入的参数原封不动地传递到下一个函数中，如果输入的参数是左值，那么传递给下一个函数的参数的也是左值；如果输入的参数是右值，那么传递给下一个函数的参数的也是右值。那么，当 <code>task</code> 参数是右值时，完美转发后，将会调用移动构造函数 <code>function( function&amp;&amp; other );</code> 进行构造。此处，还需更深入理解。可以参考书籍《深入理解C++11：C++11新特性解析与应用》</p>
-</blockquote>
+<p>首先，<code>task_queue_-&gt;tasks</code> 的类型是 <code>std::queue&lt;std::function&lt;void()&gt;&gt;</code>，成员函数 <code>emplace</code>，会在当前的最后一个元素之后，即队列的末尾添加了一个新元素。 这个新元素会采用元素类的构造函数够赞，并且将 <code>std::forward&lt;F&gt;(task))</code> 作为其构造函数的参数；另外，此处，<code>std::forward&lt;F&gt;</code> 将输入的参数原封不动地传递到下一个函数中，如果输入的参数是左值，那么传递给下一个函数的参数的也是左值；如果输入的参数是右值，那么传递给下一个函数的参数的也是右值。那么，当 <code>task</code> 参数是右值时，完美转发后，将会调用移动构造函数 <code>function( function&amp;&amp; other );</code> 进行构造。此处，还需更深入理解。可以参考书籍《深入理解C++11：C++11新特性解析与应用》</p></blockquote>
 <h3 id="基于小根堆实现的定时器">基于小根堆实现的定时器
 </h3><h4 id="小根堆">小根堆
 </h4><p><strong>堆</strong>（Heap）是计算机科学中的一种特别的<a class="link" href="https://zh.wikipedia.org/wiki/%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%8F%89%E6%A0%91"  title="完全二叉树"
@@ -2228,6 +2208,16 @@
 <li><a class="link" href="https://github.com/chenshuo/muduo"  target="_blank" rel="noopener"
     >chenshuo/muduo: Event-driven network library for multi-threaded Linux server in C++11</a></li>
 </ul>
+<h2 id="参考资料-1">参考资料
+</h2><ul>
+<li><a class="link" href="https://github.com/qiyueliuhuo/WebServer"  target="_blank" rel="noopener"
+    >WebServer 源码</a></li>
+<li><a class="link" href="https://learn.microsoft.com/zh-cn/cpp/cpp/?view=msvc-170"  target="_blank" rel="noopener"
+    >C++ 语言文档 | Microsoft Learn</a></li>
+<li><a class="link" href="https://juejin.cn/post/7098659904721780749"  target="_blank" rel="noopener"
+    >C++ Linux轻量级WebServer</a></li>
+<li>《深入理解C++11：C++11 新特性解析与应用》书籍</li>
+</ul>
 <h2 id="扩展知识">扩展知识
 </h2><ul>
 <li><a class="link" href="https://github.com/PlatformLab/NanoLog"  target="_blank" rel="noopener"
@@ -2295,11 +2285,35 @@
             
                 
 <article class="has-image">
+    <a href="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover.776b3b490d783e419a3071269be5607a_hu_2deeea24f9bfb2bf.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 解剖Requests：从Python小白到源码猎手的进阶之路"
+                        data-key="解剖Requests：从Python小白到源码猎手的进阶之路" 
+                        data-hash="md5-d2s7SQ14PkGaMHEmm&#43;Vgeg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">解剖Requests：从Python小白到源码猎手的进阶之路</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
         
         
             <div class="article-image">
-                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu12431349409231175071.jpg" 
+                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu_7f02356adb9a872e.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -2323,7 +2337,7 @@
         
         
             <div class="article-image">
-                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu16517212594665624032.png" 
+                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu_2d8341da9b2d1f53.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -2347,7 +2361,7 @@
         
         
             <div class="article-image">
-                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9_hu12870970506028879207.gif" 
+                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9_hu_23fd76f4fc2982d7.gif" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -2371,7 +2385,7 @@
         
         
             <div class="article-image">
-                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.a55b357ff9d2e033322598b57d591996_hu15019881840537993967.jpg" 
+                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.a55b357ff9d2e033322598b57d591996_hu_969c3540d783af7a.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -2384,30 +2398,6 @@
 
         <div class="article-details">
             <h2 class="article-title">C&#43;&#43;知识点总结</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">
-        
-        
-            <div class="article-image">
-                <img src="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover.77622c624e1a8f6554f74bb0603a65c3_hu800294363102459429.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post Vue入门笔记"
-                        data-key="Vue学习入门笔记" 
-                        data-hash="md5-d2IsYk4aj2VU90uwYDplww==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Vue入门笔记</h2>
         </div>
     </a>
 </article>

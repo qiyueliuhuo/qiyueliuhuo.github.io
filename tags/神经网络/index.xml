@@ -293,11 +293,9 @@ $$&lt;/p&gt;
     &gt;矩阵求导术（下）&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;更新记录&#34;&gt;更新记录
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;调整格式和排版。  —— 2022.07.19&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;调整格式和排版。  —— 2022.07.19&lt;/p&gt;&lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;使用 pandoc 渲染，对公式展示更友好。 —— 2022.08.27&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;使用 pandoc 渲染，对公式展示更友好。 —— 2022.08.27&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -332,7 +330,7 @@ $$&lt;/p&gt;
 &lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716.png&#34;
 	width=&#34;1299&#34;
 	height=&#34;605&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu7154423667077776749.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu15161256305760877554.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu_b401fb80d0394eff.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu_e7381181d74edd53.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -346,7 +344,7 @@ $$&lt;/p&gt;
 &lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500.png&#34;
 	width=&#34;1376&#34;
 	height=&#34;375&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu9595334439086501891.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu4172800769463081073.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu_d10b20a2782ee3b7.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu_5af5adc020579555.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -392,7 +390,7 @@ $$&lt;/p&gt;
 &lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257.png&#34;
 	width=&#34;1393&#34;
 	height=&#34;630&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu9948687688080604686.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu10709684138291102200.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu_6b4eecb1238398fa.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu_39ed0549b741c877.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -433,7 +431,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625.png&#34;
 	width=&#34;1024&#34;
 	height=&#34;629&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu15639299619994512816.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu16997794664252562987.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu_648d6551034fa832.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu_62db63e2f30235cc.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -489,7 +487,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622.png&#34;
 	width=&#34;855&#34;
 	height=&#34;737&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu9433974691840405427.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu2035181916524108223.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu_dd4119c788cf5fb5.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu_3e80b21c45d6e3f5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -501,7 +499,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837.png&#34;
 	width=&#34;744&#34;
 	height=&#34;713&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu15356090554493613074.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu18062393443103439133.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu_9a7663467b4bd496.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu_3a6fa32424b4b54b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -524,8 +522,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
     &gt;YJango的卷积神经网络&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;更新记录&#34;&gt;更新记录
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;调整格式和排版。 —— 2022.07.19&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;调整格式和排版。 —— 2022.07.19&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -536,13 +533,12 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
         <guid>http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/</guid>
         <description>&lt;img src="http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/operator_parameters_and_calculation.jpg" alt="Featured image of post 拆解神经网络算子：参数量与计算量的秘密" /&gt;&lt;p&gt;在学习机器学习和神经网络过程中，对于模型参数和模型计算量需要做出评估，这篇文章介绍几种常见操作对模型带来的参数量和计算量，更专业的表示为空间复杂度和时间复杂度，后续再补充。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注意：下面计算的是都是&lt;strong&gt;单层&lt;/strong&gt;的&lt;strong&gt;参数量&lt;/strong&gt;和&lt;strong&gt;计算量&lt;/strong&gt;，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以&lt;strong&gt;BatchSize&lt;/strong&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注意：下面计算的是都是&lt;strong&gt;单层&lt;/strong&gt;的&lt;strong&gt;参数量&lt;/strong&gt;和&lt;strong&gt;计算量&lt;/strong&gt;，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以&lt;strong&gt;BatchSize&lt;/strong&gt;。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;卷积层&#34;&gt;卷积层
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848.png&#34;
 	width=&#34;193&#34;
 	height=&#34;187&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu1690272979079249509.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu12359875175678289991.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu_3d1e61dcf1576c59.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu_685cbd2185e4f79b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -560,15 +556,14 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;ul&gt;
 &lt;li&gt;FLOPs(Floating Point Operations)，浮点运算次数，用来衡量算法的时间复杂度；&lt;/li&gt;
 &lt;li&gt;FLOPS(Floating Point Operations per Seconds)，单位时间浮点运算次数，用来衡量硬件计算性能。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;p&gt;$FLOPs=\left[\left(C_{i n} \times k_{w} \times k_{h}\right)+\left(C_{i n} \times k_{w} \times k_{h}-1\right)+1\right] \times C_{o u t} \times W_{out} \times H_{out}$&lt;br&gt;
 $k_{w}$ 和 $k_{h}$ 分别表示卷积核的宽和高，其中 $C_{i n} \times k_{w} \times k_{h}$ 表示乘法计算量, $C_{i n} \times k_{w} \times k_{h}-1$ 表示加法计算量(可以这样理解，需要把乘法计算得到的$C_{i n} \times k_{w} \times k_{h}$个数字加这么多次), $+1$ 表示偏置, $C_{\text {out }} \times W_{out} \times H_{out}$ 表示 feature $\operatorname{map}$ 中的所有元素， $W_{out} \text{、} H_{out}$ 表示feature map的宽和高。&lt;/p&gt;
 &lt;h2 id=&#34;全连接层&#34;&gt;全连接层
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554.png&#34;
 	width=&#34;187&#34;
 	height=&#34;210&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu15809413396768328856.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu4050310374003110611.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu_51732999204902e7.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu_fde92883ad4ae362.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -588,7 +583,7 @@ $N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。&lt
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642.png&#34;
 	width=&#34;285&#34;
 	height=&#34;191&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu14298729690017617564.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu4316019036069062409.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu_58504fecd7f21413.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu_7fa83199f53e728.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -607,7 +602,7 @@ $H_{out} \times W_{out}$代表输出特征图大小，$C_{out}$代表输出通�
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056.png&#34;
 	width=&#34;794&#34;
 	height=&#34;1858&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu8514699327283385200.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu13974894953538455973.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu_f8701f9d706cae21.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu_e1bf97e29a65f5b4.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -780,8 +775,7 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
     &gt;https://zhuanlan.zhihu.com/p/31575074&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;更新记录&#34;&gt;更新记录
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;增加网络模型统计工具，自动进行网络参数和计算量统计。 —— 2022.07.19&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;增加网络模型统计工具，自动进行网络参数和计算量统计。 —— 2022.07.19&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -895,14 +889,12 @@ $$
         
         <guid>http://localhost:1313/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</guid>
         <description>&lt;blockquote&gt;
-&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;在这篇博客文章中，我主要来写关于&lt;code&gt;pytorch&lt;/code&gt;中&lt;code&gt;transforms&lt;/code&gt;模块，该模块提供了对图像各种预处理方法，位于&lt;code&gt;torchvision/transforms/transforms.py&lt;/code&gt;，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。&lt;/p&gt;
 &lt;!-- more --&gt;
 &lt;blockquote&gt;
-&lt;p&gt;transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;transforms-模块相关源码分析&#34;&gt;transforms 模块相关源码分析
 &lt;/h2&gt;&lt;h3 id=&#34;transformscompose类&#34;&gt;transforms.Compose类
 &lt;/h3&gt;&lt;p&gt;先来看下&lt;code&gt;transforms.Compose&lt;/code&gt;在实际代码中是如何运用的，下面代码是使用&lt;code&gt;pytorch&lt;/code&gt;中的&lt;code&gt;Dataset&lt;/code&gt;方式定义ImageNet数据集，也就说&lt;code&gt;ImageNet&lt;/code&gt;继承自&lt;code&gt;data.Dataset&lt;/code&gt;。&lt;/p&gt;
@@ -992,8 +984,7 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;Compose&lt;/code&gt;是一个容器，它是对多个&lt;code&gt;transforms&lt;/code&gt;模块定义转换对象transform组合，本质上是对列表的包装（装饰模式？）。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;这里我将这些转换对象类定义为transform，包括&lt;code&gt;transforms.CenterCrop&lt;/code&gt;、&lt;code&gt;transforms.ToTensor&lt;/code&gt;等等。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;这里我将这些转换对象类定义为transform，包括&lt;code&gt;transforms.CenterCrop&lt;/code&gt;、&lt;code&gt;transforms.ToTensor&lt;/code&gt;等等。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;该类的&lt;strong&gt;构造器(constructor)&lt;strong&gt;函数入参为列表类型，列表里是多个transform转换对象；在&lt;code&gt;__call__&lt;/code&gt;中，通过&lt;code&gt;for&lt;/code&gt;循环遍历transforms列表，对图像依次进行调用&lt;code&gt;t(img)&lt;/code&gt;，可以看到每个transform都是一个可调用对象，通过依次调用这些transform，对图像进行预处理，这些处理是按照列表&lt;/strong&gt;顺序&lt;/strong&gt;处理。注：list是一种有序的集合。&lt;/p&gt;
 &lt;h3 id=&#34;transformsresize类&#34;&gt;transforms.Resize类
 &lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1327,8 +1318,7 @@ $$
 &gt;&lt;/p&gt;
 &lt;p&gt;&lt;span style=&#34;color:#35b378;font-weight:bold;&#34;&gt;先从加载和处理数据源码了解。&lt;/span&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;dataset-相关源码&#34;&gt;Dataset 相关源码
 &lt;/h2&gt;&lt;h3 id=&#34;mnist类&#34;&gt;MNIST类
 &lt;/h3&gt;&lt;p&gt;类继承图：&lt;/p&gt;

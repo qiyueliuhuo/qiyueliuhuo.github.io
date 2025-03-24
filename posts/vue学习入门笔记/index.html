@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/'>
 
-<link rel="stylesheet" href="/scss/style.min.e460b8d7eabe89e4f4bae506eaa6feb3eb535a19c85caa61e95db0347acaac78.css"><meta property='og:title' content="Vue入门笔记">
+<link rel="stylesheet" href="/scss/style.min.8977e359d53ae8ca856a2fca5b84c07371ac3e5815675d7479ecabddb44e7a3d.css"><meta property='og:title' content="Vue入门笔记">
 <meta property='og:description' content=" vue学习记录。\n注：\n学习目录在Workplace/vueLearning。 学完要综合学过前端和后端知识，开发一个完整的应用，综合应用知识。 使用的开发IDE为WebStorm。 学习地址：Vue学习 一、邂逅Vuejs 认识Vuejs Vue在国内相比于React使用更加广泛、更火。\n三大框架：VueJs、AngularJs、React。 Vue：读音/vju:/，类似于view。 Vue是一个渐进式框架：\nVue可以作为你应用的一部分嵌入其中。（一点一点渐进式引入Vue） 也可以直接使用Vue核心库及其生态系统。（Vue全家桶） Vue的特点和高级功能：（目前不太了解，慢慢学习，慢慢体会）\n解耦视图和数据 可复用的组件 前端路由技术 状态管理 虚拟DOM 学习Vue前提：\n可以从零学习，不需要其他框架的知识为前提。 需要具备一定的HTML、CSS、JavaScript基础。 (JS※ 、ES6※。以后都会用ES6） 另： xcode 读音：叉code。 Vue不要读成v、u、e。 Vuejs安装方式 方式一：直接CDN引入 方式二：下载和引入 另： - 直接下载，拷贝到项目里面就可以使用，只有一个vue.js文件，hin方便。\n方式三：NPM安装 后续通过webpack和CLI的使用，然后再使用这种方式。 Vuejs初体验 script引入vue并使用： 修改数据：1. 界面不用改，声明式开发。 2. 响应式：当数据发生改变，界面自动改变。 创建Vue对象时候，传入参数含义：\n{}中包含了el属性：该属性决定了这个vue对象挂载到哪一个元素。 {}中包含了data属性:该属性中通常会存储一些数据。 数据可以是我们自己定义的。 也可以是来自网络，从服务器加载到的。 列表展示：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 &lt;!DOCTYPE html&gt; &lt;html lang=&#34;en&#34;&gt; &lt;head&gt; &lt;meta charset=&#34;UTF-8&#34;&gt; &lt;title&gt;Title&lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;div id=&#34;app&#34;&gt; &lt;!--{{movies}} --&gt; &lt;!-- 这种会展示成json格式数据--&gt; &lt;ul&gt; &lt;li v-for=&#34;item in movies&#34;&gt;{{item}}&lt;/li&gt; &lt;/ul&gt; &lt;/div&gt; &lt;script src=&#34;../js/vue.js&#34;&gt;&lt;/script&gt; &lt;script&gt; const app = new Vue({ el: &#39;#app&#39;, data: { message: &#39;你好呀&#39;, movies: [&#39;星际穿越&#39;, &#39;大话西游&#39;, &#39;盗墓空间&#39;, &#39;切尔诺贝利&#39;] } }) &lt;/script&gt; &lt;/body&gt; &lt;/html&gt; Vue计数器案例 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 &lt;div id=&#34;app&#34;&gt; &lt;h2&gt;当前计数：{{counter}}&lt;/h2&gt; &lt;button v-on:click=&#34;add&#34;&gt;+&lt;/button&gt; &lt;button v-on:click=&#34;sub&#34;&gt;-&lt;/button&gt; &lt;/div&gt; &lt;script src=&#34;../js/vue.js&#34;&gt;&lt;/script&gt; &lt;script&gt; const app = new Vue({ el: &#34;#app&#34;, data: { counter: 0 }, methods: { add: function () { console.log(&#39;add被执行&#39;); this.counter++ }, sub: function () { console.log(&#39;sub被执行&#39;); this.counter-- } } }) &lt;/script&gt; 另： ES6不再使用var定义变量，而是使用let，let定义变量，const定义常量。 可以在游览器console中修改数据，会自动响应式展示。 @click是 v-on:click的语法糖。 Vuejs的MVVM 什么是MVVM：维基百科MVVM。 （需要再详细阅读） Vue的MVVM：图不清楚，需要重新找。 创建Vue实例传入的options el: string | HTML Element data: Object | Function (组件中data必须是一个函数) methods: { [key: string]: Function } （后面换成ES6的语法来写） 另： 开发中什么叫方法，什么称之为函数？ 答：都是通过function定义，类里面叫方法，定义在外面叫函数。 方法：method 函数：function Vue的生命周期（简单理解下） ">
 <meta property='og:url' content='http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/'>
 <meta property='og:site_name' content='七月流火'>
@@ -59,7 +59,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
+                        <img src="/img/avatar_hu_791ba457c31eae4c.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -392,8 +392,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">
-                <img src="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover_hu6349396096157888552.jpg"
-                        srcset="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover_hu6349396096157888552.jpg 800w, /posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover_hu5027728615293909421.jpg 1600w"
+                <img src="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover_hu_9c60f4c4f6a0d34b.jpg"
+                        srcset="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover_hu_9c60f4c4f6a0d34b.jpg 800w, /posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover_hu_365071f08b845563.jpg 1600w"
                         width="800" 
                         height="334" 
                         loading="lazy"
@@ -469,8 +469,7 @@
     
     
     <blockquote>
-<p>vue学习记录。</p>
-</blockquote>
+<p>vue学习记录。</p></blockquote>
 <!-- more -->
 <p>注：</p>
 <blockquote>
@@ -480,8 +479,7 @@
 <li>使用的开发IDE为WebStorm。</li>
 <li>学习地址：<a class="link" href="https://www.youtube.com/watch?v=T5LGA8Qy1Fk&amp;list=PLYD7D0d62WlCUB2L5WEleVHLtfG8LnVC_&amp;index=61"  target="_blank" rel="noopener"
     >Vue学习</a></li>
-</ol>
-</blockquote>
+</ol></blockquote>
 <h2 id="一邂逅vuejs">一、邂逅Vuejs
 </h2><h3 id="认识vuejs">认识Vuejs
 </h3><ul>
@@ -804,8 +802,7 @@
 </div><h4 id="v-once指令的使用">v-once指令的使用
 </h4><p>只展示一次，后面网页界面内容不会随着<code>message</code>值的<strong>改变而改变</strong>。也就是第二个<code>h2</code>标签显示的内容不会随着<code>vue</code>的<code>app</code>里面数据改变。</p>
 <blockquote>
-<p>一般情况下不用，特殊情况下需要使用。</p>
-</blockquote>
+<p>一般情况下不用，特殊情况下需要使用。</p></blockquote>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -865,13 +862,11 @@
 </div>
 </div><h4 id="v-cloak指令的使用-基本不用">v-cloak指令的使用 （基本不用）
 </h4><blockquote>
-<p>cloak: 斗篷。 clock: 时钟。</p>
-</blockquote>
+<p>cloak: 斗篷。 clock: 时钟。</p></blockquote>
 <p>和<code>css</code>样式结合使用，可以实现当<code>JS</code>脚本未执行完，不显示内容，而不是显示一些未渲染的“乱码”，对用户友好。</p>
 <h4 id="v-bind">v-bind
 </h4><blockquote>
-<p>v-bind之前都是将数据插到内容中，而这个是将值插到标签的属性中，比如<code>img</code>标签的<code>src</code>属性，改变这个属性值。又比如<code>a</code>标签的<code>href</code>属性。不能用<strong>双括号语法</strong>操作，双括号是在标签内容中使用的。</p>
-</blockquote>
+<p>v-bind之前都是将数据插到内容中，而这个是将值插到标签的属性中，比如<code>img</code>标签的<code>src</code>属性，改变这个属性值。又比如<code>a</code>标签的<code>href</code>属性。不能用<strong>双括号语法</strong>操作，双括号是在标签内容中使用的。</p></blockquote>
 <p><strong>作用</strong>：动态绑定标签属性。</p>
 <h5 id="v-bind基本使用">v-bind基本使用
 </h5><p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107121506.png"
@@ -975,8 +970,7 @@
 <h3 id="计算属性-computed很重要">计算属性 <code>computed</code>（很重要）※
 </h3><h4 id="计算属性的使用">计算属性的使用
 </h4><blockquote>
-<p>数据展示之前需要经过一定的处理，computed里面也是定义的函数，但是不要命名为动词，一般命名为名词。</p>
-</blockquote>
+<p>数据展示之前需要经过一定的处理，computed里面也是定义的函数，但是不要命名为动词，一般命名为名词。</p></blockquote>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -1042,21 +1036,18 @@
 <h4 id="计算属性setter和getter">计算属性setter和getter
 </h4><h4 id="计算属性和methods的对比--">计算属性和methods的对比  ※
 </h4><blockquote>
-<p>计算属性内部实现缓存，如果值不改变，直接调用缓存中的内容，而methods每次都会调用，效率比计算属性差</p>
-</blockquote>
+<p>计算属性内部实现缓存，如果值不改变，直接调用缓存中的内容，而methods每次都会调用，效率比计算属性差</p></blockquote>
 <h3 id="补充es6语法">补充：ES6语法
 </h3><ol>
 <li>let/var</li>
 </ol>
 <blockquote>
-<p>let有if和for块级作用域，而var没有if和for块级作用域。</p>
-</blockquote>
+<p>let有if和for块级作用域，而var没有if和for块级作用域。</p></blockquote>
 <ol start="2">
 <li>const</li>
 </ol>
 <blockquote>
-<p>标识符修饰为常量。定义时就需要赋值。对象不能修改，但是可以改变对象里面的属性。</p>
-</blockquote>
+<p>标识符修饰为常量。定义时就需要赋值。对象不能修改，但是可以改变对象里面的属性。</p></blockquote>
 <ol start="3">
 <li>对象的字面量增强写法</li>
 </ol>
@@ -1067,16 +1058,13 @@
 <h3 id="事件监听">事件监听
 </h3><h4 id="v-on的基本使用">v-on的基本使用
 </h4><blockquote>
-<p>v-on语法糖：@</p>
-</blockquote>
+<p>v-on语法糖：@</p></blockquote>
 <h4 id="v-on的参数">v-on的参数
 </h4><blockquote>
-<p>事件监听的时候，若不需要传参数，则可以不写调用的小括号。（省略）</p>
-</blockquote>
+<p>事件监听的时候，若不需要传参数，则可以不写调用的小括号。（省略）</p></blockquote>
 <p>如何给事件监听函数传入，游览器生成的event对象？</p>
 <blockquote>
-<p>传入的参数为<code>$event</code>就可以了。方法形参为<code>event</code>。</p>
-</blockquote>
+<p>传入的参数为<code>$event</code>就可以了。方法形参为<code>event</code>。</p></blockquote>
 <h4 id="v-on的修饰符">v-on的修饰符
 </h4><ol>
 <li><code>@click.stop</code>防止事件冒泡。</li>
@@ -1108,12 +1096,10 @@
 <p>另：一般情况下，<code>v-else-if</code>、<code>v-else</code>不在HTML模板中使用，逻辑不放在界面代码处。</p>
 <h4 id="v-show的使用">v-show的使用
 </h4><blockquote>
-<p>决定标签是否在界面显示：<code>&lt;h2 v-show=&quot;isShow&quot;&gt; &lt;/h2&gt;</code></p>
-</blockquote>
+<p>决定标签是否在界面显示：<code>&lt;h2 v-show=&quot;isShow&quot;&gt; &lt;/h2&gt;</code></p></blockquote>
 <p><code>v-if</code> 和 <code>v-show</code>的区别。  （v-if经常使用）</p>
 <blockquote>
-<p>v-if：当条件为false时，包含v-if指令的元素，根本不会存在dom中。而v-show：当条件为false时，只是给元素添加了一个行内样式：display：none。前者dom中取掉，后者改样式。当展示切换频率很高，用v-show。</p>
-</blockquote>
+<p>v-if：当条件为false时，包含v-if指令的元素，根本不会存在dom中。而v-show：当条件为false时，只是给元素添加了一个行内样式：display：none。前者dom中取掉，后者改样式。当展示切换频率很高，用v-show。</p></blockquote>
 <h3 id="循环遍历v-for的使用">循环遍历v-for的使用
 </h3><ol>
 <li>遍历数组  ※</li>
@@ -1149,8 +1135,7 @@
 </h4><p>省略。</p>
 <h4 id="数组中响应式方法数组内容改变展示内容跟着改变">数组中响应式方法：数组内容改变，展示内容跟着改变。
 </h4><blockquote>
-<p>push()、pop()、shift()、unshift()、splice()、sort()、reverse()</p>
-</blockquote>
+<p>push()、pop()、shift()、unshift()、splice()、sort()、reverse()</p></blockquote>
 <p>另:</p>
 <ol>
 <li>splice() ※</li>
@@ -1164,8 +1149,7 @@
 </h3><h2 id="三组件化开发-">三、组件化开发 ※
 </h2><h3 id="什么是组件化">什么是组件化？
 </h3><blockquote>
-<p>将复杂问题，拆分成很多个小问题。将一个页面拆分成一个个小的功能块，每个功能块完成属于自己这一部分独立的功能，那么整个页面的管理和维护就变得非常容易了。应用最后抽象为一个组件树。</p>
-</blockquote>
+<p>将复杂问题，拆分成很多个小问题。将一个页面拆分成一个个小的功能块，每个功能块完成属于自己这一部分独立的功能，那么整个页面的管理和维护就变得非常容易了。应用最后抽象为一个组件树。</p></blockquote>
 <p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210108203614.png"
 	
 	
@@ -1452,8 +1436,7 @@
 ></p>
 <h4 id="父组件向子组件-props-常用-">父组件向子组件 props (常用) ※
 </h4><blockquote>
-<p>props : properties 属性</p>
-</blockquote>
+<p>props : properties 属性</p></blockquote>
 <p>通过props向子组件传递数据。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -1632,8 +1615,7 @@ TODO</p>
 	loading="lazy"
 	
 	
-></p>
-</blockquote>
+></p></blockquote>
 <ol>
 <li>webpack其中一个核心就是让我们可能进行模块化开发，并且会帮助我们处理模块间的依赖关系。</li>
 <li>不仅仅是JavaScript文件，我们的CSS、图片、json文件等等在webpack中都可以被当做模块来使用（在后续我们会看到）。</li>
@@ -1652,13 +1634,11 @@ TODO</p>
 </h2><h2 id="七网络封装">七、网络封装
 </h2><h2 id="八项目实战">八、项目实战
 </h2><blockquote>
-<p>一步步学习，没什么耐心，那就项目驱动学习吧，开干。</p>
-</blockquote>
+<p>一步步学习，没什么耐心，那就项目驱动学习吧，开干。</p></blockquote>
 <h3 id="创建项目">创建项目
 </h3><blockquote>
 <p>Vue CLI教程<a class="link" href="https://cli.vuejs.org/zh/guide/"  target="_blank" rel="noopener"
-    >Vue CLI </a></p>
-</blockquote>
+    >Vue CLI </a></p></blockquote>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -1671,8 +1651,7 @@ TODO</p>
 </div>
 </div><h3 id="目录结构划分">目录结构划分
 </h3><blockquote>
-<p>参考：https://blog.csdn.net/weixin_42290927/article/details/94432587</p>
-</blockquote>
+<p>参考：https://blog.csdn.net/weixin_42290927/article/details/94432587</p></blockquote>
 <p><img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210721142734.png"
 	
 	
@@ -1751,11 +1730,35 @@ TODO</p>
             
                 
 <article class="has-image">
+    <a href="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover.776b3b490d783e419a3071269be5607a_hu_2deeea24f9bfb2bf.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 解剖Requests：从Python小白到源码猎手的进阶之路"
+                        data-key="解剖Requests：从Python小白到源码猎手的进阶之路" 
+                        data-hash="md5-d2s7SQ14PkGaMHEmm&#43;Vgeg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">解剖Requests：从Python小白到源码猎手的进阶之路</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/">
         
         
             <div class="article-image">
-                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.0f8d6300cf01d6898a79fa0f8086967d_hu8984161256659165292.jpg" 
+                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.0f8d6300cf01d6898a79fa0f8086967d_hu_6c47ea3744a48e20.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1779,7 +1782,7 @@ TODO</p>
         
         
             <div class="article-image">
-                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu12431349409231175071.jpg" 
+                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu_7f02356adb9a872e.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1803,7 +1806,7 @@ TODO</p>
         
         
             <div class="article-image">
-                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu16517212594665624032.png" 
+                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu_2d8341da9b2d1f53.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1827,7 +1830,7 @@ TODO</p>
         
         
             <div class="article-image">
-                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9_hu12870970506028879207.gif" 
+                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9_hu_23fd76f4fc2982d7.gif" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -1840,30 +1843,6 @@ TODO</p>
 
         <div class="article-details">
             <h2 class="article-title">GDB调试秘籍：像高手一样排查问题</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
-        
-        
-            <div class="article-image">
-                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.a55b357ff9d2e033322598b57d591996_hu15019881840537993967.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post C&#43;&#43;知识点总结"
-                        data-key="C&#43;&#43;知识点总结" 
-                        data-hash="md5-pVs1f/nS4DMyJZi1fVkZlg==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">C&#43;&#43;知识点总结</h2>
         </div>
     </a>
 </article>

@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/'>
 
-<link rel="stylesheet" href="/scss/style.min.e460b8d7eabe89e4f4bae506eaa6feb3eb535a19c85caa61e95db0347acaac78.css"><meta property='og:title' content="C++知识点总结">
+<link rel="stylesheet" href="/scss/style.min.8977e359d53ae8ca856a2fca5b84c07371ac3e5815675d7479ecabddb44e7a3d.css"><meta property='og:title' content="C++知识点总结">
 <meta property='og:description' content="总结C++中常用的知识点和容易混淆的用法，作为自己的一个C++使用手册来查询阅读。">
 <meta property='og:url' content='http://localhost:1313/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/'>
 <meta property='og:site_name' content='七月流火'>
@@ -59,7 +59,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
+                        <img src="/img/avatar_hu_791ba457c31eae4c.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -352,7 +352,7 @@
         <li><a href="#typedef-声明">typedef 声明</a></li>
         <li><a href="#decltype-类型指示符">decltype 类型指示符</a></li>
         <li><a href="#枚举类型">枚举类型</a></li>
-        <li><a href="#c结构体c结构体c类的区别httpswwwcnblogscomcthonp9170596html"><a href="https://www.cnblogs.com/cthon/p/9170596.html">C结构体、C++结构体、C++类的区别</a></a>
+        <li><a href="#c结构体c结构体c类的区别"><a href="https://www.cnblogs.com/cthon/p/9170596.html">C结构体、C++结构体、C++类的区别</a></a>
           <ol>
             <li><a href="#结构体与联合体共用体的区别">结构体与联合体（共用体）的区别</a></li>
           </ol>
@@ -407,7 +407,7 @@
         <li><a href="#空类的成员函数">空类的成员函数</a></li>
         <li><a href="#初始化列表">初始化列表</a>
           <ol>
-            <li><a href="#使用初始化列表的原因httpswwwcnblogscomgraphicsarchive201007041770900html"><a href="https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html">使用初始化列表的原因</a></a></li>
+            <li><a href="#使用初始化列表的原因"><a href="https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html">使用初始化列表的原因</a></a></li>
             <li><a href="#必须使用初始化列表的情况">必须使用初始化列表的情况</a></li>
             <li><a href="#初始化顺序">初始化顺序</a></li>
           </ol>
@@ -458,7 +458,7 @@
           <ol>
             <li><a href="#回避虚函数">回避虚函数</a></li>
             <li><a href="#虚函数是怎么实现的">虚函数是怎么实现的</a></li>
-            <li><a href="#虚函数是否可以内联httpswwwyuquecomhuihutinterviewreadmeikirca"><a href="https://www.yuque.com/huihut/interview/readme#ikirca">虚函数是否可以内联</a></a></li>
+            <li><a href="#虚函数是否可以内联"><a href="https://www.yuque.com/huihut/interview/readme#ikirca">虚函数是否可以内联</a></a></li>
             <li><a href="#虚析构函数">虚析构函数</a></li>
             <li><a href="#静态联编和动态联编">静态联编和动态联编</a></li>
             <li><a href="#有关虚函数的注意事项">有关虚函数的注意事项</a></li>
@@ -531,8 +531,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
-                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover_hu15154093876923244622.jpg"
-                        srcset="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover_hu15154093876923244622.jpg 800w, /posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover_hu2016996962119986030.jpg 1600w"
+                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover_hu_977b2b4a4e38c785.jpg"
+                        srcset="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover_hu_977b2b4a4e38c785.jpg 800w, /posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover_hu_4b4df3aaf0ccd063.jpg 1600w"
                         width="800" 
                         height="311" 
                         loading="lazy"
@@ -2518,7 +2518,7 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1">// green 初始化为 5 ，blue 要满足比 green 大 1 即 blue = 6
 </span></span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="c结构体c结构体c类的区别httpswwwcnblogscomcthonp9170596html"><a class="link" href="https://www.cnblogs.com/cthon/p/9170596.html"  target="_blank" rel="noopener"
+</div><h3 id="c结构体c结构体c类的区别"><a class="link" href="https://www.cnblogs.com/cthon/p/9170596.html"  target="_blank" rel="noopener"
     >C结构体、C++结构体、C++类的区别</a>
 </h3><p><strong>C 结构体与 C++ 结构体</strong></p>
 <ul>
@@ -3589,7 +3589,7 @@
 </ul>
 <p>有些书上只是简单的介绍了前四个函数。没有提及后面这两个函数。但后面这两个函数也是空类的默认函数。另外需要注意的是，只有当实际使用这些函数的时候，编译器才会去定义它们。</p>
 <h3 id="初始化列表">初始化列表
-</h3><h4 id="使用初始化列表的原因httpswwwcnblogscomgraphicsarchive201007041770900html"><a class="link" href="https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html"  target="_blank" rel="noopener"
+</h3><h4 id="使用初始化列表的原因"><a class="link" href="https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html"  target="_blank" rel="noopener"
     >使用初始化列表的原因</a>
 </h4><p>初始化类的成员有两种方式，一是使用初始化列表，二是在构造函数体内进行赋值操作。</p>
 <p>主要是性能问题，对于内置类型，如 int, float 等，使用初始化列表和在构造函数体内初始化差别不是很大，但是对于类类型来说，最好使用初始化列表，<strong>因为使用初始化列表少了一次调用默认构造函数的过程</strong>，这对于数据密集型的类来说，是非常高效的（参考下文代码段例1）。</p>
@@ -4706,7 +4706,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。</li>
 </h4><p>虚函数是通过虚函数表实现的。如果一个类中有一个虚函数，则系统会为这个类分配一个指针成员指向一张虚函数表（vtbl），表中每一项指向一个虚函数地址，虚函数表实际上就是一个函数指针数组。</p>
 <p><a class="link" href="https://blog.csdn.net/weixin_40673608/article/details/88551020"  target="_blank" rel="noopener"
     >C++虚函数原理</a></p>
-<h4 id="虚函数是否可以内联httpswwwyuquecomhuihutinterviewreadmeikirca"><a class="link" href="https://www.yuque.com/huihut/interview/readme#ikirca"  target="_blank" rel="noopener"
+<h4 id="虚函数是否可以内联"><a class="link" href="https://www.yuque.com/huihut/interview/readme#ikirca"  target="_blank" rel="noopener"
     >虚函数是否可以内联</a>
 </h4><ul>
 <li>虚函数可以是内联函数，内联是可以修饰虚函数的，但是当虚函数表现多态性的时候不能内联。</li>
@@ -6649,11 +6649,35 @@ const 常量存在于程序的数据段，并分配了实际的内存。</li>
             
                 
 <article class="has-image">
+    <a href="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover.776b3b490d783e419a3071269be5607a_hu_2deeea24f9bfb2bf.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 解剖Requests：从Python小白到源码猎手的进阶之路"
+                        data-key="解剖Requests：从Python小白到源码猎手的进阶之路" 
+                        data-hash="md5-d2s7SQ14PkGaMHEmm&#43;Vgeg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">解剖Requests：从Python小白到源码猎手的进阶之路</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/">
         
         
             <div class="article-image">
-                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.0f8d6300cf01d6898a79fa0f8086967d_hu8984161256659165292.jpg" 
+                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.0f8d6300cf01d6898a79fa0f8086967d_hu_6c47ea3744a48e20.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -6677,7 +6701,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。</li>
         
         
             <div class="article-image">
-                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu12431349409231175071.jpg" 
+                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu_7f02356adb9a872e.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -6701,7 +6725,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。</li>
         
         
             <div class="article-image">
-                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu16517212594665624032.png" 
+                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu_2d8341da9b2d1f53.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -6725,7 +6749,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。</li>
         
         
             <div class="article-image">
-                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9_hu12870970506028879207.gif" 
+                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9_hu_23fd76f4fc2982d7.gif" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -6738,30 +6762,6 @@ const 常量存在于程序的数据段，并分配了实际的内存。</li>
 
         <div class="article-details">
             <h2 class="article-title">GDB调试秘籍：像高手一样排查问题</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">
-        
-        
-            <div class="article-image">
-                <img src="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover.77622c624e1a8f6554f74bb0603a65c3_hu800294363102459429.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post Vue入门笔记"
-                        data-key="Vue学习入门笔记" 
-                        data-hash="md5-d2IsYk4aj2VU90uwYDplww==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Vue入门笔记</h2>
         </div>
     </a>
 </article>

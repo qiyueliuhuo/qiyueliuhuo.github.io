@@ -117,14 +117,12 @@ $$
         
         <guid>http://localhost:1313/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</guid>
         <description>&lt;blockquote&gt;
-&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;在这篇博客文章中，我主要来写关于&lt;code&gt;pytorch&lt;/code&gt;中&lt;code&gt;transforms&lt;/code&gt;模块，该模块提供了对图像各种预处理方法，位于&lt;code&gt;torchvision/transforms/transforms.py&lt;/code&gt;，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。&lt;/p&gt;
 &lt;!-- more --&gt;
 &lt;blockquote&gt;
-&lt;p&gt;transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;transforms-模块相关源码分析&#34;&gt;transforms 模块相关源码分析
 &lt;/h2&gt;&lt;h3 id=&#34;transformscompose类&#34;&gt;transforms.Compose类
 &lt;/h3&gt;&lt;p&gt;先来看下&lt;code&gt;transforms.Compose&lt;/code&gt;在实际代码中是如何运用的，下面代码是使用&lt;code&gt;pytorch&lt;/code&gt;中的&lt;code&gt;Dataset&lt;/code&gt;方式定义ImageNet数据集，也就说&lt;code&gt;ImageNet&lt;/code&gt;继承自&lt;code&gt;data.Dataset&lt;/code&gt;。&lt;/p&gt;
@@ -214,8 +212,7 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;Compose&lt;/code&gt;是一个容器，它是对多个&lt;code&gt;transforms&lt;/code&gt;模块定义转换对象transform组合，本质上是对列表的包装（装饰模式？）。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;这里我将这些转换对象类定义为transform，包括&lt;code&gt;transforms.CenterCrop&lt;/code&gt;、&lt;code&gt;transforms.ToTensor&lt;/code&gt;等等。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;这里我将这些转换对象类定义为transform，包括&lt;code&gt;transforms.CenterCrop&lt;/code&gt;、&lt;code&gt;transforms.ToTensor&lt;/code&gt;等等。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;该类的&lt;strong&gt;构造器(constructor)&lt;strong&gt;函数入参为列表类型，列表里是多个transform转换对象；在&lt;code&gt;__call__&lt;/code&gt;中，通过&lt;code&gt;for&lt;/code&gt;循环遍历transforms列表，对图像依次进行调用&lt;code&gt;t(img)&lt;/code&gt;，可以看到每个transform都是一个可调用对象，通过依次调用这些transform，对图像进行预处理，这些处理是按照列表&lt;/strong&gt;顺序&lt;/strong&gt;处理。注：list是一种有序的集合。&lt;/p&gt;
 &lt;h3 id=&#34;transformsresize类&#34;&gt;transforms.Resize类
 &lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -549,8 +546,7 @@ $$
 &gt;&lt;/p&gt;
 &lt;p&gt;&lt;span style=&#34;color:#35b378;font-weight:bold;&#34;&gt;先从加载和处理数据源码了解。&lt;/span&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;dataset-相关源码&#34;&gt;Dataset 相关源码
 &lt;/h2&gt;&lt;h3 id=&#34;mnist类&#34;&gt;MNIST类
 &lt;/h3&gt;&lt;p&gt;类继承图：&lt;/p&gt;

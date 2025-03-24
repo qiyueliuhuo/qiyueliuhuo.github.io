@@ -17,8 +17,7 @@
 &lt;p&gt;四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。&lt;/p&gt;
 &lt;p&gt;这篇文章试图介绍深度学习中很重要的技术——神经网络，并重点介绍神经网络中运用到反向传播算法。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;在笔者大学期间，除了两场围棋人机大战外，还有一场比较有意思的大型实验：大贝尔实验——关于验证基础物理量子力学中非常有名且重要的贝尔不等式的实验。所谓“遇事不决，量子力学”，这个梗就表示了量子力学中存在一些无法解释（宏观世界难以理解）的现象，若有兴趣可以再了解下。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;在笔者大学期间，除了两场围棋人机大战外，还有一场比较有意思的大型实验：大贝尔实验——关于验证基础物理量子力学中非常有名且重要的贝尔不等式的实验。所谓“遇事不决，量子力学”，这个梗就表示了量子力学中存在一些无法解释（宏观世界难以理解）的现象，若有兴趣可以再了解下。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;感知机&#34;&gt;感知机
 &lt;/h2&gt;&lt;h3 id=&#34;感知机介绍&#34;&gt;感知机介绍
 &lt;/h3&gt;&lt;p&gt;首先让我们先来了解下神经网络中最简单也是最基础的一种结构——感知机（Perceptron），如下图：&lt;/p&gt;
@@ -225,8 +224,7 @@ $$ \frac{\partial f}{\partial y} = \frac{\partial f}{\partial q}\frac{\partial q
 利用上面得到的结论就可以得到每个遍历的偏导数，这个计算图和上面计算图区别之处在于：在乘法节点的结果输出到两个节点，分别是除法节点和减法节点，导数反向传播时，需要将上游传递的两个导数相加，即-0.25 + 1 = 0.75 这是基于下面的定理：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;定理：若函数$u=\varphi(t), v=\psi(t)$在点 t 可导，$z=f(u,v)$在点(u,v)处偏导连续，则复合函数$z=f(\varphi(t),\psi(t))$在点 t 可导，则有链式法则
-$$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \frac{\mathrm{d} u }{\mathrm{d} t} + \frac{\partial z}{\partial v} \cdot \frac{\mathrm{d} v }{\mathrm{d} t} $$&lt;/p&gt;
-&lt;/blockquote&gt;
+$$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \frac{\mathrm{d} u }{\mathrm{d} t} + \frac{\partial z}{\partial v} \cdot \frac{\mathrm{d} v }{\mathrm{d} t} $$&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;矩阵形式反向传播算法&#34;&gt;矩阵形式反向传播算法
 &lt;/h3&gt;&lt;p&gt;下面介绍矩阵形式计算图及反向传播公式，如下图神经网络 Affine 层。
 &lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20200628140209.png&#34;
@@ -240,8 +238,7 @@ $$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \fra
 	
 &gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Affine 层：神经网络在正向传播中进行的矩阵的乘积运算在几何学领域被称为“仿射变换”。因此，这里将进行的仿射变换的处理称为“Affine 层”。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;Affine 层：神经网络在正向传播中进行的矩阵的乘积运算在几何学领域被称为“仿射变换”。因此，这里将进行的仿射变换的处理称为“Affine 层”。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;神经网络中还有其他比较复杂的层，梯度推导比上面 Affine 层线性偏导数推导更为复杂，在此略过介绍及推导，但运用到的知识与上面方式类似，强烈建议自己手动推导下 Affine 层反向传播，对自己理解有帮助。&lt;/p&gt;
 &lt;p&gt;前面介绍神经网络学习策略也是一个最优化问题，即
 $$ loss \ function = E = \varphi(y, t) $$

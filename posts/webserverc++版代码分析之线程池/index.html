@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/'>
 
-<link rel="stylesheet" href="/scss/style.min.e460b8d7eabe89e4f4bae506eaa6feb3eb535a19c85caa61e95db0347acaac78.css"><meta property='og:title' content="WebServer（C++版）代码分析之线程池">
+<link rel="stylesheet" href="/scss/style.min.8977e359d53ae8ca856a2fca5b84c07371ac3e5815675d7479ecabddb44e7a3d.css"><meta property='og:title' content="WebServer（C++版）代码分析之线程池">
 <meta property='og:description' content="C++11 实现线程池。">
 <meta property='og:url' content='http://localhost:1313/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/'>
 <meta property='og:site_name' content='七月流火'>
@@ -59,7 +59,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
+                        <img src="/img/avatar_hu_791ba457c31eae4c.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -285,8 +285,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool_hu11933973782114792556.png"
-                        srcset="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool_hu11933973782114792556.png 800w, /posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool_hu10827648819095776238.png 1600w"
+                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool_hu_99c12681a03f0eaa.png"
+                        srcset="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool_hu_99c12681a03f0eaa.png 800w, /posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool_hu_ff99429ec82885af.png 1600w"
                         width="800" 
                         height="241" 
                         loading="lazy"
@@ -522,40 +522,33 @@
 </div><h2 id="源码分析">源码分析
 </h2><p>为什么该线程池所有的实现在 <code>threadpool.h</code> 中完成？</p>
 <blockquote>
-<p>上面源码为线程池的头文件 <code>threadpool.h</code>，而且该线程池<strong>没有</strong>对应的 <code>threadpool.cpp</code> 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。</p>
-</blockquote>
+<p>上面源码为线程池的头文件 <code>threadpool.h</code>，而且该线程池<strong>没有</strong>对应的 <code>threadpool.cpp</code> 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。</p></blockquote>
 <p><code>explicit</code> 修饰的构造函数如何理解？</p>
 <blockquote>
 <p>通过将构造函数声明为explicit（显式）的方式可以<strong>抑制隐式转换</strong>。也就是说，explicit构造函数必须显式调用。按默认规定，只用传一个参数的构造函数也定义了一个隐式转换。具体参考：<a class="link" href="https://veitchkyrie.github.io/2019/10/18/C&#43;&#43;-explicit%E5%85%B3%E9%94%AE%E5%AD%97-%E8%AF%A6%E8%A7%A3-%E7%94%A8%E4%BA%8E%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/"  target="_blank" rel="noopener"
-    >C++ explicit关键字详解</a></p>
-</blockquote>
+    >C++ explicit关键字详解</a></p></blockquote>
 <p><code>std::make_shared</code> 作用是什么？在什么场景下使用？</p>
 <blockquote>
 <p>如有可能，第一次创建内存资源时，请使用 <code>make_shared</code> 函数创建 <code>shared_ptr</code>。 <code>make_shared</code> 异常安全。 它使用同一调用为控制块和资源分配内存，这会减少构造开销。 如果不使用 <code>make_shared</code>，则必须先使用显式 <code>new</code> 表达式来创建对象，然后才能将其传递到 <code>shared_ptr</code> 构造函数。具体参考：<a class="link" href="https://docs.microsoft.com/zh-cn/cpp/cpp/how-to-create-and-use-shared-ptr-instances?view=msvc-170"  target="_blank" rel="noopener"
-    >如何：创建和使用 shared_ptr 实例</a></p>
-</blockquote>
+    >如何：创建和使用 shared_ptr 实例</a></p></blockquote>
 <p><code>void detach()</code> 作用？</p>
 <blockquote>
 <p>拆离相关联的线程。 操作系统负责释放终止的线程资源。具体参考：<a class="link" href="https://learn.microsoft.com/zh-cn/cpp/standard-library/thread-class?view=msvc-170"  target="_blank" rel="noopener"
-    >thread类-detach</a></p>
-</blockquote>
+    >thread类-detach</a></p></blockquote>
 <p><code>std::unique_lock</code> 作用及应用场景？</p>
 <blockquote>
 <p>表示可进行实例化以创建管理 <code>mutex</code> 锁定和解锁的对象的模板。<code>uniqie_lock</code> 是个类模板，它的功能跟 <code>lock_quard</code> 类似，但比 <code>lock_quard</code> 更灵活。在工作中，一般用 <code>lock_quard</code> （推荐使用）就足够了，但在一些特殊的场景下会用到 <code>uniqie_lock</code>。 <code>lock_quard</code> 取代了 <code>mutex</code> 的 <code>lock()</code> 和 <code>unlock()</code>，在 <code>lock_quard</code> 的构造函数中上锁，在析构函数中解锁，这点其实在 <code>uniqie_lock</code> 中也是一样的。<code>uniqie_lock</code> 在使用上比 <code>lock_quard</code> 灵活，但代价就是效率会低一点，并且内存占用量也会相对高一些。具体参考：<a class="link" href="https://www.w3cjava.com/technical-articles/C&#43;&#43;/125380206.html"  target="_blank" rel="noopener"
     >unique_lock详解</a> 和 <a class="link" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/unique-lock-class?view=msvc-170"  target="_blank" rel="noopener"
-    >unique_lock 类</a></p>
-</blockquote>
+    >unique_lock 类</a></p></blockquote>
 <p><code>std::mutex</code> 作用及应用场景？</p>
 <blockquote>
 <p><code>Mutex</code> 又称互斥量，C++ 11中与 <code>Mutex</code> 相关的类（包括锁类型）和函数都声明在 <code>&lt;mutex&gt;</code> 头文件中，所以如果你需要使用 <code>std::mutex</code>，就必须包含 <code>&lt;mutex&gt;</code> 头文件。<code>std::mutex</code> 是C++11 中最基本的互斥量，<code>std::mutex</code> 对象提供了独占所有权的特性——即不支持递归地对 <code>std::mutex</code> 对象上锁，而 <code>std::recursive_lock</code> 则可以递归地对互斥量对象上锁。具体参考：<a class="link" href="https://www.cnblogs.com/haippy/p/3237213.html"  target="_blank" rel="noopener"
-    >C++11 并发指南三(std::mutex 详解)</a></p>
-</blockquote>
+    >C++11 并发指南三(std::mutex 详解)</a></p></blockquote>
 <p><code>std::move</code> 与 <code>std::forward</code> 作用及应用场景？</p>
 <blockquote>
 <p><code>std::forward</code> 比 <code>std::move</code> 逻辑略复杂，<code>std::move</code> 是无条件把参数转换为右值，而 <code>std::forward</code> 在特定情况下才会这样做：仅当参数是用右值初始化时，才会把它转换为右值。它的意义是使外面的函数调用选择接受右值的版本，实际的移动工作是由外面的函数进行的；使用std::forward来转发参数一般被称为完美转发 (也叫精确传递)。具体参考：<a class="link" href="https://blog.csdn.net/xiangbaohui/article/details/103673177"  target="_blank" rel="noopener"
     >C++ 理解std::forward完美转发</a>。这里，使用 <code>std::move</code> 将 <code>pool-&gt;tasks.front()</code> 装换为右值，从而使得 <code>std::function</code> 类型的task调用 <code>function&amp; operator= (function&amp;&amp; rhs);</code> 构造函数，避免资源重复申请创建。详细讨论参考：<a class="link" href="https://www.zhihu.com/search?type=content&amp;q=std%3A%3Amove"  target="_blank" rel="noopener"
-    >知乎std::move回答</a></p>
-</blockquote>
+    >知乎std::move回答</a></p></blockquote>
 
 </section>
 
@@ -616,11 +609,35 @@
             
                 
 <article class="has-image">
+    <a href="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover.776b3b490d783e419a3071269be5607a_hu_2deeea24f9bfb2bf.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 解剖Requests：从Python小白到源码猎手的进阶之路"
+                        data-key="解剖Requests：从Python小白到源码猎手的进阶之路" 
+                        data-hash="md5-d2s7SQ14PkGaMHEmm&#43;Vgeg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">解剖Requests：从Python小白到源码猎手的进阶之路</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/">
         
         
             <div class="article-image">
-                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.0f8d6300cf01d6898a79fa0f8086967d_hu8984161256659165292.jpg" 
+                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.0f8d6300cf01d6898a79fa0f8086967d_hu_6c47ea3744a48e20.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -644,7 +661,7 @@
         
         
             <div class="article-image">
-                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu12431349409231175071.jpg" 
+                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu_7f02356adb9a872e.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -668,7 +685,7 @@
         
         
             <div class="article-image">
-                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9_hu12870970506028879207.gif" 
+                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9_hu_23fd76f4fc2982d7.gif" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -692,7 +709,7 @@
         
         
             <div class="article-image">
-                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.a55b357ff9d2e033322598b57d591996_hu15019881840537993967.jpg" 
+                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.a55b357ff9d2e033322598b57d591996_hu_969c3540d783af7a.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -705,30 +722,6 @@
 
         <div class="article-details">
             <h2 class="article-title">C&#43;&#43;知识点总结</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">
-        
-        
-            <div class="article-image">
-                <img src="/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover.77622c624e1a8f6554f74bb0603a65c3_hu800294363102459429.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post Vue入门笔记"
-                        data-key="Vue学习入门笔记" 
-                        data-hash="md5-d2IsYk4aj2VU90uwYDplww==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Vue入门笔记</h2>
         </div>
     </a>
 </article>

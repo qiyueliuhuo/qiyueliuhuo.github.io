@@ -179,7 +179,7 @@ $$
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector.png&#34;
 	width=&#34;1540&#34;
 	height=&#34;808&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu14918993312572815672.png 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu3877068536877370882.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu_db7fe1995a1cc0a2.png 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu_d65c01ca4265eb3a.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;现代基于卷积神经网络目标检测框架&#34;
@@ -1249,7 +1249,7 @@ $$
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54.jpg&#34;
 	width=&#34;1807&#34;
 	height=&#34;726&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu15491644435613924462.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu17533262394151809902.jpg 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu_3c9e82925881d3a5.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu_4477a18723ba7d24.jpg 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;经典双阶段Faster R-CNN流程&#34;
@@ -1563,7 +1563,7 @@ $$
 &lt;img src=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31.jpg&#34;
 	width=&#34;1724&#34;
 	height=&#34;624&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu13630418249585153407.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu17290261013136255209.jpg 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu_3c0331994b8b1a0d.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu_11d5f9b3397ae60d.jpg 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;目标检测两阶段架构&#34;
@@ -1588,8 +1588,7 @@ $$
         
         <guid>http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/</guid>
         <description>&lt;img src="http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_cover.jpg" alt="Featured image of post LeetCode 进阶指南：解题思路与算法题分类总结" /&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;人生亦有命，安能行叹复坐愁？ —— 拟行路难·其四&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;人生亦有命，安能行叹复坐愁？ —— 拟行路难·其四&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;目前只做字节跳动、腾讯的算法和后端的高频leetcode算法题。刷题之前先复习经典的一些算法，有相当多算法是经典算法的修改版。&lt;/p&gt;
 &lt;p&gt;汇总地址：&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -1706,7 +1705,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题1-数组中的第k个最大元素力扣215httpsleetcode-cncomproblemskth-largest-element-in-an-array字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题1： 数组中的第K个最大元素（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/kth-largest-element-in-an-array/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题1-数组中的第k个最大元素力扣215字节-算法-频次6&#34;&gt;例题1： 数组中的第K个最大元素（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/kth-largest-element-in-an-array/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣215&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次6&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。&lt;br&gt;
@@ -1937,7 +1936,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题1合并两个有序数组-力扣88httpsleetcode-cncomproblemsmerge-sorted-array&#34;&gt;例题1：合并两个有序数组 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/merge-sorted-array/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题1合并两个有序数组-力扣88&#34;&gt;例题1：合并两个有序数组 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/merge-sorted-array/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣88&lt;/a&gt;）
 &lt;/h5&gt;&lt;h6 id=&#34;python代码-1&#34;&gt;python代码
 &lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -2006,7 +2005,7 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;数组&#34;&gt;数组
 &lt;/h3&gt;&lt;h4 id=&#34;二分查找&#34;&gt;二分查找
-&lt;/h4&gt;&lt;h5 id=&#34;例题1爱吃香蕉的珂珂力扣875httpsleetcode-cncomproblemskoko-eating-bananas&#34;&gt;例题1：爱吃香蕉的珂珂（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/koko-eating-bananas/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h4&gt;&lt;h5 id=&#34;例题1爱吃香蕉的珂珂力扣875&#34;&gt;例题1：爱吃香蕉的珂珂（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/koko-eating-bananas/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣875&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;珂珂喜欢吃香蕉。这里有 N 堆香蕉，第 i 堆中有 piles[i] 根香蕉。警卫已经离开了，将在 H 小时后回来。&lt;/p&gt;
 &lt;p&gt;珂珂可以决定她吃香蕉的速度 K（单位：根/小时）。每个小时，她将会选择一堆香蕉，从中吃掉 K 根。如果这堆香蕉少于 K 根，她将吃掉这堆的所有香蕉，然后这一小时内不会再吃更多的香蕉。&lt;/p&gt;
@@ -2061,7 +2060,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;h&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;h_&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题2-x-的平方根-力扣69httpsleetcode-cncomproblemssqrtx&#34;&gt;例题2： x 的平方根 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/sqrtx/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题2-x-的平方根-力扣69&#34;&gt;例题2： x 的平方根 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/sqrtx/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣69&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你一个非负整数 x ，计算并返回 x 的 算术平方根 。&lt;/p&gt;
 &lt;p&gt;由于返回类型是整数，结果只保留 整数部分 ，小数部分将被 舍去 。&lt;/p&gt;
@@ -2096,7 +2095,7 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;链表&#34;&gt;链表
 &lt;/h3&gt;&lt;h4 id=&#34;链表翻转&#34;&gt;链表翻转
-&lt;/h4&gt;&lt;h5 id=&#34;例题1k-个一组翻转链表力扣25httpsleetcode-cncomproblemsreverse-nodes-in-k-group字节-后端-频次60httpsgithubcomafatcoderleetcodetopblobmasterbytedancebackendmd&#34;&gt;例题1：K 个一组翻转链表（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/reverse-nodes-in-k-group/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h4&gt;&lt;h5 id=&#34;例题1k-个一组翻转链表力扣25字节-后端-频次60&#34;&gt;例题1：K 个一组翻转链表（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/reverse-nodes-in-k-group/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣25&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/backend.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-后端-频次60&lt;/a&gt;）
 &lt;/h5&gt;&lt;h6 id=&#34;python代码-4&#34;&gt;python代码
@@ -2300,7 +2299,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题1求根节点到叶节点数字之和力扣129httpsleetcode-cncomproblemssum-root-to-leaf-numbers&#34;&gt;例题1：求根节点到叶节点数字之和（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题1求根节点到叶节点数字之和力扣129&#34;&gt;例题1：求根节点到叶节点数字之和（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣129&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你一个二叉树的根节点 root ，树中每个节点都存放有一个 0 到 9 之间的数字。
 每条从根节点到叶节点的路径都代表一个数字：&lt;/p&gt;
@@ -2354,7 +2353,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;do_sumNumbers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;root&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;right&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;current&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;root&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题2二叉树的最近公共祖先力扣236httpsleetcode-cncomproblemslowest-common-ancestor-of-a-binary-tree字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题2：二叉树的最近公共祖先（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题2二叉树的最近公共祖先力扣236字节-算法-频次6&#34;&gt;例题2：二叉树的最近公共祖先（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣236&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次6&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给定一个二叉树, 找到该树中两个指定节点的&lt;strong&gt;最近公共祖先。&lt;/strong&gt;
@@ -2535,9 +2534,9 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;root&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题1前序和中序遍历构造二叉树-力扣98httpsleetcode-cncomproblemsconstruct-binary-tree-from-preorder-and-inorder-traversal&#34;&gt;例题1：前序和中序遍历构造二叉树 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题1前序和中序遍历构造二叉树-力扣98&#34;&gt;例题1：前序和中序遍历构造二叉树 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣98&lt;/a&gt;）
-&lt;/h5&gt;&lt;h5 id=&#34;例题2二叉树的右侧视图-力扣199httpsleetcode-cncomproblemsbinary-tree-right-side-view&#34;&gt;例题2：二叉树的右侧视图 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/binary-tree-right-side-view/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h5&gt;&lt;h5 id=&#34;例题2二叉树的右侧视图-力扣199&#34;&gt;例题2：二叉树的右侧视图 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/binary-tree-right-side-view/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣199&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给定一个二叉树的 &lt;strong&gt;根节点&lt;/strong&gt; root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。&lt;/p&gt;
 &lt;h6 id=&#34;python代码-8&#34;&gt;python代码
@@ -2590,7 +2589,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h4 id=&#34;二叉搜索树中序遍历&#34;&gt;二叉搜索树中序遍历
-&lt;/h4&gt;&lt;h5 id=&#34;例题1二叉搜索树中第k小的元素力扣230httpsleetcode-cncomproblemskth-smallest-element-in-a-bst&#34;&gt;例题1：二叉搜索树中第K小的元素（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h4&gt;&lt;h5 id=&#34;例题1二叉搜索树中第k小的元素力扣230&#34;&gt;例题1：二叉搜索树中第K小的元素（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣230&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给定一个二叉搜索树的根节点 root ，和一个整数 k ，请你设计一个算法查找其中第 k 个最小元素（从 1 开始计数）。&lt;/p&gt;
 &lt;h6 id=&#34;python代码-9&#34;&gt;python代码
@@ -2698,8 +2697,7 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;h4 id=&#34;图遍历&#34;&gt;图遍历
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;下面的代码都是github copilot自动生成的代码，看起来非常不错。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;下面的代码都是github copilot自动生成的代码，看起来非常不错。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -2825,7 +2823,7 @@ $$
 &lt;/div&gt;&lt;p&gt;参考：&lt;br&gt;
 &lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/76596674&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;图的两种遍历方式：DFS、BFS&lt;/a&gt;&lt;/p&gt;
-&lt;h5 id=&#34;例题1岛屿数量力扣200httpsleetcode-cncomproblemsnumber-of-islands字节-算法-频次5httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题1：岛屿数量（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/number-of-islands/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h5 id=&#34;例题1岛屿数量力扣200字节-算法-频次5&#34;&gt;例题1：岛屿数量（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/number-of-islands/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣200&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次5&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你一个由 &amp;lsquo;1&amp;rsquo;（陆地）和 &amp;lsquo;0&amp;rsquo;（水）组成的的二维网格，请你计算网格中岛屿的数量。&lt;br&gt;
@@ -2917,10 +2915,9 @@ $$&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;两种算法得到的算法具有相同的渐近运行时间，仅有的差异在某些特殊情况下，自顶向下方法并未真正递归地考察所有可能的子问题。由于没有频繁的递归函数调用的开销，&lt;font color=#E3B&gt;&lt;strong&gt;自底向上方法的时间复杂性函数通常具有更小的系数。&lt;/strong&gt;&lt;/font&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;动态规划题一般情况，需要先找到合适的状态转移方程/递推公式，中间结果状态的保存一般用数组或者多维数组，这里，如果状态转移方程只依赖之前计算的有限项，且这些有限项符合固定的规则，并且最后计算的结果不是在所有状态中寻找（如max）求得，那么往往并不需要一个数组，只需要记录某几个之前的状态（变量可以重复利用），就可以递推后面的情况，降低空间复杂度。该想法总结自求解斐波那契数列。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;动态规划题一般情况，需要先找到合适的状态转移方程/递推公式，中间结果状态的保存一般用数组或者多维数组，这里，如果状态转移方程只依赖之前计算的有限项，且这些有限项符合固定的规则，并且最后计算的结果不是在所有状态中寻找（如max）求得，那么往往并不需要一个数组，只需要记录某几个之前的状态（变量可以重复利用），就可以递推后面的情况，降低空间复杂度。该想法总结自求解斐波那契数列。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h4 id=&#34;例题&#34;&gt;例题
-&lt;/h4&gt;&lt;h5 id=&#34;例题1打家劫舍力扣198httpsleetcode-cncomproblemshouse-robber&#34;&gt;例题1：打家劫舍（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/house-robber/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h4&gt;&lt;h5 id=&#34;例题1打家劫舍力扣198&#34;&gt;例题1：打家劫舍（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/house-robber/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣198&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，&lt;strong&gt;如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;给定一个代表每个房屋存放金额的非负整数数组，计算你&lt;strong&gt;不触动警报装置的情况下&lt;/strong&gt; ，一夜之内能够偷窃到的最高金额。如，输入：[2,7,9,3,1]
@@ -2977,7 +2974,7 @@ $$
 \begin{cases}d p[0]=n u m s[0] &amp;amp; \text { 只有一间房屋, 则偷窄该房屋 } \\ d p[1]=\max (n u m s[0], n u m s[1]) &amp;amp; \text { 只有两间房屋, 选择其中金额较高的房屋进行偷窃 }\end{cases}
 $$
 最终的答案即为 $d p[n-1]$, 其中 $n$ 是数组的长度。&lt;/p&gt;
-&lt;h5 id=&#34;例题2零钱兑换-力扣322httpsleetcode-cncomproblemscoin-change&#34;&gt;例题2：零钱兑换 (&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/coin-change/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h5 id=&#34;例题2零钱兑换-力扣322&#34;&gt;例题2：零钱兑换 (&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/coin-change/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣322&lt;/a&gt;)
 &lt;/h5&gt;&lt;p&gt;给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。计算并返回可以凑成总金额所需的最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;你可以认为每种硬币的数量是无限的。&lt;/strong&gt; 如，输入：coins = [1, 2, 5], amount = 11，输出：3&lt;/p&gt;
@@ -3008,7 +3005,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;amount&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;amount&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;float&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;inf&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题3-最长有效括号力扣32httpsleetcode-cncomproblemslongest-valid-parentheses&#34;&gt;例题3： 最长有效括号（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/longest-valid-parentheses/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题3-最长有效括号力扣32&#34;&gt;例题3： 最长有效括号（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/longest-valid-parentheses/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣32&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你一个只包含 &amp;lsquo;(&amp;rsquo; 和 &amp;lsquo;)&amp;rsquo; 的字符串，找出最长有效（格式正确且连续）括号子串的长度。如，输入：s = &amp;ldquo;)()())&amp;quot;，输出：4，解释：最长有效括号子串是 &amp;ldquo;()()&amp;rdquo;&lt;/p&gt;
 &lt;h6 id=&#34;python代码-13&#34;&gt;python代码
@@ -3038,7 +3035,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题4编辑距离-力扣72httpsleetcode-cncomproblemsedit-distance字节-算法-频次8httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题4：编辑距离 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/edit-distance/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题4编辑距离-力扣72字节-算法-频次8&#34;&gt;例题4：编辑距离 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/edit-distance/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣72&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次8&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数。&lt;/p&gt;
@@ -3050,8 +3047,7 @@ horse -&amp;gt; rorse (将 &amp;lsquo;h&amp;rsquo; 替换为 &amp;lsquo;r&amp;rs
 rorse -&amp;gt; rose (删除 &amp;lsquo;r&amp;rsquo;)&lt;br&gt;
 rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;官方给的思路如何保证是全局最小操作数呢？另外，处理dp边界时候，可以申请一个额外的空间i=0，j=0，即申请dp[0&amp;hellip;n + 1][0&amp;hellip;m + 1]空间，然后把第一行和第一列的值设置为边界，这样递推代码中不用额外考虑边界情况，这样可以简化代码。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;官方给的思路如何保证是全局最小操作数呢？另外，处理dp边界时候，可以申请一个额外的空间i=0，j=0，即申请dp[0&amp;hellip;n + 1][0&amp;hellip;m + 1]空间，然后把第一行和第一列的值设置为边界，这样递推代码中不用额外考虑边界情况，这样可以简化代码。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h6 id=&#34;python代码-14&#34;&gt;python代码
 &lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -3119,14 +3115,13 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;][&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;j&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h5 id=&#34;例题5最长递增子序列-力扣300httpsleetcode-cncomproblemslongest-increasing-subsequence字节-算法-频次6httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题5：最长递增子序列 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/longest-increasing-subsequence/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h5 id=&#34;例题5最长递增子序列-力扣300字节-算法-频次6&#34;&gt;例题5：最长递增子序列 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/longest-increasing-subsequence/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣300&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次6&lt;/a&gt;）
 &lt;/h5&gt;&lt;p&gt;给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;子序列&lt;/strong&gt; 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;看着有些难度，实际上只要想到动态规划，并且以nums[i]处作为子序列的结尾，从小递推到给定的序列的长度，就可以解决问题了。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;看着有些难度，实际上只要想到动态规划，并且以nums[i]处作为子序列的结尾，从小递推到给定的序列的长度，就可以解决问题了。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h6 id=&#34;python代码-15&#34;&gt;python代码
 &lt;/h6&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -3151,7 +3146,7 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h5 id=&#34;其他例题-1&#34;&gt;其他例题
-&lt;/h5&gt;&lt;h6 id=&#34;青蛙过河力扣403httpsleetcode-cncomproblemsfrog-jump&#34;&gt;青蛙过河（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/frog-jump/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h5&gt;&lt;h6 id=&#34;青蛙过河力扣403&#34;&gt;青蛙过河（&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/frog-jump/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣403&lt;/a&gt;）
 &lt;/h6&gt;&lt;h4 id=&#34;动态规划中常用思想&#34;&gt;动态规划中常用思想
 &lt;/h4&gt;&lt;ol&gt;
@@ -3159,7 +3154,7 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;li&gt;在字符串表示的结构中，任何一个子串/子序列，都必须有一个结尾字符，往往可以考虑将以字符结尾的某个DP变量作为动态规划状态，从而考虑更长的字符串。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;奇淫技巧小题大做&#34;&gt;奇淫技巧（小题大做）
-&lt;/h2&gt;&lt;h3 id=&#34;例题1寻找重复数-力扣287httpsleetcode-cncomproblemsfind-the-duplicate-number字节-算法-频次3httpsgithubcomafatcoderleetcodetopblobmasterbytedancealgorithmmd&#34;&gt;例题1：寻找重复数 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/find-the-duplicate-number/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h2&gt;&lt;h3 id=&#34;例题1寻找重复数-力扣287字节-算法-频次3&#34;&gt;例题1：寻找重复数 （&lt;a class=&#34;link&#34; href=&#34;https://leetcode-cn.com/problems/find-the-duplicate-number/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;力扣287&lt;/a&gt;）（&lt;a class=&#34;link&#34; href=&#34;https://github.com/afatcoder/LeetcodeTop/blob/master/bytedance/algorithm.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;字节-算法-频次3&lt;/a&gt;）
 &lt;/h3&gt;&lt;h2 id=&#34;待解决&#34;&gt;待解决
@@ -3177,7 +3172,7 @@ rose -&amp;gt; ros (删除 &amp;rsquo;e&amp;rsquo;)&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32.png&#34;
 	width=&#34;217&#34;
 	height=&#34;189&#34;
-	srcset=&#34;http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu8666688849022667935.png 480w, http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu15695013204657258868.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu_36113c85745e02cc.png 480w, http://localhost:1313/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/Snipaste_2022-09-08_10-29-32_hu_1ac2f51af6f919d5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;配置校验数&#34;
@@ -3456,11 +3451,9 @@ $$&lt;/p&gt;
     &gt;矩阵求导术（下）&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;更新记录&#34;&gt;更新记录
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;调整格式和排版。  —— 2022.07.19&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;调整格式和排版。  —— 2022.07.19&lt;/p&gt;&lt;/blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;使用 pandoc 渲染，对公式展示更友好。 —— 2022.08.27&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;使用 pandoc 渲染，对公式展示更友好。 —— 2022.08.27&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -3495,7 +3488,7 @@ $$&lt;/p&gt;
 &lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716.png&#34;
 	width=&#34;1299&#34;
 	height=&#34;605&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu7154423667077776749.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu15161256305760877554.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu_b401fb80d0394eff.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022155716_hu_e7381181d74edd53.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -3509,7 +3502,7 @@ $$&lt;/p&gt;
 &lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500.png&#34;
 	width=&#34;1376&#34;
 	height=&#34;375&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu9595334439086501891.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu4172800769463081073.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu_d10b20a2782ee3b7.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022161500_hu_5af5adc020579555.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -3555,7 +3548,7 @@ $$&lt;/p&gt;
 &lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257.png&#34;
 	width=&#34;1393&#34;
 	height=&#34;630&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu9948687688080604686.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu10709684138291102200.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu_6b4eecb1238398fa.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022163257_hu_39ed0549b741c877.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -3596,7 +3589,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625.png&#34;
 	width=&#34;1024&#34;
 	height=&#34;629&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu15639299619994512816.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu16997794664252562987.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu_648d6551034fa832.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022165625_hu_62db63e2f30235cc.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -3652,7 +3645,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622.png&#34;
 	width=&#34;855&#34;
 	height=&#34;737&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu9433974691840405427.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu2035181916524108223.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu_dd4119c788cf5fb5.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211022233622_hu_3e80b21c45d6e3f5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -3664,7 +3657,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837.png&#34;
 	width=&#34;744&#34;
 	height=&#34;713&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu15356090554493613074.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu18062393443103439133.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu_9a7663467b4bd496.png 480w, http://localhost:1313/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/20211024221837_hu_3a6fa32424b4b54b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -3687,8 +3680,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
     &gt;YJango的卷积神经网络&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;更新记录&#34;&gt;更新记录
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;调整格式和排版。 —— 2022.07.19&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;调整格式和排版。 —— 2022.07.19&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -3709,7 +3701,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42.png&#34;
 	width=&#34;1291&#34;
 	height=&#34;426&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu2418027556458035093.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu9556632467753866613.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu_bc641245c1e136fe.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu_12f62f628955f226.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;检测结果示例&#34;
@@ -3724,7 +3716,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2.png&#34;
 	width=&#34;809&#34;
 	height=&#34;446&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu415412087098922318.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu17359873281064812625.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu_ac7b54bf958272d2.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu_604cfe2b4ad3ed72.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;多张图像检测结果示例&#34;
@@ -3739,7 +3731,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2.png&#34;
 	width=&#34;332&#34;
 	height=&#34;705&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu15070469870161165776.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu2573344215508920506.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu_1e0e8eea2ef80028.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu_1266ecb8e2654dd6.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;多张图像检测结果分析&#34;
@@ -3758,7 +3750,7 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07.png&#34;
 	width=&#34;746&#34;
 	height=&#34;201&#34;
-	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu5765300025566985294.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu16317770309019673399.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu_e0148dac7290efe2.png 480w, http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu_19ed66d4e1c04cf5.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -3801,13 +3793,12 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
         <guid>http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/</guid>
         <description>&lt;img src="http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/operator_parameters_and_calculation.jpg" alt="Featured image of post 拆解神经网络算子：参数量与计算量的秘密" /&gt;&lt;p&gt;在学习机器学习和神经网络过程中，对于模型参数和模型计算量需要做出评估，这篇文章介绍几种常见操作对模型带来的参数量和计算量，更专业的表示为空间复杂度和时间复杂度，后续再补充。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注意：下面计算的是都是&lt;strong&gt;单层&lt;/strong&gt;的&lt;strong&gt;参数量&lt;/strong&gt;和&lt;strong&gt;计算量&lt;/strong&gt;，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以&lt;strong&gt;BatchSize&lt;/strong&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注意：下面计算的是都是&lt;strong&gt;单层&lt;/strong&gt;的&lt;strong&gt;参数量&lt;/strong&gt;和&lt;strong&gt;计算量&lt;/strong&gt;，并且是对于一个样本的计算量，如果计算批量样本，需要给下面计算量乘以&lt;strong&gt;BatchSize&lt;/strong&gt;。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;卷积层&#34;&gt;卷积层
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848.png&#34;
 	width=&#34;193&#34;
 	height=&#34;187&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu1690272979079249509.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu12359875175678289991.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu_3d1e61dcf1576c59.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425214848_hu_685cbd2185e4f79b.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -3825,15 +3816,14 @@ $F \times C^{T}=\left(\left(H^{\prime} \times W^{\prime}\right) \times(C \times 
 &lt;ul&gt;
 &lt;li&gt;FLOPs(Floating Point Operations)，浮点运算次数，用来衡量算法的时间复杂度；&lt;/li&gt;
 &lt;li&gt;FLOPS(Floating Point Operations per Seconds)，单位时间浮点运算次数，用来衡量硬件计算性能。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/ul&gt;&lt;/blockquote&gt;
 &lt;p&gt;$FLOPs=\left[\left(C_{i n} \times k_{w} \times k_{h}\right)+\left(C_{i n} \times k_{w} \times k_{h}-1\right)+1\right] \times C_{o u t} \times W_{out} \times H_{out}$&lt;br&gt;
 $k_{w}$ 和 $k_{h}$ 分别表示卷积核的宽和高，其中 $C_{i n} \times k_{w} \times k_{h}$ 表示乘法计算量, $C_{i n} \times k_{w} \times k_{h}-1$ 表示加法计算量(可以这样理解，需要把乘法计算得到的$C_{i n} \times k_{w} \times k_{h}$个数字加这么多次), $+1$ 表示偏置, $C_{\text {out }} \times W_{out} \times H_{out}$ 表示 feature $\operatorname{map}$ 中的所有元素， $W_{out} \text{、} H_{out}$ 表示feature map的宽和高。&lt;/p&gt;
 &lt;h2 id=&#34;全连接层&#34;&gt;全连接层
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554.png&#34;
 	width=&#34;187&#34;
 	height=&#34;210&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu15809413396768328856.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu4050310374003110611.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu_51732999204902e7.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425234554_hu_fde92883ad4ae362.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -3853,7 +3843,7 @@ $N_{in}$ 和 $N_{out}$ 分别表示输入的特征数和输出的特征数。&lt
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642.png&#34;
 	width=&#34;285&#34;
 	height=&#34;191&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu14298729690017617564.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu4316019036069062409.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu_58504fecd7f21413.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210425233642_hu_7fa83199f53e728.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -3872,7 +3862,7 @@ $H_{out} \times W_{out}$代表输出特征图大小，$C_{out}$代表输出通�
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056.png&#34;
 	width=&#34;794&#34;
 	height=&#34;1858&#34;
-	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu8514699327283385200.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu13974894953538455973.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu_f8701f9d706cae21.png 480w, http://localhost:1313/posts/%E6%8B%86%E8%A7%A3%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%97%E5%AD%90%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E7%A7%98%E5%AF%86/20210422151056_hu_e1bf97e29a65f5b4.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -4045,8 +4035,7 @@ $(512 \times 7 \times 7 + 1) \times 4096 + (4096 + 1) \times 4096 + (4096 + 1) \
     &gt;https://zhuanlan.zhihu.com/p/31575074&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;更新记录&#34;&gt;更新记录
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;增加网络模型统计工具，自动进行网络参数和计算量统计。 —— 2022.07.19&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;增加网络模型统计工具，自动进行网络参数和计算量统计。 —— 2022.07.19&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -4160,14 +4149,12 @@ $$
         
         <guid>http://localhost:1313/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</guid>
         <description>&lt;blockquote&gt;
-&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;在这篇博客文章中，我主要来写关于&lt;code&gt;pytorch&lt;/code&gt;中&lt;code&gt;transforms&lt;/code&gt;模块，该模块提供了对图像各种预处理方法，位于&lt;code&gt;torchvision/transforms/transforms.py&lt;/code&gt;，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。&lt;/p&gt;
 &lt;!-- more --&gt;
 &lt;blockquote&gt;
-&lt;p&gt;transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;transforms-模块相关源码分析&#34;&gt;transforms 模块相关源码分析
 &lt;/h2&gt;&lt;h3 id=&#34;transformscompose类&#34;&gt;transforms.Compose类
 &lt;/h3&gt;&lt;p&gt;先来看下&lt;code&gt;transforms.Compose&lt;/code&gt;在实际代码中是如何运用的，下面代码是使用&lt;code&gt;pytorch&lt;/code&gt;中的&lt;code&gt;Dataset&lt;/code&gt;方式定义ImageNet数据集，也就说&lt;code&gt;ImageNet&lt;/code&gt;继承自&lt;code&gt;data.Dataset&lt;/code&gt;。&lt;/p&gt;
@@ -4257,8 +4244,7 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;Compose&lt;/code&gt;是一个容器，它是对多个&lt;code&gt;transforms&lt;/code&gt;模块定义转换对象transform组合，本质上是对列表的包装（装饰模式？）。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;这里我将这些转换对象类定义为transform，包括&lt;code&gt;transforms.CenterCrop&lt;/code&gt;、&lt;code&gt;transforms.ToTensor&lt;/code&gt;等等。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;这里我将这些转换对象类定义为transform，包括&lt;code&gt;transforms.CenterCrop&lt;/code&gt;、&lt;code&gt;transforms.ToTensor&lt;/code&gt;等等。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;该类的&lt;strong&gt;构造器(constructor)&lt;strong&gt;函数入参为列表类型，列表里是多个transform转换对象；在&lt;code&gt;__call__&lt;/code&gt;中，通过&lt;code&gt;for&lt;/code&gt;循环遍历transforms列表，对图像依次进行调用&lt;code&gt;t(img)&lt;/code&gt;，可以看到每个transform都是一个可调用对象，通过依次调用这些transform，对图像进行预处理，这些处理是按照列表&lt;/strong&gt;顺序&lt;/strong&gt;处理。注：list是一种有序的集合。&lt;/p&gt;
 &lt;h3 id=&#34;transformsresize类&#34;&gt;transforms.Resize类
 &lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -4592,8 +4578,7 @@ $$
 &gt;&lt;/p&gt;
 &lt;p&gt;&lt;span style=&#34;color:#35b378;font-weight:bold;&#34;&gt;先从加载和处理数据源码了解。&lt;/span&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;dataset-相关源码&#34;&gt;Dataset 相关源码
 &lt;/h2&gt;&lt;h3 id=&#34;mnist类&#34;&gt;MNIST类
 &lt;/h3&gt;&lt;p&gt;类继承图：&lt;/p&gt;
@@ -6037,8 +6022,7 @@ $\gamma$代表的是数据点到超平面的几何距离，$(2)$式括号内代�
 &lt;p&gt;四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。&lt;/p&gt;
 &lt;p&gt;这篇文章试图介绍深度学习中很重要的技术——神经网络，并重点介绍神经网络中运用到反向传播算法。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;在笔者大学期间，除了两场围棋人机大战外，还有一场比较有意思的大型实验：大贝尔实验——关于验证基础物理量子力学中非常有名且重要的贝尔不等式的实验。所谓“遇事不决，量子力学”，这个梗就表示了量子力学中存在一些无法解释（宏观世界难以理解）的现象，若有兴趣可以再了解下。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;在笔者大学期间，除了两场围棋人机大战外，还有一场比较有意思的大型实验：大贝尔实验——关于验证基础物理量子力学中非常有名且重要的贝尔不等式的实验。所谓“遇事不决，量子力学”，这个梗就表示了量子力学中存在一些无法解释（宏观世界难以理解）的现象，若有兴趣可以再了解下。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;感知机&#34;&gt;感知机
 &lt;/h2&gt;&lt;h3 id=&#34;感知机介绍&#34;&gt;感知机介绍
 &lt;/h3&gt;&lt;p&gt;首先让我们先来了解下神经网络中最简单也是最基础的一种结构——感知机（Perceptron），如下图：&lt;/p&gt;
@@ -6245,8 +6229,7 @@ $$ \frac{\partial f}{\partial y} = \frac{\partial f}{\partial q}\frac{\partial q
 利用上面得到的结论就可以得到每个遍历的偏导数，这个计算图和上面计算图区别之处在于：在乘法节点的结果输出到两个节点，分别是除法节点和减法节点，导数反向传播时，需要将上游传递的两个导数相加，即-0.25 + 1 = 0.75 这是基于下面的定理：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;定理：若函数$u=\varphi(t), v=\psi(t)$在点 t 可导，$z=f(u,v)$在点(u,v)处偏导连续，则复合函数$z=f(\varphi(t),\psi(t))$在点 t 可导，则有链式法则
-$$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \frac{\mathrm{d} u }{\mathrm{d} t} + \frac{\partial z}{\partial v} \cdot \frac{\mathrm{d} v }{\mathrm{d} t} $$&lt;/p&gt;
-&lt;/blockquote&gt;
+$$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \frac{\mathrm{d} u }{\mathrm{d} t} + \frac{\partial z}{\partial v} \cdot \frac{\mathrm{d} v }{\mathrm{d} t} $$&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;矩阵形式反向传播算法&#34;&gt;矩阵形式反向传播算法
 &lt;/h3&gt;&lt;p&gt;下面介绍矩阵形式计算图及反向传播公式，如下图神经网络 Affine 层。
 &lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20200628140209.png&#34;
@@ -6260,8 +6243,7 @@ $$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \fra
 	
 &gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Affine 层：神经网络在正向传播中进行的矩阵的乘积运算在几何学领域被称为“仿射变换”。因此，这里将进行的仿射变换的处理称为“Affine 层”。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;Affine 层：神经网络在正向传播中进行的矩阵的乘积运算在几何学领域被称为“仿射变换”。因此，这里将进行的仿射变换的处理称为“Affine 层”。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;神经网络中还有其他比较复杂的层，梯度推导比上面 Affine 层线性偏导数推导更为复杂，在此略过介绍及推导，但运用到的知识与上面方式类似，强烈建议自己手动推导下 Affine 层反向传播，对自己理解有帮助。&lt;/p&gt;
 &lt;p&gt;前面介绍神经网络学习策略也是一个最优化问题，即
 $$ loss \ function = E = \varphi(y, t) $$

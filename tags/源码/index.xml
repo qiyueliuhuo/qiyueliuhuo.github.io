@@ -45,7 +45,7 @@
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector.png&#34;
 	width=&#34;1540&#34;
 	height=&#34;808&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu14918993312572815672.png 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu3877068536877370882.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu_db7fe1995a1cc0a2.png 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/object_detector_hu_d65c01ca4265eb3a.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;现代基于卷积神经网络目标检测框架&#34;
@@ -1115,7 +1115,7 @@
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54.jpg&#34;
 	width=&#34;1807&#34;
 	height=&#34;726&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu15491644435613924462.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu17533262394151809902.jpg 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu_3c9e82925881d3a5.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_16-09-54_hu_4477a18723ba7d24.jpg 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;经典双阶段Faster R-CNN流程&#34;
@@ -1429,7 +1429,7 @@
 &lt;img src=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31.jpg&#34;
 	width=&#34;1724&#34;
 	height=&#34;624&#34;
-	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu13630418249585153407.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu17290261013136255209.jpg 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu_3c0331994b8b1a0d.jpg 480w, http://localhost:1313/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31_hu_11d5f9b3397ae60d.jpg 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;目标检测两阶段架构&#34;
@@ -1558,14 +1558,12 @@ $$
         
         <guid>http://localhost:1313/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</guid>
         <description>&lt;blockquote&gt;
-&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;p&gt;在这篇博客文章中，我主要来写关于&lt;code&gt;pytorch&lt;/code&gt;中&lt;code&gt;transforms&lt;/code&gt;模块，该模块提供了对图像各种预处理方法，位于&lt;code&gt;torchvision/transforms/transforms.py&lt;/code&gt;，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。&lt;/p&gt;
 &lt;!-- more --&gt;
 &lt;blockquote&gt;
-&lt;p&gt;transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;transforms ： 读[trænsˈfɔːm]，变换、转换、移动。  eg. Fourier transform 傅里叶变换； It was an event that would transform my life. 那是能够彻底改变我一生的一件事。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;transforms-模块相关源码分析&#34;&gt;transforms 模块相关源码分析
 &lt;/h2&gt;&lt;h3 id=&#34;transformscompose类&#34;&gt;transforms.Compose类
 &lt;/h3&gt;&lt;p&gt;先来看下&lt;code&gt;transforms.Compose&lt;/code&gt;在实际代码中是如何运用的，下面代码是使用&lt;code&gt;pytorch&lt;/code&gt;中的&lt;code&gt;Dataset&lt;/code&gt;方式定义ImageNet数据集，也就说&lt;code&gt;ImageNet&lt;/code&gt;继承自&lt;code&gt;data.Dataset&lt;/code&gt;。&lt;/p&gt;
@@ -1655,8 +1653,7 @@ $$
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;Compose&lt;/code&gt;是一个容器，它是对多个&lt;code&gt;transforms&lt;/code&gt;模块定义转换对象transform组合，本质上是对列表的包装（装饰模式？）。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;这里我将这些转换对象类定义为transform，包括&lt;code&gt;transforms.CenterCrop&lt;/code&gt;、&lt;code&gt;transforms.ToTensor&lt;/code&gt;等等。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;这里我将这些转换对象类定义为transform，包括&lt;code&gt;transforms.CenterCrop&lt;/code&gt;、&lt;code&gt;transforms.ToTensor&lt;/code&gt;等等。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;该类的&lt;strong&gt;构造器(constructor)&lt;strong&gt;函数入参为列表类型，列表里是多个transform转换对象；在&lt;code&gt;__call__&lt;/code&gt;中，通过&lt;code&gt;for&lt;/code&gt;循环遍历transforms列表，对图像依次进行调用&lt;code&gt;t(img)&lt;/code&gt;，可以看到每个transform都是一个可调用对象，通过依次调用这些transform，对图像进行预处理，这些处理是按照列表&lt;/strong&gt;顺序&lt;/strong&gt;处理。注：list是一种有序的集合。&lt;/p&gt;
 &lt;h3 id=&#34;transformsresize类&#34;&gt;transforms.Resize类
 &lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1990,8 +1987,7 @@ $$
 &gt;&lt;/p&gt;
 &lt;p&gt;&lt;span style=&#34;color:#35b378;font-weight:bold;&#34;&gt;先从加载和处理数据源码了解。&lt;/span&gt;&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;dataset-相关源码&#34;&gt;Dataset 相关源码
 &lt;/h2&gt;&lt;h3 id=&#34;mnist类&#34;&gt;MNIST类
 &lt;/h3&gt;&lt;p&gt;类继承图：&lt;/p&gt;

@@ -1919,7 +1919,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// green 初始化为 5 ，blue 要满足比 green 大 1 即 blue = 6
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;c结构体c结构体c类的区别httpswwwcnblogscomcthonp9170596html&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/cthon/p/9170596.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h3 id=&#34;c结构体c结构体c类的区别&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/cthon/p/9170596.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C结构体、C++结构体、C++类的区别&lt;/a&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;C 结构体与 C++ 结构体&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -2990,7 +2990,7 @@
 &lt;/ul&gt;
 &lt;p&gt;有些书上只是简单的介绍了前四个函数。没有提及后面这两个函数。但后面这两个函数也是空类的默认函数。另外需要注意的是，只有当实际使用这些函数的时候，编译器才会去定义它们。&lt;/p&gt;
 &lt;h3 id=&#34;初始化列表&#34;&gt;初始化列表
-&lt;/h3&gt;&lt;h4 id=&#34;使用初始化列表的原因httpswwwcnblogscomgraphicsarchive201007041770900html&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h3&gt;&lt;h4 id=&#34;使用初始化列表的原因&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;使用初始化列表的原因&lt;/a&gt;
 &lt;/h4&gt;&lt;p&gt;初始化类的成员有两种方式，一是使用初始化列表，二是在构造函数体内进行赋值操作。&lt;/p&gt;
 &lt;p&gt;主要是性能问题，对于内置类型，如 int, float 等，使用初始化列表和在构造函数体内初始化差别不是很大，但是对于类类型来说，最好使用初始化列表，&lt;strong&gt;因为使用初始化列表少了一次调用默认构造函数的过程&lt;/strong&gt;，这对于数据密集型的类来说，是非常高效的（参考下文代码段例1）。&lt;/p&gt;
@@ -4107,7 +4107,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/h4&gt;&lt;p&gt;虚函数是通过虚函数表实现的。如果一个类中有一个虚函数，则系统会为这个类分配一个指针成员指向一张虚函数表（vtbl），表中每一项指向一个虚函数地址，虚函数表实际上就是一个函数指针数组。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_40673608/article/details/88551020&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C++虚函数原理&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;虚函数是否可以内联httpswwwyuquecomhuihutinterviewreadmeikirca&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.yuque.com/huihut/interview/readme#ikirca&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h4 id=&#34;虚函数是否可以内联&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.yuque.com/huihut/interview/readme#ikirca&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;虚函数是否可以内联&lt;/a&gt;
 &lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;虚函数可以是内联函数，内联是可以修饰虚函数的，但是当虚函数表现多态性的时候不能内联。&lt;/li&gt;

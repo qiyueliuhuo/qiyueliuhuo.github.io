@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
 
-<link rel="stylesheet" href="/scss/style.min.e460b8d7eabe89e4f4bae506eaa6feb3eb535a19c85caa61e95db0347acaac78.css"><meta property='og:title' content="神经网络之反向传播算法">
+<link rel="stylesheet" href="/scss/style.min.8977e359d53ae8ca856a2fca5b84c07371ac3e5815675d7479ecabddb44e7a3d.css"><meta property='og:title' content="神经网络之反向传播算法">
 <meta property='og:description' content="现代神经网络算法中最重要的底层算法——反向传播算法解析。">
 <meta property='og:url' content='http://localhost:1313/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/'>
 <meta property='og:site_name' content='七月流火'>
@@ -59,7 +59,7 @@
                     
                     
                         
-                        <img src="/img/avatar_hu5633651980197582967.png" width="300"
+                        <img src="/img/avatar_hu_791ba457c31eae4c.png" width="300"
                             height="300" class="site-logo" loading="lazy" alt="Avatar">
                     
                 
@@ -306,8 +306,8 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/">
-                <img src="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/back-propagation_hu7443567002263557058.png"
-                        srcset="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/back-propagation_hu7443567002263557058.png 800w, /posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/back-propagation_hu15820045318990664987.png 1600w"
+                <img src="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/back-propagation_hu_d3ff8fe3f80b8c8d.png"
+                        srcset="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/back-propagation_hu_d3ff8fe3f80b8c8d.png 800w, /posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B9%8B%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95/back-propagation_hu_79740b8f7a2993ba.png 1600w"
                         width="800" 
                         height="377" 
                         loading="lazy"
@@ -391,8 +391,7 @@
 <p>四年前，韩国围棋九段棋手李世石与谷歌人工智能 AlphaGo 之间的围棋比赛，最终 AlphaGo 以四比一取胜，这让人工智能 AlphaGo 背后的技术——深度学习算法大火，笔者也是从这个时候开始关注深度学习，对计算机领域产生了兴趣。此后一年，谷歌又推出 AlphaGo 围棋升级版，并邀请世界围棋冠军、中国棋手柯洁于 2017 年 5 月份与之进行围棋大战，笔者全程直播观看了 AlphaGo 与柯洁人机围棋大战，在看到作为人类智慧的顶峰柯洁含泪认输后，笔者被 AlphaGo 背后的技术神经网络所深深震撼（还包括另一种技术：蒙特卡洛树搜索）。围棋不同于其他棋，计算机目前无法遍历围棋的所有可能的下法，所以算法必须尝试模拟人类大脑的下棋，根据以往学习到的经验判断落棋点，而不是暴力遍历所有可能性后选择最佳的下棋点，从而取胜。</p>
 <p>这篇文章试图介绍深度学习中很重要的技术——神经网络，并重点介绍神经网络中运用到反向传播算法。</p>
 <blockquote>
-<p>在笔者大学期间，除了两场围棋人机大战外，还有一场比较有意思的大型实验：大贝尔实验——关于验证基础物理量子力学中非常有名且重要的贝尔不等式的实验。所谓“遇事不决，量子力学”，这个梗就表示了量子力学中存在一些无法解释（宏观世界难以理解）的现象，若有兴趣可以再了解下。</p>
-</blockquote>
+<p>在笔者大学期间，除了两场围棋人机大战外，还有一场比较有意思的大型实验：大贝尔实验——关于验证基础物理量子力学中非常有名且重要的贝尔不等式的实验。所谓“遇事不决，量子力学”，这个梗就表示了量子力学中存在一些无法解释（宏观世界难以理解）的现象，若有兴趣可以再了解下。</p></blockquote>
 <h2 id="感知机">感知机
 </h2><h3 id="感知机介绍">感知机介绍
 </h3><p>首先让我们先来了解下神经网络中最简单也是最基础的一种结构——感知机（Perceptron），如下图：</p>
@@ -599,8 +598,7 @@ $$ \frac{\partial f}{\partial y} = \frac{\partial f}{\partial q}\frac{\partial q
 利用上面得到的结论就可以得到每个遍历的偏导数，这个计算图和上面计算图区别之处在于：在乘法节点的结果输出到两个节点，分别是除法节点和减法节点，导数反向传播时，需要将上游传递的两个导数相加，即-0.25 + 1 = 0.75 这是基于下面的定理：</p>
 <blockquote>
 <p>定理：若函数$u=\varphi(t), v=\psi(t)$在点 t 可导，$z=f(u,v)$在点(u,v)处偏导连续，则复合函数$z=f(\varphi(t),\psi(t))$在点 t 可导，则有链式法则
-$$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \frac{\mathrm{d} u }{\mathrm{d} t} + \frac{\partial z}{\partial v} \cdot \frac{\mathrm{d} v }{\mathrm{d} t} $$</p>
-</blockquote>
+$$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \frac{\mathrm{d} u }{\mathrm{d} t} + \frac{\partial z}{\partial v} \cdot \frac{\mathrm{d} v }{\mathrm{d} t} $$</p></blockquote>
 <h3 id="矩阵形式反向传播算法">矩阵形式反向传播算法
 </h3><p>下面介绍矩阵形式计算图及反向传播公式，如下图神经网络 Affine 层。
 <img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20200628140209.png"
@@ -614,8 +612,7 @@ $$ \frac{\mathrm{d} z }{\mathrm{d} t} = \frac{\partial z}{\partial u} \cdot \fra
 	
 ></p>
 <blockquote>
-<p>Affine 层：神经网络在正向传播中进行的矩阵的乘积运算在几何学领域被称为“仿射变换”。因此，这里将进行的仿射变换的处理称为“Affine 层”。</p>
-</blockquote>
+<p>Affine 层：神经网络在正向传播中进行的矩阵的乘积运算在几何学领域被称为“仿射变换”。因此，这里将进行的仿射变换的处理称为“Affine 层”。</p></blockquote>
 <p>神经网络中还有其他比较复杂的层，梯度推导比上面 Affine 层线性偏导数推导更为复杂，在此略过介绍及推导，但运用到的知识与上面方式类似，强烈建议自己手动推导下 Affine 层反向传播，对自己理解有帮助。</p>
 <p>前面介绍神经网络学习策略也是一个最优化问题，即
 $$ loss \ function = E = \varphi(y, t) $$
@@ -726,7 +723,7 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
         
         
             <div class="article-image">
-                <img src="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/method_of_neural_network_optimization.23c1f4802cb5d2ecc5d94ed50f8b3167_hu11126313462075717670.jpg" 
+                <img src="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/method_of_neural_network_optimization.23c1f4802cb5d2ecc5d94ed50f8b3167_hu_d835f1ffc46a3eba.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -750,7 +747,7 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
         
         
             <div class="article-image">
-                <img src="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31.41e1c250464ed188adf6e42a7a4f7976_hu5216028336894253113.jpg" 
+                <img src="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31.41e1c250464ed188adf6e42a7a4f7976_hu_81c094926dc64d67.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -774,7 +771,7 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
         
         
             <div class="article-image">
-                <img src="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_cover.6abf7b9ac5c0f03243f56e66f86bd8bd_hu10507019429734447821.jpg" 
+                <img src="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_cover.6abf7b9ac5c0f03243f56e66f86bd8bd_hu_42b8becc61c7cd25.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -798,7 +795,7 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
         
         
             <div class="article-image">
-                <img src="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/matrix_analysis.a32c4c8ffa6f38ebe580e715c018e7eb_hu4848236936210136919.jpg" 
+                <img src="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/matrix_analysis.a32c4c8ffa6f38ebe580e715c018e7eb_hu_64ceea0e4a5b8656.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
@@ -822,7 +819,7 @@ $$ \frac{\partial L}{\partial \textbf{W}} $$
         
         
             <div class="article-image">
-                <img src="/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/convolutional_calculation.8d71adfb21f8168db33ff6ebc7308630_hu18386934187028266606.png" 
+                <img src="/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/convolutional_calculation.8d71adfb21f8168db33ff6ebc7308630_hu_7c5609f329b0018e.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"

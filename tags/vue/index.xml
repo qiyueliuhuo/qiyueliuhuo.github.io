@@ -13,8 +13,7 @@
         
         <guid>http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/</guid>
         <description>&lt;img src="http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover.jpg" alt="Featured image of post Vue入门笔记" /&gt;&lt;blockquote&gt;
-&lt;p&gt;vue学习记录。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;vue学习记录。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;!-- more --&gt;
 &lt;p&gt;注：&lt;/p&gt;
 &lt;blockquote&gt;
@@ -24,8 +23,7 @@
 &lt;li&gt;使用的开发IDE为WebStorm。&lt;/li&gt;
 &lt;li&gt;学习地址：&lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=T5LGA8Qy1Fk&amp;amp;list=PLYD7D0d62WlCUB2L5WEleVHLtfG8LnVC_&amp;amp;index=61&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Vue学习&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
+&lt;/ol&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;一邂逅vuejs&#34;&gt;一、邂逅Vuejs
 &lt;/h2&gt;&lt;h3 id=&#34;认识vuejs&#34;&gt;认识Vuejs
 &lt;/h3&gt;&lt;ul&gt;
@@ -348,8 +346,7 @@
 &lt;/div&gt;&lt;h4 id=&#34;v-once指令的使用&#34;&gt;v-once指令的使用
 &lt;/h4&gt;&lt;p&gt;只展示一次，后面网页界面内容不会随着&lt;code&gt;message&lt;/code&gt;值的&lt;strong&gt;改变而改变&lt;/strong&gt;。也就是第二个&lt;code&gt;h2&lt;/code&gt;标签显示的内容不会随着&lt;code&gt;vue&lt;/code&gt;的&lt;code&gt;app&lt;/code&gt;里面数据改变。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;一般情况下不用，特殊情况下需要使用。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;一般情况下不用，特殊情况下需要使用。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -409,13 +406,11 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;h4 id=&#34;v-cloak指令的使用-基本不用&#34;&gt;v-cloak指令的使用 （基本不用）
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;cloak: 斗篷。 clock: 时钟。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;cloak: 斗篷。 clock: 时钟。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;和&lt;code&gt;css&lt;/code&gt;样式结合使用，可以实现当&lt;code&gt;JS&lt;/code&gt;脚本未执行完，不显示内容，而不是显示一些未渲染的“乱码”，对用户友好。&lt;/p&gt;
 &lt;h4 id=&#34;v-bind&#34;&gt;v-bind
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;v-bind之前都是将数据插到内容中，而这个是将值插到标签的属性中，比如&lt;code&gt;img&lt;/code&gt;标签的&lt;code&gt;src&lt;/code&gt;属性，改变这个属性值。又比如&lt;code&gt;a&lt;/code&gt;标签的&lt;code&gt;href&lt;/code&gt;属性。不能用&lt;strong&gt;双括号语法&lt;/strong&gt;操作，双括号是在标签内容中使用的。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;v-bind之前都是将数据插到内容中，而这个是将值插到标签的属性中，比如&lt;code&gt;img&lt;/code&gt;标签的&lt;code&gt;src&lt;/code&gt;属性，改变这个属性值。又比如&lt;code&gt;a&lt;/code&gt;标签的&lt;code&gt;href&lt;/code&gt;属性。不能用&lt;strong&gt;双括号语法&lt;/strong&gt;操作，双括号是在标签内容中使用的。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;strong&gt;作用&lt;/strong&gt;：动态绑定标签属性。&lt;/p&gt;
 &lt;h5 id=&#34;v-bind基本使用&#34;&gt;v-bind基本使用
 &lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107121506.png&#34;
@@ -519,8 +514,7 @@
 &lt;h3 id=&#34;计算属性-computed很重要&#34;&gt;计算属性 &lt;code&gt;computed&lt;/code&gt;（很重要）※
 &lt;/h3&gt;&lt;h4 id=&#34;计算属性的使用&#34;&gt;计算属性的使用
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;数据展示之前需要经过一定的处理，computed里面也是定义的函数，但是不要命名为动词，一般命名为名词。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;数据展示之前需要经过一定的处理，computed里面也是定义的函数，但是不要命名为动词，一般命名为名词。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -586,21 +580,18 @@
 &lt;h4 id=&#34;计算属性setter和getter&#34;&gt;计算属性setter和getter
 &lt;/h4&gt;&lt;h4 id=&#34;计算属性和methods的对比--&#34;&gt;计算属性和methods的对比  ※
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;计算属性内部实现缓存，如果值不改变，直接调用缓存中的内容，而methods每次都会调用，效率比计算属性差&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;计算属性内部实现缓存，如果值不改变，直接调用缓存中的内容，而methods每次都会调用，效率比计算属性差&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;补充es6语法&#34;&gt;补充：ES6语法
 &lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;let/var&lt;/li&gt;
 &lt;/ol&gt;
 &lt;blockquote&gt;
-&lt;p&gt;let有if和for块级作用域，而var没有if和for块级作用域。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;let有if和for块级作用域，而var没有if和for块级作用域。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;ol start=&#34;2&#34;&gt;
 &lt;li&gt;const&lt;/li&gt;
 &lt;/ol&gt;
 &lt;blockquote&gt;
-&lt;p&gt;标识符修饰为常量。定义时就需要赋值。对象不能修改，但是可以改变对象里面的属性。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;标识符修饰为常量。定义时就需要赋值。对象不能修改，但是可以改变对象里面的属性。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;ol start=&#34;3&#34;&gt;
 &lt;li&gt;对象的字面量增强写法&lt;/li&gt;
 &lt;/ol&gt;
@@ -611,16 +602,13 @@
 &lt;h3 id=&#34;事件监听&#34;&gt;事件监听
 &lt;/h3&gt;&lt;h4 id=&#34;v-on的基本使用&#34;&gt;v-on的基本使用
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;v-on语法糖：@&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;v-on语法糖：@&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h4 id=&#34;v-on的参数&#34;&gt;v-on的参数
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;事件监听的时候，若不需要传参数，则可以不写调用的小括号。（省略）&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;事件监听的时候，若不需要传参数，则可以不写调用的小括号。（省略）&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;如何给事件监听函数传入，游览器生成的event对象？&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;传入的参数为&lt;code&gt;$event&lt;/code&gt;就可以了。方法形参为&lt;code&gt;event&lt;/code&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;传入的参数为&lt;code&gt;$event&lt;/code&gt;就可以了。方法形参为&lt;code&gt;event&lt;/code&gt;。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h4 id=&#34;v-on的修饰符&#34;&gt;v-on的修饰符
 &lt;/h4&gt;&lt;ol&gt;
 &lt;li&gt;&lt;code&gt;@click.stop&lt;/code&gt;防止事件冒泡。&lt;/li&gt;
@@ -652,12 +640,10 @@
 &lt;p&gt;另：一般情况下，&lt;code&gt;v-else-if&lt;/code&gt;、&lt;code&gt;v-else&lt;/code&gt;不在HTML模板中使用，逻辑不放在界面代码处。&lt;/p&gt;
 &lt;h4 id=&#34;v-show的使用&#34;&gt;v-show的使用
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;决定标签是否在界面显示：&lt;code&gt;&amp;lt;h2 v-show=&amp;quot;isShow&amp;quot;&amp;gt; &amp;lt;/h2&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;决定标签是否在界面显示：&lt;code&gt;&amp;lt;h2 v-show=&amp;quot;isShow&amp;quot;&amp;gt; &amp;lt;/h2&amp;gt;&lt;/code&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;v-if&lt;/code&gt; 和 &lt;code&gt;v-show&lt;/code&gt;的区别。  （v-if经常使用）&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;v-if：当条件为false时，包含v-if指令的元素，根本不会存在dom中。而v-show：当条件为false时，只是给元素添加了一个行内样式：display：none。前者dom中取掉，后者改样式。当展示切换频率很高，用v-show。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;v-if：当条件为false时，包含v-if指令的元素，根本不会存在dom中。而v-show：当条件为false时，只是给元素添加了一个行内样式：display：none。前者dom中取掉，后者改样式。当展示切换频率很高，用v-show。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;循环遍历v-for的使用&#34;&gt;循环遍历v-for的使用
 &lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;遍历数组  ※&lt;/li&gt;
@@ -693,8 +679,7 @@
 &lt;/h4&gt;&lt;p&gt;省略。&lt;/p&gt;
 &lt;h4 id=&#34;数组中响应式方法数组内容改变展示内容跟着改变&#34;&gt;数组中响应式方法：数组内容改变，展示内容跟着改变。
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;push()、pop()、shift()、unshift()、splice()、sort()、reverse()&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;push()、pop()、shift()、unshift()、splice()、sort()、reverse()&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;另:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;splice() ※&lt;/li&gt;
@@ -708,8 +693,7 @@
 &lt;/h3&gt;&lt;h2 id=&#34;三组件化开发-&#34;&gt;三、组件化开发 ※
 &lt;/h2&gt;&lt;h3 id=&#34;什么是组件化&#34;&gt;什么是组件化？
 &lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;将复杂问题，拆分成很多个小问题。将一个页面拆分成一个个小的功能块，每个功能块完成属于自己这一部分独立的功能，那么整个页面的管理和维护就变得非常容易了。应用最后抽象为一个组件树。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;将复杂问题，拆分成很多个小问题。将一个页面拆分成一个个小的功能块，每个功能块完成属于自己这一部分独立的功能，那么整个页面的管理和维护就变得非常容易了。应用最后抽象为一个组件树。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210108203614.png&#34;
 	
 	
@@ -996,8 +980,7 @@
 &gt;&lt;/p&gt;
 &lt;h4 id=&#34;父组件向子组件-props-常用-&#34;&gt;父组件向子组件 props (常用) ※
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;props : properties 属性&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;props : properties 属性&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;通过props向子组件传递数据。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1176,8 +1159,7 @@ TODO&lt;/p&gt;
 	loading=&#34;lazy&#34;
 	
 	
-&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;ol&gt;
 &lt;li&gt;webpack其中一个核心就是让我们可能进行模块化开发，并且会帮助我们处理模块间的依赖关系。&lt;/li&gt;
 &lt;li&gt;不仅仅是JavaScript文件，我们的CSS、图片、json文件等等在webpack中都可以被当做模块来使用（在后续我们会看到）。&lt;/li&gt;
@@ -1196,13 +1178,11 @@ TODO&lt;/p&gt;
 &lt;/h2&gt;&lt;h2 id=&#34;七网络封装&#34;&gt;七、网络封装
 &lt;/h2&gt;&lt;h2 id=&#34;八项目实战&#34;&gt;八、项目实战
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;一步步学习，没什么耐心，那就项目驱动学习吧，开干。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;一步步学习，没什么耐心，那就项目驱动学习吧，开干。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;创建项目&#34;&gt;创建项目
 &lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;Vue CLI教程&lt;a class=&#34;link&#34; href=&#34;https://cli.vuejs.org/zh/guide/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Vue CLI &lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;Vue CLI &lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1215,8 +1195,7 @@ TODO&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;目录结构划分&#34;&gt;目录结构划分
 &lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;参考：https://blog.csdn.net/weixin_42290927/article/details/94432587&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;参考：https://blog.csdn.net/weixin_42290927/article/details/94432587&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210721142734.png&#34;
 	
 	

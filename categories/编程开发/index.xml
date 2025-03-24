@@ -6,23 +6,452 @@
         <description>Recent content in 编程开发 on 七月流火</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 22 Jun 2024 17:34:15 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 16 Mar 2025 11:29:31 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>解剖Requests：从Python小白到源码猎手的进阶之路</title>
+        <link>http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/</link>
+        <pubDate>Sun, 16 Mar 2025 11:29:31 +0800</pubDate>
+        
+        <guid>http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/</guid>
+        <description>&lt;img src="http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover.jpg" alt="Featured image of post 解剖Requests：从Python小白到源码猎手的进阶之路" /&gt;&lt;blockquote&gt;
+&lt;p&gt;学而不能致用的人是一头背着书的牛马。蠢驴是否知道它背上背着的是一堆书而不是一捆柴？—— 本杰明·富兰克林&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;2025年2月底，我回顾了前五年学习工作经历以及技术发展趋势后，在编程语言方面树立以Python与C++为主的编程技能，Java、Rust、Go等其他语言为辅，这样我需要推动自己将Pyhon和C++的技能尽可能达到精通，熟记这两门语言核心知识。正如我在最近阅读的《富兰克林自传》中所看到，富兰克林早期以印刷技能作为自己的谋生手段，而近三年我也以&lt;strong&gt;编程技能作为自己的谋生手段&lt;/strong&gt;，未来路还很长，不能止步于此，需要不断学习其他领域与学科知识，学以致用，不能成为芒格口中的“铁锤人”。&lt;/p&gt;
+&lt;p&gt;Python语言大概是在我五六年前开始正式作为工作语言，当时以《Head First Python》书籍入门，在读研期间通过阅读与实践深度学习相关项目，如Numpy、Pytorch、mmdetection、mmocr等，对Python语言有了更深的应用理解。最近通过&lt;strong&gt;阅读《流畅的Python》第2版&lt;/strong&gt;，对该语言进行系统性地回顾与熟记；此次阅读&lt;strong&gt;Requests源码，一是对最近学习的一个总结与应用，二是给自己未来通过Python实现更大更复杂项目打下坚实的基础。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;谁适合阅读这篇文章&#34;&gt;谁适合阅读这篇文章？
+&lt;/h3&gt;&lt;h3 id=&#34;如何更好地阅读本篇文章&#34;&gt;如何更好地阅读本篇文章？
+&lt;/h3&gt;&lt;h2 id=&#34;项目简介&#34;&gt;项目简介
+&lt;/h2&gt;&lt;p&gt;这里直接引用官方对Requests的相关介绍，我们在后面源码解析中会逐步展开代码中是如何实现这些功能的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;A simple, yet elegant, HTTP library. Requests是一个简单而优雅的 HTTP 库。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Supported Features &amp;amp; Best–Practices 支持的功能和最佳实践&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Requests is ready for the demands of building robust and reliable HTTP–speaking applications, for the needs of today.&lt;br&gt;
+&lt;strong&gt;Requests&lt;/strong&gt;已准备好满足构建强大且可靠的 HTTP 应用程序的需求，以满足当今时代的需求。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Keep-Alive &amp;amp; Connection Pooling 保持连接和连接池&lt;/li&gt;
+&lt;li&gt;International Domains &amp;amp; URLs 国际域名和 URL&lt;/li&gt;
+&lt;li&gt;Sessions with Cookie Persistence 具有Cookie 持久性的会话机制&lt;/li&gt;
+&lt;li&gt;Browser-style SSL Verification 浏览器风格的 SSL 验证&lt;/li&gt;
+&lt;li&gt;Basic/Digest Authentication 基本身份验证和摘要身份认证&lt;/li&gt;
+&lt;li&gt;Familiar dict–like Cookies 熟悉的类似dict的 Cookies&lt;/li&gt;
+&lt;li&gt;Automatic Content Decompression and Decoding 内容自动解压缩和解码&lt;/li&gt;
+&lt;li&gt;Muti-part File Uploads 多部分文件上传&lt;/li&gt;
+&lt;li&gt;SOCKS Proxy Support 支持 SOCKS 代理&lt;/li&gt;
+&lt;li&gt;Connection Timeouts 连接超时&lt;/li&gt;
+&lt;li&gt;Streaming Downloads 流式下载&lt;/li&gt;
+&lt;li&gt;Automatic honoring of .netrc 自动遵循.netrc配置&lt;/li&gt;
+&lt;li&gt;Chunked HTTP Requests 分块 HTTP 请求&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;项目结构&#34;&gt;项目结构
+&lt;/h2&gt;&lt;p&gt;我们再来看一下Requests的项目的顶层结构，并简单介绍一下各个目录与文件的作用。
+这里采用&lt;code&gt;eza -a -T -L 1 --group-directories-first&lt;/code&gt;命令查看项目目录结构。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .git    &lt;span class=&#34;c1&#34;&gt;# Git 版本控制系统的目录，包含项目的版本历史和配置&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .github    &lt;span class=&#34;c1&#34;&gt;# GitHub 相关的配置文件和工作流，如持续集成（CI）配置等&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── docs    &lt;span class=&#34;c1&#34;&gt;# 文档目录，包含使用指南、API 文档等&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── ext    &lt;span class=&#34;c1&#34;&gt;# 外部扩展或依赖项，现已逐步弃用&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── src    &lt;span class=&#34;c1&#34;&gt;# 源码目录，包含主要的接口和功能实现代码&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── tests    &lt;span class=&#34;c1&#34;&gt;# 测试目录，包括单元测试与集成测试代码，覆盖请求发送、异常处理、Cookie 管理等关键功能。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .coveragerc 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .git-blame-ignore-revs
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .gitignore
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .pre-commit-config.yaml   &lt;span class=&#34;c1&#34;&gt;# Git钩子配置文件，在提交代码前自动执行，用于代码规范检查、格式化等&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── .readthedocs.yaml    &lt;span class=&#34;c1&#34;&gt;# Read the Docs 平台用于配置项目构建过程的配置文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── AUTHORS.rst
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── HISTORY.md
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── LICENSE
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── Makefile    &lt;span class=&#34;c1&#34;&gt;# 自动化任务的文件，如构建、测试&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── MANIFEST.in
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── NOTICE
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── pyproject.toml
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── README.md
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── requirements-dev.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── setup.cfg
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── setup.py    &lt;span class=&#34;c1&#34;&gt;# 安装和打包配置文件，定义项目的元数据（如名称、版本、依赖项）并支持 pip install 和 setuptools 进行管理。&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;└── tox.ini
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;上面项目组织结构中，我们可以学习到一个&lt;strong&gt;广泛遵循的约定&lt;/strong&gt;，即将项目的源码、测试、文档等内容分别放置在不同的目录中，以便于管理和维护。通常将源代码放在 src/ 目录，测试代码放在 tests/ 目录，文档资料放在 docs/ 目录，并使用 LICENSE 文件声明开源许可。&lt;/p&gt;
+&lt;p&gt;其他文件是一些Python项目工具的配置文件，如 pyproject.toml、setup.py、requirements-dev.txt、tox.ini 等，关于这些项目构建和运行的配置文件，&lt;strong&gt;平时在使用到这些工具时多多留意就好啦~&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;源码解析&#34;&gt;源码解析
+&lt;/h2&gt;&lt;p&gt;本想寻找两三个简单实用的示例，无意间查看源码目录的&lt;code&gt;src/requests/__init__.py&lt;/code&gt;文件，发现已经有两个示例了，我们在这里直接运行它们。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;common-env&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ➜  requests git:&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;main&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; python
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Python 3.12.9 &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; packaged by Anaconda, Inc. &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;main, Feb  &lt;span class=&#34;m&#34;&gt;6&lt;/span&gt; 2025, 12:55:12&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Clang 14.0.6 &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; on darwin
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Type &lt;span class=&#34;s2&#34;&gt;&amp;#34;help&amp;#34;&lt;/span&gt;, &lt;span class=&#34;s2&#34;&gt;&amp;#34;copyright&amp;#34;&lt;/span&gt;, &lt;span class=&#34;s2&#34;&gt;&amp;#34;credits&amp;#34;&lt;/span&gt; or &lt;span class=&#34;s2&#34;&gt;&amp;#34;license&amp;#34;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; more information.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; import requests
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;span class=&#34;nv&#34;&gt;r&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; requests.get&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;https://www.python.org&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; r.status_code
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;m&#34;&gt;200&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;span class=&#34;nv&#34;&gt;payload&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; dict&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;key1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;value1&amp;#39;&lt;/span&gt;, &lt;span class=&#34;nv&#34;&gt;key2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;value2&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; &lt;span class=&#34;nv&#34;&gt;r&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; requests.post&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;https://httpbin.org/post&amp;#39;&lt;/span&gt;, &lt;span class=&#34;nv&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;payload&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;&amp;gt;&amp;gt; print&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;r.text&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;: &lt;span class=&#34;o&#34;&gt;{}&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;data&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;files&amp;#34;&lt;/span&gt;: &lt;span class=&#34;o&#34;&gt;{}&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;form&amp;#34;&lt;/span&gt;: &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;key1&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;value1&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;key2&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;value2&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;headers&amp;#34;&lt;/span&gt;: &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Accept&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;*/*&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Accept-Encoding&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;gzip, deflate&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Length&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;23&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Content-Type&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;application/x-www-form-urlencoded&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;Host&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;httpbin.org&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;User-Agent&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;python-requests/2.32.3&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;X-Amzn-Trace-Id&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;Root=1-67d7be38-6126bbec2e56917a24eda1a3&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;json&amp;#34;&lt;/span&gt;: null, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;origin&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;45.86.73.64&amp;#34;&lt;/span&gt;, 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;: &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://httpbin.org/post&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;下面正式开始对Requests源码进行解析，从&lt;code&gt;src/requests/__init__.py&lt;/code&gt;文件开始。&lt;/p&gt;
+&lt;h3 id=&#34;__init__py文件&#34;&gt;&lt;code&gt;__init__.py&lt;/code&gt;文件
+&lt;/h3&gt;&lt;p&gt;以下截取文件代码中的核心部分，省略部分使用三行&lt;code&gt;# ...&lt;/code&gt;表示。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Python&#34; data-lang=&#34;Python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;packages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;utils&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.__version__&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__author__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__author_email__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__build__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__cake__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__copyright__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__description__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__license__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__title__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__url__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;__version__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.api&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;delete&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;patch&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;post&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;put&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;request&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.exceptions&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;ne&#34;&gt;ConnectionError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;ConnectTimeout&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;FileModeWarning&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;HTTPError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;JSONDecodeError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;ReadTimeout&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;RequestException&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;Timeout&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;TooManyRedirects&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;URLRequired&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.models&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;PreparedRequest&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Request&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Response&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.sessions&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;.status_codes&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;codes&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;logging&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;getLogger&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;addHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;NullHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# FileModeWarnings go off per the default.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;warnings&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;simplefilter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;default&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;FileModeWarning&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;append&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我们知道在Python中，&lt;code&gt;__init__.py&lt;/code&gt;文件的作用包含以下三点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;标记包目录：文件存在即表示该目录是一个Python包，允许导入子模块（空文件也可）。&lt;/li&gt;
+&lt;li&gt;初始化包：包被导入时自动执行，用于（1）定义包级变量/函数（如版本号、工具函数）；（2）批量导入子模块，简化外部调用，如&lt;code&gt;from . import submodule&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;控制导入行为：（1）通过&lt;code&gt;__all__&lt;/code&gt;指定&lt;code&gt;from package import *&lt;/code&gt;时导出的模块列表；（2）隐藏内部实现，仅暴露特定接口。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;具体到上面展示的Requests中&lt;code&gt;__init__.py&lt;/code&gt;文件核心代码，主要包含了：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;导入子模块&lt;/strong&gt;，如&lt;code&gt;packages&lt;/code&gt;、&lt;code&gt;utils&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入版本信息&lt;/strong&gt;，如&lt;code&gt;__version__&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入API接口&lt;/strong&gt;，如&lt;code&gt;delete&lt;/code&gt;、&lt;code&gt;get&lt;/code&gt;、&lt;code&gt;head&lt;/code&gt;、&lt;code&gt;options&lt;/code&gt;、&lt;code&gt;patch&lt;/code&gt;、&lt;code&gt;post&lt;/code&gt;、&lt;code&gt;put&lt;/code&gt;、&lt;code&gt;request&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入异常类&lt;/strong&gt;，如&lt;code&gt;ConnectionError&lt;/code&gt;、&lt;code&gt;ConnectTimeout&lt;/code&gt;、&lt;code&gt;HTTPError&lt;/code&gt;、&lt;code&gt;JSONDecodeError&lt;/code&gt;等；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入请求和响应模型类&lt;/strong&gt;，如&lt;code&gt;PreparedRequest&lt;/code&gt;、&lt;code&gt;Request&lt;/code&gt;、&lt;code&gt;Response&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入会话管理类&lt;/strong&gt;，如&lt;code&gt;Session&lt;/code&gt;、&lt;code&gt;session&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;导入状态码类&lt;/strong&gt;，如&lt;code&gt;codes&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;进行日志模块的初始化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在阅读和解析其他模块源码之前，我们先来看下Requests核心模块的架构设计。其源码目录结构如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;common-env&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ➜  requests git:&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;main&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ✗ lz src/requests 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;src/requests
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── __init__.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── __version__.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── _internal_utils.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── adapters.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── api.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── auth.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── certs.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── compat.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── cookies.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── exceptions.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── help.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── hooks.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── models.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── packages.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── sessions.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── status_codes.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── structures.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;└── utils.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Requests的核心模块主要包含&lt;code&gt;api.py&lt;/code&gt;、&lt;code&gt;sessions.py&lt;/code&gt;、&lt;code&gt;adapters.py&lt;/code&gt;、&lt;code&gt;models.py&lt;/code&gt;、&lt;code&gt;utils.py&lt;/code&gt;、&lt;code&gt;status_codes.py&lt;/code&gt;，下面通过PlantUML图展示Requests的核心模块架构设计。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/requests-core-module-architecture.png&#34;
+	width=&#34;695&#34;
+	height=&#34;674&#34;
+	srcset=&#34;http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/requests-core-module-architecture_hu_f9764fe703e6fb24.png 480w, http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/requests-core-module-architecture_hu_6a78a94348f26878.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Requests核心模块架构设计&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;103&#34;
+		data-flex-basis=&#34;247px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;apipy模块&#34;&gt;&lt;code&gt;api.py&lt;/code&gt;模块
+&lt;/h2&gt;&lt;p&gt;在查看&lt;code&gt;api.py&lt;/code&gt;模块源码之前，我们将通过运行测试用例并逐步跟踪代码执行流程，这样可以更好地理解代码的执行逻辑。&lt;/p&gt;
+&lt;h3 id=&#34;理解-tests-目录结构&#34;&gt;理解 &lt;code&gt;tests/&lt;/code&gt; 目录结构
+&lt;/h3&gt;&lt;p&gt;将该目录下文件按照功能分类，方便查找和阅读。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;核心功能测试&lt;/strong&gt;： &lt;code&gt;test_requests.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;适配器与底层传输&lt;/strong&gt;：&lt;code&gt;test_adapters.py&lt;/code&gt;, &lt;code&gt;test_lowlevel.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;工具与辅助功能&lt;/strong&gt;：&lt;code&gt;test_utils.py&lt;/code&gt;, &lt;code&gt;utils.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据结构与内部类&lt;/strong&gt;：&lt;code&gt;test_structures.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;钩子与扩展功能&lt;/strong&gt;：&lt;code&gt;test_hooks.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;测试基础设施&lt;/strong&gt;：&lt;code&gt;testserver/&lt;/code&gt;, &lt;code&gt;test_testserver.py&lt;/code&gt;, &lt;code&gt;certs/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;兼容性与环境验证&lt;/strong&gt;：&lt;code&gt;compat.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;帮助与文档&lt;/strong&gt;：&lt;code&gt;test_help.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;包与安装验证&lt;/strong&gt;：&lt;code&gt;test_packages.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;测试框架配置&lt;/strong&gt;：&lt;code&gt;conftest.py&lt;/code&gt;, &lt;code&gt;__init__.py&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;安装测试依赖&#34;&gt;安装测试依赖
+&lt;/h3&gt;&lt;p&gt;运行下面命令安装测试依赖，包含 &lt;code&gt;pytest&lt;/code&gt; 测试框架和 &lt;code&gt;pytest-httpbin&lt;/code&gt; 本地 HTTP 服务模拟。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv pip install -e .&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;socks&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# 包含 socks 代理等可选依赖&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv ip install pytest pytest-httpbin  &lt;span class=&#34;c1&#34;&gt;# 测试框架和本地 HTTP 服务模拟&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;运行测试用例并进入调试模式&#34;&gt;运行测试用例并进入调试模式
+&lt;/h3&gt;&lt;p&gt;这里我们选择运行&lt;code&gt;test_HTTP_200_OK_GET_ALTERNATIVE&lt;/code&gt;测试方法，调试程序会在进入方法后暂停，方便我们跟踪代码执行流程。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Bash&#34; data-lang=&#34;Bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pytest tests/test_requests.py -k test_HTTP_200_OK_GET_ALTERNATIVE --trace
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;接下来使用 n（下一步）、s（进入函数）等命令跟踪代码。&lt;/p&gt;
+&lt;h3 id=&#34;apipy模块源码解析&#34;&gt;&lt;code&gt;api.py&lt;/code&gt;模块源码解析
+&lt;/h3&gt;&lt;p&gt;本章我们重点关注&lt;code&gt;api.py&lt;/code&gt;模块，尤其是其中比较常用的&lt;code&gt;requests.get()&lt;/code&gt;和&lt;code&gt;requests.post()&lt;/code&gt;方法，上面示例的测试用例函数&lt;code&gt;test_HTTP_200_OK_GET_ALTERNATIVE&lt;/code&gt;中使用了&lt;code&gt;requests.Request()&lt;/code&gt;和&lt;code&gt;requests.Session()&lt;/code&gt;方法，我们在这里先不做详细展开。&lt;/p&gt;
+&lt;p&gt;我在&lt;code&gt;test_requests.py&lt;/code&gt;文件中找到了&lt;code&gt;test_HTTP_200_OK_GET_WITH_PARAMS&lt;/code&gt;测试用例，作为项目源码入手的起点，我们将逐步调试并解析这个测试用例。&lt;/p&gt;
+&lt;p&gt;此外，通过命令行中调试代码虽然方便，但是面对现代大型Python项目，采用IDE提供的调试工具更加方便。因此，创建以下VS Code调试配置文件。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;.vscode/launch.json&lt;/code&gt;具体内容如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Json&#34; data-lang=&#34;Json&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;version&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;0.2.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nt&#34;&gt;&amp;#34;configurations&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;name&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Debug Tests&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;type&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;debugpy&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;request&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;launch&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;module&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;pytest&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;args&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;tests/test_requests.py::TestRequests::test_HTTP_200_OK_GET_WITH_PARAMS&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;cwd&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;${workspaceFolder}&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// 指定工作目录
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;            &lt;span class=&#34;nt&#34;&gt;&amp;#34;justMyCode&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// 允许跟踪 Requests 源码
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;同时，配置&lt;code&gt;.vscode/settings.json&lt;/code&gt;文件，指定 Python 解释器路径。这样，按下 F5 键即可在 VS Code 中调试&lt;code&gt;test_HTTP_200_OK_GET_WITH_PARAMS&lt;/code&gt;测试用例。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：在这里我踩了一个坑，一开始配置的&lt;code&gt;.vscode/launch.json&lt;/code&gt;文件中configurations的&lt;code&gt;args&lt;/code&gt;参数写成了&lt;code&gt;&amp;quot;args&amp;quot;: [&amp;quot;tests/test_requests.py::test_HTTP_200_OK_GET_WITH_PARAMS&amp;quot;, &amp;quot;--trace&amp;quot;]&lt;/code&gt;，导致调试时一直提示找不到测试用例，后来将测试类&lt;code&gt;TestRequests::&lt;/code&gt;加上即可。分析我犯的错误的原因，主要有两个：&lt;br&gt;
+（1）利用人工智能文件编辑提示功能，自动生成了&lt;code&gt;tests/test_requests.py:test_HTTP_200_OK_GET_ALTERNATIVE&lt;/code&gt;，我想当然得用&lt;code&gt;test_HTTP_200_OK_GET_WITH_PARAMS&lt;/code&gt;将其替换；&lt;br&gt;
+（2）没有熟悉pytest的用法，尤其是区分&lt;code&gt;pytest test_sample.py::TestMath::test_add&lt;/code&gt;和&lt;code&gt;pytest test_sample.py -k test_add&lt;/code&gt;的区别，&lt;strong&gt;前者需指定测试类和测试方法，后者可以模糊匹配测试方法。&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;配置完后，可以在测试代码旁打断点，再按 F5 键开始调试，这样就可以在 VS Code 中逐步调试测试用例代码了。如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/code_run.png&#34;
+	width=&#34;2310&#34;
+	height=&#34;1732&#34;
+	srcset=&#34;http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/code_run_hu_1d0948dbccee0350.png 480w, http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/code_run_hu_b011d914cb735523.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;VS Code代码调试&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;133&#34;
+		data-flex-basis=&#34;320px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;参考资料&#34;&gt;参考资料
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.python-requests.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Requests: HTTP for Humans™&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://nining.website/python/spider/requests&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;requests源码精读&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/taosiyu/p/15329254.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;requests模块源码阅读总结&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;知识点记忆&#34;&gt;知识点记忆
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;提示词：模块、包。在Python中，模块是一个单独的 .py 文件，包是一个包含多个模块的文件夹，且必须有 &lt;code&gt;__init__.py&lt;/code&gt; 文件。&lt;/li&gt;
+&lt;li&gt;提示词：主流工具。构建、打包和分发工具setuptools、测试框架pytest、代码格式化工具black、自动排序导入工具isort、代码静态分析工具flake8、自动化测试环境管理工具tox、文档生成工具Sphinx。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
         <title>高效之美：C&#43;&#43;14 WebServer 源码探秘</title>
         <link>http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/</link>
         <pubDate>Sat, 22 Jun 2024 17:34:15 +0800</pubDate>
         
         <guid>http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.jpg" alt="Featured image of post 高效之美：C&#43;&#43;14 WebServer 源码探秘" /&gt;&lt;h2 id=&#34;参考资料&#34;&gt;参考资料
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/qiyueliuhuo/WebServer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;WebServer 源码&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/cpp/?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++ 语言文档 | Microsoft Learn&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://juejin.cn/post/7098659904721780749&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++ Linux轻量级WebServer&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;《深入理解C++11：C++11 新特性解析与应用》书籍&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;前言&#34;&gt;前言
+        <description>&lt;img src="http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.jpg" alt="Featured image of post 高效之美：C&#43;&#43;14 WebServer 源码探秘" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
 &lt;/h2&gt;&lt;h3 id=&#34;谁适合阅读这篇文章&#34;&gt;谁适合阅读这篇文章？
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;具备 C++ 基础&lt;/strong&gt;：对线程池和网络编程有一定了解，希望进一步深入相关技术。&lt;/li&gt;
@@ -227,7 +656,7 @@
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230119205336.png&#34;
 	width=&#34;817&#34;
 	height=&#34;154&#34;
-	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230119205336_hu3044889250887868869.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230119205336_hu6083240504045034431.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230119205336_hu_fd8a32b39cab5895.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230119205336_hu_523125e75ff01759.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -249,7 +678,7 @@
 &lt;/h2&gt;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/sequence_diagram.png&#34;
 	width=&#34;1071&#34;
 	height=&#34;1959&#34;
-	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/sequence_diagram_hu11580579612280791421.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/sequence_diagram_hu2815375168082296442.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/sequence_diagram_hu_3a58a4911fb2a63.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/sequence_diagram_hu_3315297527d6eee9.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -296,7 +725,7 @@
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020.png&#34;
 	width=&#34;1920&#34;
 	height=&#34;1010&#34;
-	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020_hu3050355349569153767.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020_hu6620091844162953603.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020_hu_87659836b29d02c6.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230128122020_hu_db6533b0365e5b6.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -832,7 +1261,7 @@
 &lt;/h4&gt;&lt;p&gt;线程池（Thread Pool）是一种基于池化思想管理线程的工具，经常出现在多线程服务器中，如MySQL。&lt;/p&gt;
 &lt;p&gt;线程过多会带来额外的开销，其中包括创建销毁线程的开销、调度线程的开销等等，同时也降低了计算机的整体性能。线程池维护多个线程，等待监督管理者分配可并发执行的任务。这种做法，一方面避免了处理任务时创建销毁线程开销的代价，另一方面避免了线程数量膨胀导致的过分调度问题，保证了对内核的充分利用。&lt;/p&gt;
 &lt;p&gt;而本文描述的是一种简单的线程池实现方案，更复杂的线程池实现方法，请参考下面的资料学习。&lt;/p&gt;
-&lt;h4 id=&#34;参考资料-1&#34;&gt;参考资料
+&lt;h4 id=&#34;参考资料&#34;&gt;参考资料
 &lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://tech.meituan.com/2020/04/02/java-pooling-pratice-in-meituan.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Java线程池实现原理及其在美团业务中的实践 - 美团技术团队&lt;/a&gt;&lt;/li&gt;
@@ -844,7 +1273,7 @@
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122.png&#34;
 	width=&#34;1646&#34;
 	height=&#34;558&#34;
-	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122_hu16231596378880326964.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122_hu11990487892743236621.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122_hu_9f768a6bf772f3f4.png 480w, http://localhost:1313/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&amp;#43;&amp;#43;14/Pasted_image_20230122192122_hu_987565257e80e494.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -855,8 +1284,7 @@
 &gt;&lt;/p&gt;
 &lt;p&gt;下面代码实现了一个如上图线程池，整个线程池是个生产者消费者模型，该线程池一开始创建 &lt;code&gt;threadCount&lt;/code&gt; 个固定线程，这些线程作为消费者，当线程被唤醒时，从任务队列中获取任务，执行任务；而生产者通过 &lt;code&gt;AddTask(F&amp;amp;&amp;amp; task)&lt;/code&gt; 方法将生产的任务添加到&lt;strong&gt;任务缓冲队列&lt;/strong&gt;中。可以看到，整个&lt;code&gt;TaskQueue&lt;/code&gt; 任务队列作为临界资源被多个线程异步访问，为了保障多个线程能够安全访问 &lt;code&gt;TaskQueue&lt;/code&gt; 中 &lt;code&gt;std::queue&amp;lt;std::function&amp;lt;void()&amp;gt;&amp;gt; tasks&lt;/code&gt; 队列 变量时，每次操作都需要通过互斥量 &lt;code&gt;std::mutex mtx&lt;/code&gt; 进行加锁后再进行访问。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注：这里笔者将源码中 &lt;code&gt;Pool&lt;/code&gt; 结构体改名成 &lt;code&gt;TaskQueue&lt;/code&gt;，代表的含义更为合适。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;注：这里笔者将源码中 &lt;code&gt;Pool&lt;/code&gt; 结构体改名成 &lt;code&gt;TaskQueue&lt;/code&gt;，代表的含义更为合适。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;可以先阅读下面源码，后面给出源码相关问题及回答。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1010,50 +1438,41 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;为什么该线程池所有的实现在 &lt;code&gt;threadpool.h&lt;/code&gt; 中完成？&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;上面源码为线程池的头文件 &lt;code&gt;threadpool.h&lt;/code&gt;，而且该线程池&lt;strong&gt;没有&lt;/strong&gt;对应的 &lt;code&gt;threadpool.cpp&lt;/code&gt; 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;上面源码为线程池的头文件 &lt;code&gt;threadpool.h&lt;/code&gt;，而且该线程池&lt;strong&gt;没有&lt;/strong&gt;对应的 &lt;code&gt;threadpool.cpp&lt;/code&gt; 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;explicit&lt;/code&gt; 修饰的构造函数如何理解？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;通过将构造函数声明为explicit（显式）的方式可以&lt;strong&gt;抑制隐式转换&lt;/strong&gt;。也就是说，explicit构造函数必须显式调用。按默认规定，只用传一个参数的构造函数也定义了一个隐式转换。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://veitchkyrie.github.io/2019/10/18/C&amp;#43;&amp;#43;-explicit%E5%85%B3%E9%94%AE%E5%AD%97-%E8%AF%A6%E8%A7%A3-%E7%94%A8%E4%BA%8E%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++ explicit关键字详解&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;C++ explicit关键字详解&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::make_shared&lt;/code&gt; 作用是什么？在什么场景下使用？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如有可能，第一次创建内存资源时，请使用 &lt;code&gt;make_shared&lt;/code&gt; 函数创建 &lt;code&gt;shared_ptr&lt;/code&gt;。 &lt;code&gt;make_shared&lt;/code&gt; 异常安全。 它使用同一调用为控制块和资源分配内存，这会减少构造开销。 如果不使用 &lt;code&gt;make_shared&lt;/code&gt;，则必须先使用显式 &lt;code&gt;new&lt;/code&gt; 表达式来创建对象，然后才能将其传递到 &lt;code&gt;shared_ptr&lt;/code&gt; 构造函数。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/cpp/how-to-create-and-use-shared-ptr-instances?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;如何：创建和使用 shared_ptr 实例&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;如何：创建和使用 shared_ptr 实例&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;void detach()&lt;/code&gt; 作用？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;拆离相关联的线程。 操作系统负责释放终止的线程资源。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/standard-library/thread-class?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;thread类-detach&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;thread类-detach&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::unique_lock&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;表示可进行实例化以创建管理 &lt;code&gt;mutex&lt;/code&gt; 锁定和解锁的对象的模板。&lt;code&gt;uniqie_lock&lt;/code&gt; 是个类模板，它的功能跟 &lt;code&gt;lock_quard&lt;/code&gt; 类似，但比 &lt;code&gt;lock_quard&lt;/code&gt; 更灵活。在工作中，一般用 &lt;code&gt;lock_quard&lt;/code&gt; （推荐使用）就足够了，但在一些特殊的场景下会用到 &lt;code&gt;uniqie_lock&lt;/code&gt;。 &lt;code&gt;lock_quard&lt;/code&gt; 取代了 &lt;code&gt;mutex&lt;/code&gt; 的 &lt;code&gt;lock()&lt;/code&gt; 和 &lt;code&gt;unlock()&lt;/code&gt;，在 &lt;code&gt;lock_quard&lt;/code&gt; 的构造函数中上锁，在析构函数中解锁，这点其实在 &lt;code&gt;uniqie_lock&lt;/code&gt; 中也是一样的。&lt;code&gt;uniqie_lock&lt;/code&gt; 在使用上比 &lt;code&gt;lock_quard&lt;/code&gt; 灵活，但代价就是效率会低一点，并且内存占用量也会相对高一些。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://www.w3cjava.com/technical-articles/C&amp;#43;&amp;#43;/125380206.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;unique_lock详解&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/standard-library/unique-lock-class?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;unique_lock 类&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;unique_lock 类&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::mutex&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;Mutex&lt;/code&gt; 又称互斥量，C++ 11中与 &lt;code&gt;Mutex&lt;/code&gt; 相关的类（包括锁类型）和函数都声明在 &lt;code&gt;&amp;lt;mutex&amp;gt;&lt;/code&gt; 头文件中，所以如果你需要使用 &lt;code&gt;std::mutex&lt;/code&gt;，就必须包含 &lt;code&gt;&amp;lt;mutex&amp;gt;&lt;/code&gt; 头文件。&lt;code&gt;std::mutex&lt;/code&gt; 是C++11 中最基本的互斥量，&lt;code&gt;std::mutex&lt;/code&gt; 对象提供了独占所有权的特性——即不支持递归地对 &lt;code&gt;std::mutex&lt;/code&gt; 对象上锁，而 &lt;code&gt;std::recursive_lock&lt;/code&gt; 则可以递归地对互斥量对象上锁。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/haippy/p/3237213.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++11 并发指南三(std::mutex 详解)&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;C++11 并发指南三(std::mutex 详解)&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::move&lt;/code&gt; 与 &lt;code&gt;std::forward&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::forward&lt;/code&gt; 比 &lt;code&gt;std::move&lt;/code&gt; 逻辑略复杂，&lt;code&gt;std::move&lt;/code&gt;  是无条件把参数转换为右值，而 &lt;code&gt;std::forward&lt;/code&gt; 在特定情况下才会这样做：仅当参数是用右值初始化时，才会把它转换为右值。它的意义是使外面的函数调用选择接受右值的版本，实际的移动工作是由外面的函数进行的；使用std::forward来转发参数一般被称为完美转发 (也叫精确传递)。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/xiangbaohui/article/details/103673177&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C++ 理解std::forward完美转发&lt;/a&gt;。这里，使用 &lt;code&gt;std::move&lt;/code&gt; 将 &lt;code&gt;pool-&amp;gt;tasks.front()&lt;/code&gt; 装换为右值，从而使得 &lt;code&gt;std::function&lt;/code&gt; 类型的 task 调用 &lt;code&gt;function&amp;amp; operator= (function&amp;amp;&amp;amp; rhs);&lt;/code&gt; 构造函数，避免资源重复申请创建。详细讨论参考：&lt;a class=&#34;link&#34; href=&#34;https://www.zhihu.com/search?type=content&amp;amp;q=std%3A%3Amove&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;知乎std::move回答&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;知乎std::move回答&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;ThreadPool(ThreadPool&amp;amp;&amp;amp;) = default;&lt;/code&gt; 该构造函数是什么含义？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;此语句代表&lt;strong&gt;显式默认构造函数&lt;/strong&gt;，而且该构造函数为移动构造函数，移动构造函数是特殊成员函数，它将现有对象数据的所有权移交给新变量，而不复制原始数据。 它采用 rvalue 引用作为其第一个参数，以后的任何参数都必须具有默认值。 **移动构造函数在传递大型对象时可以显著提高程序的效率。**具体参考：&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/cpp/explicitly-defaulted-and-deleted-functions?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;显式默认设置的函数和已删除的函数 | Microsoft Learn&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/cpp/constructors-cpp?view=msvc-170#move_constructors&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;移动构造函数 (C++) | Microsoft Learn&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;移动构造函数 (C++) | Microsoft Learn&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;代码 &lt;code&gt;task_queue_-&amp;gt;tasks.emplace(std::forward&amp;lt;F&amp;gt;(task));&lt;/code&gt; 语句如何理解？&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;首先，&lt;code&gt;task_queue_-&amp;gt;tasks&lt;/code&gt; 的类型是 &lt;code&gt;std::queue&amp;lt;std::function&amp;lt;void()&amp;gt;&amp;gt;&lt;/code&gt;，成员函数 &lt;code&gt;emplace&lt;/code&gt;，会在当前的最后一个元素之后，即队列的末尾添加了一个新元素。 这个新元素会采用元素类的构造函数够赞，并且将 &lt;code&gt;std::forward&amp;lt;F&amp;gt;(task))&lt;/code&gt; 作为其构造函数的参数；另外，此处，&lt;code&gt;std::forward&amp;lt;F&amp;gt;&lt;/code&gt; 将输入的参数原封不动地传递到下一个函数中，如果输入的参数是左值，那么传递给下一个函数的参数的也是左值；如果输入的参数是右值，那么传递给下一个函数的参数的也是右值。那么，当 &lt;code&gt;task&lt;/code&gt; 参数是右值时，完美转发后，将会调用移动构造函数 &lt;code&gt;function( function&amp;amp;&amp;amp; other );&lt;/code&gt; 进行构造。此处，还需更深入理解。可以参考书籍《深入理解C++11：C++11新特性解析与应用》&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;首先，&lt;code&gt;task_queue_-&amp;gt;tasks&lt;/code&gt; 的类型是 &lt;code&gt;std::queue&amp;lt;std::function&amp;lt;void()&amp;gt;&amp;gt;&lt;/code&gt;，成员函数 &lt;code&gt;emplace&lt;/code&gt;，会在当前的最后一个元素之后，即队列的末尾添加了一个新元素。 这个新元素会采用元素类的构造函数够赞，并且将 &lt;code&gt;std::forward&amp;lt;F&amp;gt;(task))&lt;/code&gt; 作为其构造函数的参数；另外，此处，&lt;code&gt;std::forward&amp;lt;F&amp;gt;&lt;/code&gt; 将输入的参数原封不动地传递到下一个函数中，如果输入的参数是左值，那么传递给下一个函数的参数的也是左值；如果输入的参数是右值，那么传递给下一个函数的参数的也是右值。那么，当 &lt;code&gt;task&lt;/code&gt; 参数是右值时，完美转发后，将会调用移动构造函数 &lt;code&gt;function( function&amp;amp;&amp;amp; other );&lt;/code&gt; 进行构造。此处，还需更深入理解。可以参考书籍《深入理解C++11：C++11新特性解析与应用》&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;基于小根堆实现的定时器&#34;&gt;基于小根堆实现的定时器
 &lt;/h3&gt;&lt;h4 id=&#34;小根堆&#34;&gt;小根堆
 &lt;/h4&gt;&lt;p&gt;&lt;strong&gt;堆&lt;/strong&gt;（Heap）是计算机科学中的一种特别的&lt;a class=&#34;link&#34; href=&#34;https://zh.wikipedia.org/wiki/%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%8F%89%E6%A0%91&#34;  title=&#34;完全二叉树&#34;
@@ -1833,6 +2252,16 @@
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/chenshuo/muduo&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;chenshuo/muduo: Event-driven network library for multi-threaded Linux server in C++11&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;参考资料-1&#34;&gt;参考资料
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/qiyueliuhuo/WebServer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;WebServer 源码&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/cpp/?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;C++ 语言文档 | Microsoft Learn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://juejin.cn/post/7098659904721780749&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;C++ Linux轻量级WebServer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;《深入理解C++11：C++11 新特性解析与应用》书籍&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;扩展知识&#34;&gt;扩展知识
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/PlatformLab/NanoLog&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -1861,7 +2290,7 @@ vim：MacVim 8.2&lt;br&gt;
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37.png&#34;
 	width=&#34;3358&#34;
 	height=&#34;2050&#34;
-	srcset=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu6977684523373588805.png 480w, http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu10228423325999653923.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu_9c9384c7a325bb65.png 480w, http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-02-37_hu_6bd9f3a0c31cc003.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -1926,7 +2355,7 @@ vim：MacVim 8.2&lt;br&gt;
 &lt;p&gt;&lt;img src=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02.png&#34;
 	width=&#34;3358&#34;
 	height=&#34;2050&#34;
-	srcset=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu12252170667833130180.png 480w, http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu7916995581846462568.png 1024w&#34;
+	srcset=&#34;http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu_a4f25f45518f3a2f.png 480w, http://localhost:1313/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Snipaste_2022-09-17_20-05-02_hu_f191a1028ad919ba.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 	
@@ -2103,40 +2532,33 @@ vim：MacVim 8.2&lt;br&gt;
 &lt;/div&gt;&lt;h2 id=&#34;源码分析&#34;&gt;源码分析
 &lt;/h2&gt;&lt;p&gt;为什么该线程池所有的实现在 &lt;code&gt;threadpool.h&lt;/code&gt; 中完成？&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;上面源码为线程池的头文件 &lt;code&gt;threadpool.h&lt;/code&gt;，而且该线程池&lt;strong&gt;没有&lt;/strong&gt;对应的 &lt;code&gt;threadpool.cpp&lt;/code&gt; 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;上面源码为线程池的头文件 &lt;code&gt;threadpool.h&lt;/code&gt;，而且该线程池&lt;strong&gt;没有&lt;/strong&gt;对应的 &lt;code&gt;threadpool.cpp&lt;/code&gt; 实现代码文件，这种在类中实现方法的方式，使得类中方法都是缺省内联的，这样在编译的时候把函数调用的部分直接换成函数代码，而不是进行函数调用，这适用于函数代码少的时候，可以避免调用带来栈空间的消耗，也可以减少一定的调用时间。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;explicit&lt;/code&gt; 修饰的构造函数如何理解？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;通过将构造函数声明为explicit（显式）的方式可以&lt;strong&gt;抑制隐式转换&lt;/strong&gt;。也就是说，explicit构造函数必须显式调用。按默认规定，只用传一个参数的构造函数也定义了一个隐式转换。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://veitchkyrie.github.io/2019/10/18/C&amp;#43;&amp;#43;-explicit%E5%85%B3%E9%94%AE%E5%AD%97-%E8%AF%A6%E8%A7%A3-%E7%94%A8%E4%BA%8E%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++ explicit关键字详解&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;C++ explicit关键字详解&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::make_shared&lt;/code&gt; 作用是什么？在什么场景下使用？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如有可能，第一次创建内存资源时，请使用 &lt;code&gt;make_shared&lt;/code&gt; 函数创建 &lt;code&gt;shared_ptr&lt;/code&gt;。 &lt;code&gt;make_shared&lt;/code&gt; 异常安全。 它使用同一调用为控制块和资源分配内存，这会减少构造开销。 如果不使用 &lt;code&gt;make_shared&lt;/code&gt;，则必须先使用显式 &lt;code&gt;new&lt;/code&gt; 表达式来创建对象，然后才能将其传递到 &lt;code&gt;shared_ptr&lt;/code&gt; 构造函数。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/cpp/how-to-create-and-use-shared-ptr-instances?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;如何：创建和使用 shared_ptr 实例&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;如何：创建和使用 shared_ptr 实例&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;void detach()&lt;/code&gt; 作用？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;拆离相关联的线程。 操作系统负责释放终止的线程资源。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://learn.microsoft.com/zh-cn/cpp/standard-library/thread-class?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;thread类-detach&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;thread类-detach&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::unique_lock&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;表示可进行实例化以创建管理 &lt;code&gt;mutex&lt;/code&gt; 锁定和解锁的对象的模板。&lt;code&gt;uniqie_lock&lt;/code&gt; 是个类模板，它的功能跟 &lt;code&gt;lock_quard&lt;/code&gt; 类似，但比 &lt;code&gt;lock_quard&lt;/code&gt; 更灵活。在工作中，一般用 &lt;code&gt;lock_quard&lt;/code&gt; （推荐使用）就足够了，但在一些特殊的场景下会用到 &lt;code&gt;uniqie_lock&lt;/code&gt;。 &lt;code&gt;lock_quard&lt;/code&gt; 取代了 &lt;code&gt;mutex&lt;/code&gt; 的 &lt;code&gt;lock()&lt;/code&gt; 和 &lt;code&gt;unlock()&lt;/code&gt;，在 &lt;code&gt;lock_quard&lt;/code&gt; 的构造函数中上锁，在析构函数中解锁，这点其实在 &lt;code&gt;uniqie_lock&lt;/code&gt; 中也是一样的。&lt;code&gt;uniqie_lock&lt;/code&gt; 在使用上比 &lt;code&gt;lock_quard&lt;/code&gt; 灵活，但代价就是效率会低一点，并且内存占用量也会相对高一些。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://www.w3cjava.com/technical-articles/C&amp;#43;&amp;#43;/125380206.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;unique_lock详解&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://docs.microsoft.com/zh-cn/cpp/standard-library/unique-lock-class?view=msvc-170&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;unique_lock 类&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;unique_lock 类&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::mutex&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;Mutex&lt;/code&gt; 又称互斥量，C++ 11中与 &lt;code&gt;Mutex&lt;/code&gt; 相关的类（包括锁类型）和函数都声明在 &lt;code&gt;&amp;lt;mutex&amp;gt;&lt;/code&gt; 头文件中，所以如果你需要使用 &lt;code&gt;std::mutex&lt;/code&gt;，就必须包含 &lt;code&gt;&amp;lt;mutex&amp;gt;&lt;/code&gt; 头文件。&lt;code&gt;std::mutex&lt;/code&gt; 是C++11 中最基本的互斥量，&lt;code&gt;std::mutex&lt;/code&gt; 对象提供了独占所有权的特性——即不支持递归地对 &lt;code&gt;std::mutex&lt;/code&gt; 对象上锁，而 &lt;code&gt;std::recursive_lock&lt;/code&gt; 则可以递归地对互斥量对象上锁。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/haippy/p/3237213.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;C++11 并发指南三(std::mutex 详解)&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;C++11 并发指南三(std::mutex 详解)&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::move&lt;/code&gt; 与 &lt;code&gt;std::forward&lt;/code&gt; 作用及应用场景？&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;code&gt;std::forward&lt;/code&gt; 比 &lt;code&gt;std::move&lt;/code&gt; 逻辑略复杂，&lt;code&gt;std::move&lt;/code&gt; 是无条件把参数转换为右值，而 &lt;code&gt;std::forward&lt;/code&gt; 在特定情况下才会这样做：仅当参数是用右值初始化时，才会把它转换为右值。它的意义是使外面的函数调用选择接受右值的版本，实际的移动工作是由外面的函数进行的；使用std::forward来转发参数一般被称为完美转发 (也叫精确传递)。具体参考：&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/xiangbaohui/article/details/103673177&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C++ 理解std::forward完美转发&lt;/a&gt;。这里，使用 &lt;code&gt;std::move&lt;/code&gt; 将 &lt;code&gt;pool-&amp;gt;tasks.front()&lt;/code&gt; 装换为右值，从而使得 &lt;code&gt;std::function&lt;/code&gt; 类型的task调用 &lt;code&gt;function&amp;amp; operator= (function&amp;amp;&amp;amp; rhs);&lt;/code&gt; 构造函数，避免资源重复申请创建。详细讨论参考：&lt;a class=&#34;link&#34; href=&#34;https://www.zhihu.com/search?type=content&amp;amp;q=std%3A%3Amove&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;知乎std::move回答&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;知乎std::move回答&lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -4384,7 +4806,7 @@ vim：MacVim 8.2&lt;br&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// green 初始化为 5 ，blue 要满足比 green 大 1 即 blue = 6
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;c结构体c结构体c类的区别httpswwwcnblogscomcthonp9170596html&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/cthon/p/9170596.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/div&gt;&lt;h3 id=&#34;c结构体c结构体c类的区别&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/cthon/p/9170596.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C结构体、C++结构体、C++类的区别&lt;/a&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;C 结构体与 C++ 结构体&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -5455,7 +5877,7 @@ vim：MacVim 8.2&lt;br&gt;
 &lt;/ul&gt;
 &lt;p&gt;有些书上只是简单的介绍了前四个函数。没有提及后面这两个函数。但后面这两个函数也是空类的默认函数。另外需要注意的是，只有当实际使用这些函数的时候，编译器才会去定义它们。&lt;/p&gt;
 &lt;h3 id=&#34;初始化列表&#34;&gt;初始化列表
-&lt;/h3&gt;&lt;h4 id=&#34;使用初始化列表的原因httpswwwcnblogscomgraphicsarchive201007041770900html&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h3&gt;&lt;h4 id=&#34;使用初始化列表的原因&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/graphics/archive/2010/07/04/1770900.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;使用初始化列表的原因&lt;/a&gt;
 &lt;/h4&gt;&lt;p&gt;初始化类的成员有两种方式，一是使用初始化列表，二是在构造函数体内进行赋值操作。&lt;/p&gt;
 &lt;p&gt;主要是性能问题，对于内置类型，如 int, float 等，使用初始化列表和在构造函数体内初始化差别不是很大，但是对于类类型来说，最好使用初始化列表，&lt;strong&gt;因为使用初始化列表少了一次调用默认构造函数的过程&lt;/strong&gt;，这对于数据密集型的类来说，是非常高效的（参考下文代码段例1）。&lt;/p&gt;
@@ -6572,7 +6994,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/h4&gt;&lt;p&gt;虚函数是通过虚函数表实现的。如果一个类中有一个虚函数，则系统会为这个类分配一个指针成员指向一张虚函数表（vtbl），表中每一项指向一个虚函数地址，虚函数表实际上就是一个函数指针数组。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/weixin_40673608/article/details/88551020&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;C++虚函数原理&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;虚函数是否可以内联httpswwwyuquecomhuihutinterviewreadmeikirca&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.yuque.com/huihut/interview/readme#ikirca&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;h4 id=&#34;虚函数是否可以内联&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.yuque.com/huihut/interview/readme#ikirca&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;虚函数是否可以内联&lt;/a&gt;
 &lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;虚函数可以是内联函数，内联是可以修饰虚函数的，但是当虚函数表现多态性的时候不能内联。&lt;/li&gt;
@@ -8456,8 +8878,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
         
         <guid>http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/</guid>
         <description>&lt;img src="http://localhost:1313/posts/vue%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/vue_cover.jpg" alt="Featured image of post Vue入门笔记" /&gt;&lt;blockquote&gt;
-&lt;p&gt;vue学习记录。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;vue学习记录。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;!-- more --&gt;
 &lt;p&gt;注：&lt;/p&gt;
 &lt;blockquote&gt;
@@ -8467,8 +8888,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;li&gt;使用的开发IDE为WebStorm。&lt;/li&gt;
 &lt;li&gt;学习地址：&lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=T5LGA8Qy1Fk&amp;amp;list=PLYD7D0d62WlCUB2L5WEleVHLtfG8LnVC_&amp;amp;index=61&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Vue学习&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/blockquote&gt;
+&lt;/ol&gt;&lt;/blockquote&gt;
 &lt;h2 id=&#34;一邂逅vuejs&#34;&gt;一、邂逅Vuejs
 &lt;/h2&gt;&lt;h3 id=&#34;认识vuejs&#34;&gt;认识Vuejs
 &lt;/h3&gt;&lt;ul&gt;
@@ -8791,8 +9211,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;&lt;h4 id=&#34;v-once指令的使用&#34;&gt;v-once指令的使用
 &lt;/h4&gt;&lt;p&gt;只展示一次，后面网页界面内容不会随着&lt;code&gt;message&lt;/code&gt;值的&lt;strong&gt;改变而改变&lt;/strong&gt;。也就是第二个&lt;code&gt;h2&lt;/code&gt;标签显示的内容不会随着&lt;code&gt;vue&lt;/code&gt;的&lt;code&gt;app&lt;/code&gt;里面数据改变。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;一般情况下不用，特殊情况下需要使用。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;一般情况下不用，特殊情况下需要使用。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -8852,13 +9271,11 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/div&gt;
 &lt;/div&gt;&lt;h4 id=&#34;v-cloak指令的使用-基本不用&#34;&gt;v-cloak指令的使用 （基本不用）
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;cloak: 斗篷。 clock: 时钟。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;cloak: 斗篷。 clock: 时钟。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;和&lt;code&gt;css&lt;/code&gt;样式结合使用，可以实现当&lt;code&gt;JS&lt;/code&gt;脚本未执行完，不显示内容，而不是显示一些未渲染的“乱码”，对用户友好。&lt;/p&gt;
 &lt;h4 id=&#34;v-bind&#34;&gt;v-bind
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;v-bind之前都是将数据插到内容中，而这个是将值插到标签的属性中，比如&lt;code&gt;img&lt;/code&gt;标签的&lt;code&gt;src&lt;/code&gt;属性，改变这个属性值。又比如&lt;code&gt;a&lt;/code&gt;标签的&lt;code&gt;href&lt;/code&gt;属性。不能用&lt;strong&gt;双括号语法&lt;/strong&gt;操作，双括号是在标签内容中使用的。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;v-bind之前都是将数据插到内容中，而这个是将值插到标签的属性中，比如&lt;code&gt;img&lt;/code&gt;标签的&lt;code&gt;src&lt;/code&gt;属性，改变这个属性值。又比如&lt;code&gt;a&lt;/code&gt;标签的&lt;code&gt;href&lt;/code&gt;属性。不能用&lt;strong&gt;双括号语法&lt;/strong&gt;操作，双括号是在标签内容中使用的。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;strong&gt;作用&lt;/strong&gt;：动态绑定标签属性。&lt;/p&gt;
 &lt;h5 id=&#34;v-bind基本使用&#34;&gt;v-bind基本使用
 &lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210107121506.png&#34;
@@ -8962,8 +9379,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;h3 id=&#34;计算属性-computed很重要&#34;&gt;计算属性 &lt;code&gt;computed&lt;/code&gt;（很重要）※
 &lt;/h3&gt;&lt;h4 id=&#34;计算属性的使用&#34;&gt;计算属性的使用
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;数据展示之前需要经过一定的处理，computed里面也是定义的函数，但是不要命名为动词，一般命名为名词。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;数据展示之前需要经过一定的处理，computed里面也是定义的函数，但是不要命名为动词，一般命名为名词。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -9029,21 +9445,18 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;h4 id=&#34;计算属性setter和getter&#34;&gt;计算属性setter和getter
 &lt;/h4&gt;&lt;h4 id=&#34;计算属性和methods的对比--&#34;&gt;计算属性和methods的对比  ※
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;计算属性内部实现缓存，如果值不改变，直接调用缓存中的内容，而methods每次都会调用，效率比计算属性差&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;计算属性内部实现缓存，如果值不改变，直接调用缓存中的内容，而methods每次都会调用，效率比计算属性差&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;补充es6语法&#34;&gt;补充：ES6语法
 &lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;let/var&lt;/li&gt;
 &lt;/ol&gt;
 &lt;blockquote&gt;
-&lt;p&gt;let有if和for块级作用域，而var没有if和for块级作用域。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;let有if和for块级作用域，而var没有if和for块级作用域。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;ol start=&#34;2&#34;&gt;
 &lt;li&gt;const&lt;/li&gt;
 &lt;/ol&gt;
 &lt;blockquote&gt;
-&lt;p&gt;标识符修饰为常量。定义时就需要赋值。对象不能修改，但是可以改变对象里面的属性。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;标识符修饰为常量。定义时就需要赋值。对象不能修改，但是可以改变对象里面的属性。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;ol start=&#34;3&#34;&gt;
 &lt;li&gt;对象的字面量增强写法&lt;/li&gt;
 &lt;/ol&gt;
@@ -9054,16 +9467,13 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;h3 id=&#34;事件监听&#34;&gt;事件监听
 &lt;/h3&gt;&lt;h4 id=&#34;v-on的基本使用&#34;&gt;v-on的基本使用
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;v-on语法糖：@&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;v-on语法糖：@&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h4 id=&#34;v-on的参数&#34;&gt;v-on的参数
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;事件监听的时候，若不需要传参数，则可以不写调用的小括号。（省略）&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;事件监听的时候，若不需要传参数，则可以不写调用的小括号。（省略）&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;如何给事件监听函数传入，游览器生成的event对象？&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;传入的参数为&lt;code&gt;$event&lt;/code&gt;就可以了。方法形参为&lt;code&gt;event&lt;/code&gt;。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;传入的参数为&lt;code&gt;$event&lt;/code&gt;就可以了。方法形参为&lt;code&gt;event&lt;/code&gt;。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h4 id=&#34;v-on的修饰符&#34;&gt;v-on的修饰符
 &lt;/h4&gt;&lt;ol&gt;
 &lt;li&gt;&lt;code&gt;@click.stop&lt;/code&gt;防止事件冒泡。&lt;/li&gt;
@@ -9095,12 +9505,10 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;p&gt;另：一般情况下，&lt;code&gt;v-else-if&lt;/code&gt;、&lt;code&gt;v-else&lt;/code&gt;不在HTML模板中使用，逻辑不放在界面代码处。&lt;/p&gt;
 &lt;h4 id=&#34;v-show的使用&#34;&gt;v-show的使用
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;决定标签是否在界面显示：&lt;code&gt;&amp;lt;h2 v-show=&amp;quot;isShow&amp;quot;&amp;gt; &amp;lt;/h2&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;决定标签是否在界面显示：&lt;code&gt;&amp;lt;h2 v-show=&amp;quot;isShow&amp;quot;&amp;gt; &amp;lt;/h2&amp;gt;&lt;/code&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;code&gt;v-if&lt;/code&gt; 和 &lt;code&gt;v-show&lt;/code&gt;的区别。  （v-if经常使用）&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;v-if：当条件为false时，包含v-if指令的元素，根本不会存在dom中。而v-show：当条件为false时，只是给元素添加了一个行内样式：display：none。前者dom中取掉，后者改样式。当展示切换频率很高，用v-show。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;v-if：当条件为false时，包含v-if指令的元素，根本不会存在dom中。而v-show：当条件为false时，只是给元素添加了一个行内样式：display：none。前者dom中取掉，后者改样式。当展示切换频率很高，用v-show。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;循环遍历v-for的使用&#34;&gt;循环遍历v-for的使用
 &lt;/h3&gt;&lt;ol&gt;
 &lt;li&gt;遍历数组  ※&lt;/li&gt;
@@ -9136,8 +9544,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/h4&gt;&lt;p&gt;省略。&lt;/p&gt;
 &lt;h4 id=&#34;数组中响应式方法数组内容改变展示内容跟着改变&#34;&gt;数组中响应式方法：数组内容改变，展示内容跟着改变。
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;push()、pop()、shift()、unshift()、splice()、sort()、reverse()&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;push()、pop()、shift()、unshift()、splice()、sort()、reverse()&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;另:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;splice() ※&lt;/li&gt;
@@ -9151,8 +9558,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &lt;/h3&gt;&lt;h2 id=&#34;三组件化开发-&#34;&gt;三、组件化开发 ※
 &lt;/h2&gt;&lt;h3 id=&#34;什么是组件化&#34;&gt;什么是组件化？
 &lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;将复杂问题，拆分成很多个小问题。将一个页面拆分成一个个小的功能块，每个功能块完成属于自己这一部分独立的功能，那么整个页面的管理和维护就变得非常容易了。应用最后抽象为一个组件树。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;将复杂问题，拆分成很多个小问题。将一个页面拆分成一个个小的功能块，每个功能块完成属于自己这一部分独立的功能，那么整个页面的管理和维护就变得非常容易了。应用最后抽象为一个组件树。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210108203614.png&#34;
 	
 	
@@ -9439,8 +9845,7 @@ const 常量存在于程序的数据段，并分配了实际的内存。&lt;/li&
 &gt;&lt;/p&gt;
 &lt;h4 id=&#34;父组件向子组件-props-常用-&#34;&gt;父组件向子组件 props (常用) ※
 &lt;/h4&gt;&lt;blockquote&gt;
-&lt;p&gt;props : properties 属性&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;props : properties 属性&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;通过props向子组件传递数据。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -9619,8 +10024,7 @@ TODO&lt;/p&gt;
 	loading=&#34;lazy&#34;
 	
 	
-&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;ol&gt;
 &lt;li&gt;webpack其中一个核心就是让我们可能进行模块化开发，并且会帮助我们处理模块间的依赖关系。&lt;/li&gt;
 &lt;li&gt;不仅仅是JavaScript文件，我们的CSS、图片、json文件等等在webpack中都可以被当做模块来使用（在后续我们会看到）。&lt;/li&gt;
@@ -9639,13 +10043,11 @@ TODO&lt;/p&gt;
 &lt;/h2&gt;&lt;h2 id=&#34;七网络封装&#34;&gt;七、网络封装
 &lt;/h2&gt;&lt;h2 id=&#34;八项目实战&#34;&gt;八、项目实战
 &lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;一步步学习，没什么耐心，那就项目驱动学习吧，开干。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;一步步学习，没什么耐心，那就项目驱动学习吧，开干。&lt;/p&gt;&lt;/blockquote&gt;
 &lt;h3 id=&#34;创建项目&#34;&gt;创建项目
 &lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;Vue CLI教程&lt;a class=&#34;link&#34; href=&#34;https://cli.vuejs.org/zh/guide/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Vue CLI &lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
+    &gt;Vue CLI &lt;/a&gt;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -9658,8 +10060,7 @@ TODO&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h3 id=&#34;目录结构划分&#34;&gt;目录结构划分
 &lt;/h3&gt;&lt;blockquote&gt;
-&lt;p&gt;参考：https://blog.csdn.net/weixin_42290927/article/details/94432587&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;参考：https://blog.csdn.net/weixin_42290927/article/details/94432587&lt;/p&gt;&lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/20210721142734.png&#34;
 	
 	

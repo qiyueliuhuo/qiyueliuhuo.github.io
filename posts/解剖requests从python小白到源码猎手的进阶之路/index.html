@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="一次HTTP请求背后的模块化设计与代码抽象艺术">
+<title>解剖Requests：从Python小白到源码猎手的进阶之路</title>
+
+<link rel='canonical' href='http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/'>
+
+<link rel="stylesheet" href="/scss/style.min.8977e359d53ae8ca856a2fca5b84c07371ac3e5815675d7479ecabddb44e7a3d.css"><meta property='og:title' content="解剖Requests：从Python小白到源码猎手的进阶之路">
+<meta property='og:description' content="一次HTTP请求背后的模块化设计与代码抽象艺术">
+<meta property='og:url' content='http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/'>
+<meta property='og:site_name' content='七月流火'>
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:published_time' content='2025-03-16T11:29:31&#43;08:00'/><meta property='article:modified_time' content='2025-03-16T11:29:31&#43;08:00'/><meta property='og:image' content='http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover.jpg' />
+<meta name="twitter:title" content="解剖Requests：从Python小白到源码猎手的进阶之路">
+<meta name="twitter:description" content="一次HTTP请求背后的模块化设计与代码抽象艺术"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "light");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_791ba457c31eae4c.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">七月流火</a></h1>
+            <h2 class="site-description">不积跬步，无已至千里; 不积小流，无以成江海。</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/qiyueliuhuo'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>首页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E4%B9%A6%E6%9E%B6/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bookshelf" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="3" width="18" height="18" rx="2" />
+  <line x1="3" y1="7" x2="21" y2="7" />
+  <line x1="3" y1="14" x2="21" y2="14" />
+  <line x1="9" y1="7" x2="9" y2="14" />
+  <line x1="15" y1="7" x2="15" y2="14" />
+  <line x1="9" y1="18" x2="9" y2="21" />
+  <line x1="15" y1="18" x2="15" y2="21" />
+</svg>
+                
+                <span>书架</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%8F%8B%E9%93%BE/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a>
+      <ol>
+        <li><a href="#谁适合阅读这篇文章">谁适合阅读这篇文章？</a></li>
+        <li><a href="#如何更好地阅读本篇文章">如何更好地阅读本篇文章？</a></li>
+      </ol>
+    </li>
+    <li><a href="#项目简介">项目简介</a></li>
+    <li><a href="#项目结构">项目结构</a></li>
+    <li><a href="#源码解析">源码解析</a>
+      <ol>
+        <li><a href="#__init__py文件"><code>__init__.py</code>文件</a></li>
+      </ol>
+    </li>
+    <li><a href="#apipy模块"><code>api.py</code>模块</a>
+      <ol>
+        <li><a href="#理解-tests-目录结构">理解 <code>tests/</code> 目录结构</a></li>
+        <li><a href="#安装测试依赖">安装测试依赖</a></li>
+        <li><a href="#运行测试用例并进入调试模式">运行测试用例并进入调试模式</a></li>
+        <li><a href="#apipy模块源码解析"><code>api.py</code>模块源码解析</a></li>
+      </ol>
+    </li>
+    <li><a href="#参考资料">参考资料</a></li>
+    <li><a href="#知识点记忆">知识点记忆</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/">
+                <img src="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover_hu_aa3490af35ab210d.jpg"
+                        srcset="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover_hu_aa3490af35ab210d.jpg 800w, /posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover_hu_2b5c594828f028db.jpg 1600w"
+                        width="800" 
+                        height="457" 
+                        loading="lazy"
+                        alt="Featured image of post 解剖Requests：从Python小白到源码猎手的进阶之路" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/" style="background-color: #1c62a9; color: #fff;">
+                编程开发
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/">解剖Requests：从Python小白到源码猎手的进阶之路</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            一次HTTP请求背后的模块化设计与代码抽象艺术
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 16, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <blockquote>
+<p>学而不能致用的人是一头背着书的牛马。蠢驴是否知道它背上背着的是一堆书而不是一捆柴？—— 本杰明·富兰克林</p></blockquote>
+<h2 id="前言">前言
+</h2><p>2025年2月底，我回顾了前五年学习工作经历以及技术发展趋势后，在编程语言方面树立以Python与C++为主的编程技能，Java、Rust、Go等其他语言为辅，这样我需要推动自己将Pyhon和C++的技能尽可能达到精通，熟记这两门语言核心知识。正如我在最近阅读的《富兰克林自传》中所看到，富兰克林早期以印刷技能作为自己的谋生手段，而近三年我也以<strong>编程技能作为自己的谋生手段</strong>，未来路还很长，不能止步于此，需要不断学习其他领域与学科知识，学以致用，不能成为芒格口中的“铁锤人”。</p>
+<p>Python语言大概是在我五六年前开始正式作为工作语言，当时以《Head First Python》书籍入门，在读研期间通过阅读与实践深度学习相关项目，如Numpy、Pytorch、mmdetection、mmocr等，对Python语言有了更深的应用理解。最近通过<strong>阅读《流畅的Python》第2版</strong>，对该语言进行系统性地回顾与熟记；此次阅读<strong>Requests源码，一是对最近学习的一个总结与应用，二是给自己未来通过Python实现更大更复杂项目打下坚实的基础。</strong></p>
+<h3 id="谁适合阅读这篇文章">谁适合阅读这篇文章？
+</h3><h3 id="如何更好地阅读本篇文章">如何更好地阅读本篇文章？
+</h3><h2 id="项目简介">项目简介
+</h2><p>这里直接引用官方对Requests的相关介绍，我们在后面源码解析中会逐步展开代码中是如何实现这些功能的。</p>
+<p><strong>A simple, yet elegant, HTTP library. Requests是一个简单而优雅的 HTTP 库。</strong></p>
+<p><strong>Supported Features &amp; Best–Practices 支持的功能和最佳实践</strong></p>
+<p>Requests is ready for the demands of building robust and reliable HTTP–speaking applications, for the needs of today.<br>
+<strong>Requests</strong>已准备好满足构建强大且可靠的 HTTP 应用程序的需求，以满足当今时代的需求。</p>
+<ul>
+<li>Keep-Alive &amp; Connection Pooling 保持连接和连接池</li>
+<li>International Domains &amp; URLs 国际域名和 URL</li>
+<li>Sessions with Cookie Persistence 具有Cookie 持久性的会话机制</li>
+<li>Browser-style SSL Verification 浏览器风格的 SSL 验证</li>
+<li>Basic/Digest Authentication 基本身份验证和摘要身份认证</li>
+<li>Familiar dict–like Cookies 熟悉的类似dict的 Cookies</li>
+<li>Automatic Content Decompression and Decoding 内容自动解压缩和解码</li>
+<li>Muti-part File Uploads 多部分文件上传</li>
+<li>SOCKS Proxy Support 支持 SOCKS 代理</li>
+<li>Connection Timeouts 连接超时</li>
+<li>Streaming Downloads 流式下载</li>
+<li>Automatic honoring of .netrc 自动遵循.netrc配置</li>
+<li>Chunked HTTP Requests 分块 HTTP 请求</li>
+</ul>
+<h2 id="项目结构">项目结构
+</h2><p>我们再来看一下Requests的项目的顶层结构，并简单介绍一下各个目录与文件的作用。
+这里采用<code>eza -a -T -L 1 --group-directories-first</code>命令查看项目目录结构。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">├── .git    <span class="c1"># Git 版本控制系统的目录，包含项目的版本历史和配置</span>
+</span></span><span class="line"><span class="cl">├── .github    <span class="c1"># GitHub 相关的配置文件和工作流，如持续集成（CI）配置等</span>
+</span></span><span class="line"><span class="cl">├── docs    <span class="c1"># 文档目录，包含使用指南、API 文档等</span>
+</span></span><span class="line"><span class="cl">├── ext    <span class="c1"># 外部扩展或依赖项，现已逐步弃用</span>
+</span></span><span class="line"><span class="cl">├── src    <span class="c1"># 源码目录，包含主要的接口和功能实现代码</span>
+</span></span><span class="line"><span class="cl">├── tests    <span class="c1"># 测试目录，包括单元测试与集成测试代码，覆盖请求发送、异常处理、Cookie 管理等关键功能。</span>
+</span></span><span class="line"><span class="cl">├── .coveragerc 
+</span></span><span class="line"><span class="cl">├── .git-blame-ignore-revs
+</span></span><span class="line"><span class="cl">├── .gitignore
+</span></span><span class="line"><span class="cl">├── .pre-commit-config.yaml   <span class="c1"># Git钩子配置文件，在提交代码前自动执行，用于代码规范检查、格式化等</span>
+</span></span><span class="line"><span class="cl">├── .readthedocs.yaml    <span class="c1"># Read the Docs 平台用于配置项目构建过程的配置文件</span>
+</span></span><span class="line"><span class="cl">├── AUTHORS.rst
+</span></span><span class="line"><span class="cl">├── HISTORY.md
+</span></span><span class="line"><span class="cl">├── LICENSE
+</span></span><span class="line"><span class="cl">├── Makefile    <span class="c1"># 自动化任务的文件，如构建、测试</span>
+</span></span><span class="line"><span class="cl">├── MANIFEST.in
+</span></span><span class="line"><span class="cl">├── NOTICE
+</span></span><span class="line"><span class="cl">├── pyproject.toml
+</span></span><span class="line"><span class="cl">├── README.md
+</span></span><span class="line"><span class="cl">├── requirements-dev.txt
+</span></span><span class="line"><span class="cl">├── setup.cfg
+</span></span><span class="line"><span class="cl">├── setup.py    <span class="c1"># 安装和打包配置文件，定义项目的元数据（如名称、版本、依赖项）并支持 pip install 和 setuptools 进行管理。</span>
+</span></span><span class="line"><span class="cl">└── tox.ini
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面项目组织结构中，我们可以学习到一个<strong>广泛遵循的约定</strong>，即将项目的源码、测试、文档等内容分别放置在不同的目录中，以便于管理和维护。通常将源代码放在 src/ 目录，测试代码放在 tests/ 目录，文档资料放在 docs/ 目录，并使用 LICENSE 文件声明开源许可。</p>
+<p>其他文件是一些Python项目工具的配置文件，如 pyproject.toml、setup.py、requirements-dev.txt、tox.ini 等，关于这些项目构建和运行的配置文件，<strong>平时在使用到这些工具时多多留意就好啦~</strong></p>
+<h2 id="源码解析">源码解析
+</h2><p>本想寻找两三个简单实用的示例，无意间查看源码目录的<code>src/requests/__init__.py</code>文件，发现已经有两个示例了，我们在这里直接运行它们。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="o">(</span>common-env<span class="o">)</span> ➜  requests git:<span class="o">(</span>main<span class="o">)</span> python
+</span></span><span class="line"><span class="cl">Python 3.12.9 <span class="p">|</span> packaged by Anaconda, Inc. <span class="p">|</span> <span class="o">(</span>main, Feb  <span class="m">6</span> 2025, 12:55:12<span class="o">)</span> <span class="o">[</span>Clang 14.0.6 <span class="o">]</span> on darwin
+</span></span><span class="line"><span class="cl">Type <span class="s2">&#34;help&#34;</span>, <span class="s2">&#34;copyright&#34;</span>, <span class="s2">&#34;credits&#34;</span> or <span class="s2">&#34;license&#34;</span> <span class="k">for</span> more information.
+</span></span><span class="line"><span class="cl">&gt;&gt;&gt; import requests
+</span></span><span class="line"><span class="cl">&gt;&gt;&gt; <span class="nv">r</span> <span class="o">=</span> requests.get<span class="o">(</span><span class="s1">&#39;https://www.python.org&#39;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">&gt;&gt;&gt; r.status_code
+</span></span><span class="line"><span class="cl"><span class="m">200</span>
+</span></span><span class="line"><span class="cl">&gt;&gt;&gt; <span class="nv">payload</span> <span class="o">=</span> dict<span class="o">(</span><span class="nv">key1</span><span class="o">=</span><span class="s1">&#39;value1&#39;</span>, <span class="nv">key2</span><span class="o">=</span><span class="s1">&#39;value2&#39;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">&gt;&gt;&gt; <span class="nv">r</span> <span class="o">=</span> requests.post<span class="o">(</span><span class="s1">&#39;https://httpbin.org/post&#39;</span>, <span class="nv">data</span><span class="o">=</span>payload<span class="o">)</span>
+</span></span><span class="line"><span class="cl">&gt;&gt;&gt; print<span class="o">(</span>r.text<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;args&#34;</span>: <span class="o">{}</span>, 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;data&#34;</span>: <span class="s2">&#34;&#34;</span>, 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;files&#34;</span>: <span class="o">{}</span>, 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;form&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key1&#34;</span>: <span class="s2">&#34;value1&#34;</span>, 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key2&#34;</span>: <span class="s2">&#34;value2&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>, 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;headers&#34;</span>: <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Accept&#34;</span>: <span class="s2">&#34;*/*&#34;</span>, 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Accept-Encoding&#34;</span>: <span class="s2">&#34;gzip, deflate&#34;</span>, 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Content-Length&#34;</span>: <span class="s2">&#34;23&#34;</span>, 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Content-Type&#34;</span>: <span class="s2">&#34;application/x-www-form-urlencoded&#34;</span>, 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Host&#34;</span>: <span class="s2">&#34;httpbin.org&#34;</span>, 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;User-Agent&#34;</span>: <span class="s2">&#34;python-requests/2.32.3&#34;</span>, 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;X-Amzn-Trace-Id&#34;</span>: <span class="s2">&#34;Root=1-67d7be38-6126bbec2e56917a24eda1a3&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="o">}</span>, 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;json&#34;</span>: null, 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;origin&#34;</span>: <span class="s2">&#34;45.86.73.64&#34;</span>, 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;url&#34;</span>: <span class="s2">&#34;https://httpbin.org/post&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面正式开始对Requests源码进行解析，从<code>src/requests/__init__.py</code>文件开始。</p>
+<h3 id="__init__py文件"><code>__init__.py</code>文件
+</h3><p>以下截取文件代码中的核心部分，省略部分使用三行<code># ...</code>表示。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="c1"># ...</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ...</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ...</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">packages</span><span class="p">,</span> <span class="n">utils</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">.__version__</span> <span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__author__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__author_email__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__build__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__cake__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__copyright__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__description__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__license__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__title__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__url__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">__version__</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">.api</span> <span class="kn">import</span> <span class="n">delete</span><span class="p">,</span> <span class="n">get</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">patch</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">put</span><span class="p">,</span> <span class="n">request</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="ne">ConnectionError</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ConnectTimeout</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">FileModeWarning</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HTTPError</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">JSONDecodeError</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ReadTimeout</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">RequestException</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Timeout</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">TooManyRedirects</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">URLRequired</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">PreparedRequest</span><span class="p">,</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">.sessions</span> <span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">session</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">.status_codes</span> <span class="kn">import</span> <span class="n">codes</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">NullHandler</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># FileModeWarnings go off per the default.</span>
+</span></span><span class="line"><span class="cl"><span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&#34;default&#34;</span><span class="p">,</span> <span class="n">FileModeWarning</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们知道在Python中，<code>__init__.py</code>文件的作用包含以下三点：</p>
+<ol>
+<li>标记包目录：文件存在即表示该目录是一个Python包，允许导入子模块（空文件也可）。</li>
+<li>初始化包：包被导入时自动执行，用于（1）定义包级变量/函数（如版本号、工具函数）；（2）批量导入子模块，简化外部调用，如<code>from . import submodule</code>。</li>
+<li>控制导入行为：（1）通过<code>__all__</code>指定<code>from package import *</code>时导出的模块列表；（2）隐藏内部实现，仅暴露特定接口。</li>
+</ol>
+<p>具体到上面展示的Requests中<code>__init__.py</code>文件核心代码，主要包含了：</p>
+<ul>
+<li><strong>导入子模块</strong>，如<code>packages</code>、<code>utils</code>；</li>
+<li><strong>导入版本信息</strong>，如<code>__version__</code>；</li>
+<li><strong>导入API接口</strong>，如<code>delete</code>、<code>get</code>、<code>head</code>、<code>options</code>、<code>patch</code>、<code>post</code>、<code>put</code>、<code>request</code>；</li>
+<li><strong>导入异常类</strong>，如<code>ConnectionError</code>、<code>ConnectTimeout</code>、<code>HTTPError</code>、<code>JSONDecodeError</code>等；</li>
+<li><strong>导入请求和响应模型类</strong>，如<code>PreparedRequest</code>、<code>Request</code>、<code>Response</code>；</li>
+<li><strong>导入会话管理类</strong>，如<code>Session</code>、<code>session</code>；</li>
+<li><strong>导入状态码类</strong>，如<code>codes</code>；</li>
+<li>进行日志模块的初始化。</li>
+</ul>
+<p>在阅读和解析其他模块源码之前，我们先来看下Requests核心模块的架构设计。其源码目录结构如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="o">(</span>common-env<span class="o">)</span> ➜  requests git:<span class="o">(</span>main<span class="o">)</span> ✗ lz src/requests 
+</span></span><span class="line"><span class="cl">src/requests
+</span></span><span class="line"><span class="cl">├── __init__.py
+</span></span><span class="line"><span class="cl">├── __version__.py
+</span></span><span class="line"><span class="cl">├── _internal_utils.py
+</span></span><span class="line"><span class="cl">├── adapters.py
+</span></span><span class="line"><span class="cl">├── api.py
+</span></span><span class="line"><span class="cl">├── auth.py
+</span></span><span class="line"><span class="cl">├── certs.py
+</span></span><span class="line"><span class="cl">├── compat.py
+</span></span><span class="line"><span class="cl">├── cookies.py
+</span></span><span class="line"><span class="cl">├── exceptions.py
+</span></span><span class="line"><span class="cl">├── help.py
+</span></span><span class="line"><span class="cl">├── hooks.py
+</span></span><span class="line"><span class="cl">├── models.py
+</span></span><span class="line"><span class="cl">├── packages.py
+</span></span><span class="line"><span class="cl">├── sessions.py
+</span></span><span class="line"><span class="cl">├── status_codes.py
+</span></span><span class="line"><span class="cl">├── structures.py
+</span></span><span class="line"><span class="cl">└── utils.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Requests的核心模块主要包含<code>api.py</code>、<code>sessions.py</code>、<code>adapters.py</code>、<code>models.py</code>、<code>utils.py</code>、<code>status_codes.py</code>，下面通过PlantUML图展示Requests的核心模块架构设计。</p>
+<p><img src="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/requests-core-module-architecture.png"
+	width="695"
+	height="674"
+	srcset="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/requests-core-module-architecture_hu_f9764fe703e6fb24.png 480w, /posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/requests-core-module-architecture_hu_6a78a94348f26878.png 1024w"
+	loading="lazy"
+	
+		alt="Requests核心模块架构设计"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="103"
+		data-flex-basis="247px"
+	
+></p>
+<h2 id="apipy模块"><code>api.py</code>模块
+</h2><p>在查看<code>api.py</code>模块源码之前，我们将通过运行测试用例并逐步跟踪代码执行流程，这样可以更好地理解代码的执行逻辑。</p>
+<h3 id="理解-tests-目录结构">理解 <code>tests/</code> 目录结构
+</h3><p>将该目录下文件按照功能分类，方便查找和阅读。</p>
+<ul>
+<li><strong>核心功能测试</strong>： <code>test_requests.py</code></li>
+<li><strong>适配器与底层传输</strong>：<code>test_adapters.py</code>, <code>test_lowlevel.py</code></li>
+<li><strong>工具与辅助功能</strong>：<code>test_utils.py</code>, <code>utils.py</code></li>
+<li><strong>数据结构与内部类</strong>：<code>test_structures.py</code></li>
+<li><strong>钩子与扩展功能</strong>：<code>test_hooks.py</code></li>
+<li><strong>测试基础设施</strong>：<code>testserver/</code>, <code>test_testserver.py</code>, <code>certs/</code></li>
+<li><strong>兼容性与环境验证</strong>：<code>compat.py</code></li>
+<li><strong>帮助与文档</strong>：<code>test_help.py</code></li>
+<li><strong>包与安装验证</strong>：<code>test_packages.py</code></li>
+<li><strong>测试框架配置</strong>：<code>conftest.py</code>, <code>__init__.py</code></li>
+</ul>
+<h3 id="安装测试依赖">安装测试依赖
+</h3><p>运行下面命令安装测试依赖，包含 <code>pytest</code> 测试框架和 <code>pytest-httpbin</code> 本地 HTTP 服务模拟。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">uv pip install -e .<span class="o">[</span>socks<span class="o">]</span>  <span class="c1"># 包含 socks 代理等可选依赖</span>
+</span></span><span class="line"><span class="cl">uv ip install pytest pytest-httpbin  <span class="c1"># 测试框架和本地 HTTP 服务模拟</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="运行测试用例并进入调试模式">运行测试用例并进入调试模式
+</h3><p>这里我们选择运行<code>test_HTTP_200_OK_GET_ALTERNATIVE</code>测试方法，调试程序会在进入方法后暂停，方便我们跟踪代码执行流程。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">pytest tests/test_requests.py -k test_HTTP_200_OK_GET_ALTERNATIVE --trace
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>接下来使用 n（下一步）、s（进入函数）等命令跟踪代码。</p>
+<h3 id="apipy模块源码解析"><code>api.py</code>模块源码解析
+</h3><p>本章我们重点关注<code>api.py</code>模块，尤其是其中比较常用的<code>requests.get()</code>和<code>requests.post()</code>方法，上面示例的测试用例函数<code>test_HTTP_200_OK_GET_ALTERNATIVE</code>中使用了<code>requests.Request()</code>和<code>requests.Session()</code>方法，我们在这里先不做详细展开。</p>
+<p>我在<code>test_requests.py</code>文件中找到了<code>test_HTTP_200_OK_GET_WITH_PARAMS</code>测试用例，作为项目源码入手的起点，我们将逐步调试并解析这个测试用例。</p>
+<p>此外，通过命令行中调试代码虽然方便，但是面对现代大型Python项目，采用IDE提供的调试工具更加方便。因此，创建以下VS Code调试配置文件。</p>
+<p><code>.vscode/launch.json</code>具体内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Json" data-lang="Json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;0.2.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;configurations&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;Debug Tests&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;debugpy&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;request&#34;</span><span class="p">:</span> <span class="s2">&#34;launch&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;module&#34;</span><span class="p">:</span> <span class="s2">&#34;pytest&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;tests/test_requests.py::TestRequests::test_HTTP_200_OK_GET_WITH_PARAMS&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="nt">&#34;cwd&#34;</span><span class="p">:</span> <span class="s2">&#34;${workspaceFolder}&#34;</span><span class="p">,</span>  <span class="c1">// 指定工作目录
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nt">&#34;justMyCode&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>  <span class="c1">// 允许跟踪 Requests 源码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时，配置<code>.vscode/settings.json</code>文件，指定 Python 解释器路径。这样，按下 F5 键即可在 VS Code 中调试<code>test_HTTP_200_OK_GET_WITH_PARAMS</code>测试用例。</p>
+<blockquote>
+<p><strong>注意</strong>：在这里我踩了一个坑，一开始配置的<code>.vscode/launch.json</code>文件中configurations的<code>args</code>参数写成了<code>&quot;args&quot;: [&quot;tests/test_requests.py::test_HTTP_200_OK_GET_WITH_PARAMS&quot;, &quot;--trace&quot;]</code>，导致调试时一直提示找不到测试用例，后来将测试类<code>TestRequests::</code>加上即可。分析我犯的错误的原因，主要有两个：<br>
+（1）利用人工智能文件编辑提示功能，自动生成了<code>tests/test_requests.py:test_HTTP_200_OK_GET_ALTERNATIVE</code>，我想当然得用<code>test_HTTP_200_OK_GET_WITH_PARAMS</code>将其替换；<br>
+（2）没有熟悉pytest的用法，尤其是区分<code>pytest test_sample.py::TestMath::test_add</code>和<code>pytest test_sample.py -k test_add</code>的区别，<strong>前者需指定测试类和测试方法，后者可以模糊匹配测试方法。</strong></p></blockquote>
+<p>配置完后，可以在测试代码旁打断点，再按 F5 键开始调试，这样就可以在 VS Code 中逐步调试测试用例代码了。如下图：</p>
+<p><img src="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/code_run.png"
+	width="2310"
+	height="1732"
+	srcset="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/code_run_hu_1d0948dbccee0350.png 480w, /posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/code_run_hu_b011d914cb735523.png 1024w"
+	loading="lazy"
+	
+		alt="VS Code代码调试"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="133"
+		data-flex-basis="320px"
+	
+></p>
+<h2 id="参考资料">参考资料
+</h2><ul>
+<li><a class="link" href="https://docs.python-requests.org/"  target="_blank" rel="noopener"
+    >Requests: HTTP for Humans™</a></li>
+<li><a class="link" href="https://nining.website/python/spider/requests"  target="_blank" rel="noopener"
+    >requests源码精读</a></li>
+<li><a class="link" href="https://www.cnblogs.com/taosiyu/p/15329254.html"  target="_blank" rel="noopener"
+    >requests模块源码阅读总结</a></li>
+</ul>
+<h2 id="知识点记忆">知识点记忆
+</h2><ul>
+<li>提示词：模块、包。在Python中，模块是一个单独的 .py 文件，包是一个包含多个模块的文件夹，且必须有 <code>__init__.py</code> 文件。</li>
+<li>提示词：主流工具。构建、打包和分发工具setuptools、测试框架pytest、代码格式化工具black、自动排序导入工具isort、代码静态分析工具flake8、自动化测试环境管理工具tox、文档生成工具Sphinx。</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>All Rights Reserved.（所有权利保留。禁止未经授权的复制或再分发。）</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.0f8d6300cf01d6898a79fa0f8086967d_hu_6c47ea3744a48e20.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 高效之美：C&#43;&#43;14 WebServer 源码探秘"
+                        data-key="高效之美：C&#43;&#43;14" 
+                        data-hash="md5-D41jAM8B1omKefoPgIaWfQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">高效之美：C&#43;&#43;14 WebServer 源码探秘</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu_7f02356adb9a872e.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Vim 与算法刷题：打造高效开发环境"
+                        data-key="Vim-算法-刷题环境配置" 
+                        data-hash="md5-fVk2jbZqwjswG2MTq4ToSQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Vim 与算法刷题：打造高效开发环境</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu_2d8341da9b2d1f53.png" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post WebServer（C&#43;&#43;版）代码分析之线程池"
+                        data-key="WebServer（C&#43;&#43;版）代码分析之线程池" 
+                        data-hash="md5-q8PfSkaJGEYcDF53Dy/vAA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">WebServer（C&#43;&#43;版）代码分析之线程池</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.3485f3bf63f135b4fbbd04dc8080a7f9_hu_23fd76f4fc2982d7.gif" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post GDB调试秘籍：像高手一样排查问题"
+                        data-key="GDB调试学习" 
+                        data-hash="md5-NIXzv2PxNbT7vQTcgICn&#43;Q==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">GDB调试秘籍：像高手一样排查问题</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.a55b357ff9d2e033322598b57d591996_hu_969c3540d783af7a.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post C&#43;&#43;知识点总结"
+                        data-key="C&#43;&#43;知识点总结" 
+                        data-hash="md5-pVs1f/nS4DMyJZi1fVkZlg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">C&#43;&#43;知识点总结</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2018 - 
+        
+        2025 七月流火
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/ribbon.min.js"
+    integrity="sha384-UEK8ZiP3VgFNP8KnKMKDmd4pAUAOJ59Y2Jo3ED2Z5qKQf6HLHovMxq7Beb9CLPUe"
+    crossorigin="anonymous"
+    size="300"
+    alpha="0.6"
+    zindex="-1"
+    defer
+></script>
+
+
+<script
+    src="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/js/nprogress.min.js"
+    integrity="sha384-bHDlAEUFxsRI7JfULv3DTpL2IXbbgn4JHQJibgo5iiXSK6Iu8muwqHANhun74Cqg"
+    crossorigin="anonymous"
+></script>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/zhixuan2333/gh-blog@v0.1.0/css/nprogress.css"
+    integrity="sha384-KJyhr2syt5+4M9Pz5dipCvTrtvOmLk/olWVdfhAp858UCa64Ia5GFpTN7+G4BWpE"
+    crossorigin="anonymous"
+/>
+<script>
+    NProgress.start();
+    document.addEventListener("readystatechange", () => {
+        if (document.readyState === "interactive") NProgress.inc(0.8);
+        if (document.readyState === "complete") NProgress.done();
+    });
+</script>
+
+    </body>
+</html>
