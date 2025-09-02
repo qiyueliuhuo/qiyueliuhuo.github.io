@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/'>
 
-<link rel="stylesheet" href="/scss/style.min.8977e359d53ae8ca856a2fca5b84c07371ac3e5815675d7479ecabddb44e7a3d.css"><meta property='og:title' content="解剖Requests：从Python小白到源码猎手的进阶之路">
+<link rel="stylesheet" href="/scss/style.min.05ae5abd1130d8ddaabf04e627f9967bbe162f7a23aa1b5ecaa0e1162a77100f.css"><meta property='og:title' content="解剖Requests：从Python小白到源码猎手的进阶之路">
 <meta property='og:description' content="一次HTTP请求背后的模块化设计与代码抽象艺术">
 <meta property='og:url' content='http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/'>
 <meta property='og:site_name' content='七月流火'>
@@ -288,6 +288,7 @@
         <li><a href="#apipy模块源码解析"><code>api.py</code>模块源码解析</a></li>
       </ol>
     </li>
+    <li><a href="#sessionspy模块源码解析"><code>sessions.py</code>模块源码解析</a></li>
     <li><a href="#参考资料">参考资料</a></li>
     <li><a href="#知识点记忆">知识点记忆</a></li>
   </ol>
@@ -370,7 +371,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 4 分钟
+                    阅读时长: 5 分钟
                 </time>
             </div>
         
@@ -802,6 +803,69 @@
 		data-flex-basis="320px"
 	
 ></p>
+<p>现在我们整体阅读<code>api.py</code>源码文件，可以看到<code>get()</code>、<code>options()</code>、<code>head()</code>、<code>post()</code>、<code>put()</code>、<code>patch()</code>、<code>delete()</code>方法通过传递不同的<code>method</code>参数调用<code>def request(method, url, **kwargs)</code>实现功能，这里我们对<code>HTTP</code>协议的这些方法简要介绍：</p>
+<ul>
+<li>get: 发送GET请求，用于获取资源，参数通过URL查询字符串（params）传递。</li>
+<li>options: 发送OPTIONS请求，用于探测服务器支持的HTTP方法。</li>
+<li>head: 发送HEAD请求，仅获取响应头（默认禁用重定向allow_redirects=False）。</li>
+<li>post: 发送POST请求，提交数据（支持data或json参数），通常用于创建资源或提交表单。</li>
+<li>put: 发送PUT请求，替换或创建完整资源（支持data参数，需显式传递全部字段）。</li>
+<li>patch: 发送PATCH请求，部分更新资源（支持data参数，仅传递需修改的字段）。</li>
+<li>delete: 发送DELETE请求，删除指定资源，无请求体（可通过**kwargs自定义参数）。</li>
+</ul>
+<p><code>api.py</code>模块源码比较简单，主要是对请求方法的封装，下面我们直接看<code>request()</code>核心方法的实现。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># By using the &#39;with&#39; statement we are sure the session is closed, thus we</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># avoid leaving sockets open which can trigger a ResourceWarning in some</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># cases, and look like a memory leak in others.</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">sessions</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">session</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用<code>with</code>语句创建一个临时 Session 会话对象，自动调用 <code>Session.__enter__() </code>方法，该方法返回对象本身，绑定到目标变量session上。函数内部通过该会话调用 session.request() 发起 HTTP 请求，并在请求完成后<code>with</code> 语句自动调用<code>Session.__exit__()</code>方法，关闭会话，避免资源泄露，如连接未释放、内存泄露等。<strong>通过上下文管理器的方式，无需显式关闭<code>session.close()</code>，简洁可靠。</strong></p>
+<p>对于<code>api.py</code>源码解析就到此为止，下面我们将重点分析<code>Session</code>类的实现，了解其如何管理请求会话、连接池、Cookie等。</p>
+<h2 id="sessionspy模块源码解析"><code>sessions.py</code>模块源码解析
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="c1"># self.adapters = OrderedDict()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">mount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">adapter</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Registers a connection adapter to a prefix.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Adapters are sorted in descending order by prefix length.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">self</span><span class="o">.</span><span class="n">adapters</span><span class="p">[</span><span class="n">prefix</span><span class="p">]</span> <span class="o">=</span> <span class="n">adapter</span>
+</span></span><span class="line"><span class="cl">    <span class="n">keys_to_move</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapters</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys_to_move</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">adapters</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapters</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该函数将一个自定义的适配器（adapter）绑定到指定的前缀（如 &lsquo;https://&rsquo;）。1）<strong>注册连接适配器</strong>：<code>self.adapters[prefix] = adapter</code>。2）<strong>重新排序</strong>：将比当前 prefix 短的键移到后面，确保按前缀长度从长到短排序，这样查找时优先匹配更具体的前缀。</p>
 <h2 id="参考资料">参考资料
 </h2><ul>
 <li><a class="link" href="https://docs.python-requests.org/"  target="_blank" rel="noopener"
@@ -815,6 +879,8 @@
 </h2><ul>
 <li>提示词：模块、包。在Python中，模块是一个单独的 .py 文件，包是一个包含多个模块的文件夹，且必须有 <code>__init__.py</code> 文件。</li>
 <li>提示词：主流工具。构建、打包和分发工具setuptools、测试框架pytest、代码格式化工具black、自动排序导入工具isort、代码静态分析工具flake8、自动化测试环境管理工具tox、文档生成工具Sphinx。</li>
+<li>遍历字典：字典的遍历默认是遍历 <strong>键（keys）</strong>，可以使用<code>dict.items()</code>方法遍历键值对。</li>
+<li>字典<code>pop()</code>方法：<code>pop()</code>方法用于从字典中删除指定键及其对应的值，并返回被删除的值。</li>
 </ul>
 
 </section>
@@ -873,6 +939,30 @@
     <h2 class="section-title">相关文章</h2>
     <div class="related-content">
         <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/">
+        
+        
+            <div class="article-image">
+                <img src="/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/rust_cover.56c0d504dcf77ce39c6eda81d9813e10_hu_8de7ae29863f5487.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 利用AI掌握Rust编程"
+                        data-key="利用AI掌握Rust编程" 
+                        data-hash="md5-VsDVBNz3fOOcbtqB2YE&#43;EA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">利用AI掌握Rust编程</h2>
+        </div>
+    </a>
+</article>
+
             
                 
 <article class="has-image">
@@ -965,30 +1055,6 @@
 
         <div class="article-details">
             <h2 class="article-title">GDB调试秘籍：像高手一样排查问题</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
-        
-        
-            <div class="article-image">
-                <img src="/posts/c&#43;&#43;%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/C&#43;&#43;_cover.a55b357ff9d2e033322598b57d591996_hu_969c3540d783af7a.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post C&#43;&#43;知识点总结"
-                        data-key="C&#43;&#43;知识点总结" 
-                        data-hash="md5-pVs1f/nS4DMyJZi1fVkZlg==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">C&#43;&#43;知识点总结</h2>
         </div>
     </a>
 </article>
