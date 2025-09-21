@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/404.html'>
 
-<link rel="stylesheet" href="/scss/style.min.8fc0c7bc2d22a6bf7cedea9f17fd01174b7e86da9bd675f5301e0509c6c73022.css"><meta property='og:title' content="404 Page not found">
+<link rel="stylesheet" href="/scss/style.min.58b44f89b414b4ea4925dab73710e0a68d43ff7168a68cad513f0e9f4c6e3b9b.css"><meta property='og:title' content="404 Page not found">
 <meta property='og:description' content="不积跬步，无已至千里; 不积小流，无以成江海。">
 <meta property='og:url' content='http://localhost:1313/404.html'>
 <meta property='og:site_name' content='七月流火'>
@@ -246,8 +246,41 @@
     <div class="not-found-card">
         <h1 class="article-title">404 错误</h1>
         <h2 class="article-subtitle">页面不存在</h2>
-    </div>
-    <footer class="site-footer">
+    </div><form action="/search/" class="search-form widget" data-json="http://localhost:1313/search/index.json">
+            <p>
+                <label>搜索</label>
+                <input id="searchInput" name="keyword" required placeholder="输入关键词..." />
+            
+                <button title="搜索">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                </button>
+            </p>
+        </form>
+
+        <div class="search-result">
+            <h3 class="search-result--title section-title"></h3>
+            <div class="search-result--list article-list--compact"></div>
+        </div>
+        
+        <script>
+            window.searchResultTitleTemplate = "#PAGES_COUNT 个结果 （用时 #TIME_SECONDS 秒）"
+        </script><script type="text/javascript" src="/ts/search.js" defer></script>
+
+        <script>
+            const wrongUrl = new URL(window.location.href);
+
+            
+            const searchKeyword = wrongUrl.pathname.split(/[/|-]/).join(' ').trim();
+
+            document.getElementById('searchInput').setAttribute('value', searchKeyword);
+        </script><footer class="site-footer">
     <section class="copyright">
         &copy; 
         
@@ -258,7 +291,7 @@
     
     <section class="powerby">
         使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
     </section>
 </footer>
 
@@ -269,7 +302,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+            </script><script type="text/javascript" src="/ts/main.5921efee30f27d02eea03333418b97a4c3e28dfacb1b7ec93ce6a7bd550da007.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');

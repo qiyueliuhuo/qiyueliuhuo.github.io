@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/my-first-hugo-post/'>
 
-<link rel="stylesheet" href="/scss/style.min.8fc0c7bc2d22a6bf7cedea9f17fd01174b7e86da9bd675f5301e0509c6c73022.css"><meta property='og:title' content="My First Hugo Post">
+<link rel="stylesheet" href="/scss/style.min.b610e4b5260860de8adb9c21e0f5b0c6edbae64b4d73e59c6280d87aaecc77ca.css"><meta property='og:title' content="My First Hugo Post">
 <meta property='og:description' content="博客迁移到hugo，这是第一篇测试文章。\nhugo常用命令 1 2 3 hugo new --kind post-bundle posts/测试文章 # 创建一个文章目录 hugo server -D # 启动服务器，显示草稿文章 hugo # 默认在 public/ 目录中生成您的网站 发布博客 1 2 3 4 cd public/ # 进入到 public 目录下 git remote -v # 查看远端关联仓库，确认关联到远程仓库 git commit -am &#34;some message&#34; # 提交修改 git push # 推送到远端仓库后，多次刷新博客页面即可 ">
 <meta property='og:url' content='http://localhost:1313/posts/my-first-hugo-post/'>
 <meta property='og:site_name' content='七月流火'>
@@ -404,7 +404,8 @@
                 >
             </script><script>
     window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.body, {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
             delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false },
@@ -414,6 +415,7 @@
             ignoredClasses: ["gist"]
         });})
 </script>
+
     
 </article>
 
@@ -437,7 +439,7 @@
     
     <section class="powerby">
         使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
-        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
     </section>
 </footer>
 
@@ -526,7 +528,7 @@
                 src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
                 
                 >
-            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+            </script><script type="text/javascript" src="/ts/main.5921efee30f27d02eea03333418b97a4c3e28dfacb1b7ec93ce6a7bd550da007.js" defer></script>
 <script>
     (function () {
         const customFont = document.createElement('link');
