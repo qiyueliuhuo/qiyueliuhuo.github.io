@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/'>
 
-<link rel="stylesheet" href="/scss/style.min.58b44f89b414b4ea4925dab73710e0a68d43ff7168a68cad513f0e9f4c6e3b9b.css"><meta property='og:title' content="解剖Requests：从Python小白到源码猎手的进阶之路">
+<link rel="stylesheet" href="/scss/style.min.62a669c5cd4e21bd5df8bd4a88766166d542ed41a5cb01aeb1c7f445101d7a01.css"><meta property='og:title' content="解剖Requests：从Python小白到源码猎手的进阶之路">
 <meta property='og:description' content="一次HTTP请求背后的模块化设计与代码抽象艺术">
 <meta property='og:url' content='http://localhost:1313/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/'>
 <meta property='og:site_name' content='七月流火'>
@@ -371,7 +371,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 5 分钟
+                    阅读时长: 11 分钟
                 </time>
             </div>
         
@@ -445,7 +445,7 @@
 </span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">.
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">.
 </span></span><span class="line"><span class="cl">├── .git    <span class="c1"># Git 版本控制系统的目录，包含项目的版本历史和配置</span>
 </span></span><span class="line"><span class="cl">├── .github    <span class="c1"># GitHub 相关的配置文件和工作流，如持续集成（CI）配置等</span>
 </span></span><span class="line"><span class="cl">├── docs    <span class="c1"># 文档目录，包含使用指南、API 文档等</span>
@@ -510,37 +510,37 @@
 </span><span class="lnt">31
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="o">(</span>common-env<span class="o">)</span> ➜  requests git:<span class="o">(</span>main<span class="o">)</span> python
-</span></span><span class="line"><span class="cl">Python 3.12.9 <span class="p">|</span> packaged by Anaconda, Inc. <span class="p">|</span> <span class="o">(</span>main, Feb  <span class="m">6</span> 2025, 12:55:12<span class="o">)</span> <span class="o">[</span>Clang 14.0.6 <span class="o">]</span> on darwin
-</span></span><span class="line"><span class="cl">Type <span class="s2">&#34;help&#34;</span>, <span class="s2">&#34;copyright&#34;</span>, <span class="s2">&#34;credits&#34;</span> or <span class="s2">&#34;license&#34;</span> <span class="k">for</span> more information.
-</span></span><span class="line"><span class="cl">&gt;&gt;&gt; import requests
-</span></span><span class="line"><span class="cl">&gt;&gt;&gt; <span class="nv">r</span> <span class="o">=</span> requests.get<span class="o">(</span><span class="s1">&#39;https://www.python.org&#39;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">&gt;&gt;&gt; r.status_code
-</span></span><span class="line"><span class="cl"><span class="m">200</span>
-</span></span><span class="line"><span class="cl">&gt;&gt;&gt; <span class="nv">payload</span> <span class="o">=</span> dict<span class="o">(</span><span class="nv">key1</span><span class="o">=</span><span class="s1">&#39;value1&#39;</span>, <span class="nv">key2</span><span class="o">=</span><span class="s1">&#39;value2&#39;</span><span class="o">)</span>
-</span></span><span class="line"><span class="cl">&gt;&gt;&gt; <span class="nv">r</span> <span class="o">=</span> requests.post<span class="o">(</span><span class="s1">&#39;https://httpbin.org/post&#39;</span>, <span class="nv">data</span><span class="o">=</span>payload<span class="o">)</span>
-</span></span><span class="line"><span class="cl">&gt;&gt;&gt; print<span class="o">(</span>r.text<span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="o">{</span>
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;args&#34;</span>: <span class="o">{}</span>, 
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;data&#34;</span>: <span class="s2">&#34;&#34;</span>, 
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;files&#34;</span>: <span class="o">{}</span>, 
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;form&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key1&#34;</span>: <span class="s2">&#34;value1&#34;</span>, 
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key2&#34;</span>: <span class="s2">&#34;value2&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="o">}</span>, 
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;headers&#34;</span>: <span class="o">{</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Accept&#34;</span>: <span class="s2">&#34;*/*&#34;</span>, 
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Accept-Encoding&#34;</span>: <span class="s2">&#34;gzip, deflate&#34;</span>, 
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Content-Length&#34;</span>: <span class="s2">&#34;23&#34;</span>, 
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Content-Type&#34;</span>: <span class="s2">&#34;application/x-www-form-urlencoded&#34;</span>, 
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Host&#34;</span>: <span class="s2">&#34;httpbin.org&#34;</span>, 
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;User-Agent&#34;</span>: <span class="s2">&#34;python-requests/2.32.3&#34;</span>, 
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;X-Amzn-Trace-Id&#34;</span>: <span class="s2">&#34;Root=1-67d7be38-6126bbec2e56917a24eda1a3&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="o">}</span>, 
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;json&#34;</span>: null, 
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;origin&#34;</span>: <span class="s2">&#34;45.86.73.64&#34;</span>, 
-</span></span><span class="line"><span class="cl">  <span class="s2">&#34;url&#34;</span>: <span class="s2">&#34;https://httpbin.org/post&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="p">(</span><span class="n">common</span><span class="o">-</span><span class="n">env</span><span class="p">)</span> <span class="err">➜</span>  <span class="n">requests</span> <span class="n">git</span><span class="p">:(</span><span class="n">main</span><span class="p">)</span> <span class="n">python</span>
+</span></span><span class="line"><span class="cl"><span class="n">Python</span> <span class="mf">3.12.9</span> <span class="o">|</span> <span class="n">packaged</span> <span class="n">by</span> <span class="n">Anaconda</span><span class="p">,</span> <span class="n">Inc</span><span class="o">.</span> <span class="o">|</span> <span class="p">(</span><span class="n">main</span><span class="p">,</span> <span class="n">Feb</span>  <span class="mi">6</span> <span class="mi">2025</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span><span class="mi">55</span><span class="p">:</span><span class="mi">12</span><span class="p">)</span> <span class="p">[</span><span class="n">Clang</span> <span class="mf">14.0.6</span> <span class="p">]</span> <span class="n">on</span> <span class="n">darwin</span>
+</span></span><span class="line"><span class="cl"><span class="n">Type</span> <span class="s2">&#34;help&#34;</span><span class="p">,</span> <span class="s2">&#34;copyright&#34;</span><span class="p">,</span> <span class="s2">&#34;credits&#34;</span> <span class="ow">or</span> <span class="s2">&#34;license&#34;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://www.python.org&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span>
+</span></span><span class="line"><span class="cl"><span class="mi">200</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">payload</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">key1</span><span class="o">=</span><span class="s1">&#39;value1&#39;</span><span class="p">,</span> <span class="n">key2</span><span class="o">=</span><span class="s1">&#39;value2&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;https://httpbin.org/post&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;args&#34;</span><span class="p">:</span> <span class="p">{},</span> 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;data&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;files&#34;</span><span class="p">:</span> <span class="p">{},</span> 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;form&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key1&#34;</span><span class="p">:</span> <span class="s2">&#34;value1&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;key2&#34;</span><span class="p">:</span> <span class="s2">&#34;value2&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span> 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Accept&#34;</span><span class="p">:</span> <span class="s2">&#34;*/*&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Accept-Encoding&#34;</span><span class="p">:</span> <span class="s2">&#34;gzip, deflate&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Content-Length&#34;</span><span class="p">:</span> <span class="s2">&#34;23&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Content-Type&#34;</span><span class="p">:</span> <span class="s2">&#34;application/x-www-form-urlencoded&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Host&#34;</span><span class="p">:</span> <span class="s2">&#34;httpbin.org&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;User-Agent&#34;</span><span class="p">:</span> <span class="s2">&#34;python-requests/2.32.3&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;X-Amzn-Trace-Id&#34;</span><span class="p">:</span> <span class="s2">&#34;Root=1-67d7be38-6126bbec2e56917a24eda1a3&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span> 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;json&#34;</span><span class="p">:</span> <span class="n">null</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;origin&#34;</span><span class="p">:</span> <span class="s2">&#34;45.86.73.64&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://httpbin.org/post&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>下面正式开始对Requests源码进行解析，从<code>src/requests/__init__.py</code>文件开始。</p>
@@ -587,7 +587,7 @@
 </span><span class="lnt">37
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="c1"># ...</span>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># ...</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># ...</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># ...</span>
 </span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">packages</span><span class="p">,</span> <span class="n">utils</span>
@@ -668,7 +668,7 @@
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl"><span class="o">(</span>common-env<span class="o">)</span> ➜  requests git:<span class="o">(</span>main<span class="o">)</span> ✗ lz src/requests 
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>common-env<span class="o">)</span> ➜  requests git:<span class="o">(</span>main<span class="o">)</span> ✗ lz src/requests 
 </span></span><span class="line"><span class="cl">src/requests
 </span></span><span class="line"><span class="cl">├── __init__.py
 </span></span><span class="line"><span class="cl">├── __version__.py
@@ -729,7 +729,7 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">uv pip install -e .<span class="o">[</span>socks<span class="o">]</span>  <span class="c1"># 包含 socks 代理等可选依赖</span>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">uv pip install -e .<span class="o">[</span>socks<span class="o">]</span>  <span class="c1"># 包含 socks 代理等可选依赖</span>
 </span></span><span class="line"><span class="cl">uv pip install pytest pytest-httpbin  <span class="c1"># 测试框架和本地 HTTP 服务模拟</span>
 </span></span></code></pre></td></tr></table>
 </div>
@@ -740,7 +740,7 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-Bash" data-lang="Bash"><span class="line"><span class="cl">pytest tests/test_requests.py -k test_HTTP_200_OK_GET_ALTERNATIVE --trace
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pytest tests/test_requests.py -k test_HTTP_200_OK_GET_ALTERNATIVE --trace
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>接下来使用 n（下一步）、s（进入函数）等命令跟踪代码。</p>
@@ -1212,6 +1212,11 @@
         if (document.readyState === "interactive") NProgress.inc(0.8);
         if (document.readyState === "complete") NProgress.done();
     });
+</script>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true });
 </script>
 
     </body>

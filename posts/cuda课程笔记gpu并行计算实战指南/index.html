@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="如何评估一个算法模型的检测结果是好还是不好？">
-<title>目标检测模型的评估方法</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="这是一个副标题">
+<title>CUDA课程笔记：GPU并行计算实战指南</title>
 
-<link rel='canonical' href='http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/'>
+<link rel='canonical' href='http://localhost:1313/posts/cuda%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0gpu%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/'>
 
-<link rel="stylesheet" href="/scss/style.min.62a669c5cd4e21bd5df8bd4a88766166d542ed41a5cb01aeb1c7f445101d7a01.css"><meta property='og:title' content="目标检测模型的评估方法">
-<meta property='og:description' content="如何评估一个算法模型的检测结果是好还是不好？">
-<meta property='og:url' content='http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/'>
+<link rel="stylesheet" href="/scss/style.min.58b44f89b414b4ea4925dab73710e0a68d43ff7168a68cad513f0e9f4c6e3b9b.css"><meta property='og:title' content="CUDA课程笔记：GPU并行计算实战指南">
+<meta property='og:description' content="这是一个副标题">
+<meta property='og:url' content='http://localhost:1313/posts/cuda%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0gpu%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/'>
 <meta property='og:site_name' content='七月流火'>
-<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='模型评估' /><meta property='article:tag' content='mAP' /><meta property='article:tag' content='目标检测' /><meta property='article:published_time' content='2021-06-21T10:45:26&#43;08:00'/><meta property='article:modified_time' content='2021-06-21T10:45:26&#43;08:00'/><meta property='og:image' content='http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/target_detection_cover.jpg' />
-<meta name="twitter:title" content="目标检测模型的评估方法">
-<meta name="twitter:description" content="如何评估一个算法模型的检测结果是好还是不好？"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='http://localhost:1313/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/target_detection_cover.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:published_time' content='2025-09-27T13:38:05&#43;08:00'/><meta property='article:modified_time' content='2025-09-27T13:38:05&#43;08:00'/><meta property='og:image' content='http://localhost:1313/helena-hertz-wWZzXlDpMog-unsplash.jpg' />
+<meta name="twitter:title" content="CUDA课程笔记：GPU并行计算实战指南">
+<meta name="twitter:description" content="这是一个副标题"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/helena-hertz-wWZzXlDpMog-unsplash.jpg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
@@ -267,15 +267,8 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#检测结果的正确错误类型">检测结果的正确/错误类型</a></li>
-    <li><a href="#目标检测评价指标">目标检测评价指标</a>
-      <ol>
-        <li><a href="#召回率准确率">召回率、准确率</a></li>
-        <li><a href="#apaverage-precision">AP（Average Precision）</a></li>
-        <li><a href="#mean-ap">Mean AP</a></li>
-      </ol>
-    </li>
+    <li><a href="#正文">正文</a></li>
+    <li><a href="#参考资料">参考资料</a></li>
   </ol>
 </nav>
         </div>
@@ -290,13 +283,9 @@
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/">
-                <img src="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/target_detection_cover_hu_71cec82d937223eb.jpg"
-                        srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/target_detection_cover_hu_71cec82d937223eb.jpg 800w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/target_detection_cover_hu_cba6eca1aa9598e9.jpg 1600w"
-                        width="800" 
-                        height="231" 
-                        loading="lazy"
-                        alt="Featured image of post 目标检测模型的评估方法" />
+            <a href="/posts/cuda%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0gpu%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/">
+                
+                    <img src="/helena-hertz-wWZzXlDpMog-unsplash.jpg" loading="lazy" alt="Featured image of post CUDA课程笔记：GPU并行计算实战指南" />
                 
             </a>
         </div>
@@ -306,8 +295,8 @@
     
     <header class="article-category">
         
-            <a href="/categories/%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90/" style="background-color: #2a9d8f; color: #fff;">
-                算法解析
+            <a href="/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/" style="background-color: #1c62a9; color: #fff;">
+                编程开发
             </a>
         
     </header>
@@ -315,12 +304,12 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/">目标检测模型的评估方法</a>
+            <a href="/posts/cuda%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0gpu%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/">CUDA课程笔记：GPU并行计算实战指南</a>
         </h2>
     
         
         <h3 class="article-subtitle">
-            如何评估一个算法模型的检测结果是好还是不好？
+            这是一个副标题
         </h3>
         
     </div>
@@ -341,7 +330,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Jun 21, 2021</time>
+                <time class="article-time--published">Sep 27, 2025</time>
             </div>
         
 
@@ -356,7 +345,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 3 分钟
+                    阅读时长: 1 分钟
                 </time>
             </div>
         
@@ -371,116 +360,28 @@
     <section class="article-content">
     
     
-    <h2 id="前言">前言
-</h2><p>如何评价一个算法模型的检测结果是好还是不好呢？</p>
-<h2 id="检测结果的正确错误类型">检测结果的正确/错误类型
+    <h2 id="正文">正文
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/NVIDIA/cuda-samples.git
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="参考资料">参考资料
 </h2><ul>
-<li>正确结果(True Positive)：算法检测到了某类物体 (Positive)，图中也确实有这个物体，检测结果正确(True)。（个人理解，这里其实成为正阳性更准确）</li>
-<li>假阳性(False Positive)：算法检测到了某类物体 (Positive)，但图中其实没有这个物体，检测结果错误 (False)。通常我们把它也称为误检。</li>
-<li>假阴性 (False Negative)：算法没有检测到物体 (Negative)，但图中其实有某类物体，检测结果错误(False)。通常，我们把它也称为漏检。</li>
+<li><a class="link" href="https://github.com/Infatoshi/cuda-course"  target="_blank" rel="noopener"
+    >课程源码：cuda-course</a></li>
+<li><a class="link" href="https://www.youtube.com/watch?v=86FAWCzIe_4"  target="_blank" rel="noopener"
+    >课程视频</a></li>
 </ul>
-<p>这里<strong>检测到</strong>的衡量标准：对于某个检测框，图中<strong>存在同类型的真值框</strong>且与之交并比大于阈值（通常取0.5）
-<img src="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42.png"
-	width="1291"
-	height="426"
-	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu_bc641245c1e136fe.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_10-59-42_hu_12f62f628955f226.png 1024w"
-	loading="lazy"
-	
-		alt="检测结果示例"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="303"
-		data-flex-basis="727px"
-	
-></p>
-<p>例子：
-<img src="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2.png"
-	width="809"
-	height="446"
-	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu_ac7b54bf958272d2.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/samples_1_v2_hu_604cfe2b4ad3ed72.png 1024w"
-	loading="lazy"
-	
-		alt="多张图像检测结果示例"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="181"
-		data-flex-basis="435px"
-	
->
-上面检测有 7 张图像，其中绿色边界框表示 15 个真值框，红色边界框表示 24 个检测框。每个检测到的对象都有一个<strong>置信度</strong>，并由一个字母 (A,B,&hellip;,Y) 标识。</p>
-<p><img src="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2.png"
-	width="332"
-	height="705"
-	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu_1e0e8eea2ef80028.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/table_1_v2_hu_1266ecb8e2654dd6.png 1024w"
-	loading="lazy"
-	
-		alt="多张图像检测结果分析"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="47"
-		data-flex-basis="113px"
-	
-></p>
-<p>上表显示了边界框及其相应的置信度。最后一列将检测标识为 TP 或 FP。在这个例子中，如果 IOU 大于30% 则认为 TP，否则为 FP。通过查看上面的图像，我们可以大致判断检测是 TP 还是 FP</p>
-<p>更具体的分析，可以参考 <a class="link" href="https://github.com/rafaelpadilla/Object-Detection-Metrics"  target="_blank" rel="noopener"
-    >目标检测指标</a></p>
-<h2 id="目标检测评价指标">目标检测评价指标
-</h2><h3 id="召回率准确率">召回率、准确率
-</h3><p><img src="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07.png"
-	width="746"
-	height="201"
-	srcset="/posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu_e0148dac7290efe2.png 480w, /posts/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95/Snipaste_2022-06-21_11-33-07_hu_19ed66d4e1c04cf5.png 1024w"
-	loading="lazy"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="371"
-		data-flex-basis="890px"
-	
-></p>
-<p>真值框总数与检测算法无关，因此<strong>只需将检测结果区分为TP和FP</strong>即可计算 recall 和 precision</p>
-<p>两种极端情况：</p>
-<ol>
-<li>检测器将所有锚框都判断为物体：召回率≈100%，但大量背景框预测为物体，FP很高，准确率很低；</li>
-<li>检测器只输出确信度最高的1个检测框：以很大概率检测正确，准确率=100%，但因为大量物体被预测为背景，FN很高，召回率很低。</li>
-</ol>
-<p>理想情况：
-一个完美的检测器应该有100%召回率和100%的准确率；在算法能力有限的情况下，应该平衡二者。</p>
-<p>通常做法：
-将检测框按置信度排序，仅输出置信度大于某个阈值的若干个框。</p>
-<h3 id="apaverage-precision">AP（Average Precision）
-</h3><p>为得到阈值无关的评分，可以遍历阈值，并对 Precision 和 Recall 求平均。</p>
-<p>具体做法：</p>
-<ul>
-<li>检测框按置信度排序，取前K个框计算 Precision 和 Recall。</li>
-<li>遍历K从1至全部检测框，将得到的 Precision 和 Recall 值绘制在坐标系上，得到 PR 曲线。</li>
-<li>定义 Average Precision = Precision 对 Recall 的平均值,即 PR 曲线下的面积,作为检测器的性能衡量指标。</li>
-</ul>
-<p>笔者觉得这个指标很不科学！<br>
-原因是：一个好的检测器只需要在某个置信度阈值下能够检测出所有真实的目标，并且没有漏检和误检，那么就可以确定该检测器非常好，而不需要在其他置信度阈值下都表现好。</p>
-<h3 id="mean-ap">Mean AP
-</h3><p><strong>分类别统计AP，并按类别平均即得到 Mean AP。</strong></p>
-<p>部分数据集（如 COCO)还要求在不同的 loU (上面提到的IOU 大于30% )阈值下计算 Mean AP 并平均，作为最终评分；从0.5 ~ 0.05，每个0.05都会取一个IoU的阈值，计算 Mean AP，最终将这几个值进行平均，作为最终的一个评分。</p>
-<p>可衡量检测器在不同定位精度要求下的性能。</p>
 
 </section>
 
 
     <footer class="article-footer">
     
-    <section class="article-tags">
-        
-            <a href="/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/">模型评估</a>
-        
-            <a href="/tags/map/">MAP</a>
-        
-            <a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/">目标检测</a>
-        
-    </section>
-
 
     
     <section class="article-copyright">
@@ -537,23 +438,23 @@
             
                 
 <article class="has-image">
-    <a href="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/">
+    <a href="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/">
         
         
             <div class="article-image">
-                <img src="/posts/%E5%9F%BA%E4%BA%8Emmdetection%E6%BA%90%E7%A0%81faster-r-cnn%E7%AE%97%E6%B3%95%E8%A7%A3%E8%AF%BB/Snipaste_2022-06-21_21-12-31.41e1c250464ed188adf6e42a7a4f7976_hu_81c094926dc64d67.jpg" 
+                <img src="/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover.776b3b490d783e419a3071269be5607a_hu_2deeea24f9bfb2bf.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post 基于mmdetection源码:Faster R-CNN算法解读"
-                        data-key="基于mmdetection源码:Faster R-CNN算法解读" 
-                        data-hash="md5-QeHCUEZO0Yit9uQqek95dg==">
+                        alt="Featured image of post 解剖Requests：从Python小白到源码猎手的进阶之路"
+                        data-key="解剖Requests：从Python小白到源码猎手的进阶之路" 
+                        data-hash="md5-d2s7SQ14PkGaMHEmm&#43;Vgeg==">
                 
             </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">基于mmdetection源码:Faster R-CNN算法解读</h2>
+            <h2 class="article-title">解剖Requests：从Python小白到源码猎手的进阶之路</h2>
         </div>
     </a>
 </article>
@@ -561,23 +462,23 @@
             
                 
 <article class="has-image">
-    <a href="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
+    <a href="/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/">
         
         
             <div class="article-image">
-                <img src="/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/method_of_neural_network_optimization.23c1f4802cb5d2ecc5d94ed50f8b3167_hu_d835f1ffc46a3eba.jpg" 
+                <img src="/posts/%E5%88%A9%E7%94%A8ai%E6%8E%8C%E6%8F%A1rust%E7%BC%96%E7%A8%8B/rust_cover.56c0d504dcf77ce39c6eda81d9813e10_hu_8de7ae29863f5487.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post 机器学习中的优化方法"
-                        data-key="机器学习中的优化方法" 
-                        data-hash="md5-I8H0gCy10uzF2U7VD4sxZw==">
+                        alt="Featured image of post 利用AI掌握Rust编程"
+                        data-key="利用AI掌握Rust编程" 
+                        data-hash="md5-VsDVBNz3fOOcbtqB2YE&#43;EA==">
                 
             </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">机器学习中的优化方法</h2>
+            <h2 class="article-title">利用AI掌握Rust编程</h2>
         </div>
     </a>
 </article>
@@ -585,23 +486,23 @@
             
                 
 <article class="has-image">
-    <a href="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/">
+    <a href="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/">
         
         
             <div class="article-image">
-                <img src="/posts/leetcode%E7%AE%97%E6%B3%95%E9%A2%98%E6%80%BB%E7%BB%93/algorithms_cover.6abf7b9ac5c0f03243f56e66f86bd8bd_hu_42b8becc61c7cd25.jpg" 
+                <img src="/posts/%E9%AB%98%E6%95%88%E4%B9%8B%E7%BE%8Ec&#43;&#43;14/webserver_cover.0f8d6300cf01d6898a79fa0f8086967d_hu_6c47ea3744a48e20.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post LeetCode 进阶指南：解题思路与算法题分类总结"
-                        data-key="Leetcode算法题总结" 
-                        data-hash="md5-ar97msXA8DJD9W5m&#43;GvYvQ==">
+                        alt="Featured image of post 高效之美：C&#43;&#43;14 WebServer 源码探秘"
+                        data-key="高效之美：C&#43;&#43;14" 
+                        data-hash="md5-D41jAM8B1omKefoPgIaWfQ==">
                 
             </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">LeetCode 进阶指南：解题思路与算法题分类总结</h2>
+            <h2 class="article-title">高效之美：C&#43;&#43;14 WebServer 源码探秘</h2>
         </div>
     </a>
 </article>
@@ -609,23 +510,23 @@
             
                 
 <article class="has-image">
-    <a href="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/">
+    <a href="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
         
         
             <div class="article-image">
-                <img src="/posts/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9F%A9%E9%98%B5%E5%88%86%E6%9E%90/matrix_analysis.a32c4c8ffa6f38ebe580e715c018e7eb_hu_64ceea0e4a5b8656.jpg" 
+                <img src="/posts/vim-%E7%AE%97%E6%B3%95-%E5%88%B7%E9%A2%98%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/vim_cover.7d59368db66ac23b301b6313ab84e849_hu_7f02356adb9a872e.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post 矩阵运算在深度学习中的理论与应用"
-                        data-key="神经网络矩阵分析" 
-                        data-hash="md5-oyxMj/pvOOvlgOcVwBjn6w==">
+                        alt="Featured image of post Vim 与算法刷题：打造高效开发环境"
+                        data-key="Vim-算法-刷题环境配置" 
+                        data-hash="md5-fVk2jbZqwjswG2MTq4ToSQ==">
                 
             </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">矩阵运算在深度学习中的理论与应用</h2>
+            <h2 class="article-title">Vim 与算法刷题：打造高效开发环境</h2>
         </div>
     </a>
 </article>
@@ -633,23 +534,23 @@
             
                 
 <article class="has-image">
-    <a href="/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">
+    <a href="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
         
         
             <div class="article-image">
-                <img src="/posts/%E5%8D%B7%E7%A7%AF%E8%AE%A1%E7%AE%97%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/convolutional_calculation.8d71adfb21f8168db33ff6ebc7308630_hu_7c5609f329b0018e.png" 
+                <img src="/posts/webserverc&#43;&#43;%E7%89%88%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E4%B9%8B%E7%BA%BF%E7%A8%8B%E6%B1%A0/thread-pool.abc3df4a468918461c0c5e770f2fef00_hu_2d8341da9b2d1f53.png" 
                         width="250" 
                         height="150" 
                         loading="lazy"
-                        alt="Featured image of post 卷积计算底层实现"
-                        data-key="卷积计算底层实现" 
-                        data-hash="md5-jXGt&#43;yH4Fo2zP/brxzCGMA==">
+                        alt="Featured image of post WebServer（C&#43;&#43;版）代码分析之线程池"
+                        data-key="WebServer（C&#43;&#43;版）代码分析之线程池" 
+                        data-hash="md5-q8PfSkaJGEYcDF53Dy/vAA==">
                 
             </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">卷积计算底层实现</h2>
+            <h2 class="article-title">WebServer（C&#43;&#43;版）代码分析之线程池</h2>
         </div>
     </a>
 </article>
@@ -805,11 +706,6 @@
         if (document.readyState === "interactive") NProgress.inc(0.8);
         if (document.readyState === "complete") NProgress.done();
     });
-</script>
-
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true });
 </script>
 
     </body>
