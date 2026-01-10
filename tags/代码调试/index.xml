@@ -1,343 +1,324 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>代码调试 on 七月流火</title>
-        <link>http://localhost:1313/tags/%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95/</link>
-        <description>Recent content in 代码调试 on 七月流火</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language>
-        <lastBuildDate>Tue, 12 Jul 2022 16:59:57 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>GDB调试秘籍：像高手一样排查问题</title>
-        <link>http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</link>
-        <pubDate>Tue, 12 Jul 2022 16:59:57 +0800</pubDate>
-        
-        <guid>http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</guid>
-        <description>&lt;img src="http://localhost:1313/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.gif" alt="Featured image of post GDB调试秘籍：像高手一样排查问题" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
-&lt;/h2&gt;&lt;p&gt;笔者近几年使用 Python 语言来做深度学习、计算机视觉领域相关科研与工作，对于调试程序，使用较多的工具除了 JetBrains 家的各个 IDE 以外，就是使用 Python 自带的 pdb 模块来调试 Python 程序，命令行界面调试代码既灵活，而且速度也快，非常好用。最近，因为项目原因接触 c/c++ 代码更多一些，通过本篇博客对 GDB 学习并且记录相关常用命令。&lt;/p&gt;
-&lt;p&gt;GDB是一个由GNU开源组织发布的、UNIX / LINUX操作系统下的、基于命令行的、功能强大的程序调试工具。 对于一名Linux下工作的c/c++程序员，gdb是必不可少的工具，另外，GDB可以调试Ada、C、 C++、 Asm、 Minimal、 D、 Fortran、 Objective-c、 Go、 Java、 Pascal等语言。标准的 GDB 是纯命令行式的，但也有一些基于它的图形化工具（比如 DDD、Data Display Debugger），但用好 GDB 命令行调试，还是我们的一项基本素质。&lt;/p&gt;
-&lt;p&gt;本篇文章将简单地介绍 GDB 常见用法，更多内容通过本博客下面的参考资料学习。&lt;/p&gt;
-&lt;h2 id=&#34;gdb-使用流程&#34;&gt;GDB 使用流程
-&lt;/h2&gt;&lt;h3 id=&#34;启动-gdb-调试&#34;&gt;启动 GDB 调试
-&lt;/h3&gt;&lt;p&gt;学习 GDB 调试测试的代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#include&amp;lt;stdio.h&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;square&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;get_num&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;x_2&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;square&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;  &lt;span class=&#34;n&#34;&gt;x_2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(){&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;get_num&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;通过下面命令编译 C++ 代码，注意需要使用 -g 参数，在编译生成的目标文件中加入源码信息，并启动 GDB 调试代码：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gcc -g test.cpp -o &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 编译源文件&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gdb &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# 启动 gdb 开始调试代码&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gdb -q &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# -q 表示不打印gdb版本信息，界面较为干净；&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;查看源码&#34;&gt;查看源码
-&lt;/h3&gt;&lt;p&gt;&lt;code&gt;list&lt;/code&gt;(简写 &lt;code&gt;l&lt;/code&gt;)： 查看源程序代码，默认显示10行，按回车键或继续输入l查看下10行。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Reading symbols from test...
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) l
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1       #include&amp;lt;stdio.h&amp;gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;2       int square(int x) {
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;3           return x * x;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;4       }
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;5
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;6       int get_num(int x) {
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;7           int x_2 = square(x);
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;8           return  x_2;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;9       }
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;10
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) l
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;11      int main(){
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;12          int a = 10;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;13          int b = get_num(a);
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;14      }
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) l
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Line number 15 out of range; test.cpp has 14 lines.
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;运行程序&#34;&gt;运行程序
-&lt;/h3&gt;&lt;p&gt;&lt;code&gt;run&lt;/code&gt;(简写 &lt;code&gt;r&lt;/code&gt;) ：运行程序直到遇到 结束或者遇到断点等待下一个命令：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) c
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;The program is not being run.
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) r 
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Starting program: /data1/workplace/tmp/test 
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;[Inferior 1 (process 1044104) exited normally]
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;设置断点&#34;&gt;设置断点
-&lt;/h3&gt;&lt;p&gt;&lt;code&gt;break&lt;/code&gt;(简写 &lt;code&gt;b&lt;/code&gt;) ：命令格式 &lt;code&gt;b 行号&lt;/code&gt;，在某行设置断点：
-&lt;code&gt;info breakpoints&lt;/code&gt; (简写 &lt;code&gt;i b&lt;/code&gt;) ：显示断点信息。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Num： 断点编号&lt;/li&gt;
-&lt;li&gt;Type：类型，breakpoint 或者 watchpoint&lt;/li&gt;
-&lt;li&gt;Disp：断点执行一次之后是否有效 kep：有效 dis：无效&lt;/li&gt;
-&lt;li&gt;Enb： 当前断点是否有效 y：有效 n：无效&lt;/li&gt;
-&lt;li&gt;Address：内存地址&lt;/li&gt;
-&lt;li&gt;What：位置&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) b 13
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Breakpoint 1 at 0x555555555170: file test.cpp, line 13.
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) i b
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Num     Type           Disp Enb Address            What
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1       breakpoint     keep y   0x0000555555555170 in main() at test.cpp:13
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) 
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;条件断点：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) b ... if cond
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;具体参考：&lt;a class=&#34;link&#34; href=&#34;http://c.biancheng.net/view/8255.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GDB条件断点详解&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&#34;单步执行&#34;&gt;单步执行
-&lt;/h3&gt;&lt;p&gt;首先需要输入 &lt;code&gt;run&lt;/code&gt; 启动程序，运行到第一个断点处，然后可以选择 &lt;code&gt;step&lt;/code&gt; 单步调试（&lt;strong&gt;如果有函数调用则进入函数&lt;/strong&gt;），&lt;code&gt;next&lt;/code&gt; 单步跟踪程序（&lt;strong&gt;遇到函数调用，直接调用函数，不会进入函数体内&lt;/strong&gt;），&lt;code&gt;continue&lt;/code&gt; 继续运行到下一个断点处。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) r
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Starting program: /data1/workplace/tmp/test 
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Breakpoint 2, main () at test.cpp:12
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;12          int a = 10;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) s
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Breakpoint 1, main () at test.cpp:13
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;13          int b = get_num(a);
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) s
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;get_num (x=21845) at test.cpp:6
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;6       int get_num(int x) {
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) s
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;7           int x_2 = square(x);
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) n
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;8           return  x_2;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) l 8
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;3           return x * x;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;4       }
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;5
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;6       int get_num(int x) {
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;7           int x_2 = square(x);
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;8           return  x_2;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;9       }
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;10
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;11      int main(){
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;12          int a = 10;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) 
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;运行程序相关命令如下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;run&lt;/code&gt;：简记为 &lt;code&gt;r&lt;/code&gt; ，其作用是运行程序，当遇到断点后，程序会在断点处停止运行，等待用户输入下一步的命令；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;continue&lt;/code&gt; （简写 &lt;code&gt;c&lt;/code&gt; ）：继续执行，到下一个断点处（或运行结束）；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;next&lt;/code&gt;：（简写 &lt;code&gt;n&lt;/code&gt; ），单步跟踪程序，当遇到函数调用时，也不进入此函数体；此命令同step 的主要区别是，&lt;code&gt;step&lt;/code&gt; 遇到用户自定义的函数，将步进到函数中去运行，而 next 则直接调用函数，不会进入到函数体内。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;step&lt;/code&gt;：（简写&lt;code&gt;s&lt;/code&gt;）：单步调试如果有函数调用，则进入函数；与命令 &lt;code&gt;n&lt;/code&gt; 不同，&lt;code&gt;n&lt;/code&gt; 是不进入调用的函数的；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;until&lt;/code&gt;：当你厌倦了在一个循环体内单步跟踪时，这个命令可以运行程序直到退出循环体；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;until 行号&lt;/code&gt;： 运行至某行，不仅仅用来跳出循环；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;finish&lt;/code&gt;： 运行程序，直到&lt;strong&gt;当前函数&lt;/strong&gt;完成返回，并打印函数返回时的堆栈地址和返回值及参数值等信息。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;call 函数(参数)&lt;/code&gt;：调用程序中可见的函数，并传递“参数”，如：call gdb_test(55)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;查看变量&#34;&gt;查看变量
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;print&lt;/code&gt; ：简记 &lt;code&gt;p&lt;/code&gt;，打印变量或表达式的值；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;whatis&lt;/code&gt; ：查询变量或函数的类型；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pt&lt;/code&gt; ：跟 &lt;code&gt;whatis&lt;/code&gt; 作用类似，可能是 &lt;code&gt;print type&lt;/code&gt; 的简写；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;display&lt;/code&gt;：在单步调试的时候很有用，使用 &lt;code&gt;display&lt;/code&gt; 命令设置一个表达式后，它将在每次单步进行指令后，紧接着输出被设置的表达式及值；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;info dispaly&lt;/code&gt;，查看当前被设置的变量，然后可以用 &lt;code&gt;undisplay num（变量对应的编号）&lt;/code&gt; 取消设置；&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) p x
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$11 = 10
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) whatis x
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;type = int
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) whatis square
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;type = int (int)
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) pt square
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;type = int (int)
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) display x*x + 2
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1: x*x + 2 = 102
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) display
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1: x*x + 2 = 102
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) info display
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Auto-display expressions now in effect:
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Num Enb Expression
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1:   y  x*x + 2
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;(gdb) 
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;h3 id=&#34;退出-gdb&#34;&gt;退出 GDB
-&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;quit&lt;/code&gt; （简记 &lt;code&gt;q&lt;/code&gt; ）命令退出即可。&lt;/p&gt;
-&lt;h2 id=&#34;gdb-常用命令&#34;&gt;GDB 常用命令
-&lt;/h2&gt;&lt;p&gt;下面列出最常用的GDB命令：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;pt&lt;/code&gt;：查看变量的真实类型，不受 typedef 的影响；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bt&lt;/code&gt;：显示当前调用堆栈；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;up/down&lt;/code&gt;：在函数调用栈里上下移动。或者使用frame 函数帧号跳转；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;fin&lt;/code&gt;：直接运行到函数结束；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;i b&lt;/code&gt;：查看所有的断点信息；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;delete&lt;/code&gt;：删除所有断点；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;delete breakpoint_list&lt;/code&gt;：删除某个序号处断点；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;i locals&lt;/code&gt;：查看当前堆栈页的所有变量；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;wh&lt;/code&gt;：启动“可视化调试”。这个是我最喜欢的命令，可以把屏幕分成上下两个窗口，上面显示源码，下面是 GDB 命令输出，不必再用“l”频繁地列出源码了，能够大大提高调试的效率；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ctrl x + a&lt;/code&gt; ：退出或进入可视化模式；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;layout regs&lt;/code&gt;：显示源代码/汇编和寄存器窗口；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;layout split&lt;/code&gt;：显示源代码和汇编窗口；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;p *array@10&lt;/code&gt;：查看数组内容，这里10表示查看数组的大小；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ptype&lt;/code&gt;：查看变量的类型，这里打印出变量的结构定义；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;set args config.txt&lt;/code&gt;：指定运行时的参数；&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;gdb-多线程命令&#34;&gt;GDB 多线程命令
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;info thread&lt;/code&gt;：查看被调试的线程；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;thread apply all bt&lt;/code&gt;：打印所有线程堆栈信息；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;thread &amp;lt;ID&amp;gt; &lt;/code&gt;：切换调试的线程为指定ID的线程；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;break file.c:100 thread all&lt;/code&gt;：在file.c文件第100行处为所有经过这里的线程设置断点；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;set scheduler-locking off|on|step&lt;/code&gt;：在调试多线程程序时，默认除了被调试的线程在执行外，其他线程也都在运行，我们可以通过命令来控制这一切：off表示不锁定任何线程on表示只有当前调试的线程会继续运行，step表示在但不执行时只有当前线程会运行；&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;thread apply &amp;lt;ID1&amp;gt; &amp;lt;ID2&amp;gt; &amp;lt;command&amp;gt;&lt;/code&gt;：让一个或者多个线程执行GDB命令command；&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;参考&#34;&gt;参考
-&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://zhuanlan.zhihu.com/p/74897601&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GDB调试入门指南&lt;/a&gt;&lt;br&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://www.cnblogs.com/lsgxeva/p/8078670.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;gdb调试多线程程序总结&lt;/a&gt;&lt;br&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://www.jianshu.com/p/62fe1af64e41&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GDB学习笔记&lt;/a&gt;&lt;br&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://linux.cn/article-13203-1.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;学习使用 GDB 调试代码&lt;/a&gt;&lt;br&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/niyaozuozuihao/article/details/91802994&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;linux下gdb调试方法与技巧整理&lt;/a&gt;&lt;br&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://github.com/hellogcc/100-gdb-tips&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;100个gdb小技巧&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-        
-    </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>代码调试 on 七月流火</title><link>https://qiyueliuhuo.github.io/tags/%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95/</link><description>Recent content in 代码调试 on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 12 Jul 2022 16:59:57 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E4%BB%A3%E7%A0%81%E8%B0%83%E8%AF%95/index.xml" rel="self" type="application/rss+xml"/><item><title>GDB调试秘籍：像高手一样排查问题</title><link>https://qiyueliuhuo.github.io/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</link><pubDate>Tue, 12 Jul 2022 16:59:57 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/posts/gdb%E8%B0%83%E8%AF%95%E5%AD%A6%E4%B9%A0/gdb_cover.gif" alt="Featured image of post GDB调试秘籍：像高手一样排查问题" />&lt;h2 id="前言">前言
+&lt;/h2>&lt;p>笔者近几年使用 Python 语言来做深度学习、计算机视觉领域相关科研与工作，对于调试程序，使用较多的工具除了 JetBrains 家的各个 IDE 以外，就是使用 Python 自带的 pdb 模块来调试 Python 程序，命令行界面调试代码既灵活，而且速度也快，非常好用。最近，因为项目原因接触 c/c++ 代码更多一些，通过本篇博客对 GDB 学习并且记录相关常用命令。&lt;/p>
+&lt;p>GDB是一个由GNU开源组织发布的、UNIX / LINUX操作系统下的、基于命令行的、功能强大的程序调试工具。 对于一名Linux下工作的c/c++程序员，gdb是必不可少的工具，另外，GDB可以调试Ada、C、 C++、 Asm、 Minimal、 D、 Fortran、 Objective-c、 Go、 Java、 Pascal等语言。标准的 GDB 是纯命令行式的，但也有一些基于它的图形化工具（比如 DDD、Data Display Debugger），但用好 GDB 命令行调试，还是我们的一项基本素质。&lt;/p>
+&lt;p>本篇文章将简单地介绍 GDB 常见用法，更多内容通过本博客下面的参考资料学习。&lt;/p>
+&lt;h2 id="gdb-使用流程">GDB 使用流程
+&lt;/h2>&lt;h3 id="启动-gdb-调试">启动 GDB 调试
+&lt;/h3>&lt;p>学习 GDB 调试测试的代码如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-C++" data-lang="C++">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&amp;lt;stdio.h&amp;gt;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="nf">square&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">x&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">get_num&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">x_2&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">square&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">x_2&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">(){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">b&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">get_num&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>通过下面命令编译 C++ 代码，注意需要使用 -g 参数，在编译生成的目标文件中加入源码信息，并启动 GDB 调试代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">gcc -g test.cpp -o &lt;span class="nb">test&lt;/span> &lt;span class="c1"># 编译源文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">gdb &lt;span class="nb">test&lt;/span> &lt;span class="c1"># 启动 gdb 开始调试代码&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">gdb -q &lt;span class="nb">test&lt;/span> &lt;span class="c1"># -q 表示不打印gdb版本信息，界面较为干净；&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="查看源码">查看源码
+&lt;/h3>&lt;p>&lt;code>list&lt;/code>(简写 &lt;code>l&lt;/code>)： 查看源程序代码，默认显示10行，按回车键或继续输入l查看下10行。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">Reading symbols from test...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) l
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">1 #include&amp;lt;stdio.h&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2 int square(int x) {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">3 return x * x;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">4 }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">5
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">6 int get_num(int x) {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">7 int x_2 = square(x);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">8 return x_2;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">9 }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">10
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) l
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">11 int main(){
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">12 int a = 10;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">13 int b = get_num(a);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">14 }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) l
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Line number 15 out of range; test.cpp has 14 lines.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="运行程序">运行程序
+&lt;/h3>&lt;p>&lt;code>run&lt;/code>(简写 &lt;code>r&lt;/code>) ：运行程序直到遇到 结束或者遇到断点等待下一个命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">(gdb) c
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">The program is not being run.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) r
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Starting program: /data1/workplace/tmp/test
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[Inferior 1 (process 1044104) exited normally]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="设置断点">设置断点
+&lt;/h3>&lt;p>&lt;code>break&lt;/code>(简写 &lt;code>b&lt;/code>) ：命令格式 &lt;code>b 行号&lt;/code>，在某行设置断点：
+&lt;code>info breakpoints&lt;/code> (简写 &lt;code>i b&lt;/code>) ：显示断点信息。&lt;/p>
+&lt;ul>
+&lt;li>Num： 断点编号&lt;/li>
+&lt;li>Type：类型，breakpoint 或者 watchpoint&lt;/li>
+&lt;li>Disp：断点执行一次之后是否有效 kep：有效 dis：无效&lt;/li>
+&lt;li>Enb： 当前断点是否有效 y：有效 n：无效&lt;/li>
+&lt;li>Address：内存地址&lt;/li>
+&lt;li>What：位置&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">(gdb) b 13
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Breakpoint 1 at 0x555555555170: file test.cpp, line 13.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) i b
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Num Type Disp Enb Address What
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">1 breakpoint keep y 0x0000555555555170 in main() at test.cpp:13
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>条件断点：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">(gdb) b ... if cond
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>具体参考：&lt;a class="link" href="http://c.biancheng.net/view/8255.html" target="_blank" rel="noopener"
+>GDB条件断点详解&lt;/a>&lt;/p>
+&lt;h3 id="单步执行">单步执行
+&lt;/h3>&lt;p>首先需要输入 &lt;code>run&lt;/code> 启动程序，运行到第一个断点处，然后可以选择 &lt;code>step&lt;/code> 单步调试（&lt;strong>如果有函数调用则进入函数&lt;/strong>），&lt;code>next&lt;/code> 单步跟踪程序（&lt;strong>遇到函数调用，直接调用函数，不会进入函数体内&lt;/strong>），&lt;code>continue&lt;/code> 继续运行到下一个断点处。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">(gdb) r
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Starting program: /data1/workplace/tmp/test
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Breakpoint 2, main () at test.cpp:12
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">12 int a = 10;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) s
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Breakpoint 1, main () at test.cpp:13
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">13 int b = get_num(a);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) s
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">get_num (x=21845) at test.cpp:6
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">6 int get_num(int x) {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) s
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">7 int x_2 = square(x);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) n
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">8 return x_2;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) l 8
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">3 return x * x;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">4 }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">5
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">6 int get_num(int x) {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">7 int x_2 = square(x);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">8 return x_2;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">9 }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">10
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">11 int main(){
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">12 int a = 10;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>运行程序相关命令如下：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>run&lt;/code>：简记为 &lt;code>r&lt;/code> ，其作用是运行程序，当遇到断点后，程序会在断点处停止运行，等待用户输入下一步的命令；&lt;/li>
+&lt;li>&lt;code>continue&lt;/code> （简写 &lt;code>c&lt;/code> ）：继续执行，到下一个断点处（或运行结束）；&lt;/li>
+&lt;li>&lt;code>next&lt;/code>：（简写 &lt;code>n&lt;/code> ），单步跟踪程序，当遇到函数调用时，也不进入此函数体；此命令同step 的主要区别是，&lt;code>step&lt;/code> 遇到用户自定义的函数，将步进到函数中去运行，而 next 则直接调用函数，不会进入到函数体内。&lt;/li>
+&lt;li>&lt;code>step&lt;/code>：（简写&lt;code>s&lt;/code>）：单步调试如果有函数调用，则进入函数；与命令 &lt;code>n&lt;/code> 不同，&lt;code>n&lt;/code> 是不进入调用的函数的；&lt;/li>
+&lt;li>&lt;code>until&lt;/code>：当你厌倦了在一个循环体内单步跟踪时，这个命令可以运行程序直到退出循环体；&lt;/li>
+&lt;li>&lt;code>until 行号&lt;/code>： 运行至某行，不仅仅用来跳出循环；&lt;/li>
+&lt;li>&lt;code>finish&lt;/code>： 运行程序，直到&lt;strong>当前函数&lt;/strong>完成返回，并打印函数返回时的堆栈地址和返回值及参数值等信息。&lt;/li>
+&lt;li>&lt;code>call 函数(参数)&lt;/code>：调用程序中可见的函数，并传递“参数”，如：call gdb_test(55)&lt;/li>
+&lt;/ul>
+&lt;h3 id="查看变量">查看变量
+&lt;/h3>&lt;ul>
+&lt;li>&lt;code>print&lt;/code> ：简记 &lt;code>p&lt;/code>，打印变量或表达式的值；&lt;/li>
+&lt;li>&lt;code>whatis&lt;/code> ：查询变量或函数的类型；&lt;/li>
+&lt;li>&lt;code>pt&lt;/code> ：跟 &lt;code>whatis&lt;/code> 作用类似，可能是 &lt;code>print type&lt;/code> 的简写；&lt;/li>
+&lt;li>&lt;code>display&lt;/code>：在单步调试的时候很有用，使用 &lt;code>display&lt;/code> 命令设置一个表达式后，它将在每次单步进行指令后，紧接着输出被设置的表达式及值；&lt;/li>
+&lt;li>&lt;code>info dispaly&lt;/code>，查看当前被设置的变量，然后可以用 &lt;code>undisplay num（变量对应的编号）&lt;/code> 取消设置；&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">(gdb) p x
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$11 = 10
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) whatis x
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">type = int
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) whatis square
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">type = int (int)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) pt square
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">type = int (int)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) display x*x + 2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">1: x*x + 2 = 102
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) display
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">1: x*x + 2 = 102
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb) info display
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Auto-display expressions now in effect:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Num Enb Expression
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">1: y x*x + 2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">(gdb)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="退出-gdb">退出 GDB
+&lt;/h3>&lt;p>使用 &lt;code>quit&lt;/code> （简记 &lt;code>q&lt;/code> ）命令退出即可。&lt;/p>
+&lt;h2 id="gdb-常用命令">GDB 常用命令
+&lt;/h2>&lt;p>下面列出最常用的GDB命令：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>pt&lt;/code>：查看变量的真实类型，不受 typedef 的影响；&lt;/li>
+&lt;li>&lt;code>bt&lt;/code>：显示当前调用堆栈；&lt;/li>
+&lt;li>&lt;code>up/down&lt;/code>：在函数调用栈里上下移动。或者使用frame 函数帧号跳转；&lt;/li>
+&lt;li>&lt;code>fin&lt;/code>：直接运行到函数结束；&lt;/li>
+&lt;li>&lt;code>i b&lt;/code>：查看所有的断点信息；&lt;/li>
+&lt;li>&lt;code>delete&lt;/code>：删除所有断点；&lt;/li>
+&lt;li>&lt;code>delete breakpoint_list&lt;/code>：删除某个序号处断点；&lt;/li>
+&lt;li>&lt;code>i locals&lt;/code>：查看当前堆栈页的所有变量；&lt;/li>
+&lt;li>&lt;code>wh&lt;/code>：启动“可视化调试”。这个是我最喜欢的命令，可以把屏幕分成上下两个窗口，上面显示源码，下面是 GDB 命令输出，不必再用“l”频繁地列出源码了，能够大大提高调试的效率；&lt;/li>
+&lt;li>&lt;code>ctrl x + a&lt;/code> ：退出或进入可视化模式；&lt;/li>
+&lt;li>&lt;code>layout regs&lt;/code>：显示源代码/汇编和寄存器窗口；&lt;/li>
+&lt;li>&lt;code>layout split&lt;/code>：显示源代码和汇编窗口；&lt;/li>
+&lt;li>&lt;code>p *array@10&lt;/code>：查看数组内容，这里10表示查看数组的大小；&lt;/li>
+&lt;li>&lt;code>ptype&lt;/code>：查看变量的类型，这里打印出变量的结构定义；&lt;/li>
+&lt;li>&lt;code>set args config.txt&lt;/code>：指定运行时的参数；&lt;/li>
+&lt;/ul>
+&lt;h2 id="gdb-多线程命令">GDB 多线程命令
+&lt;/h2>&lt;ul>
+&lt;li>&lt;code>info thread&lt;/code>：查看被调试的线程；&lt;/li>
+&lt;li>&lt;code>thread apply all bt&lt;/code>：打印所有线程堆栈信息；&lt;/li>
+&lt;li>&lt;code>thread &amp;lt;ID&amp;gt; &lt;/code>：切换调试的线程为指定ID的线程；&lt;/li>
+&lt;li>&lt;code>break file.c:100 thread all&lt;/code>：在file.c文件第100行处为所有经过这里的线程设置断点；&lt;/li>
+&lt;li>&lt;code>set scheduler-locking off|on|step&lt;/code>：在调试多线程程序时，默认除了被调试的线程在执行外，其他线程也都在运行，我们可以通过命令来控制这一切：off表示不锁定任何线程on表示只有当前调试的线程会继续运行，step表示在但不执行时只有当前线程会运行；&lt;/li>
+&lt;li>&lt;code>thread apply &amp;lt;ID1&amp;gt; &amp;lt;ID2&amp;gt; &amp;lt;command&amp;gt;&lt;/code>：让一个或者多个线程执行GDB命令command；&lt;/li>
+&lt;/ul>
+&lt;h2 id="参考">参考
+&lt;/h2>&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/74897601" target="_blank" rel="noopener"
+>GDB调试入门指南&lt;/a>&lt;br>
+&lt;a class="link" href="https://www.cnblogs.com/lsgxeva/p/8078670.html" target="_blank" rel="noopener"
+>gdb调试多线程程序总结&lt;/a>&lt;br>
+&lt;a class="link" href="https://www.jianshu.com/p/62fe1af64e41" target="_blank" rel="noopener"
+>GDB学习笔记&lt;/a>&lt;br>
+&lt;a class="link" href="https://linux.cn/article-13203-1.html" target="_blank" rel="noopener"
+>学习使用 GDB 调试代码&lt;/a>&lt;br>
+&lt;a class="link" href="https://blog.csdn.net/niyaozuozuihao/article/details/91802994" target="_blank" rel="noopener"
+>linux下gdb调试方法与技巧整理&lt;/a>&lt;br>
+&lt;a class="link" href="https://github.com/hellogcc/100-gdb-tips" target="_blank" rel="noopener"
+>100个gdb小技巧&lt;/a>&lt;/p></description></item></channel></rss>

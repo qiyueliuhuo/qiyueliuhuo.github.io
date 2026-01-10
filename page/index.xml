@@ -1,70 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Pages on 七月流火</title>
-        <link>http://localhost:1313/page/</link>
-        <description>Recent content in Pages on 七月流火</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language>
-        <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/page/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>归档</title>
-        <link>http://localhost:1313/archives/</link>
-        <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/archives/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>七月流火</title>
-        <link>http://localhost:1313/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</guid>
-        <description>&lt;h2 id=&#34;-个人简介&#34;&gt;👤 个人简介
-&lt;/h2&gt;&lt;p&gt;理工男/喜欢折腾/喜欢学习/互联网大厂/世界500强/量子力学/区块链/沟通达人/强大好奇心&lt;/p&gt;
-&lt;p&gt;欢迎来到我的博客，我是七月流火，一名终身学习者（算法应用与研究员、读者、写作者），专注于不断提升自我，目前探索机器学习和深度学习的前沿技术，通过博客文章分享我的研究成果和实践经验。&lt;/p&gt;
-&lt;h2 id=&#34;-兴趣爱好&#34;&gt;🌟 兴趣爱好
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;看书&lt;/li&gt;
-&lt;li&gt;打篮球&lt;/li&gt;
-&lt;li&gt;科技&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;-个人信条&#34;&gt;🧭 个人信条
-&lt;/h2&gt;&lt;h2 id=&#34;-教育背景&#34;&gt;🎓 教育背景
-&lt;/h2&gt;&lt;h2 id=&#34;-术业专攻&#34;&gt;🔧 术业专攻
-&lt;/h2&gt;&lt;h2 id=&#34;-工作经历&#34;&gt;💼 工作经历
-&lt;/h2&gt;&lt;h2 id=&#34;-我在探索&#34;&gt;🚀 我在探索
-&lt;/h2&gt;&lt;h2 id=&#34;-更新记录&#34;&gt;📝 更新记录
-&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;增加更新记录。  —— 2024.12.28&lt;/p&gt;&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;添加关于，补充个人介绍。 —— 2024.12.20&lt;/p&gt;&lt;/blockquote&gt;
-</description>
-        </item>
-        <item>
-        <title>书架</title>
-        <link>http://localhost:1313/%E4%B9%A6%E6%9E%B6/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/%E4%B9%A6%E6%9E%B6/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>搜索</title>
-        <link>http://localhost:1313/search/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/search/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>友链</title>
-        <link>http://localhost:1313/%E5%8F%8B%E9%93%BE/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/%E5%8F%8B%E9%93%BE/</guid>
-        <description></description>
-        </item>
-        
-    </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pages on 七月流火</title><link>https://qiyueliuhuo.github.io/page/</link><description>Recent content in Pages on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/page/index.xml" rel="self" type="application/rss+xml"/><item><title>归档</title><link>https://qiyueliuhuo.github.io/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/archives/</guid><description/></item><item><title>七月流火</title><link>https://qiyueliuhuo.github.io/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</guid><description>&lt;h2 id="-个人简介">👤 个人简介
+&lt;/h2>&lt;p>理工男/喜欢折腾/喜欢学习/互联网大厂/世界500强/量子力学/区块链/沟通达人/强大好奇心&lt;/p>
+&lt;p>欢迎来到我的博客，我是七月流火，一名终身学习者（算法应用与研究员、读者、写作者），专注于不断提升自我，目前探索机器学习和深度学习的前沿技术，通过博客文章分享我的研究成果和实践经验。&lt;/p>
+&lt;h2 id="-兴趣爱好">🌟 兴趣爱好
+&lt;/h2>&lt;ul>
+&lt;li>看书&lt;/li>
+&lt;li>打篮球&lt;/li>
+&lt;li>科技&lt;/li>
+&lt;/ul>
+&lt;h2 id="-个人信条">🧭 个人信条
+&lt;/h2>&lt;h2 id="-教育背景">🎓 教育背景
+&lt;/h2>&lt;h2 id="-术业专攻">🔧 术业专攻
+&lt;/h2>&lt;h2 id="-工作经历">💼 工作经历
+&lt;/h2>&lt;h2 id="-我在探索">🚀 我在探索
+&lt;/h2>&lt;h2 id="-更新记录">📝 更新记录
+&lt;/h2>&lt;blockquote>
+&lt;p>增加更新记录。 —— 2024.12.28&lt;/p>&lt;/blockquote>
+&lt;blockquote>
+&lt;p>添加关于，补充个人介绍。 —— 2024.12.20&lt;/p>&lt;/blockquote></description></item><item><title>书架</title><link>https://qiyueliuhuo.github.io/%E4%B9%A6%E6%9E%B6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/%E4%B9%A6%E6%9E%B6/</guid><description/></item><item><title>搜索</title><link>https://qiyueliuhuo.github.io/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/search/</guid><description/></item><item><title>友链</title><link>https://qiyueliuhuo.github.io/%E5%8F%8B%E9%93%BE/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/%E5%8F%8B%E9%93%BE/</guid><description/></item></channel></rss>
