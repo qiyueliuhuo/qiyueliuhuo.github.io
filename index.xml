@@ -15916,7 +15916,7 @@ alt="深层神经网络"
 &lt;a class="link" href="https://www.zybuluo.com/hanbingtao/note/476663" target="_blank" rel="noopener"
 >零基础入门深度学习(3) - 神经网络和反向传播算法&lt;/a>(牛逼)&lt;/p></description></item><item><title>归档</title><link>https://qiyueliuhuo.github.io/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/archives/</guid><description/></item><item><title>七月流火</title><link>https://qiyueliuhuo.github.io/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/%E4%B8%83%E6%9C%88%E6%B5%81%E7%81%AB/</guid><description>&lt;h2 id="-个人简介">👤 个人简介
 &lt;/h2>&lt;p>理工男/喜欢折腾/喜欢学习/互联网大厂/世界500强/量子力学/区块链/沟通达人/强大好奇心&lt;/p>
-&lt;p>欢迎来到我的博客，我是七月流火，一名终身学习者（算法应用与研究员、读者、写作者），专注于不断提升自我，目前探索机器学习和深度学习的前沿技术，通过博客文章分享我的研究成果和实践经验。&lt;/p>
+&lt;p>欢迎来到我的博客，我是七月流火，一名&lt;strong>终身学习者&lt;/strong>（算法应用与研究员、读者、写作者），专注于不断提升自我，目前探索机器学习和深度学习的前沿技术，通过博客文章分享我的研究成果和实践经验。&lt;/p>
 &lt;h2 id="-兴趣爱好">🌟 兴趣爱好
 &lt;/h2>&lt;ul>
 &lt;li>看书&lt;/li>
@@ -15925,11 +15925,44 @@ alt="深层神经网络"
 &lt;/ul>
 &lt;h2 id="-个人信条">🧭 个人信条
 &lt;/h2>&lt;h2 id="-教育背景">🎓 教育背景
-&lt;/h2>&lt;h2 id="-术业专攻">🔧 术业专攻
-&lt;/h2>&lt;h2 id="-工作经历">💼 工作经历
-&lt;/h2>&lt;h2 id="-我在探索">🚀 我在探索
+&lt;/h2>&lt;h3 id="西安交通大学西交">&lt;strong>西安交通大学（西交）&lt;/strong>
+&lt;/h3>&lt;p>&lt;strong>硕士，软件工程&lt;/strong> | &lt;em>2020 — 2023&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>方向&lt;/strong>：计算机视觉 | 大数据&lt;/li>
+&lt;li>&lt;strong>研究&lt;/strong>：目标检测与识别 | 文字识别 | 生成模型&lt;/li>
+&lt;/ul>
+&lt;h3 id="西安电子科技大学西电">&lt;strong>西安电子科技大学（西电）&lt;/strong>
+&lt;/h3>&lt;p>&lt;strong>本科，电子科学与技术&lt;/strong> | &lt;em>2014 — 2018&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>GPA&lt;/strong>： 3.8 / 4.0&lt;/li>
+&lt;li>&lt;strong>核心课程&lt;/strong>：数据结构 | 操作系统 | 机器学习&lt;/li>
+&lt;/ul>
+&lt;h3 id="西安市长安区第一中学长安一中">&lt;strong>西安市长安区第一中学（长安一中）&lt;/strong>
+&lt;/h3>&lt;p>&lt;strong>高中&lt;/strong> | &lt;em>2011 — 2014&lt;/em>&lt;/p>
+&lt;h2 id="-工作经历">💼 工作经历
+&lt;/h2>&lt;h3 id="西安xx科技公司">&lt;strong>西安XX科技公司&lt;/strong>
+&lt;/h3>&lt;p>&lt;strong>算法工程师&lt;/strong> | &lt;em>2025 — 2026&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>方向&lt;/strong>：目标检测与识别算法应用 | 嵌入式开发&lt;/li>
+&lt;li>&lt;strong>技术栈&lt;/strong>：RK3588 ｜ NVIDIA Jetson（JetPack / CUDA / TensorRT）｜ C++ ｜ Python ｜ ARM ｜ YOLO&lt;/li>
+&lt;/ul>
+&lt;h3 id="西安比亚迪">&lt;strong>西安比亚迪&lt;/strong>
+&lt;/h3>&lt;p>&lt;strong>项目管理&lt;/strong> | &lt;em>2023 — 2025&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>方向&lt;/strong>：新能源汽车项目管理&lt;/li>
+&lt;li>&lt;strong>技能&lt;/strong>：项目管理 | 跨部门协同 ｜ 风险管理 ｜ 竞品分析 ｜ 整车开发流程&lt;/li>
+&lt;/ul>
+&lt;h3 id="上海美团点评">&lt;strong>上海美团点评&lt;/strong>
+&lt;/h3>&lt;p>&lt;strong>后端开发工程师&lt;/strong> | &lt;em>2018 — 2019&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>方向&lt;/strong>：后端开发&lt;/li>
+&lt;li>&lt;strong>技能&lt;/strong>：Java | Spring | Spring Boot | MySQL | Redis | Kafka | 性能优化 | 架构设计&lt;/li>
+&lt;/ul>
+&lt;h2 id="-我在探索">🚀 我在探索
 &lt;/h2>&lt;h2 id="-更新记录">📝 更新记录
 &lt;/h2>&lt;blockquote>
+&lt;p>更新教育背景，补充工作经历。 —— 2026.04.06&lt;/p>&lt;/blockquote>
+&lt;blockquote>
 &lt;p>增加更新记录。 —— 2024.12.28&lt;/p>&lt;/blockquote>
 &lt;blockquote>
 &lt;p>添加关于，补充个人介绍。 —— 2024.12.20&lt;/p>&lt;/blockquote></description></item><item><title>书架</title><link>https://qiyueliuhuo.github.io/%E4%B9%A6%E6%9E%B6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/%E4%B9%A6%E6%9E%B6/</guid><description/></item><item><title>搜索</title><link>https://qiyueliuhuo.github.io/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/search/</guid><description/></item><item><title>友链</title><link>https://qiyueliuhuo.github.io/%E5%8F%8B%E9%93%BE/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/%E5%8F%8B%E9%93%BE/</guid><description/></item></channel></rss>
