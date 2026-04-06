@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编程开发 on 七月流火</title><link>https://qiyueliuhuo.github.io/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/</link><description>Recent content in 编程开发 on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 16 Mar 2025 11:29:31 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml"/><item><title>解剖Requests：从Python小白到源码猎手的进阶之路</title><link>https://qiyueliuhuo.github.io/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/</link><pubDate>Sun, 16 Mar 2025 11:29:31 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover.jpg" alt="Featured image of post 解剖Requests：从Python小白到源码猎手的进阶之路" />&lt;blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编程开发 on 七月流火</title><link>https://qiyueliuhuo.github.io/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/</link><description>Recent content in 编程开发 on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 16 Mar 2025 11:29:31 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml"/><item><title>解剖Requests：从Python小白到源码猎手的进阶之路</title><link>https://qiyueliuhuo.github.io/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/</link><pubDate>Sun, 16 Mar 2025 11:29:31 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E8%A7%A3%E5%89%96requests%E4%BB%8Epython%E5%B0%8F%E7%99%BD%E5%88%B0%E6%BA%90%E7%A0%81%E7%8C%8E%E6%89%8B%E7%9A%84%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF/cover.webp" alt="Featured image of post 解剖Requests：从Python小白到源码猎手的进阶之路" />&lt;blockquote>
 &lt;p>学而不能致用的人是一头背着书的牛马。蠢驴是否知道它背上背着的是一堆书而不是一捆柴？—— 本杰明·富兰克林&lt;/p>&lt;/blockquote>
 &lt;h2 id="前言">前言
 &lt;/h2>&lt;p>2025年2月底，我回顾了前五年学习工作经历以及技术发展趋势后，在编程语言方面树立以Python与C++为主的编程技能，Java、Rust、Go等其他语言为辅，这样我需要推动自己将Pyhon和C++的技能尽可能达到精通，熟记这两门语言核心知识。正如我在最近阅读的《富兰克林自传》中所看到，富兰克林早期以印刷技能作为自己的谋生手段，而近三年我也以&lt;strong>编程技能作为自己的谋生手段&lt;/strong>，未来路还很长，不能止步于此，需要不断学习其他领域与学科知识，学以致用，不能成为芒格口中的“铁锤人”。&lt;/p>
 &lt;p>Python语言大概是在我五六年前开始正式作为工作语言，当时以《Head First Python》书籍入门，在读研期间通过阅读与实践深度学习相关项目，如Numpy、Pytorch、mmdetection、mmocr等，对Python语言有了更深的应用理解。最近通过&lt;strong>阅读《流畅的Python》第2版&lt;/strong>，对该语言进行系统性地回顾与熟记；此次阅读&lt;strong>Requests源码，一是对最近学习的一个总结与应用，二是给自己未来通过Python实现更大更复杂项目打下坚实的基础。&lt;/strong>&lt;/p>
-&lt;h3 id="谁适合阅读这篇文章">谁适合阅读这篇文章？
-&lt;/h3>&lt;h3 id="如何更好地阅读本篇文章">如何更好地阅读本篇文章？
-&lt;/h3>&lt;h2 id="项目简介">项目简介
+&lt;h2 id="项目简介">项目简介
 &lt;/h2>&lt;p>这里直接引用官方对Requests的相关介绍，我们在后面源码解析中会逐步展开代码中是如何实现这些功能的。&lt;/p>
 &lt;p>&lt;strong>A simple, yet elegant, HTTP library. Requests是一个简单而优雅的 HTTP 库。&lt;/strong>&lt;/p>
 &lt;p>&lt;strong>Supported Features &amp;amp; Best–Practices 支持的功能和最佳实践&lt;/strong>&lt;/p>
@@ -313,8 +311,7 @@ class="gallery-image"
 data-flex-grow="103"
 data-flex-basis="247px"
 >&lt;/p>
-&lt;h2 id="apipy模块">&lt;code>api.py&lt;/code>模块
-&lt;/h2>&lt;p>在查看&lt;code>api.py&lt;/code>模块源码之前，我们将通过运行测试用例并逐步跟踪代码执行流程，这样可以更好地理解代码的执行逻辑。&lt;/p>
+&lt;p>在查看&lt;code>api.py&lt;/code>模块源码之前，我们将通过运行测试用例并逐步跟踪代码执行流程，这样可以更好地理解代码的执行逻辑。&lt;/p>
 &lt;h3 id="理解-tests-目录结构">理解 &lt;code>tests/&lt;/code> 目录结构
 &lt;/h3>&lt;p>将该目录下文件按照功能分类，方便查找和阅读。&lt;/p>
 &lt;ul>
@@ -438,8 +435,8 @@ data-flex-basis="320px"
 &lt;/div>
 &lt;/div>&lt;p>使用&lt;code>with&lt;/code>语句创建一个临时 Session 会话对象，自动调用 &lt;code>Session.__enter__() &lt;/code>方法，该方法返回对象本身，绑定到目标变量session上。函数内部通过该会话调用 session.request() 发起 HTTP 请求，并在请求完成后&lt;code>with&lt;/code> 语句自动调用&lt;code>Session.__exit__()&lt;/code>方法，关闭会话，避免资源泄露，如连接未释放、内存泄露等。&lt;strong>通过上下文管理器的方式，无需显式关闭&lt;code>session.close()&lt;/code>，简洁可靠。&lt;/strong>&lt;/p>
 &lt;p>对于&lt;code>api.py&lt;/code>源码解析就到此为止，下面我们将重点分析&lt;code>Session&lt;/code>类的实现，了解其如何管理请求会话、连接池、Cookie等。&lt;/p>
-&lt;h2 id="sessionspy模块源码解析">&lt;code>sessions.py&lt;/code>模块源码解析
-&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;h3 id="sessionspy模块源码解析">&lt;code>sessions.py&lt;/code>模块源码解析
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
 &lt;/span>&lt;span class="lnt"> 2
