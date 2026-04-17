@@ -489,6 +489,46 @@ class="gallery-image"
 data-flex-grow="261"
 data-flex-basis="627px"
 >&lt;/p>
+&lt;p>这个过程使我们能够计算量化误差（$q$），我们可以使用事先计算好的逆 Hessian（$h_1$）来权衡这个误差。&lt;/p>
+&lt;p>本质上，我们根据权重的重视程度创建了一个加权量化误差：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/fd4b12b9-8b1b-4aa5-8d8c-ab8c1ab23671_1096x332.webp"
+width="1096"
+height="332"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/fd4b12b9-8b1b-4aa5-8d8c-ab8c1ab23671_1096x332_hu_79e372a382a182c5.webp 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/fd4b12b9-8b1b-4aa5-8d8c-ab8c1ab23671_1096x332_hu_b132c760990335d9.webp 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="330"
+data-flex-basis="792px"
+>&lt;/p>
+&lt;p>接下来，我们将这个加权量化误差重新分配到该行中的其他权重上。这有助于保持网络的整体功能和输出。&lt;/p>
+&lt;p>例如，如果我们对第二个权重，即 .3 ($x_2$) 进行量化，我们会加上量化误差 ($q$) 乘以第二个权重的逆 $Hessian$ ($h_2$)&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/86456fdb-ba8f-4545-aa45-a0f4d4c59362_1096x244.webp"
+width="1096"
+height="244"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/86456fdb-ba8f-4545-aa45-a0f4d4c59362_1096x244_hu_34469e53835df90.webp 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/86456fdb-ba8f-4545-aa45-a0f4d4c59362_1096x244_hu_c47d4339b16b1b78.webp 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="449"
+data-flex-basis="1078px"
+>&lt;/p>
+&lt;p>我们可以对给定行中的第三个权重执行相同的操作：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/af47538b-4a3b-48df-9dbd-dded0ed09ce4_1284x438.webp"
+width="1284"
+height="438"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/af47538b-4a3b-48df-9dbd-dded0ed09ce4_1284x438_hu_f70546f4c3d8ff9a.webp 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/af47538b-4a3b-48df-9dbd-dded0ed09ce4_1284x438_hu_81409c4e40a39be9.webp 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="293"
+data-flex-basis="703px"
+>&lt;/p>
+&lt;p>我们迭代进行重新分配加权量化误差的过程，直到所有值都被量化。&lt;/p>
+&lt;p>这种方法之所以效果很好，是因为权重之间通常存在关联。因此，当一个权重出现量化误差时，相关的权重会相应地更新（通过逆 $Hessian$）。&lt;/p>
+&lt;blockquote>
+&lt;p>注意：作者使用了一些技巧来加速计算并提高性能，例如为 Hessian 添加阻尼因子、“懒惰批处理”以及使用 Cholesky 方法预计算信息。我强烈建议你观看这个关于该主题的 &lt;a class="link" href="https://www.youtube.com/watch?v=mii-xFaPCrA" target="_blank" rel="noopener"
+>YouTube 视频&lt;/a>。&lt;/p>&lt;/blockquote>
+&lt;blockquote>
+&lt;p>提示：如果你想要一种旨在优化性能和提高推理速度的量化方法，可以查看 &lt;a class="link" href="https://github.com/turboderp-org/exllamav2" target="_blank" rel="noopener"
+>EXL2&lt;/a>。&lt;/p>&lt;/blockquote>
 &lt;h4 id="gguf">GGUF
 &lt;/h4>&lt;h2 id="第四部分量化感知训练">第四部分：量化感知训练
 &lt;/h2>&lt;p>在第三部分中，我们看到如何在训练后对模型进行量化。这种方法的缺点是，这种量化不考虑实际训练过程&lt;/p>
