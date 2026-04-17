@@ -30,7 +30,6 @@ data-flex-basis="463px"
 &lt;p>让我们从头开始，在优化数值之前，先探讨一下数值最初是如何被表示的。&lt;/p>
 &lt;h3 id="如何表示数值">如何表示数值
 &lt;/h3>&lt;p>一个给定的数值通常被表示为浮点数（floating point number，在计算机科学中简称为 floats）：即带有小数点的正数或负数。&lt;/p>
-&lt;p>这些值由“位”（或二进制数字）表示。IEEE-754 标准描述了位如何通过三种功能之一来表示该值：符号、指数或尾数（或尾数部分）。&lt;/p>
 &lt;p>这些数值由“比特（bits）”构成，即二进制数字。IEEE-754 标准定义了浮点数的二进制结构，由三部分组成：sign（符号位）、exponent（指数）、fraction or mantissa（尾数）。&lt;/p>
 &lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/c8362c0e-0a77-4eda-80a8-8e5e1df4433f_1252x308.webp"
 width="1252"
@@ -119,7 +118,7 @@ class="gallery-image"
 data-flex-grow="211"
 data-flex-basis="506px"
 >&lt;/p>
-&lt;p>注意放大的部分看起来比原始图像更“粗糙”，因为我们可以用更少的颜色来表示它。&lt;/p>
+&lt;p>注意放大的部分看起来比原始图像更“粗糙”，因为我们只能用更少的颜色来表示它。&lt;/p>
 &lt;p>量化的主要目标是在尽可能保持原始参数精度的同时，减少表示原始参数所需的比特数（颜色）。&lt;/p>
 &lt;h3 id="常见数据类型">常见数据类型
 &lt;/h3>&lt;p>首先，让我们看看常见的数据类型，以及使用它们代替 32 位（被称为全精度或 FP32）表示所带来的影响。&lt;/p>
@@ -465,8 +464,8 @@ class="gallery-image"
 data-flex-grow="150"
 data-flex-basis="361px"
 >&lt;/p>
-&lt;p>在这个逐层量化过程中，它首先将层的权重转换为逆 Hessian。它是模型损失函数的二阶导数，告诉我们模型的输出对每个权重的变化有多敏感。&lt;/p>
-&lt;p>简而言之，它基本上展示了每层中每个权重的（反向）重要性。&lt;/p>
+&lt;p>在这个逐层量化过程中，它首先计算该层权重的逆 Hessian 矩阵（inverse-Hessian）。Hessian 矩阵是模型损失函数的二阶导数，它衡量了模型输出对各权重变化的敏感程度。&lt;/p>
+&lt;p>简而言之，它展示了每层中各权重重要性的倒数关系（逆 Hessian 值越小，权重越重要）。&lt;/p>
 &lt;p>Hessian 矩阵中与较小值相关的权重更为关键，因为这些权重的微小变化可能导致模型性能发生显著变化。&lt;/p>
 &lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/ad39a51b-e47f-44ec-af23-474292719be3_1440x696.webp"
 width="1440"
@@ -490,7 +489,7 @@ data-flex-grow="261"
 data-flex-basis="627px"
 >&lt;/p>
 &lt;p>这个过程使我们能够计算量化误差（$q$），我们可以使用事先计算好的逆 Hessian（$h_1$）来权衡这个误差。&lt;/p>
-&lt;p>本质上，我们根据权重的重视程度创建了一个加权量化误差：&lt;/p>
+&lt;p>本质上，我们根据权重的重要性创建了一个加权量化误差：&lt;/p>
 &lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/fd4b12b9-8b1b-4aa5-8d8c-ab8c1ab23671_1096x332.webp"
 width="1096"
 height="332"
@@ -530,11 +529,282 @@ data-flex-basis="703px"
 &lt;p>提示：如果你想要一种旨在优化性能和提高推理速度的量化方法，可以查看 &lt;a class="link" href="https://github.com/turboderp-org/exllamav2" target="_blank" rel="noopener"
 >EXL2&lt;/a>。&lt;/p>&lt;/blockquote>
 &lt;h4 id="gguf">GGUF
-&lt;/h4>&lt;h2 id="第四部分量化感知训练">第四部分：量化感知训练
-&lt;/h2>&lt;p>在第三部分中，我们看到如何在训练后对模型进行量化。这种方法的缺点是，这种量化不考虑实际训练过程&lt;/p>
-&lt;p>这就是量化感知训练（QAT）的作用所在。QAT 的目标是在训练过程中学习量化过程，而不是使用训练后量化（PTQ）在训练后将模型进行量化。&lt;/p>
+&lt;/h4>&lt;p>虽然 GPTQ 是一种在 GPU 上运行完整 LLM 的出色量化方法，但你可能并不总是具备这样的条件。相反，我们可以使用 GGUF 将 LLM 的特定层卸载（offload）到 CPU 上。&lt;/p>
+&lt;p>这使你能够在显存（VRAM）不足时同时利用 CPU 和 GPU。&lt;/p>
+&lt;p>GGUF 量化方法更新频繁，并且可能取决于位量化级别。然而，其基本原理如下。&lt;/p>
+&lt;p>首先，给定层的权重被分割成“超级（super）”块，每个块包含一组“子（sub）”块。从这些块中，我们提取缩放因子（$s$）和最大绝对值（$\alpha$）：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/98047d62-3925-4a29-a23b-c5bfa517f073_894x480.png"
+width="894"
+height="480"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/98047d62-3925-4a29-a23b-c5bfa517f073_894x480_hu_ea653df620ed3661.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/98047d62-3925-4a29-a23b-c5bfa517f073_894x480_hu_6ada7ba3d42568a5.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="186"
+data-flex-basis="447px"
+>&lt;/p>
+&lt;p>要对给定的“子”块进行量化，我们可以使用之前使用的 absmax 量化方法。记住，它将给定的权重乘以缩放因子（$s$）：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/bf159bb5-8158-43e3-bae1-8812fc0fa146_1096x120.png"
+width="1096"
+height="120"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/bf159bb5-8158-43e3-bae1-8812fc0fa146_1096x120_hu_42016080817e9fce.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/bf159bb5-8158-43e3-bae1-8812fc0fa146_1096x120_hu_765f0041ee2956d7.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="913"
+data-flex-basis="2192px"
+>&lt;/p>
+&lt;p>缩放因子使用“子”块的信息进行计算，但使用“超级”块的信息进行量化，而“超级”块有自己的缩放因子：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/e3e7f68b-6ce8-45ba-a844-80b5eb0ab2d3_1096x196.png"
+width="1096"
+height="196"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/e3e7f68b-6ce8-45ba-a844-80b5eb0ab2d3_1096x196_hu_1e8e0b6ae92d9f41.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/e3e7f68b-6ce8-45ba-a844-80b5eb0ab2d3_1096x196_hu_9656592b4dea1d7b.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="559"
+data-flex-basis="1342px"
+>&lt;/p>
+&lt;p>这种分块量化使用来自“超级”块的缩放因子（$s_{super}$）来量化来自“子”块的缩放因子（$s_{sub}$）。&lt;/p>
+&lt;p>每个缩放因子的量化级别可能不同，“超级”块通常比“子”块的缩放因子具有更高的精度。&lt;/p>
+&lt;p>为了说明这一点，让我们探索几种量化级别（2位、4位和6位）：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/43ca3393-869a-4be3-bf8b-0c52e42017d7_1984x692.png"
+width="1456"
+height="508"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/43ca3393-869a-4be3-bf8b-0c52e42017d7_1984x692_hu_8e36f1d80d62d96c.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/43ca3393-869a-4be3-bf8b-0c52e42017d7_1984x692_hu_1d67f61637951e3c.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="286"
+data-flex-basis="687px"
+>&lt;/p>
+&lt;p>欲了解所有量化级别的概述，请查看&lt;a class="link" href="https://github.com/ggerganov/llama.cpp/pull/1684" target="_blank" rel="noopener"
+>原始的 pull request&lt;/a>。此外，欲获取更多有关使用重要性矩阵（importance matrices）进行量化的信息，请查看&lt;a class="link" href="https://github.com/ggerganov/llama.cpp/pull/4861" target="_blank" rel="noopener"
+>这个 pull request&lt;/a>。&lt;/p>
+&lt;h2 id="第四部分量化感知训练">第四部分：量化感知训练
+&lt;/h2>&lt;p>在第三部分中，我们了解了如何在训练后对模型进行量化。这种方法的代价是量化过程没有考虑实际的训练过程。&lt;/p>
+&lt;p>这就是量化感知训练（Quantization Aware Training, QAT）发挥作用的地方。QAT 并不是使用训练后量化（PTQ）在模型训练完毕后再进行量化，而是旨在在训练过程中学习量化过程。&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/1ad4fa3b-b440-4be3-90bd-b66e219f191e_1368x810.png"
+width="1368"
+height="810"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/1ad4fa3b-b440-4be3-90bd-b66e219f191e_1368x810_hu_18a75902d459640f.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/1ad4fa3b-b440-4be3-90bd-b66e219f191e_1368x810_hu_657827f8b06400bb.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="168"
+data-flex-basis="405px"
+>&lt;/p>
+&lt;p>QAT 通常比 PTQ 更准确，因为量化在训练期间就已经被考虑在内。其工作原理如下：&lt;/p>
+&lt;p>在训练过程中，引入了所谓的“伪（fake）”量化。这是指先将权重量化为例如 INT4，然后再反量化回 FP32 的过程：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/c3a17734-65f8-45d7-8e4e-f7bc1c592577_1824x360.jpg"
+width="1456"
+height="287"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/c3a17734-65f8-45d7-8e4e-f7bc1c592577_1824x360_hu_9e7862fc5d943d10.jpg 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/c3a17734-65f8-45d7-8e4e-f7bc1c592577_1824x360_hu_ab7fcc69178b35d2.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="507"
+data-flex-basis="1217px"
+>&lt;/p>
+&lt;p>这个过程允许模型在训练、计算损失以及权重更新过程中考虑量化过程。&lt;/p>
+&lt;p>QAT 试图在损失曲面上寻找“宽阔（wide）”的极小值区域来最小化量化误差，因为“狭窄（narrow）”的极小值区域往往会导致更大的量化误差。&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/a70ee37e-3b4f-4598-8eef-2a9ab13658c1_1200x640.png"
+width="1200"
+height="640"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/a70ee37e-3b4f-4598-8eef-2a9ab13658c1_1200x640_hu_69bd1432c76e6a7a.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/a70ee37e-3b4f-4598-8eef-2a9ab13658c1_1200x640_hu_7f177a46e3b86eed.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="187"
+data-flex-basis="450px"
+>&lt;/p>
+&lt;p>例如，假设我们在反向传播过程中没有考虑量化。根据梯度下降算法，我们选择具有最小损失的权重。然而，如果它位于一个“狭窄”的极小值区域内，这引入的量化误差就会很大。&lt;/p>
+&lt;p>相反，如果我们考虑量化，就会在一个“宽阔”的极小值区域选择一个不同的更新后权重，此时量化误差要小得多。&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/b26d3f00-f599-4c75-beb4-21d87625b1d8_1200x640.png"
+width="1200"
+height="640"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/b26d3f00-f599-4c75-beb4-21d87625b1d8_1200x640_hu_dac6e6e07463bce9.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/b26d3f00-f599-4c75-beb4-21d87625b1d8_1200x640_hu_d4bc93aafeccc501.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="187"
+data-flex-basis="450px"
+>&lt;/p>
+&lt;p>因此，尽管 PTQ 在高精度（例如 FP32）下的损失较低，但 QAT 在低精度（例如 INT4）下的损失更低，而这正是我们的目标。&lt;/p>
+&lt;h2 id="1-比特-llm-时代bitnet">1 比特 LLM 时代：BitNet
+&lt;/h2>&lt;p>正如我们之前看到的那样，降至 4 位已经相当低了，但如果我们能进一步压缩呢？&lt;/p>
+&lt;p>这就是 BitNet 的用武之地，它将模型的权重表示为一个比特（1-bit），对于给定的权重，仅使用 -1 或 1。&lt;/p>
+&lt;p>它通过将量化过程直接注入到 Transformer 架构中来实现这一点。&lt;/p>
+&lt;p>你可能还记得，Transformer 架构被用作大多数 LLMs 的基础，它包含由线性层组成的计算：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/e3587e75-d631-4ecd-8da9-26fedfc68c53_1364x768.png"
+width="1364"
+height="768"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/e3587e75-d631-4ecd-8da9-26fedfc68c53_1364x768_hu_ec952a836685f990.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/e3587e75-d631-4ecd-8da9-26fedfc68c53_1364x768_hu_4ad5bf98f3f92655.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="177"
+data-flex-basis="426px"
+>&lt;/p>
+&lt;p>这些线性层通常以更高的精度表示，比如 FP16，并且这是大部分权重存在的地方。&lt;/p>
+&lt;p>BitNet 用他们称之为 BitLinear 层取代了这些线性层：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/a6b8cbbf-057d-46c9-b275-dab262dd78d5_1364x768.png"
+width="1364"
+height="768"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/a6b8cbbf-057d-46c9-b275-dab262dd78d5_1364x768_hu_d53651a0323e523a.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/a6b8cbbf-057d-46c9-b275-dab262dd78d5_1364x768_hu_f2a8e91bdf45dfa5.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="177"
+data-flex-basis="426px"
+>&lt;/p>
+&lt;p>BitLinear 层与常规的线性层工作原理相同，它根据权重乘以激活值来计算输出。&lt;/p>
+&lt;p>不同的是，BitLinear 层使用 1 位来表示模型的权重，使用 INT8 来表示激活值：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/9806feb5-2212-4fc3-af0b-ef42ae536787_1240x552.png"
+width="1240"
+height="552"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/9806feb5-2212-4fc3-af0b-ef42ae536787_1240x552_hu_433509377b2ad9ff.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/9806feb5-2212-4fc3-af0b-ef42ae536787_1240x552_hu_96f3eb0bba442f44.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="224"
+data-flex-basis="539px"
+>&lt;/p>
+&lt;p>和量化感知训练（QAT）一样，BitLinear 层在训练期间也会执行某种形式的“伪”量化，以分析权重和激活值量化的效果：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/25935e2a-7643-4705-8961-0b40506fe757_1296x832.png"
+width="1296"
+height="832"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/25935e2a-7643-4705-8961-0b40506fe757_1296x832_hu_73d3d332e118a0c9.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/25935e2a-7643-4705-8961-0b40506fe757_1296x832_hu_dc72f6ceb1fa9cec.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="155"
+data-flex-basis="373px"
+>&lt;/p>
+&lt;p>让我们来逐步了解 BitLinear。&lt;/p>
+&lt;h3 id="权重量化">权重量化
+&lt;/h3>&lt;p>在训练时，权重以 INT8 格式存储，然后使用一种称为符号（signum）函数的基本方法将其量化为 1位。&lt;/p>
+&lt;p>从本质上讲，它将权重分布移动到以 0 为中心，然后将所有的负值归为 -1，所有的正值归为 1：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/b1080b79-6d3c-4dde-a6f1-a354afae4f54_1152x508.png"
+width="1152"
+height="508"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/b1080b79-6d3c-4dde-a6f1-a354afae4f54_1152x508_hu_dfe31e3f5c8f2acf.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/b1080b79-6d3c-4dde-a6f1-a354afae4f54_1152x508_hu_6774d669a432f5e.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="226"
+data-flex-basis="544px"
+>&lt;/p>
+&lt;p>另外，它还追踪一个值 $\beta$（平均绝对值），我们之后会用它进行反量化。&lt;/p>
+&lt;h3 id="激活值量化">激活值量化
+&lt;/h3>&lt;p>为了量化激活值，BitLinear 采用 absmax 量化将激活值从 FP16 转换为 INT8，由于矩阵乘法（$\times$）运算的需要，它们需要保持在较高的精度中。&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/bc69928b-3169-4c35-963b-c25ec218bc12_1260x552.png"
+width="1260"
+height="552"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/bc69928b-3169-4c35-963b-c25ec218bc12_1260x552_hu_54ae6c69c8893312.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/bc69928b-3169-4c35-963b-c25ec218bc12_1260x552_hu_23a37cf365f9c7cb.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="228"
+data-flex-basis="547px"
+>&lt;/p>
+&lt;p>此外，它还跟踪最大的绝对值 $\alpha$，稍后在反量化时会用到。&lt;/p>
+&lt;h3 id="反量化">反量化
+&lt;/h3>&lt;p>我们记录了 $\alpha$（输入特征/激活值的最大绝对值）和 $\beta$（权重的平均绝对值），因为这些值将帮助我们将激活值反量化回 FP16。&lt;/p>
+&lt;p>输出激活通过 ${\alpha, \beta}$ 进行缩放，以此将它们反量化成原来的精度：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/330cb1bb-9a98-45c1-b140-0fa8038d521f_1296x404.png"
+width="1296"
+height="404"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/330cb1bb-9a98-45c1-b140-0fa8038d521f_1296x404_hu_9d334f2cbd2497c.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/330cb1bb-9a98-45c1-b140-0fa8038d521f_1296x404_hu_ea0552da1ef27366.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="320"
+data-flex-basis="769px"
+>&lt;/p>
+&lt;p>就是这样！这个过程相对简单，并使得模型可以用 -1 或 1 这两个值来表达。&lt;/p>
+&lt;p>作者发现，通过这个方法，随着模型容量的增加，1-bit 与使用 FP16 训练的模型间的性能表现差别逐渐缩小。&lt;/p>
+&lt;p>不过，这只适用于规模较大的模型（包含超过 300 亿参数），模型规模较小时性能表现差距还是比较大的。&lt;/p>
+&lt;h2 id="所有大型语言模型都在-158-位">所有大型语言模型都在 1.58 位
+&lt;/h2>&lt;p>为了解决之前提到的模型规模扩展问题，人们提出了 BitNet 1.58b。&lt;/p>
+&lt;p>在这项新方法中，模型的每个权重不仅可以是 -1 或 1，还可以取 0，使其成为三元（ternary）权重。有趣的是，仅仅加入 0 就极大地改进了 BitNet 并且允许更快的计算。&lt;/p>
+&lt;h3 id="0-的力量">0 的力量
+&lt;/h3>&lt;p>为什么添加 0 会产生如此重大的改善呢？&lt;/p>
+&lt;p>这主要和矩阵乘法密切相关！&lt;/p>
+&lt;p>首先，让我们简单探讨下一般的矩阵乘法机制。计算输出结果时，我们要将权值矩阵和输入的特征向量相乘。下图展示了权重矩阵第一行的第一次乘法操作：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/5f3a7393-5ad4-4375-8382-197c7a5aa442_1048x360.png"
+width="1048"
+height="360"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/5f3a7393-5ad4-4375-8382-197c7a5aa442_1048x360_hu_568f455a8edc4145.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/5f3a7393-5ad4-4375-8382-197c7a5aa442_1048x360_hu_10e1ac1ed10e7352.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="291"
+data-flex-basis="698px"
+>&lt;/p>
+&lt;p>注意，这个乘法包含两步操作：各个权重和对应的输入数据进行相乘得出结果，并汇总全部的结果求和。&lt;/p>
+&lt;p>相比之下，BitNet 1.58b 成功省去了乘法运算，因为三元权重本质上只表达三种操作：&lt;/p>
+&lt;ul>
+&lt;li>1: 加上这一项值&lt;/li>
+&lt;li>0: 不需要加此值&lt;/li>
+&lt;li>-1: 减去这一项的值&lt;/li>
+&lt;/ul>
+&lt;p>因此，当权重量化为 1.58 位时，你只需执行加法运算：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/5fed2720-9aa3-4b83-8ba7-4347b2fe1f0d_1048x360.png"
+width="1048"
+height="360"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/5fed2720-9aa3-4b83-8ba7-4347b2fe1f0d_1048x360_hu_2e0831016dbe089a.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/5fed2720-9aa3-4b83-8ba7-4347b2fe1f0d_1048x360_hu_2adcbae78e474673.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="291"
+data-flex-basis="698px"
+>&lt;/p>
+&lt;p>这不仅能显著加速计算，还赋予了模型特征过滤的能力！&lt;/p>
+&lt;p>将某个权重设为 0，意味着直接忽略该特征，而不是像 1-bit 表示那样必须执行加法或减法。&lt;/p>
+&lt;h3 id="量化">量化
+&lt;/h3>&lt;p>在对待实施量化的操作时，BitNet 1.58b 用了一种类似于前面的 absmax 但做了稍微转变的机制：absmean（平均绝对值） 量化法。&lt;/p>
+&lt;p>它对权重分布进行压缩，使用绝对均值（$\alpha$）对数值进行量化，然后将结果四舍五入到 -1、0 或 1：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/acda9425-8b3d-47fe-92de-16c33e57613b_1108x512.png"
+width="1108"
+height="512"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/acda9425-8b3d-47fe-92de-16c33e57613b_1108x512_hu_85027daf39c8f4a8.png 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/acda9425-8b3d-47fe-92de-16c33e57613b_1108x512_hu_e7cc9841deb6b63e.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="216"
+data-flex-basis="519px"
+>&lt;/p>
+&lt;p>相比 BitNet 还有一点不一样就是在于涉及激活量化的时候。在 BitNet 1.58b 中不是将激活值缩放到 $[0, 2^{b-1}]$ 区间，而是使用 absmax 量化将其缩放到 $[-2^{b-1}, 2^{b-1}]$ 区间。&lt;/p>
+&lt;p>这便是全部了！可以说，1.58-bit 量化主要包含以下两项方法：&lt;/p>
+&lt;ol>
+&lt;li>引入 0，构成三元表示 [-1, 0, 1]&lt;/li>
+&lt;li>对权重使用 absmean 量化&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>“在延迟、内存占用和能耗方面，13B 的 BitNet b1.58 比 3B 的 FP16 LLM 更高效。”&lt;/p>&lt;/blockquote>
+&lt;p>由于具备这样对运算极为有效率的仅 1.58 bits 设计特征，我们最终得以获得轻量级的模型！&lt;/p>
 &lt;h2 id="结论">结论
-&lt;/h2></description></item><item><title>机器学习中的优化方法</title><link>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</link><pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/method_of_neural_network_optimization.jpg" alt="Featured image of post 机器学习中的优化方法" />&lt;h2 id="梯度下降法推导">梯度下降法推导
+&lt;/h2>&lt;p>关于量化的话题至此暂时告一段落！希望本篇文章能够让你进一步领悟不仅是量化的本身，还有 GPTQ、GGUF 和 BitNet 的潜力。谁能知道未来的模型体积还能小到什么程度呢？！&lt;/p>
+&lt;p>想要阅读更多有关 LLMs 及其可视化的探讨，或对本文予以支持，欢迎看看我写的关于大型语言模型的专著！&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/38ab4a98-2278-465b-8ace-37bbe0807b92_590x768.jpg"
+width="590"
+height="768"
+srcset="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/38ab4a98-2278-465b-8ace-37bbe0807b92_590x768_hu_ac8deacac91fae64.jpg 480w, https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/38ab4a98-2278-465b-8ace-37bbe0807b92_590x768_hu_4590902402cbd519.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="76"
+data-flex-basis="184px"
+>&lt;/p>
+&lt;h2 id="相关资源">相关资源
+&lt;/h2>&lt;p>希望这是一次易读易懂的量化基础入门讲解！如果想要进一步深入研究，我推荐以下资源：&lt;/p>
+&lt;ul>
+&lt;li>HuggingFace 上一篇关于 &lt;code>LLM.int8()&lt;/code> 量化方法的博客：&lt;a class="link" href="https://arxiv.org/abs/2208.07339" target="_blank" rel="noopener"
+>论文链接&lt;/a>。&lt;/li>
+&lt;li>HuggingFace 另一篇关于&lt;a class="link" href="https://huggingface.co/blog/getting-started-with-embeddings" target="_blank" rel="noopener"
+>嵌入特征（embeddings）量化的博客&lt;/a>。&lt;/li>
+&lt;li>&lt;a class="link" href="https://blog.eleuther.ai/transformer-math/" target="_blank" rel="noopener"
+>Transformer Math 101 的博客&lt;/a>，介绍了 Transformer 计算和内存占用相关的基础数学。&lt;/li>
+&lt;li>&lt;a class="link" href="https://vram.asmirnov.xyz/" target="_blank" rel="noopener"
+>资源一&lt;/a> 与 &lt;a class="link" href="https://huggingface.co/spaces/hf-accelerate/model-memory-usage" target="_blank" rel="noopener"
+>资源二&lt;/a> 是计算给定模型占用 VRAM 大小的两个绝佳网站。&lt;/li>
+&lt;li>如果想要了解更多常用于微调的量化技术 QLoRA[5]，在我的新书《&lt;a class="link" href="https://www.amazon.com/Hands-Large-Language-Models-Understanding/dp/1098150965" target="_blank" rel="noopener"
+>Hands-On Large Language Models&lt;/a>》中有详尽介绍。&lt;/li>
+&lt;li>一个对 GPTQ 机制进行超直观解释的 &lt;a class="link" href="https://www.youtube.com/watch?v=mii-xFaPCrA" target="_blank" rel="noopener"
+>YouTube 优秀视频&lt;/a>。&lt;/li>
+&lt;li>&lt;a class="link" href="https://arxiv.org/abs/2210.17323" target="_blank" rel="noopener"
+>Frantar, Elias, 等人： &amp;ldquo;Gptq: Accurate post-training quantization for generative pre-trained transformers&amp;rdquo;&lt;/a>，预印本：arXiv:2210.17323 (2022).&lt;/li>
+&lt;li>可以在 GGML 库中了解有关 &lt;a class="link" href="https://github.com/ggerganov/ggml" target="_blank" rel="noopener"
+>GGUF 的更多情况&lt;/a>。&lt;/li>
+&lt;li>&lt;a class="link" href="https://arxiv.org/abs/2310.11453" target="_blank" rel="noopener"
+>Wang, Hongyu, 等人：&amp;ldquo;Bitnet: Scaling 1-bit transformers for large language models.&amp;rdquo;&lt;/a> arXiv 预印本文件 (2023).&lt;/li>
+&lt;li>&lt;a class="link" href="https://arxiv.org/abs/2402.17764" target="_blank" rel="noopener"
+>Ma, Shuming, 等人：&amp;ldquo;The era of 1-bit llms: All large language models are in 1.58 bits.&amp;rdquo;&lt;/a> 一篇发布于 2024 年的预印本文献。&lt;/li>
+&lt;li>&lt;a class="link" href="https://arxiv.org/abs/2305.14314" target="_blank" rel="noopener"
+>Dettmers, Tim, 等人：&amp;ldquo;Qlora: Efficient finetuning of quantized llms.&amp;rdquo;&lt;/a> Advances in Neural Information Processing Systems 36 (2024).&lt;/li>
+&lt;/ul></description></item><item><title>机器学习中的优化方法</title><link>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</link><pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/method_of_neural_network_optimization.jpg" alt="Featured image of post 机器学习中的优化方法" />&lt;h2 id="梯度下降法推导">梯度下降法推导
 &lt;/h2>&lt;h3 id="什么是梯度">什么是梯度？
 &lt;/h3>&lt;p>&lt;strong>梯度&lt;/strong>的本意是一个向量（矢量），表示某一函数在该点处的方向导数沿着该方向取得最大值，即函数在该点处沿着该方向（此梯度的方向）变化最快，变化率最大（为该梯度的模）。&lt;/p>
 &lt;p>通俗来说，梯度就是表示某一函数在该点处的方向导数沿着该方向取得（模）较大值，即函数在当前位置的导数。&lt;strong>笔者理解&lt;/strong>：在高维空间中参数 $\boldsymbol{\theta}$ 和 $f(\boldsymbol{\theta})$ 形成超曲面上，当 $\boldsymbol{\theta}$ 移动相同的 $\lVert\nabla\boldsymbol{\theta}\lVert$ 模值（超距离）时，沿着梯度的方向，可以使得 $f(\boldsymbol{\theta})$ 变化量（增加）最大。梯度表示为如下：
