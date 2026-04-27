@@ -1,4 +1,355 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>算法解析 on 七月流火</title><link>https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90/</link><description>Recent content in 算法解析 on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 24 Nov 2025 17:24:07 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90/index.xml" rel="self" type="application/rss+xml"/><item><title>图解深度学习模型量化[转][译]</title><link>https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/</link><pubDate>Mon, 24 Nov 2025 17:24:07 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/e9d17077-d9af-4b37-9b9b-57ef9aaa1ca9_800x606.png" alt="Featured image of post 图解深度学习模型量化[转][译]" />&lt;blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>算法解析 on 七月流火</title><link>https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90/</link><description>Recent content in 算法解析 on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 15 Dec 2025 18:06:41 +0800</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/categories/%E7%AE%97%E6%B3%95%E8%A7%A3%E6%9E%90/index.xml" rel="self" type="application/rss+xml"/><item><title>TensorRT 官方样例学习笔记（二）核心 API 详解：从 sampleOnnxMNIST 构建推理引擎</title><link>https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C%E6%A0%B8%E5%BF%83-api-%E8%AF%A6%E8%A7%A3%E4%BB%8E-sampleonnxmnist-%E6%9E%84%E5%BB%BA%E6%8E%A8%E7%90%86%E5%BC%95%E6%93%8E/</link><pubDate>Mon, 15 Dec 2025 18:06:41 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C%E6%A0%B8%E5%BF%83-api-%E8%AF%A6%E8%A7%A3%E4%BB%8E-sampleonnxmnist-%E6%9E%84%E5%BB%BA%E6%8E%A8%E7%90%86%E5%BC%95%E6%93%8E/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C%E6%A0%B8%E5%BF%83-api-%E8%AF%A6%E8%A7%A3%E4%BB%8E-sampleonnxmnist-%E6%9E%84%E5%BB%BA%E6%8E%A8%E7%90%86%E5%BC%95%E6%93%8E/tensorrt-logo.png" alt="Featured image of post TensorRT 官方样例学习笔记（二）核心 API 详解：从 sampleOnnxMNIST 构建推理引擎" />&lt;blockquote>
+&lt;p>&lt;strong>TensorRT 官方样例学习笔记系列&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>&lt;a class="link" href="https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B8%8E%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90/" >TensorRT 官方样例学习笔记（一）环境搭建与项目结构解析&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C%E6%A0%B8%E5%BF%83-api-%E8%AF%A6%E8%A7%A3%E4%BB%8E-sampleonnxmnist-%E6%9E%84%E5%BB%BA%E6%8E%A8%E7%90%86%E5%BC%95%E6%93%8E/" >TensorRT 官方样例学习笔记（二）核心 API 详解：从 sampleOnnxMNIST 构建推理引擎&lt;/a>&lt;/li>
+&lt;li>TensorRT 官方样例学习笔记（三）ONNX 解析器：sampleOnnxMNIST 与模型导入&lt;/li>
+&lt;li>TensorRT 官方样例学习笔记（四）动态 Shape 模式：sampleDynamicReshape 深度解析&lt;/li>
+&lt;li>TensorRT 官方样例学习笔记（五）低精度推理：sampleINT8 量化与校准实战&lt;/li>
+&lt;li>TensorRT 官方样例学习笔记（六）自定义插件开发：samplePlugin 算子扩展&lt;/li>
+&lt;li>TensorRT 官方样例学习笔记（七）Transformer 优化：sampleBERT 与多头注意力机制&lt;/li>
+&lt;/ol>&lt;/blockquote>
+&lt;h2 id="前言在-ai-辅助下我们如何高效学习-tensorrt-源码">前言：在 AI 辅助下，我们如何高效学习 TensorRT 源码？
+&lt;/h2>&lt;p>在打通上篇的环境配置后，从本篇起我们将正式步入 TensorRT 源码的世界。后续的笔记中，笔者会根据特性的侧重点，灵活选用 TensorRT v8.6.1 或 TensorRT v10.14 版本中的官方代码进行剖析，摒弃流水账，仅对重点内容进行分析。&lt;/p>
+&lt;p>本文重点分析 &lt;strong>TensorRT v10.14&lt;/strong> 版本中的 &lt;code>sampleOnnxMNIST&lt;/code> 样例。虽然它是一个非常基础的样例，但它涵盖了 TensorRT 的核心工作流，包括&lt;strong>模型解析、网络构建、引擎序列化、推理执行&lt;/strong>等关键步骤。通过对这个样例的深入剖析，我们可以对 TensorRT 的整体工作流程有一个清晰的认识。&lt;/p>
+&lt;p>得益于目前 AI 工具对源码查阅及调试的强大辅助，想要将这些样例跑起来已经非常容易，相关的编译与调试流程在此不作赘述。此外，正因为有了 AI 的辅助，本系列笔记将力争做到“&lt;strong>简洁凝练、观其大略&lt;/strong>”。&lt;strong>我们会优先建立对核心框架的宏观认知，把精力集中在涉及的数理分析和部分底层机制。&lt;/strong>&lt;/p>
+&lt;p>在 AI 辅助编程逐渐普及的背景下，开发者的角色正在从“&lt;strong>代码实现者&lt;/strong>”转向“&lt;strong>系统设计者&lt;/strong>”。当 AI 可以高效生成代码细节时，学习的重点也应随之转移：从关注 API 使用与实现技巧，转向从&lt;strong>架构师视角出发，理解技术框架的设计逻辑、数据流转与性能权衡。&lt;/strong>&lt;/p>
+&lt;h2 id="核心-api-详解">核心 API 详解
+&lt;/h2></description></item><item><title>TensorRT 官方样例学习笔记（一）环境搭建与项目结构解析</title><link>https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B8%8E%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90/</link><pubDate>Mon, 01 Dec 2025 11:44:28 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B8%8E%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B8%8E%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90/tensorrt-logo.png" alt="Featured image of post TensorRT 官方样例学习笔记（一）环境搭建与项目结构解析" />&lt;blockquote>
+&lt;p>&lt;strong>TensorRT 官方样例学习笔记系列&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>&lt;a class="link" href="https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B8%8E%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90/" >TensorRT 官方样例学习笔记（一）环境搭建与项目结构解析&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C%E6%A0%B8%E5%BF%83-api-%E8%AF%A6%E8%A7%A3%E4%BB%8E-sampleonnxmnist-%E6%9E%84%E5%BB%BA%E6%8E%A8%E7%90%86%E5%BC%95%E6%93%8E/" >TensorRT 官方样例学习笔记（二）核心 API 详解：从 sampleOnnxMNIST 构建推理引擎&lt;/a>&lt;/li>
+&lt;li>TensorRT 官方样例学习笔记（三）ONNX 解析器：sampleOnnxMNIST 与模型导入&lt;/li>
+&lt;li>TensorRT 官方样例学习笔记（四）动态 Shape 模式：sampleDynamicReshape 深度解析&lt;/li>
+&lt;li>TensorRT 官方样例学习笔记（五）低精度推理：sampleINT8 量化与校准实战&lt;/li>
+&lt;li>TensorRT 官方样例学习笔记（六）自定义插件开发：samplePlugin 算子扩展&lt;/li>
+&lt;li>TensorRT 官方样例学习笔记（七）Transformer 优化：sampleBERT 与多头注意力机制&lt;/li>
+&lt;/ol>&lt;/blockquote>
+&lt;h2 id="前言为什么我们需要深入-tensorrt">前言：为什么我们需要深入 TensorRT？
+&lt;/h2>&lt;p>在深度学习的落地征程中，模型训练只是完成了“从 0 到 1”的知识提取，而模型部署则是实现“从 1 到 N”的价值规模化。NVIDIA TensorRT 作为当前 GPU 推理事实上的标准，其本质是一个&lt;strong>高性能深度学习推理优化器和运行时（Runtime）&lt;/strong>。&lt;/p>
+&lt;p>很多开发者止步于“调用 API”或“运行转换脚本”，一旦遇到性能瓶颈或精度异常便束手无策。本系列《TensorRT 官方样例学习笔记》旨在打破这一僵局。我们将摒弃浅尝辄止的调包式学习，回归官方源码（Samples），从&lt;strong>编译器视角&lt;/strong>理解 TensorRT 如何通过算子融合（Layer Fusion）、内核自动调优（Kernel Auto-Tuning）和显存优化来榨干 GPU 的每一滴算力。&lt;/p>
+&lt;p>本文作为开篇，将构建一个稳健的开发环境，并设计一套利于长期学习的项目架构。&lt;/p>
+&lt;h2 id="核心原理tensorrt-的编译哲学">核心原理：TensorRT 的“编译”哲学
+&lt;/h2>&lt;p>在动手之前，必须理解 TensorRT 的核心工作流。与 PyTorch 的动态图（Eager Mode）不同，TensorRT 的核心在于“&lt;strong>构建期（Build Phase）&lt;/strong>” 与“&lt;strong>运行期（Runtime Phase）&lt;/strong>”的分离。&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>网络定义（Network Definition）&lt;/strong>：这是模型的逻辑表示，TensorRT 需要知道计算图的结构（层、输入输出、参数）。&lt;/li>
+&lt;li>&lt;strong>构建引擎（Build Engine）&lt;/strong>：这是最核心的优化阶段。TensorRT 会针对目标 GPU 架构（如 Ampere, Ada Lovelace）进行：
+&lt;ul>
+&lt;li>&lt;strong>算子融合&lt;/strong>：将 Conv+Bias+ReLU 合并为一个 Kernel，减少显存读写。&lt;/li>
+&lt;li>&lt;strong>精度校准&lt;/strong>：在保证精度的前提下，将 FP32 转换为 FP16 或 INT8。&lt;/li>
+&lt;li>&lt;strong>内核自动调优&lt;/strong>：在成百上千种算法实现中，通过试跑找到当前硬件下的最优解。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>序列化与反序列化&lt;/strong>：生成的 &lt;code>Plan&lt;/code> 文件（即 Engine）是硬件绑定的二进制文件。&lt;/li>
+&lt;li>&lt;strong>执行上下文（Execution Context）&lt;/strong>：加载 Engine，管理显存，执行推理。&lt;/li>
+&lt;/ol>
+&lt;p>理解了这个流程，你就会明白为什么环境一致性如此重要——&lt;strong>Engine 是不可移植的&lt;/strong>。&lt;/p>
+&lt;h2 id="稳健的开发环境配置">稳健的开发环境配置
+&lt;/h2>&lt;p>深度学习部署环境的“版本地狱”众所周知。为了保证学习过程的可复现性，我们锁定以下经过验证的“黄金组合”。这套配置兼顾了稳定性与新特性支持。&lt;/p>
+&lt;h3 id="关键组件版本">关键组件版本
+&lt;/h3>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">组件&lt;/th>
+&lt;th style="text-align: left">版本&lt;/th>
+&lt;th style="text-align: left">选型逻辑&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>TensorRT&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>8.6.1&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">8.x 系列的成熟版本，API 稳定，支持动态 Shape 和 Transformer 优化完善。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>CUDA&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>11.8&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">工业界目前最广泛使用的稳定版，与 PyTorch 2.x 生态兼容性极佳。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>cuDNN&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>8.9.7.29&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">提供了最新的卷积算法优化，需严格匹配 CUDA 11.x。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">&lt;strong>trtexec&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>8.6.1&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">TensorRT 的瑞士军刀，用于基准测试和快速验证。&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="环境验证">环境验证
+&lt;/h3>&lt;p>环境配置完成后，首先验证工具链是否可用。通过查看 &lt;code>trtexec&lt;/code> 版本信息，可以快速确认环境变量（&lt;code>PATH/LD_LIBRARY_PATH&lt;/code>）是否配置正确，避免后续运行时出现链接错误。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 验证版本与环境链接&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">trtexec --help &lt;span class="p">|&lt;/span> head -n &lt;span class="m">5&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="工程化项目结构设计">工程化项目结构设计
+&lt;/h2>&lt;p>为了避免学习过程中的代码混乱，我们采用“&lt;strong>官方参照（Reference）&lt;/strong> + &lt;strong>实验沙盒（Sandbox）&lt;/strong>”的双目录结构。这种设计既能随时查阅官方的最佳实践，又能保留我们自己的探索记录。&lt;/p>
+&lt;h3 id="目录规划">目录规划
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">TensorRT-Learning/
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── TensorRT/ # [Reference] 官方源码库（只读/查阅）
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ ├── include/ # 核心头文件 (NvInfer.h 等)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ ├── samples/ # 官方样例库（这是最好的教科书）
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ │ ├── sampleMNIST/ # 基础 C++ API 示例
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ │ ├── python/ # Python API 示例
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ │ └── ...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ ├── quickstart/ # 快速上手脚本
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│ └── bin/ # 编译好的工具 (trtexec)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">│
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">└── Learning-Lab/ # [实验沙盒Sandbox] 个人实验工作区
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ├── README.md
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ├── TensorRT-v8.6.1/ # 8.x 系列学习环境
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> │ ├── build/ # 编译输出目录
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> │ ├── cmake/ # CMake 配置文件
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> │ ├── CMakeLists.txt # 项目构建配置
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> │ ├── data/ # 模型与测试数据（从官方安装目录拷贝）
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> │ ├── quickstart/ # 快速上手实验（从官方源码拷贝）
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> │ └── samples/ # 复现的官方样例库（从官方源码拷贝）
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> │
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> └── TensorRT-v10.14/ # 10.x 系列学习环境
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ├── build/ # 编译输出目录
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ├── cmake/ # CMake 配置文件
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ├── data/ # 模型与测试数据（从 GitHub 下载）
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ├── quickstart/ # 快速上手实验
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ├── samples/ # 官方样例复现
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> └── shared/ # 共享工具代码
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="为什么重点关注-samples">为什么重点关注 &lt;code>samples&lt;/code>？
+&lt;/h3>&lt;p>&lt;code>TensorRT/samples/&lt;/code> 目录是官方文档的具象化。相比于枯燥的 API 文档，这里的代码展示了：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>内存管理&lt;/strong>：如何正确地分配 Device Memory。&lt;/li>
+&lt;li>&lt;strong>错误处理&lt;/strong>：标准的 TensorRT 错误捕获机制。&lt;/li>
+&lt;li>&lt;strong>插件机制&lt;/strong>：如何通过 Plugin 扩展 TensorRT 不支持的算子。&lt;/li>
+&lt;/ul>
+&lt;p>在后续的文章中,我们将把 &lt;code>samples&lt;/code> 中的经典案例拆解到 &lt;code>Learning-Lab&lt;/code> 中进行重构和实验。&lt;/p>
+&lt;h3 id="多版本学习环境说明">多版本学习环境说明
+&lt;/h3>&lt;p>考虑到 TensorRT 的快速迭代，我们在实验沙盒中设计了&lt;strong>多版本并存&lt;/strong>的学习环境。这不仅能帮助我们理解 API 演进，更能应对实际项目中&amp;quot;历史代码维护&amp;quot;与&amp;quot;新特性探索&amp;quot;并存的现实需求。&lt;/p>
+&lt;h4 id="tensorrt-v861-学习环境">TensorRT v8.6.1 学习环境
+&lt;/h4>&lt;p>这是我们的&lt;strong>主战场&lt;/strong>，代表了当前工业界最成熟的部署方案：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>TensorRT 版本&lt;/strong>：8.6.1.6&lt;/li>
+&lt;li>&lt;strong>CUDA 版本&lt;/strong>：11.8&lt;/li>
+&lt;li>&lt;strong>cuDNN 版本&lt;/strong>：8.9.7.29&lt;/li>
+&lt;li>&lt;strong>学习目标&lt;/strong>：
+&lt;ul>
+&lt;li>掌握从 PyTorch/ONNX 到 TensorRT Engine 的完整工作流&lt;/li>
+&lt;li>深入理解 FP16/INT8 量化的精度-性能权衡&lt;/li>
+&lt;li>熟练运用动态 Shape 处理变长输入&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>资源获取说明&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>quickstart/&lt;/code> 与 &lt;code>samples/&lt;/code>：直接从官方源码仓库拷贝&lt;/li>
+&lt;li>&lt;code>data/&lt;/code>：从安装目录 &lt;code>/opt/TensorRT-8.6.1.6/data&lt;/code> 获取（包含预处理好的测试数据集）&lt;/li>
+&lt;/ul>
+&lt;h4 id="tensorrt-v1014-学习环境">TensorRT v10.14 学习环境
+&lt;/h4>&lt;p>这是&lt;strong>前瞻性实验区&lt;/strong>，用于探索 TensorRT 的未来形态：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>TensorRT 版本&lt;/strong>：10.14.1.48&lt;/li>
+&lt;li>&lt;strong>CUDA 版本&lt;/strong>：13.0&lt;/li>
+&lt;li>&lt;strong>cuDNN 版本&lt;/strong>：9.17.0&lt;/li>
+&lt;li>&lt;strong>学习目标&lt;/strong>：
+&lt;ul>
+&lt;li>体验 Strongly Typed API（强类型接口重构）&lt;/li>
+&lt;li>理解 TensorRT-LLM 的推理优化机制&lt;/li>
+&lt;li>对比 8.x 与 10.x 的设计哲学差异&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>资源获取说明&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>quickstart/&lt;/code>, &lt;code>samples/&lt;/code>, &lt;code>shared/&lt;/code>：从官方源码仓库拷贝&lt;/li>
+&lt;li>&lt;code>data/&lt;/code>：从 TensorRT GitHub 仓库下载（10.x 版本的示例数据）&lt;/li>
+&lt;/ul>
+&lt;h4 id="版本切换策略">版本切换策略
+&lt;/h4>&lt;p>为了避免环境污染，我们通过修改 &lt;code>~/.bashrc&lt;/code> 中的环境变量来实现无缝切换：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-Bash" data-lang="Bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># CUDA and TensorRT version switcher&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Helper to clear all CUDA/TRT paths&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">_clean_cuda_env&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$PATH&lt;/span> &lt;span class="p">|&lt;/span> sed -e &lt;span class="s1">&amp;#39;s|/usr/local/cuda-13.0/bin:||g&amp;#39;&lt;/span> -e &lt;span class="s1">&amp;#39;s|/opt/TensorRT-10.14.1.48/bin:||g&amp;#39;&lt;/span> -e &lt;span class="s1">&amp;#39;s|/usr/local/cuda-11.8/bin:||g&amp;#39;&lt;/span> -e &lt;span class="s1">&amp;#39;s|/opt/TensorRT-8.6.1.6/bin:||g&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">LD_LIBRARY_PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="nv">$LD_LIBRARY_PATH&lt;/span> &lt;span class="p">|&lt;/span> sed -e &lt;span class="s1">&amp;#39;s|/usr/local/cuda-13.0/lib64:||g&amp;#39;&lt;/span> -e &lt;span class="s1">&amp;#39;s|/opt/TensorRT-10.14.1.48/lib:||g&amp;#39;&lt;/span> -e &lt;span class="s1">&amp;#39;s|/usr/local/cuda-11.8/lib64:||g&amp;#39;&lt;/span> -e &lt;span class="s1">&amp;#39;s|/opt/TensorRT-8.6.1.6/lib:||g&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># CUDA and TensorRT version switcher&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">use_cuda13&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> _clean_cuda_env
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">PATH&lt;/span>&lt;span class="o">=&lt;/span>/opt/TensorRT-10.14.1.48/bin:/usr/local/cuda-13.0/bin:&lt;span class="nv">$PATH&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">LD_LIBRARY_PATH&lt;/span>&lt;span class="o">=&lt;/span>/opt/TensorRT-10.14.1.48/lib:/usr/local/cuda-13.0/lib64:&lt;span class="nv">$LD_LIBRARY_PATH&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># echo -e &amp;#34;\033[1;32m✓ Switched to CUDA 13.0 + TensorRT 10.14.1.48\033[0m&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">use_cuda11&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> _clean_cuda_env
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">PATH&lt;/span>&lt;span class="o">=&lt;/span>/opt/TensorRT-8.6.1.6/bin:/usr/local/cuda-11.8/bin:&lt;span class="nv">$PATH&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">LD_LIBRARY_PATH&lt;/span>&lt;span class="o">=&lt;/span>/opt/TensorRT-8.6.1.6/lib:/usr/local/cuda-11.8/lib64:&lt;span class="nv">$LD_LIBRARY_PATH&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># echo -e &amp;#34;\033[1;32m✓ Switched to CUDA 11.8 + TensorRT 8.6.1.6\033[0m&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Default to CUDA 13&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">use_cuda13
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>切换步骤&lt;/strong>：&lt;/p>
+&lt;ol>
+&lt;li>在终端直接输入 &lt;code>use_cuda11&lt;/code> 或 &lt;code>use_cuda13&lt;/code>。&lt;/li>
+&lt;li>验证切换结果：执行 &lt;code>nvcc --version&lt;/code> 和 &lt;code>trtexec --help | head -n 5&lt;/code> 确认路径是否指向目标版本。&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">❯ nvcc --version
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">nvcc: NVIDIA &lt;span class="o">(&lt;/span>R&lt;span class="o">)&lt;/span> Cuda compiler driver
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Copyright &lt;span class="o">(&lt;/span>c&lt;span class="o">)&lt;/span> 2005-2022 NVIDIA Corporation
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Built on Wed_Sep_21_10:33:58_PDT_2022
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Cuda compilation tools, release 11.8, V11.8.89
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Build cuda_11.8.r11.8/compiler.31833905_0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">❯ trtexec --help &lt;span class="p">|&lt;/span> head -n &lt;span class="m">5&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">&amp;amp;&amp;amp;&amp;amp;&amp;amp;&lt;/span> RUNNING TensorRT.trtexec &lt;span class="o">[&lt;/span>TensorRT v8601&lt;span class="o">]&lt;/span> &lt;span class="c1"># trtexec --help&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">===&lt;/span> Model &lt;span class="nv">Options&lt;/span> &lt;span class="o">===&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> --uff&lt;span class="o">=&lt;/span>&amp;lt;file&amp;gt; UFF model
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> --onnx&lt;span class="o">=&lt;/span>&amp;lt;file&amp;gt; ONNX model
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> --model&lt;span class="o">=&lt;/span>&amp;lt;file&amp;gt; Caffe model &lt;span class="o">(&lt;/span>&lt;span class="nv">default&lt;/span> &lt;span class="o">=&lt;/span> no model, random weights used&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>⚠️ 关键提醒&lt;/strong>：切换环境后，之前编译的 Engine 文件将&lt;strong>不可用&lt;/strong>（硬件绑定特性）。务必为不同版本维护独立的 &lt;code>build/&lt;/code> 目录。&lt;/p>
+&lt;h2 id="进阶学习路线图">进阶学习路线图
+&lt;/h2>&lt;p>本系列将遵循“&lt;strong>原理优先，实践驱动&lt;/strong>”的原则，逐步攻克以下技术高地：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>基础构建篇&lt;/strong>：
+&lt;ul>
+&lt;li>深入理解 &lt;code>IBuilder&lt;/code>, &lt;code>INetworkDefinition&lt;/code>, &lt;code>ICudaEngine&lt;/code> 的生命周期。&lt;/li>
+&lt;li>掌握 C++ 与 Python API 的异同与协作。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>全流程打通篇&lt;/strong>：
+&lt;ul>
+&lt;li>&lt;strong>ONNX 解析器&lt;/strong>详解：如何处理导出失败与算子不支持问题。&lt;/li>
+&lt;li>&lt;strong>动态 Shape (Dynamic Shapes)&lt;/strong>：解决变长输入（如 NLP 序列、不同分辨率图像）的推理难题。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>性能极致篇&lt;/strong>：
+&lt;ul>
+&lt;li>&lt;strong>低精度量化&lt;/strong>：实战 FP16 与 INT8 Post-Training Quantization (PTQ)。&lt;/li>
+&lt;li>&lt;strong>性能分析&lt;/strong>：使用 Nsight Systems 定位推理瓶颈（Kernel 耗时 vs. 显存传输耗时）。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="下一步">下一步
+&lt;/h2>&lt;p>环境已就绪，蓝图已绘就。下一篇，我们将深入 &lt;code>quickstart&lt;/code>，阅读 TensorRT 相关代码，体验从&amp;quot;定义网络&amp;quot;到&amp;quot;执行推理&amp;quot;的完整闭环。&lt;/p>
+&lt;p>👉 &lt;strong>&lt;a class="link" href="https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C%E6%A0%B8%E5%BF%83-api-%E8%AF%A6%E8%A7%A3%E4%BB%8E-sampleonnxmnist-%E6%9E%84%E5%BB%BA%E6%8E%A8%E7%90%86%E5%BC%95%E6%93%8E/" >点击这里阅读下一篇：《TensorRT 官方样例学习笔记（二）核心 API 详解：从 sampleOnnxMNIST 构建推理引擎》&lt;/a>&lt;/strong>&lt;/p>
+&lt;h2 id="常见问题解答">常见问题解答
+&lt;/h2>&lt;p>在配置和学习 TensorRT 的过程中，这些问题值得提前澄清。&lt;/p>
+&lt;h3 id="q1-trt-和-engine-文件有什么区别">Q1: &lt;code>.trt&lt;/code> 和 &lt;code>.engine&lt;/code> 文件有什么区别？
+&lt;/h3>&lt;p>&lt;strong>本质上没有区别&lt;/strong>。它们都是 TensorRT 序列化后的推理引擎文件（Serialized Engine），都是&lt;strong>二进制格式&lt;/strong>，包含了针对特定 GPU 架构优化过的网络结构和 Kernel 代码。&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>.trt&lt;/code>：在早期教程和某些 NVIDIA 产品（如 DeepStream）中较为常见&lt;/li>
+&lt;li>&lt;code>.engine&lt;/code>：官方文档和最新示例代码推荐的后缀&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>选择建议&lt;/strong>：优先使用 &lt;code>.engine&lt;/code> 后缀，与官方文档保持一致，提高代码可读性。&lt;/p>
+&lt;p>&lt;strong>⚠️ 重要特性&lt;/strong>：这两种文件都是&lt;strong>硬件绑定&lt;/strong>的。在 A100 上生成的 Engine 无法在 V100 上运行，不同 TensorRT 版本之间也不兼容。这是&amp;quot;构建期优化&amp;quot;带来的必然代价。&lt;/p>
+&lt;h3 id="q2-为什么要同时学习-8x-和-10x-版本">Q2: 为什么要同时学习 8.x 和 10.x 版本？
+&lt;/h3>&lt;p>这是&lt;strong>工程现实&lt;/strong>与&lt;strong>技术前瞻&lt;/strong>的平衡：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>8.x 系列&lt;/strong>：代表当前生产环境的主流方案，拥有最丰富的社区资源和最稳定的 API。掌握 8.x 意味着能够维护 90% 的现存项目。&lt;/li>
+&lt;li>&lt;strong>10.x 系列&lt;/strong>：代表 NVIDIA 对 TensorRT 架构的重大重构（Strongly Typed API），特别是对 Transformer 和 LLM 的专项优化。理解其设计思路能帮助我们预判未来的技术方向。&lt;/li>
+&lt;/ul>
+&lt;h2 id="参考资料">参考资料
+&lt;/h2>&lt;ul>
+&lt;li>&lt;a class="link" href="https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/developer-guide/index.html" target="_blank" rel="noopener"
+>NVIDIA TensorRT 8.6.1 Developer Guide&lt;/a> - TensorRT 8.6 版本的官方开发者核心指南，涵盖了网络构建期、运行期的核心机制以及 API 规范。&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/NVIDIA/TensorRT/tree/release/8.6/samples" target="_blank" rel="noopener"
+>NVIDIA TensorRT GitHub Repository - Samples&lt;/a> - 官方开源维护的 C++ 与 Python 样例代码库（8.6 分支），包含了文中提到的众多官方最佳实践。&lt;/li>
+&lt;li>&lt;a class="link" href="https://docs.nvidia.com/deeplearning/tensorrt/quick-start-guide/index.html" target="_blank" rel="noopener"
+>TensorRT Quick Start Guide&lt;/a> - TensorRT 官方环境搭建、安装步骤及 &lt;code>trtexec&lt;/code> 基础验证的快速指南。&lt;/li>
+&lt;li>&lt;a class="link" href="https://docs.nvidia.com/deeplearning/tensorrt/release-notes/index.html" target="_blank" rel="noopener"
+>TensorRT Release Notes&lt;/a> - 历代版本的更新日志。文中对比提及的 8.x 与 10.x（引入 Strongly Typed API 等）核心设计哲学差异皆源于此。&lt;/li>
+&lt;li>&lt;a class="link" href="https://docs.nvidia.com/cuda/archive/11.8.0/" target="_blank" rel="noopener"
+>CUDA Toolkit 11.8 Documentation&lt;/a> - NVIDIA CUDA 11.8 相关工具链官方文档参考，对于排查多版本 CUDA 环境和链接库问题提供基础支撑。&lt;/li>
+&lt;/ul></description></item><item><title>图解深度学习模型量化[转][译]</title><link>https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/</link><pubDate>Mon, 24 Nov 2025 17:24:07 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E5%9B%BE%E8%A7%A3%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96%E8%BD%AC%E8%AF%91/e9d17077-d9af-4b37-9b9b-57ef9aaa1ca9_800x606.png" alt="Featured image of post 图解深度学习模型量化[转][译]" />&lt;blockquote>
 &lt;p>本文转载翻译自&lt;a class="link" href="https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-quantization" target="_blank" rel="noopener"
 >A Visual Guide to Quantization&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;p>顾名思义，大型语言模型（LLMs）通常由于体积过于庞大，难以在消费级硬件上运行。这些模型的参数量可能超过数十亿，通常需要配备大量显存（VRAM）的 GPU 来加速推理（inference）。&lt;/p>
