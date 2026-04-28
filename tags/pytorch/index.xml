@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pytorch on 七月流火</title><link>https://qiyueliuhuo.github.io/tags/pytorch/</link><description>Recent content in Pytorch on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 14 Mar 2021 15:53:39 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/pytorch/index.xml" rel="self" type="application/rss+xml"/><item><title>Pytorch源码阅读(三)：BatchNorm Module</title><link>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/</link><pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate><guid>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%B8%89/</guid><description>&lt;h2 id="module">Module
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pytorch on 七月流火</title><link>https://qiyueliuhuo.github.io/tags/pytorch/</link><description>Recent content in Pytorch on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 14 Mar 2021 15:53:39 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/pytorch/index.xml" rel="self" type="application/rss+xml"/><item><title>Pytorch源码阅读(三)：BatchNorm Module</title><link>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%B8%89batchnorm-module/</link><pubDate>Sun, 14 Mar 2021 15:53:39 +0000</pubDate><guid>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%B8%89batchnorm-module/</guid><description>&lt;h2 id="module">Module
 &lt;/h2>&lt;h3 id="nnbnrelu2d">nn.BNReLU2d
 &lt;/h3>&lt;p>源码：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -93,7 +93,7 @@
 $$
 y = \frac{x - \mathrm{E}[x]}{ \sqrt{\mathrm{Var}[x] + \epsilon}} * \gamma + \beta
 $$
-平均值和标准差是按小批量的每个维度计算，$\gamma$和$\beta$为通道维度上的可学习的参数向量，默认情况下，$\gamma$为1，$\beta$为0。&lt;/p></description></item><item><title>Pytorch源码阅读(二)：transforms模块</title><link>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</link><pubDate>Thu, 11 Mar 2021 14:15:04 +0000</pubDate><guid>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-%E4%BA%8C/</guid><description>&lt;blockquote>
+平均值和标准差是按小批量的每个维度计算，$\gamma$和$\beta$为通道维度上的可学习的参数向量，默认情况下，$\gamma$为1，$\beta$为0。&lt;/p></description></item><item><title>Pytorch源码阅读(二)：transforms模块</title><link>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/</link><pubDate>Thu, 11 Mar 2021 14:15:04 +0000</pubDate><guid>https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/</guid><description>&lt;blockquote>
 &lt;p>注：笔者阅读的pytorch版本为1.7.0，torchvision版本为0.6&lt;/p>&lt;/blockquote>
 &lt;h2 id="前言">前言
 &lt;/h2>&lt;p>在这篇博客文章中，我主要来写关于&lt;code>pytorch&lt;/code>中&lt;code>transforms&lt;/code>模块，该模块提供了对图像各种预处理方法，位于&lt;code>torchvision/transforms/transforms.py&lt;/code>，这些方法会应用在模型训练推理前，对图像进行预处理，再将处理后的图像送进深度网络中训练与推理。我想写这篇文章对这些预处理方法，进行学习理解，尽可能从源码角度，形象直观地展示这些图像预处理是如何对图像进行转换的。&lt;/p>
@@ -285,14 +285,26 @@ $$
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">im.save(&amp;#39;resources/dog-150_237.jpg&amp;#39;)
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>&lt;img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/dog-4671215_1280.jpg"
+&lt;/div>&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-4671215_1280.jpg"
+width="475"
+height="300"
+srcset="https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-4671215_1280_hu_cb493768fecc8998.jpg 480w, https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-4671215_1280_hu_199af9edd65f5e5e.jpg 1024w"
 loading="lazy"
 alt="475 * 300"
->
-缩小为
-&lt;img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/dog-150_237.jpg"
+class="gallery-image"
+data-flex-grow="158"
+data-flex-basis="380px"
+>&lt;/p>
+&lt;p>缩小为&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-150_237.jpg"
+width="237"
+height="150"
+srcset="https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-150_237_hu_a6c7b628dd0fa053.jpg 480w, https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-150_237_hu_6820964ed47bedc9.jpg 1024w"
 loading="lazy"
 alt="237 * 150"
+class="gallery-image"
+data-flex-grow="158"
+data-flex-basis="379px"
 >&lt;/p>
 &lt;p>下面我来具体分析&lt;code>functional.py&lt;/code>模块中的&lt;code>resize&lt;/code>方法，源码如下：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -414,15 +426,27 @@ alt="237 * 150"
 >python切片&lt;/a>&lt;/p>
 &lt;p>至于&lt;code>PIL.Image&lt;/code>对象的&lt;code>resize()&lt;/code>方法具体分析，内部实现是比较复杂的，先暂时省略，后面再补(🤦)‍️。&lt;/p>
 &lt;h3 id="transformscentercrop类">transforms.CenterCrop类
-&lt;/h3>&lt;p>&lt;code>CenterCrop&lt;/code>类的功能是依据给定的size从中心裁剪，在pytorch中的实现非常简单，这里就不贴出来源码了，简单看下它的&lt;strong>构造器方法&lt;/strong>，参数size为&lt;code>(h, w)&lt;/code>，代表裁剪后的图像分辨率大小，而如果size为&lt;code>int&lt;/code>型，那么裁剪为&lt;code>(size, size)&lt;/code>大小的正方形中心图像。例如，下面在475 * 300大小图像的中心部分裁剪出120 * 120大小的图像：
-&lt;img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/dog-4671215_1280.jpg"
+&lt;/h3>&lt;p>&lt;code>CenterCrop&lt;/code>类的功能是依据给定的size从中心裁剪，在pytorch中的实现非常简单，这里就不贴出来源码了，简单看下它的&lt;strong>构造器方法&lt;/strong>，参数size为&lt;code>(h, w)&lt;/code>，代表裁剪后的图像分辨率大小，而如果size为&lt;code>int&lt;/code>型，那么裁剪为&lt;code>(size, size)&lt;/code>大小的正方形中心图像。例如，下面在475 * 300大小图像的中心部分裁剪出120 * 120大小的图像：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-4671215_1280.jpg"
+width="475"
+height="300"
+srcset="https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-4671215_1280_hu_cb493768fecc8998.jpg 480w, https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-4671215_1280_hu_199af9edd65f5e5e.jpg 1024w"
 loading="lazy"
 alt="475 * 300"
->
-裁剪出
-&lt;img src="https://cdn.jsdelivr.net/gh/qiyueliuhuo/blogimages/img/dog-120_120.jpg"
+class="gallery-image"
+data-flex-grow="158"
+data-flex-basis="380px"
+>&lt;/p>
+&lt;p>裁剪出&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-120_120.jpg"
+width="120"
+height="120"
+srcset="https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-120_120_hu_28ce890fda78640f.jpg 480w, https://qiyueliuhuo.github.io/posts/pytorch%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E4%BA%8Ctransforms%E6%A8%A1%E5%9D%97/dog-120_120_hu_2cdb0744f6908b88.jpg 1024w"
 loading="lazy"
 alt="120 * 120"
+class="gallery-image"
+data-flex-grow="100"
+data-flex-basis="240px"
 >&lt;/p>
 &lt;h3 id="transformstotensor">transforms.ToTensor
 &lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
