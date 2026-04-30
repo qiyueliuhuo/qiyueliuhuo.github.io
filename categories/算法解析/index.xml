@@ -1155,6 +1155,158 @@ data-flex-basis="184px"
 >Ma, Shuming, 等人：&amp;ldquo;The era of 1-bit llms: All large language models are in 1.58 bits.&amp;rdquo;&lt;/a> 一篇发布于 2024 年的预印本文献。&lt;/li>
 &lt;li>&lt;a class="link" href="https://arxiv.org/abs/2305.14314" target="_blank" rel="noopener"
 >Dettmers, Tim, 等人：&amp;ldquo;Qlora: Efficient finetuning of quantized llms.&amp;rdquo;&lt;/a> Advances in Neural Information Processing Systems 36 (2024).&lt;/li>
+&lt;/ul></description></item><item><title>一致性Hash算法原理和应用</title><link>https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/</link><pubDate>Tue, 31 Jan 2023 17:38:30 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post 一致性Hash算法原理和应用" />&lt;h2 id="算法简述">算法简述
+&lt;/h2>&lt;p>&lt;strong>一致性哈希算法&lt;/strong>在1997年由麻省理工学院提出的一种分布式哈希(DHT)实现算法，设计目标是为了解决因特网中的热点(Hot spot)问题，初衷和CARP十分类似。一致性哈希修正了CARP使用的简单哈希算法带来的问题，使得分布式哈希(DHT)可以在P2P环境中真正得到应用。&lt;/p>
+&lt;h2 id="应用场景">应用场景
+&lt;/h2>&lt;p>考虑这么一种场景：我们有三台缓存服务器，编号&lt;code>node0&lt;/code>、&lt;code>node1&lt;/code>、&lt;code>node2&lt;/code>，现在有 3000 万个 &lt;code>key&lt;/code>，希望可以将这些个 &lt;code>key&lt;/code> 均匀地缓存到三台机器上，你会想到什么方案呢？&lt;/p>
+&lt;p>我们可能首先想到的方案是：取模算法&lt;code>hash（key）% N&lt;/code>，即：对 key 进行 hash 运算后取模，N 是服务器节点的数量。&lt;/p>
+&lt;p>这样，对 &lt;code>key&lt;/code> 进行 &lt;code>hash&lt;/code> 后的结果对 &lt;code>3&lt;/code> 取模，得到的结果一定是 &lt;code>0&lt;/code>、&lt;code>1&lt;/code> 或者 &lt;code>2&lt;/code>，正好对应服务器&lt;code>node0&lt;/code>、&lt;code>node1&lt;/code>、&lt;code>node2&lt;/code>，存取数据直接找对应的服务器即可，简单粗暴，完全可以解决上述的问题；&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/hash_modulo.png"
+width="730"
+height="440"
+srcset="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/hash_modulo_hu_5186c45a0e9f4e4a.png 480w, https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/hash_modulo_hu_330a91e6954404fc.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="165"
+data-flex-basis="398px"
+>&lt;/p>
+&lt;p>取模算法虽然使用简单，但对机器数量取模，在集群扩容和收缩时却有一定的局限性：&lt;strong>因为在生产环境中根据业务量的大小，调整服务器数量是常有的事，那么，当服务器数量 &lt;code>N&lt;/code> 发生变化后&lt;code>hash（key）% N&lt;/code> 计算的结果也会随之变化！&lt;/strong>&lt;/p>
+&lt;p>这样，如果一个服务器节点因为故障宕机了（挂了）或者因为业务量激增而增加一个服务器节点，此时，因为服务器节点数量 &lt;code>N&lt;/code> 的改变，导致大量 &lt;code>key&lt;/code> 通过取模算法&lt;code>hash（key）% N&lt;/code>计算得到的缓存服务节点发生改变，那么之前缓存 key 的数据也会失去作用，从而导致大量缓存在同一时间失效，造成缓存的雪崩，进而导致整个缓存系统的不可用，这对业务来说是不可接受的。&lt;/p>
+&lt;p>为了解决并优化上述情况，&lt;strong>一致性 hash 算法&lt;/strong>应运而生~~&lt;/p>
+&lt;h2 id="关键思想">关键思想
+&lt;/h2>&lt;p>一致性 Hash 就是：将原本单个点的 Hash 映射，转变为了在一个环上的某个片段上的映射！&lt;/p>
+&lt;h2 id="算法过程">算法过程
+&lt;/h2>&lt;h3 id="第一步建立一致性hash环">第一步：建立一致性hash环
+&lt;/h3>&lt;p>&lt;strong>一致性hash算法&lt;/strong>通过一个叫做&lt;strong>一致性hash环&lt;/strong>的抽象数据结构实现，不同于按服务器数量取模，一致性 hash 是&lt;strong>对固定值 $2^{32}$ 取模&lt;/strong>，具体来讲，按照常用的hash算法将对应的key哈希到一个具有2^32次方个桶的空间中，即 $0 \sim 2^{32}-1$的整数空间中。现在我们可以将这些数字头尾相连，抽象成一个闭合的环形，以顺时针排列。如下：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/hash_ring.png"
+width="792"
+height="806"
+srcset="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/hash_ring_hu_ae96dbc1ec5476e2.png 480w, https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/hash_ring_hu_69d1ace68f604ba5.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="98"
+data-flex-basis="235px"
+>&lt;/p>
+&lt;h3 id="第二步将服务器节点映射到-hash-环中">第二步：将服务器节点映射到 hash 环中
+&lt;/h3>&lt;p>对服务器节点进行映射，使用 &lt;code>hash（节点ip）% 2^32&lt;/code>，即：使用服务器 IP 地址进行 hash 计算，用哈希后的结果对$2^{32}$取模，结果一定是一个 $0$ 到$2^{32}-1$之间的整数；得到的整数在hash环中的位置代表了一个服务器节点，如图，依次将 &lt;code>node0&lt;/code>、&lt;code>node1&lt;/code>、&lt;code>node2&lt;/code>缓存服务器节点映射到hash环后的结果。&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/node_mapping_ring.png"
+width="1022"
+height="924"
+srcset="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/node_mapping_ring_hu_14a56eb25603ba73.png 480w, https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/node_mapping_ring_hu_4e3926f8b63ae6f0.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="110"
+data-flex-basis="265px"
+>&lt;/p>
+&lt;h3 id="第三步将所需缓存对象的key映射到服务器节点">第三步：将所需缓存对象的key映射到服务器节点
+&lt;/h3>&lt;p>在对所需要缓存对象的 &lt;code>key&lt;/code> 进行映射到具体的服务器时，需要首先计算 key 的 hash 值：&lt;code>hash（key）% 2^32&lt;/code>。将 &lt;code>key&lt;/code> 映射至服务器遵循这样的逻辑，&lt;strong>从缓存对象 &lt;code>key&lt;/code> 的 hash 值 &lt;code>keyN&lt;/code> 位置开始，沿顺时针方向遇到的第一个服务器节点，即是当前对象将要缓存的服务器节点。&lt;/strong>&lt;/p>
+&lt;blockquote>
+&lt;p>注：&lt;strong>此处的 &lt;code>hash&lt;/code> 函数可以和之前计算服务器节点映射至 hash 环的函数不同&lt;/strong>，只要保证取值范围和 Hash 环的范围相同即可（即：&lt;code>2^32&lt;/code>）。&lt;/p>&lt;/blockquote>
+&lt;p>举例说明：假设我们有 &amp;ldquo;semlinker&amp;rdquo;、&amp;ldquo;kakuqo&amp;rdquo;、&amp;ldquo;lolo&amp;rdquo;、&amp;ldquo;fer&amp;rdquo; 四个 &lt;code>key&lt;/code> 代表的四个需要缓存的对象，分别简写为 o1、o2、o3 和 o4；使用哈希函数计算每个对象的 &lt;code>hash&lt;/code> 值，值的范围是 &lt;code>[0, 2^32-1]&lt;/code> 如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">hash(o1) = k1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hash(o2) = k2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hash(o3) = k3
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hash(o4) = k4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>将 &lt;code>k1&lt;/code> 、&lt;code>k2&lt;/code> 、&lt;code>k3&lt;/code> 、&lt;code>k4&lt;/code> 位置对应到步骤2中的 hash 环中，如下：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/key_mapping_ring.png"
+width="1224"
+height="996"
+srcset="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/key_mapping_ring_hu_dfd0849770cf970f.png 480w, https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/key_mapping_ring_hu_3c151d9e900da65.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="122"
+data-flex-basis="294px"
+>&lt;/p>
+&lt;p>按照上面的顺时针映射到服务器节点，得到的四个对象应该缓存的服务器节点为 &lt;code>o1 -&amp;gt; node1&lt;/code> 、&lt;code>o3 -&amp;gt; node1&lt;/code> 、&lt;code>o4 -&amp;gt; node2&lt;/code>、&lt;code>o2 -&amp;gt; node0&lt;/code>，详细如下图：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/assignment_example.png"
+width="1648"
+height="980"
+srcset="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/assignment_example_hu_c6b594615f21d191.png 480w, https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/assignment_example_hu_cc71a044ac185486.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="168"
+data-flex-basis="403px"
+>&lt;/p>
+&lt;h3 id="服务器扩缩容场景">服务器扩缩容场景
+&lt;/h3>&lt;p>当我们面临服务器节点扩缩时，该算法能够保证大部分对象仍然存储在原有的服务器节点上，避免大规模缓存失效。&lt;/p>
+&lt;h4 id="1服务器减少">1）服务器减少
+&lt;/h4>&lt;p>假设 &lt;code>node2&lt;/code> 服务器出现故障导致服务下线，这时原本存储于&lt;code>node2&lt;/code> 服务器的对象 &lt;code>o4&lt;/code>，&lt;strong>需要被重新分配至 &lt;code>node0&lt;/code> 服务器&lt;/strong>，其它对象仍存储在原有的机器上，此时受影响的缓存数据只有缓存到 &lt;code>node1&lt;/code> 和 &lt;code>node2&lt;/code> 服务器之间的部分数据~~&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/node_down_reassignment.png"
+width="1630"
+height="1012"
+srcset="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/node_down_reassignment_hu_ef0d62b03ccbb875.png 480w, https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/node_down_reassignment_hu_331d548aeed1c8d1.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="161"
+data-flex-basis="386px"
+>&lt;/p>
+&lt;h4 id="2服务器增加">2）服务器增加
+&lt;/h4>&lt;p>假如业务量激增，我们需要增加一台服务器 &lt;code>node3&lt;/code>，经过同样的 hash 运算，该服务器最终落于 &lt;code>node0&lt;/code> 和 &lt;code>node1&lt;/code> 服务器之间，具体如下图所示：&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/node_add_reassignment.png"
+width="1666"
+height="1058"
+srcset="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/node_add_reassignment_hu_b0c8a01953e80f18.png 480w, https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/node_add_reassignment_hu_d1cfb6aa10d93c55.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="157"
+data-flex-basis="377px"
+>
+此时，只有 &lt;code>node0&lt;/code> 和 &lt;code>node1&lt;/code> 服务器之间的部分对象需要重新分配；在上面示例中只有 &lt;code>o3&lt;/code> 对象需要重新分配，即它被重新缓存到 &lt;code>node3&lt;/code> 服务器节点上。&lt;/p>
+&lt;h3 id="数据偏斜与服务器性能平衡问题">数据偏斜与服务器性能平衡问题
+&lt;/h3>&lt;p>在上面给出的例子中，各个服务器几乎是平均被均摊到 hash 环上，但是在实际场景中很难选取到一个 Hash 函数这么完美的将各个服务器比较均匀地散列到 hash 环上，此时，在服务器节点数量太少的情况下，很容易造成&lt;strong>因节点分布不均匀而造成数据倾斜问题&lt;/strong>。&lt;/p>
+&lt;p>如下图，被缓存的对象大部分缓存在 &lt;code>node2&lt;/code> 服务器上，导致其他节点资源浪费，系统压力大部分集中在&lt;code>node2&lt;/code>节点上，这样的集群是非常不健康的。&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/load_imbalance.png"
+width="1742"
+height="1058"
+srcset="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/load_imbalance_hu_40de3344601a037a.png 480w, https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/load_imbalance_hu_6e4cbb33e618d6f3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="164"
+data-flex-basis="395px"
+>&lt;/p>
+&lt;p>另外，还存在另一个问题：在上面新增服务器 &lt;code>node3&lt;/code> 时，&lt;code>node3&lt;/code> 只分担了 &lt;code>node1&lt;/code> 服务器的负载，服务器 &lt;code>node0&lt;/code> ，尤其是 &lt;code>node2&lt;/code> 并没有因为 &lt;code>node3&lt;/code> 服务器的加入而减少负载压力；如果新增的 &lt;code>node3&lt;/code> 服务器的性能与原有服务器的性能一致甚至可能更高，那么这种结果并不是我们所期望的。&lt;/p>
+&lt;h3 id="虚拟节点的引入">虚拟节点的引入
+&lt;/h3>&lt;p>为了解决上面的问题，我们可以通过：&lt;strong>引入虚拟节点来解决负载不均衡的问题&lt;/strong>。&lt;/p>
+&lt;p>将每台物理机器虚拟为一组虚拟机器，一个实际物理服务器节点(机器)对应了若干个“虚拟节点”，将虚拟机器哈希到 Hash 环上，如果需要确定对象即将缓存的服务器节点，&lt;strong>先确定对象的虚拟节点，再由虚拟节点确定物理服务器节点&lt;/strong>。&lt;/p>
+&lt;p>&lt;img src="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/virtual_nodes.png"
+width="1852"
+height="1582"
+srcset="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/virtual_nodes_hu_49d7cdb2fde93a5.png 480w, https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/virtual_nodes_hu_ba458007e7c5ed7d.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="117"
+data-flex-basis="280px"
+>&lt;/p>
+&lt;h3 id="虚拟节点的计算">虚拟节点的计算
+&lt;/h3>&lt;h2 id="代码示例">代码示例
+&lt;/h2>&lt;h2 id="存在问题">存在问题
+&lt;/h2>&lt;h2 id="应用案例">应用案例
+&lt;/h2>&lt;ul>
+&lt;li>Memcached 一个开源、高性能、分布式内存缓存系统，旨在通过减少数据库负载来加速动态 Web 应用程序。&lt;/li>
+&lt;li>Redis 一个开源的基于内存的数据库，常用作键值存储、缓存和消息队列等。&lt;/li>
+&lt;li>Dubbo 一个分布式服务框架。&lt;/li>
+&lt;/ul>
+&lt;h2 id="补充学习">补充学习
+&lt;/h2>&lt;ul>
+&lt;li>分布式哈希(DHT)&lt;/li>
+&lt;li>CARP&lt;/li>
+&lt;/ul>
+&lt;h2 id="参考资料">参考资料
+&lt;/h2>&lt;ul>
+&lt;li>&lt;a class="link" href="https://pdai.tech/md/algorithm/alg-domain-distribute-x-consistency-hash.html" target="_blank" rel="noopener"
+>分布式算法 - 一致性Hash算法 | Java 全栈知识体系&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://cloud.tencent.com/developer/article/1955794" target="_blank" rel="noopener"
+>一致性 Hash 算法原理总结 - 腾讯云开发者社区&lt;/a>&lt;/li>
 &lt;/ul></description></item><item><title>机器学习中的优化方法</title><link>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</link><pubDate>Thu, 23 Jun 2022 11:17:44 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/method_of_neural_network_optimization.jpg" alt="Featured image of post 机器学习中的优化方法" />&lt;h2 id="梯度下降法推导">梯度下降法推导
 &lt;/h2>&lt;h3 id="什么是梯度">什么是梯度？
 &lt;/h3>&lt;p>&lt;strong>梯度&lt;/strong>的本意是一个向量（矢量），表示某一函数在该点处的方向导数沿着该方向取得最大值，即函数在该点处沿着该方向（此梯度的方向）变化最快，变化率最大（为该梯度的模）。&lt;/p>
