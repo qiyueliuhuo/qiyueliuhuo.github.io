@@ -58,4 +58,97 @@
  &lt;blockquote&gt;
  &lt;p&gt;添加关于，补充个人介绍。 —— 2024.12.20&lt;/p&gt;
 
- &lt;/blockquote&gt;</description></item><item><title>书架</title><link>https://qiyueliuhuo.github.io/%E4%B9%A6%E6%9E%B6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/%E4%B9%A6%E6%9E%B6/</guid><description/></item><item><title>搜索</title><link>https://qiyueliuhuo.github.io/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/search/</guid><description/></item><item><title>友链</title><link>https://qiyueliuhuo.github.io/%E5%8F%8B%E9%93%BE/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/%E5%8F%8B%E9%93%BE/</guid><description/></item></channel></rss>
+ &lt;/blockquote&gt;</description></item><item><title>书架</title><link>https://qiyueliuhuo.github.io/%E4%B9%A6%E6%9E%B6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/%E4%B9%A6%E6%9E%B6/</guid><description/></item><item><title>搜索</title><link>https://qiyueliuhuo.github.io/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/search/</guid><description/></item><item><title>我的作品集</title><link>https://qiyueliuhuo.github.io/works/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/works/</guid><description>&lt;article class="portfolio-card" aria-label="AnkiClip"&gt;
+ &lt;figure class="portfolio-card-media"&gt;
+ &lt;img
+ src="https://qiyueliuhuo.github.io/works/ankiclip-preview.webp"
+ width="1440"
+ height="900"
+ alt="AnkiClip 预览图"
+ loading="lazy"
+ decoding="async"
+ &gt;
+ &lt;/figure&gt;
+
+ &lt;div class="portfolio-card-content"&gt;
+ &lt;div class="portfolio-card-eyebrow"&gt;
+ &lt;span class="portfolio-card-type"&gt;桌面软件&lt;/span&gt;
+ &lt;span class="portfolio-card-period"&gt;持续开发&lt;/span&gt;
+ &lt;/div&gt;
+
+ &lt;h2&gt;AnkiClip&lt;/h2&gt;
+ 
+ &lt;div class="portfolio-card-description"&gt;无需离开当前阅读界面，划选文字即可调用 AI 生成 Anki 问答卡与填空卡，并无缝推送到 Anki。&lt;/div&gt;
+ 
+
+ 
+ &lt;ul class="portfolio-card-tags" aria-label="技术标签"&gt;
+ 
+ &lt;li&gt;macOS&lt;/li&gt;
+ 
+ &lt;li&gt;Anki&lt;/li&gt;
+ 
+ &lt;li&gt;AI&lt;/li&gt;
+ 
+ &lt;/ul&gt;
+ 
+
+ &lt;div class="portfolio-card-actions"&gt;
+ &lt;a
+ class="portfolio-card-primary"
+ href="https://www.ankiclip.com" target="_blank" rel="noopener noreferrer"
+ aria-label="访问官网：AnkiClip"
+ &gt;访问官网&lt;/a&gt;
+
+ 
+ &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/article&gt;
+
+&lt;article class="portfolio-card" aria-label="TensorRT 官方样例学习笔记"&gt;
+ &lt;figure class="portfolio-card-media"&gt;
+ &lt;img
+ src="https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B8%8E%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90/tensorrt-logo.png"
+ width="1324"
+ height="662"
+ alt="TensorRT 官方样例学习笔记 预览图"
+ loading="lazy"
+ decoding="async"
+ &gt;
+ &lt;/figure&gt;
+
+ &lt;div class="portfolio-card-content"&gt;
+ &lt;div class="portfolio-card-eyebrow"&gt;
+ &lt;span class="portfolio-card-type"&gt;技术文章&lt;/span&gt;
+ &lt;span class="portfolio-card-period"&gt;2025&lt;/span&gt;
+ &lt;/div&gt;
+
+ &lt;h2&gt;TensorRT 官方样例学习笔记&lt;/h2&gt;
+ 
+ &lt;div class="portfolio-card-description"&gt;从环境搭建、项目结构到核心工作流，系统记录 TensorRT 官方样例的学习与实践过程。围绕 &lt;code&gt;sampleOnnxMNIST&lt;/code&gt; 拆解 ONNX 解析、推理引擎构建与执行上下文，作为理解部署链路的实践笔记。&lt;/div&gt;
+ 
+
+ 
+ &lt;ul class="portfolio-card-tags" aria-label="技术标签"&gt;
+ 
+ &lt;li&gt;TensorRT&lt;/li&gt;
+ 
+ &lt;li&gt;CUDA&lt;/li&gt;
+ 
+ &lt;li&gt;C&amp;#43;&amp;#43;&lt;/li&gt;
+ 
+ &lt;/ul&gt;
+ 
+
+ &lt;div class="portfolio-card-actions"&gt;
+ &lt;a
+ class="portfolio-card-primary"
+ href="https://qiyueliuhuo.github.io/posts/tensorrt-%E5%AE%98%E6%96%B9%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E4%B8%8E%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90/"
+ aria-label="阅读文章：TensorRT 官方样例学习笔记"
+ &gt;阅读文章&lt;/a&gt;
+
+ 
+ &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/article&gt;
+</description></item><item><title>友链</title><link>https://qiyueliuhuo.github.io/%E5%8F%8B%E9%93%BE/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://qiyueliuhuo.github.io/%E5%8F%8B%E9%93%BE/</guid><description/></item></channel></rss>
