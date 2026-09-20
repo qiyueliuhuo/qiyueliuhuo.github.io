@@ -12,7 +12,7 @@
 &lt;/ol&gt;
 
  &lt;/blockquote&gt;
-&lt;h2 id="前言在-ai-辅助下我们如何高效学习-tensorrt"&gt;前言：在 AI 辅助下，我们如何高效学习 TensorRT？
+&lt;h2 id="前言"&gt;前言
 &lt;/h2&gt;&lt;p&gt;在打通上篇的环境配置后，从本篇起我们将开始阅读 TensorRT 的官方开源样例和公开组件代码。需要特别说明的是，&lt;strong&gt;TensorRT 并未整体开源&lt;/strong&gt;：其核心 Builder 和 Runtime 仍以预编译库的形式提供，&lt;a class="link" href="https://github.com/NVIDIA/TensorRT" target="_blank" rel="noopener"
  &gt;官方 GitHub 仓库&lt;/a&gt;主要开放了样例、ONNX Parser、部分 Plugin 和公共头文件等内容。因此，本系列能够直接分析的是公开 API 的使用方式、官方样例的工程实现，以及部分开源组件，而不是 TensorRT 核心引擎的内部实现。&lt;/p&gt;
 &lt;p&gt;后续笔记将根据特性的侧重点，灵活选用 TensorRT v8.6.1 或 TensorRT v10.14 的官方样例进行分析，摒弃流水账，仅讨论其中具有代表性的设计和流程。&lt;/p&gt;

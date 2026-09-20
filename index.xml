@@ -12,7 +12,7 @@
 &lt;/ol&gt;
 
  &lt;/blockquote&gt;
-&lt;h2 id="前言在-ai-辅助下我们如何高效学习-tensorrt"&gt;前言：在 AI 辅助下，我们如何高效学习 TensorRT？
+&lt;h2 id="前言"&gt;前言
 &lt;/h2&gt;&lt;p&gt;在打通上篇的环境配置后，从本篇起我们将开始阅读 TensorRT 的官方开源样例和公开组件代码。需要特别说明的是，&lt;strong&gt;TensorRT 并未整体开源&lt;/strong&gt;：其核心 Builder 和 Runtime 仍以预编译库的形式提供，&lt;a class="link" href="https://github.com/NVIDIA/TensorRT" target="_blank" rel="noopener"
  &gt;官方 GitHub 仓库&lt;/a&gt;主要开放了样例、ONNX Parser、部分 Plugin 和公共头文件等内容。因此，本系列能够直接分析的是公开 API 的使用方式、官方样例的工程实现，以及部分开源组件，而不是 TensorRT 核心引擎的内部实现。&lt;/p&gt;
 &lt;p&gt;后续笔记将根据特性的侧重点，灵活选用 TensorRT v8.6.1 或 TensorRT v10.14 的官方样例进行分析，摒弃流水账，仅讨论其中具有代表性的设计和流程。&lt;/p&gt;
@@ -3068,7 +3068,7 @@
  &gt;NanoLog&lt;/a&gt;：一个非常高性能的纳秒级c++日志记录系统，它提供了一个简单的类似print的API，在7纳秒的中位数延迟下实现了超过8000万条日志/秒。&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://github.com/Taywee/args" target="_blank" rel="noopener"
  &gt;args&lt;/a&gt;：C++实现的命令行参数解析器。&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>一致性Hash算法原理和应用</title><link>https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/</link><pubDate>Tue, 31 Jan 2023 17:38:30 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post 一致性Hash算法原理和应用" /&gt;&lt;h2 id="算法简述"&gt;算法简述
+&lt;/ul&gt;</description></item><item><title>一致性Hash算法原理和应用</title><link>https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/</link><pubDate>Tue, 31 Jan 2023 17:38:30 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/</guid><description>&lt;img src="https://qiyueliuhuo.github.io/posts/%E4%B8%80%E8%87%B4%E6%80%A7hash%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86%E5%92%8C%E5%BA%94%E7%94%A8/consistency-hash-cover.png" alt="Featured image of post 一致性Hash算法原理和应用" /&gt;&lt;h2 id="算法简述"&gt;算法简述
 &lt;/h2&gt;&lt;p&gt;&lt;strong&gt;一致性哈希算法&lt;/strong&gt;在1997年由麻省理工学院提出的一种分布式哈希(DHT)实现算法，设计目标是为了解决因特网中的热点(Hot spot)问题，初衷和CARP十分类似。一致性哈希修正了CARP使用的简单哈希算法带来的问题，使得分布式哈希(DHT)可以在P2P环境中真正得到应用。&lt;/p&gt;
 &lt;h2 id="应用场景"&gt;应用场景
 &lt;/h2&gt;&lt;p&gt;考虑这么一种场景：我们有三台缓存服务器，编号&lt;code&gt;node0&lt;/code&gt;、&lt;code&gt;node1&lt;/code&gt;、&lt;code&gt;node2&lt;/code&gt;，现在有 3000 万个 &lt;code&gt;key&lt;/code&gt;，希望可以将这些个 &lt;code&gt;key&lt;/code&gt; 均匀地缓存到三台机器上，你会想到什么方案呢？&lt;/p&gt;
