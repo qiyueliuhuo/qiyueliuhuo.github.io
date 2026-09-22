@@ -1,0 +1,2102 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>模型部署 on 七月流火</title><link>https://qiyueliuhuo.github.io/tags/%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2/</link><description>Recent content in 模型部署 on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 21 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2/index.xml" rel="self" type="application/rss+xml"/><item><title>大模型推理与部署工程图谱：技术栈、开源项目与学习路线</title><link>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</link><pubDate>Sun, 20 Sep 2026 13:13:11 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</guid><description>
+ &lt;blockquote&gt;
+ &lt;p&gt;&lt;strong&gt;AI 协作说明&lt;/strong&gt;&lt;br&gt;
+本文由作者主导选题、技术判断与终稿审核；AI 工具协助完成资料检索、信息归纳、结构梳理与文字润色。文中观点、事实核验与引用准确性由作者负责。&lt;/p&gt;
+
+ &lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;资料核对时间：2026 年 9 月 20—21 日。&lt;/strong&gt; 本文以官方文档、项目仓库和原始论文为依据。项目的功能、维护状态与版本变化属于这一时间段的快照；学习优先级与选型建议是本文的架构判断。文中的容量计算和案例是分析示例，不是实测跑分。&lt;/p&gt;
+&lt;p&gt;大模型推理与部署已经形成一套横跨模型算法、计算内核、编译器、运行时和分布式服务的技术体系。一个请求从输入到生成结果，要经过模型计算、状态读写、请求调度和设备执行；当模型变大、上下文变长、用户变多或设备资源变少时，系统的主要矛盾也会变化。&lt;/p&gt;
+&lt;p&gt;理解这一领域，需要同时建立三张地图：&lt;strong&gt;技术栈地图&lt;/strong&gt;说明每一层解决什么问题，&lt;strong&gt;开源项目地图&lt;/strong&gt;说明能力由谁实现、怎样组合，&lt;strong&gt;学习路线图&lt;/strong&gt;说明哪些原理值得深学、哪些实现按需选择。只列出 vLLM、llama.cpp、TVM、MLIR 等名字，很难回答这些问题。&lt;/p&gt;
+&lt;p&gt;本文的核心观点是：&lt;strong&gt;把“负载与约束 → 性能模型 → 系统分层 → 技术选择 → 验证与演进”串成闭环，比同时学会许多框架的启动命令更有价值。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;阅读建议&lt;/strong&gt;：第一至四节建立全景，第五至十节按需深入技术，第十一、十二节学习选型与验证，第十三节给出按天执行的 8 周课程与实践路线，第十四节补充按需阅读的论文和源码。若先想确定学习重点，可以读第一、七、十三节，再按所选方向补齐原理。窄屏阅读时，多列表格可横向滚动。&lt;/p&gt;
+&lt;style&gt;
+.article-content .inference-figure{width:100%;max-width:100%;margin:2.4rem auto;padding:1.6rem 0;border-top:1px solid var(--card-separator-color);border-bottom:1px solid var(--card-separator-color);color:var(--card-text-color-main);text-align:left}
+.article-content .inference-figure figcaption{font-size:.9em;color:var(--card-text-color-secondary);margin:0 0 1.6rem;line-height:1.7;text-align:center;text-wrap:balance}
+.inference-figure-title{display:block;font-weight:600;color:var(--card-text-color-main)}
+.inference-figure-note{display:block;margin-top:.5rem;font-size:.94em}
+.article-content .inference-figure .mermaid-wrapper{margin:0}
+.article-content .inference-figure .mermaid{width:100%;margin:0;padding:2.4rem 1rem;box-sizing:border-box}
+.article-content:has(.inference-figure)&gt;.table-wrapper&gt;table:has(th:nth-child(3)){min-width:64rem}
+.article-content:has(.inference-figure)&gt;.table-wrapper&gt;table:has(th:nth-child(4)){min-width:76rem}
+.article-content .table-wrapper table th:first-child,
+.article-content .table-wrapper table td:first-child{white-space:nowrap}
+.inference-timeline{list-style:none!important;padding:0!important;margin:0!important}
+.inference-timeline&gt;li{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:1.6rem;margin:0!important;padding:1.5rem 0;border-top:1px solid var(--card-separator-color)}
+.inference-timeline&gt;li:first-child{border-top:0;padding-top:0}
+.inference-timeline time,.inference-timeline .phase{font-variant-numeric:tabular-nums;font-weight:700;color:var(--accent-color);font-size:.9em}
+.inference-timeline p{margin:.5rem 0 0!important;font-size:.94em;line-height:1.8}
+.inference-timeline strong{display:block}
+.inference-timeline a{overflow-wrap:anywhere}
+.inference-route{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.8rem;margin:0;padding:0;list-style:none!important}
+.inference-route li{margin:0!important;padding:0!important;min-width:0}
+.inference-route .step{display:block;font-size:.8em;font-weight:700;color:var(--accent-color);letter-spacing:.04em;margin-bottom:.5rem}
+.inference-route p{font-size:.9em;line-height:1.8;margin:.6rem 0 0!important}
+@media(max-width:600px){.inference-timeline&gt;li{grid-template-columns:1fr;gap:.3rem}.inference-route{grid-template-columns:1fr;gap:1.4rem}.inference-route li+li{border-top:1px solid var(--card-separator-color);padding-top:1.4rem!important}}
+&lt;/style&gt;
+&lt;h2 id="一先建立全景通用核心技术分支与学习重点"&gt;一、先建立全景：通用核心、技术分支与学习重点
+&lt;/h2&gt;&lt;h3 id="11-推理与部署分别包含什么"&gt;1.1 推理与部署分别包含什么
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;推理（inference）&lt;/strong&gt; 关注模型“怎样执行”：涉及数值计算、键值缓存（Key-Value Cache，简称 KV 缓存）等状态管理、生成循环、批处理与性能优化；&lt;strong&gt;部署（deployment）&lt;/strong&gt; 则关注这套能力“怎样交付”：覆盖模型产物封装、运行环境、接口规范、容量规划、可观测性、版本升级与故障恢复。两者如同车轮之两轨，共同决定一个系统能否在质量、延迟和成本约束内持续稳定工作。&lt;/p&gt;
+&lt;p&gt;本文主要讨论自回归大语言模型（Large Language Model，LLM），以及包含语言生成部分的视觉语言模型（Vision-Language Model，VLM）。训练、检索增强生成（Retrieval-Augmented Generation，RAG）和智能体（agent）会在影响量化、请求分布、上下文复用与服务行为时出现；它们各自的完整工程体系需要另外展开。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;术语约定&lt;/strong&gt;：token 保留英文，也称“词元”，不直接等同于一个汉字或单词；分词器（tokenizer）决定文本如何转换为 token。预填充（prefill）和解码（decode）是生成过程的两个阶段，下文为便于对照文档，也会使用英文简称。其他概念优先采用常用中文；译法容易歧义时保留英文，并在相关章节解释。&lt;/p&gt;
+&lt;p&gt;看待整个领域，可以使用两个彼此独立的坐标：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;部署场景&lt;/strong&gt;：云端在线服务、离线批处理、个人设备与移动/嵌入式端侧。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;技术深度&lt;/strong&gt;：使用与评估引擎、优化推理系统、开发编译器/算子/硬件后端。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;端侧系统也会涉及复杂编译，云端系统也可以从成熟引擎开始。这两个坐标不能合并成一条“从简单到高级”的阶梯。&lt;/p&gt;
+&lt;h3 id="12-三种学习深度"&gt;1.2 三种学习深度
+&lt;/h3&gt;&lt;p&gt;先区分长期可迁移的知识、当前需要深入的实现，以及用于比较和跟踪的备选方案。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;优先级&lt;/th&gt;
+					&lt;th&gt;应达到的程度&lt;/th&gt;
+					&lt;th&gt;内容&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;P0：通用核心&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;能解释原理、建立基线、设计实验&lt;/td&gt;
+					&lt;td&gt;模型推理与张量形状；prefill/decode；KV 缓存与其他持久状态；量化基础；内存与带宽；质量、延迟、吞吐量和性能分析&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;P1：方向核心技术栈&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;能读关键源码、解决问题、交付系统&lt;/td&gt;
+					&lt;td&gt;一个主推理引擎，加上方向需要的调度/分布式、端侧运行时，或编译器/算子/硬件后端&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;P2：备选与前沿&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;能说明问题、条件和替代关系&lt;/td&gt;
+					&lt;td&gt;同层第二、第三个项目；尚未成为瓶颈的系统机制；暂时不适用的模型优化；新论文与新 DSL&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;优先级随路线变化：图与编译的基本作用值得普遍了解，开发 MLIR 编译 pass 主要属于编译方向；大规模专家并行、预填充/解码分离对单设备实验通常是 P2，对混合专家模型（Mixture of Experts，MoE）集群则可能是 P1。&lt;strong&gt;“原理需要了解”与“实现需要精通”是两种不同的要求。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id="13-不同路线共享基础但关注不同瓶颈"&gt;1.3 不同路线，共享基础但关注不同瓶颈
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;路线&lt;/th&gt;
+					&lt;th&gt;主要关注&lt;/th&gt;
+					&lt;th&gt;值得深入的技术&lt;/th&gt;
+					&lt;th&gt;可验证的结果&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;在线推理服务&lt;/td&gt;
+					&lt;td&gt;交互延迟、容量、尾延迟、可用性&lt;/td&gt;
+					&lt;td&gt;调度、KV、缓存、并行、路由与准入控制&lt;/td&gt;
+					&lt;td&gt;满足 SLO 的容量与成本报告&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;离线批处理&lt;/td&gt;
+					&lt;td&gt;总完成时间、资源利用与单位样本成本&lt;/td&gt;
+					&lt;td&gt;批次组织、长度分组、吞吐量与失败恢复&lt;/td&gt;
+					&lt;td&gt;固定任务集的完成时间与质量&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;端侧与本地推理&lt;/td&gt;
+					&lt;td&gt;内存、功耗、温升、冷启动、平台集成&lt;/td&gt;
+					&lt;td&gt;量化、轻量运行时、异构执行与状态管理&lt;/td&gt;
+					&lt;td&gt;长时间可运行的端到端应用&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;编译与硬件优化&lt;/td&gt;
+					&lt;td&gt;算子覆盖、布局、搬运、执行效率&lt;/td&gt;
+					&lt;td&gt;IR、图分区、融合、计算内核、设备运行时&lt;/td&gt;
+					&lt;td&gt;正确性与端到端优化证据&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;这些路线会交叉。例如，在线服务需要高效计算内核，端侧部署需要可靠调度；但每条路线都有自己的主要瓶颈。学习时先完成一个闭环，再扩展到相邻层。&lt;/p&gt;
+&lt;h2 id="二架构师的起点定义负载约束与成功标准"&gt;二、架构师的起点：定义负载、约束与成功标准
+&lt;/h2&gt;&lt;h3 id="21-不要先选框架先写工作负载说明书"&gt;2.1 不要先选框架，先写工作负载说明书
+&lt;/h3&gt;&lt;p&gt;同一个模型，在离线批处理、交互聊天、长文档问答和端侧视觉助手中，可能需要完全不同的部署方案。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;决策维度&lt;/th&gt;
+					&lt;th&gt;至少需要知道什么&lt;/th&gt;
+					&lt;th&gt;对架构的影响&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;请求分布&lt;/td&gt;
+					&lt;td&gt;输入/输出长度的分位数、到达率、突发性、前缀重复程度&lt;/td&gt;
+					&lt;td&gt;调度策略、KV 容量、缓存价值、扩缩容&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;模型结构&lt;/td&gt;
+					&lt;td&gt;稠密模型（dense model）/MoE、MHA/GQA/MLA、滑动窗口、混合状态、VLM 输入&lt;/td&gt;
+					&lt;td&gt;算子覆盖、状态布局、并行方式&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;质量约束&lt;/td&gt;
+					&lt;td&gt;哪些任务不能退化；量化容许的误差&lt;/td&gt;
+					&lt;td&gt;数值格式、校准集、是否需要 QAT&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;服务目标&lt;/td&gt;
+					&lt;td&gt;首 token、后续 token、总时延的 p95/p99；可用性&lt;/td&gt;
+					&lt;td&gt;批量大小、资源预留、排队与准入控制&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;设备条件&lt;/td&gt;
+					&lt;td&gt;可用内存、实测带宽、片上存储、原生精度、互联、功耗&lt;/td&gt;
+					&lt;td&gt;是否放得下、计算是否划算、能否多卡切分&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;交付条件&lt;/td&gt;
+					&lt;td&gt;SDK 开放程度、模型更新频率、团队规模、离线要求&lt;/td&gt;
+					&lt;td&gt;自研边界、编译成本、维护成本和升级策略&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;“支持某个模型”或“支持某种硬件”只是入口条件。&lt;/strong&gt; 真正的支持对象是一个组合：&lt;/p&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;模型架构 × 权重/激活/KV 精度 × 输入形状 × 芯片型号 × SDK 版本 × 推理特性。&lt;/p&gt;
+
+ &lt;/blockquote&gt;
+&lt;p&gt;某组合能加载模型，并不意味着它支持长上下文、连续批处理、投机解码、CUDA Graph 等图执行机制和多卡通信的任意叠加。&lt;/p&gt;
+&lt;h3 id="22-四个不能互相代替的指标"&gt;2.2 四个不能互相代替的指标
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;质量&lt;/strong&gt;：业务任务完成率、准确率、长上下文能力、结构化输出正确率。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;延迟&lt;/strong&gt;：TTFT、ITL、端到端延迟，以及冷启动/首次编译时间。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;容量&lt;/strong&gt;：满足延迟目标时能承载多少并发、多少请求。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;效率&lt;/strong&gt;：每个合格请求的成本或能耗，而不只是峰值 tokens/s。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;首 token 延迟（Time to First Token，TTFT）&lt;/strong&gt; 在客户端视角包含网络、排队、预处理和 prefill 等开销。&lt;strong&gt;每个输出 token 的平均生成时间（Time per Output Token，TPOT）&lt;/strong&gt; 通常统计首 token 之后的生成过程，常见口径为：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;TPOT = (请求结束时间 − 首 token 时间) / (输出 token 数 − 1)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 仅在输出 token 数 &amp;gt; 1 时有通常意义
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;token 间延迟（Inter-Token Latency，ITL）&lt;/strong&gt; 描述相邻 token 的生成间隔。平均 TPOT 相同的系统，仍可能有很不一样的卡顿体验；网络流式输出一次合并多个 token 时，还要区分客户端事件间隔与引擎真实 token 间隔。&lt;a class="link" href="https://docs.vllm.ai/en/latest/api/vllm/benchmarks/serve/" target="_blank" rel="noopener"
+ &gt;vLLM 的基准测试实现&lt;/a&gt;给出了具体统计口径，比较结果前应先对齐定义。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;服务等级目标（Service-Level Objective，SLO）&lt;/strong&gt; 是为系统设定的可测量目标，例如延迟和可用性。&lt;strong&gt;尾延迟（tail latency）&lt;/strong&gt; 关注延迟分布中较慢的部分，常用 p95、p99 等分位数表示。&lt;strong&gt;请求准入控制（admission control）&lt;/strong&gt; 则根据容量与服务目标决定是否接收新请求。&lt;/p&gt;
+&lt;p&gt;对在线系统，更有用的是&lt;strong&gt;有效吞吐量（goodput）&lt;/strong&gt;：本文按“单位时间内满足约定 SLO 的有效请求数”统计。单纯提高吞吐量，可能同时恶化排队和尾延迟。&lt;a class="link" href="https://arxiv.org/abs/2401.09670" target="_blank" rel="noopener"
+ &gt;DistServe&lt;/a&gt; 正是围绕 TTFT、TPOT 约束下的有效吞吐量讨论系统设计。&lt;/p&gt;
+&lt;p&gt;本文建议将决策表达为：&lt;strong&gt;在质量、内存、功耗和 SLO 约束内，降低单位有效请求的总成本。&lt;/strong&gt; 对端侧设备，总成本还包括电池消耗、温升、安装包与常驻内存；对集群，还包括网络、空闲容量、故障冗余和运维投入。&lt;/p&gt;
+&lt;h2 id="三把技术放回各自的层谁替代谁谁依赖谁"&gt;三、把技术放回各自的层：谁替代谁，谁依赖谁
+&lt;/h2&gt;&lt;figure class="inference-figure" aria-labelledby="inference-stack-caption"&gt;
+&lt;figcaption id="inference-stack-caption"&gt;&lt;span class="inference-figure-title"&gt;图 1 · 大模型推理与部署的技术分层&lt;/span&gt;&lt;/figcaption&gt;
+&lt;pre class="mermaid" style="visibility:hidden"&gt;flowchart TB
+ A[业务负载与约束&lt;br/&gt;质量 · 延迟 · 成本 · 功耗] --&gt; B[服务与资源编排&lt;br/&gt;路由 · 准入控制 · 扩缩容]
+ B --&gt; C[模型推理引擎&lt;br/&gt;调度 · KV 缓存 · 模型执行]
+ C --&gt; D[图与编译系统&lt;br/&gt;捕获 · 分区 · Lowering]
+ D --&gt; E[算子与设备运行时&lt;br/&gt;计算内核 · 内存 · 通信]
+ E --&gt; F[硬件与互联&lt;br/&gt;CPU · GPU · NPU]&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;这是&lt;strong&gt;职责分层&lt;/strong&gt;，不是强制调用链。实际系统可能混合调用预编译算子、即时编译（Just-in-Time Compilation，JIT）生成的计算内核、厂商库和子图编译器，同一个项目也可能跨越几层。&lt;/p&gt;
+&lt;p&gt;这里要区分三个概念：&lt;strong&gt;算子（operator）&lt;/strong&gt; 定义数学操作；&lt;strong&gt;计算内核（kernel）&lt;/strong&gt; 是执行这些操作的具体实现；&lt;strong&gt;运行时（runtime）&lt;/strong&gt; 负责执行期间的资源管理、任务提交等工作。一个算子可能调用多个内核，多个算子也可能融合为一个内核。图中的 &lt;strong&gt;lowering&lt;/strong&gt; 指向更低层表示的转换，第八节会进一步说明。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;层次&lt;/th&gt;
+					&lt;th&gt;代表对象&lt;/th&gt;
+					&lt;th&gt;最需要理解的边界&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;模型语义与参考实现&lt;/td&gt;
+					&lt;td&gt;PyTorch、Transformers、模型官方实现&lt;/td&gt;
+					&lt;td&gt;定义正确结果，未必提供最佳部署路径&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;推理引擎&lt;/td&gt;
+					&lt;td&gt;vLLM、SGLang、TensorRT-LLM、llama.cpp、MLC LLM&lt;/td&gt;
+					&lt;td&gt;管理生成过程、请求和模型执行；部分场景互为选项&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;分布式服务&lt;/td&gt;
+					&lt;td&gt;Dynamo、llm-d、Kubernetes 相关组件&lt;/td&gt;
+					&lt;td&gt;编排引擎与资源，通常不替代底层引擎&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;KV 数据管理&lt;/td&gt;
+					&lt;td&gt;LMCache、Mooncake 的缓存/传输组件&lt;/td&gt;
+					&lt;td&gt;管理复用、分层存储、搬运；与引擎集成&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;图表示与编译&lt;/td&gt;
+					&lt;td&gt;torch.export、ONNX、TVM、MLIR、IREE&lt;/td&gt;
+					&lt;td&gt;导出格式、编译基础设施和完整执行栈是不同对象&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;算子实现&lt;/td&gt;
+					&lt;td&gt;CUDA、Triton language、CUTLASS/CuTe、FlashInfer、厂商算子库&lt;/td&gt;
+					&lt;td&gt;编写或复用计算内核；不负责完整服务调度&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;硬件适配&lt;/td&gt;
+					&lt;td&gt;驱动、CANN、QNN、OpenVINO、RKLLM 等&lt;/td&gt;
+					&lt;td&gt;能力与开放边界随厂商、芯片和版本不同&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;几个尤其容易混淆的名字：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Triton language&lt;/strong&gt; 是计算内核语言/编译器；&lt;strong&gt;NVIDIA Triton Inference Server&lt;/strong&gt; 是服务系统。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TensorRT&lt;/strong&gt; 与 &lt;strong&gt;TensorRT-LLM&lt;/strong&gt; 是不同项目，后者的执行架构还在演进，不能凭名字推断其所有版本都必须构建 TensorRT 执行引擎（engine）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TorchDynamo&lt;/strong&gt; 属于 PyTorch 图捕获编译链；&lt;strong&gt;NVIDIA Dynamo&lt;/strong&gt; 面向分布式推理服务。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GGUF&lt;/strong&gt; 是模型文件格式，&lt;strong&gt;ggml&lt;/strong&gt; 是张量计算库，&lt;strong&gt;llama.cpp&lt;/strong&gt; 是建立在相关基础之上的推理项目。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ONNX&lt;/strong&gt; 主要是模型表示规范；&lt;strong&gt;ONNX Runtime（ORT）&lt;/strong&gt; 是执行系统；&lt;strong&gt;ONNX Runtime GenAI&lt;/strong&gt; 进一步提供生成循环等能力。&lt;a class="link" href="https://onnxruntime.ai/docs/genai/" target="_blank" rel="noopener"
+ &gt;ORT GenAI 文档&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;判断两个项目是否值得都深入，先问：&lt;strong&gt;它们处于同一层、服务同一类负载吗？&lt;/strong&gt; vLLM 与 SGLang 有大量重叠；vLLM 与 MLIR 则没有这种直接替代关系。&lt;/p&gt;
+&lt;h2 id="四发展时间线系统的主要矛盾怎样迁移"&gt;四、发展时间线：系统的主要矛盾怎样迁移
+&lt;/h2&gt;&lt;p&gt;下面选取的是能解释技术演进的节点，不是完整编年史。论文日期采用首次公开版本或会议时间；项目发布和后端迁移另行标注，不能把它们当作技术的“发明时间”。&lt;/p&gt;
+&lt;figure class="inference-figure" aria-labelledby="inference-history-caption"&gt;
+&lt;figcaption id="inference-history-caption"&gt;&lt;span class="inference-figure-title"&gt;图 2 · 大模型推理与部署的发展时间线（2017—2026）&lt;/span&gt;&lt;span class="inference-figure-note"&gt;从模型计算、请求调度到跨设备状态管理，各阶段的技术逐步积累。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;ol class="inference-timeline"&gt;
+&lt;li&gt;&lt;time datetime="2017-06"&gt;2017.06&lt;/time&gt;&lt;div&gt;&lt;strong&gt;Transformer：形成后续推理优化的重要计算基础&lt;/strong&gt;&lt;p&gt;&lt;a href="https://arxiv.org/abs/1706.03762"&gt;Attention Is All You Need&lt;/a&gt; 首次公开。矩阵乘、注意力、归一化等成为需要理解的基本结构；现代纯解码器（decoder-only） LLM 在此基础上继续演化。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;2018—2020&lt;/span&gt;&lt;div&gt;&lt;strong&gt;编译基础设施：把模型映射到多样化硬件&lt;/strong&gt;&lt;p&gt;&lt;a href="https://arxiv.org/abs/1802.04799"&gt;TVM 论文（2018.02）&lt;/a&gt;和 &lt;a href="https://arxiv.org/abs/2002.11054"&gt;MLIR 论文（2020.02）&lt;/a&gt;提供两种重要观察入口：图与算子协同优化，以及多层中间表示。论文时间不等于项目诞生时间。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;2022.05—07&lt;/span&gt;&lt;div&gt;&lt;strong&gt;从“算得快”走向“少搬数据、少等请求”&lt;/strong&gt;&lt;p&gt;&lt;a href="https://arxiv.org/abs/2205.14135"&gt;FlashAttention（5 月）&lt;/a&gt;关注注意力的访存开销；&lt;a href="https://www.usenix.org/conference/osdi22/presentation/yu"&gt;Orca（OSDI，7 月）&lt;/a&gt;展示迭代级调度。这是计算内核优化与推理服务（serving）两条互补路线。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;2022.10—11&lt;/span&gt;&lt;div&gt;&lt;strong&gt;低比特与投机执行：减少成本的不同办法&lt;/strong&gt;&lt;p&gt;&lt;a href="https://arxiv.org/abs/2210.17323"&gt;GPTQ&lt;/a&gt;、&lt;a href="https://arxiv.org/abs/2211.10438"&gt;SmoothQuant&lt;/a&gt;和&lt;a href="https://arxiv.org/abs/2211.17192"&gt;投机解码论文&lt;/a&gt;陆续公开：前两者改变数值表示，后者改变生成执行方式。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;2023.06—12&lt;/span&gt;&lt;div&gt;&lt;strong&gt;权重、KV 与重复前缀成为明确的优化对象&lt;/strong&gt;&lt;p&gt;&lt;a href="https://arxiv.org/abs/2306.00978"&gt;AWQ（6 月）&lt;/a&gt;、&lt;a href="https://arxiv.org/abs/2309.06180"&gt;PagedAttention/vLLM 论文（9 月）&lt;/a&gt;、&lt;a href="https://arxiv.org/abs/2312.07104"&gt;SGLang 论文（12 月）&lt;/a&gt;分别提供量化、KV 分页管理和结构化生成/缓存复用的代表性方案。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;2023 · 端侧&lt;/span&gt;&lt;div&gt;&lt;strong&gt;另一条并行主线：让模型进入消费级设备&lt;/strong&gt;&lt;p&gt;&lt;a href="https://blog.mlc.ai/2023/05/01/bringing-accelerated-llm-to-consumer-hardware"&gt;MLC LLM 的 5 月项目介绍&lt;/a&gt;展示通过编译面向多种消费级设备的路线；&lt;a href="https://pytorch.org/blog/pytorch-edge-enabling-on-device-inference-across-mobile-and-edge-devices-with-executorch/"&gt;ExecuTorch 于 10 月公开介绍&lt;/a&gt;，强调轻量运行时与后端委托执行。部署的演进同时发生在数据中心和端侧。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;2024&lt;/span&gt;&lt;div&gt;&lt;strong&gt;从单引擎优化扩展到阶段分离与模型—系统协同&lt;/strong&gt;&lt;p&gt;&lt;a href="https://arxiv.org/abs/2401.09670"&gt;DistServe（1 月）&lt;/a&gt;研究 prefill/decode 分离；&lt;a href="https://arxiv.org/abs/2405.04434"&gt;DeepSeek-V2（5 月）&lt;/a&gt;体现 MLA 与 MoE 的模型侧改变；&lt;a href="https://arxiv.org/abs/2407.00079"&gt;Mooncake（arXiv，6 月）&lt;/a&gt;讨论以 KV 为中心的分离式架构。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;2025.03—05&lt;/span&gt;&lt;div&gt;&lt;strong&gt;分布式推理进入可组合的工程栈&lt;/strong&gt;&lt;p&gt;&lt;a href="https://nvidianews.nvidia.com/news/nvidia-dynamo-open-source-library-accelerates-and-scales-ai-reasoning-models"&gt;Dynamo 于 3 月 18 日发布&lt;/a&gt;；&lt;a href="https://llm-d.ai/blog/llm-d-press-release"&gt;llm-d 于 5 月 20 日发布&lt;/a&gt;。路由、资源编排、KV 传输与推理引擎之间的接口变得更加重要。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;2026.02—09&lt;/span&gt;&lt;div&gt;&lt;strong&gt;基础设施继续演进，不能沿用固定的项目印象&lt;/strong&gt;&lt;p&gt;&lt;a href="https://arxiv.org/abs/2602.06036"&gt;DFlash（2 月）&lt;/a&gt;探索扩散式草稿生成；&lt;a href="https://nvidianews.nvidia.com/news/dynamo-1-0"&gt;Dynamo 1.0（3 月）&lt;/a&gt;发布。9 月核对的 TensorRT-LLM &lt;a href="https://github.com/NVIDIA/TensorRT-LLM/releases/tag/v1.3.0rc27"&gt;v1.3.0rc27 预发布分支&lt;/a&gt;对应的 &lt;a href="https://nvidia.github.io/TensorRT-LLM/latest/legacy/tensorrt-backend-removal.html"&gt;latest 迁移指南&lt;/a&gt;已说明旧 TensorRT 后端移除，新学习路径需要结合版本重新判断。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/figure&gt;
+&lt;p&gt;从这条线可以提炼三个方向：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;优化对象扩大了&lt;/strong&gt;：单个算子 → 单个请求 → 多请求调度 → 跨机器状态与资源。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;模型与系统更紧密了&lt;/strong&gt;：GQA、MLA、MoE、混合状态结构会改变内存、算子与通信设计。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;跨层接口越来越重要&lt;/strong&gt;：只有计算内核快，或者只有调度好，都不保证端到端高效。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这是对上述资料的综合判断，不意味着每个项目都在走向相同架构。端侧设备与数据中心仍有明显不同的约束。&lt;/p&gt;
+&lt;h2 id="五最值得长期投入的基础性能模型与状态管理"&gt;五、最值得长期投入的基础：性能模型与状态管理
+&lt;/h2&gt;&lt;h3 id="51-预填充prefill与解码decode同一模型的两种工作方式"&gt;5.1 预填充（prefill）与解码（decode）：同一模型的两种工作方式
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;预填充（prefill）&lt;/strong&gt; 处理输入序列，为后续生成建立状态。线性层通常能形成较大的矩阵乘；长序列注意力又带来显著计算和访存压力。输入可以整段处理，也可以分块处理。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解码（decode）&lt;/strong&gt; 在自回归路径上逐步生成，每步读取已有状态并追加新状态。批量大小（batch size）较小时，权重读取、KV 读取和计算内核启动开销往往比峰值算力更值得关注。增大批量能复用权重、提高矩阵乘效率，但会增加排队、KV 容量和调度压力。&lt;/p&gt;
+&lt;p&gt;因此，“prefill 计算受限、decode 带宽受限”是有用的经验起点，&lt;strong&gt;但绝非恒常不变的铁律&lt;/strong&gt;。例如长上下文下的 prefill 同样会受限于注意力的显存带宽；而大批量并发、MoE 路由通信或投机验证下的 decode，也会迅速逼近算力上限。&lt;/p&gt;
+&lt;p&gt;在标准解码器中，应能跟踪以下形状变化：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;token → 词嵌入（embedding）→ 隐藏状态（hidden state）
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; → Q、K、V 投影
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; → 位置编码，例如 RoPE
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; → 注意力（读取旧 KV，写入新 KV）
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; → 输出投影、残差、归一化
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; → MLP，或路由到多个专家
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; → logits、采样、下一步请求状态
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;prefill：本轮 token 维度可较大
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;decode：普通自回归下，每条活跃序列通常贡献一个新 token
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;不需要先精通模型训练，但必须理解掩码（mask）、位置索引（position）、残差连接（residual connection）和采样语义。它们既决定性能，也经常是移植后“可以输出、但结果不对”的原因。几个高频术语与缩写应与具体含义对应起来：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;术语&lt;/th&gt;
+					&lt;th&gt;中文与英文名称&lt;/th&gt;
+					&lt;th&gt;在推理中的含义&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Q / K / V&lt;/td&gt;
+					&lt;td&gt;查询 / 键 / 值（Query / Key / Value）&lt;/td&gt;
+					&lt;td&gt;注意力（attention）计算中的三类表示&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;MHA&lt;/td&gt;
+					&lt;td&gt;多头注意力（Multi-Head Attention）&lt;/td&gt;
+					&lt;td&gt;标准结构中，每个查询头都有对应的 K/V 头&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;GQA&lt;/td&gt;
+					&lt;td&gt;分组查询注意力（Grouped-Query Attention）&lt;/td&gt;
+					&lt;td&gt;一组查询头共享 K/V 头，减少 KV 缓存需求&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;MLA&lt;/td&gt;
+					&lt;td&gt;多头潜在注意力（Multi-head Latent Attention）&lt;/td&gt;
+					&lt;td&gt;通过低秩联合压缩等设计减少需要缓存的状态&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;RoPE&lt;/td&gt;
+					&lt;td&gt;旋转位置编码（Rotary Position Embedding）&lt;/td&gt;
+					&lt;td&gt;将位置信息引入注意力表示，移植时要对齐位置与旋转约定&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;RMSNorm&lt;/td&gt;
+					&lt;td&gt;均方根归一化（Root Mean Square Normalization）&lt;/td&gt;
+					&lt;td&gt;基于均方根进行归一化，计算与数值行为不同于 LayerNorm（层归一化）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;MLP&lt;/td&gt;
+					&lt;td&gt;多层感知机（Multilayer Perceptron）&lt;/td&gt;
+					&lt;td&gt;在此主要指 Transformer 中的前馈网络模块&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;logits&lt;/td&gt;
+					&lt;td&gt;保留英文，可理解为未归一化的输出分数&lt;/td&gt;
+					&lt;td&gt;通常经 softmax 转为概率，用于下一 token 的选择或采样&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;MHA、GQA 与 MLA 的结构差异可对照 &lt;a class="link" href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener"
+ &gt;Transformer&lt;/a&gt;、&lt;a class="link" href="https://arxiv.org/abs/2305.13245" target="_blank" rel="noopener"
+ &gt;GQA&lt;/a&gt;与 &lt;a class="link" href="https://arxiv.org/abs/2405.04434" target="_blank" rel="noopener"
+ &gt;DeepSeek-V2&lt;/a&gt;原始论文。&lt;/p&gt;
+&lt;h3 id="52-先算是否装得下再讨论跑得多快"&gt;5.2 先算是否装得下，再讨论跑得多快
+&lt;/h3&gt;&lt;p&gt;推理内存至少包括：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;总内存 ≈ 权重 + KV 缓存/其他持久状态 + 临时激活与工作区
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; + 运行时/图执行/通信缓冲区 + 碎片与必要余量
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;以一个&lt;strong&gt;假设的 80 亿参数模型&lt;/strong&gt;为例，若所有权重都按 4 比特理想打包，裸权重约为 4 GB，即 3.73 GiB。真实模型还要计入缩放因子（scale）、零点（zero point）、未量化层、对齐和可能的额外副本。因此，不能把“4 比特 × 参数量”当成设备最低内存要求。&lt;/p&gt;
+&lt;p&gt;对于各层配置相同、采用标准 MHA/GQA 的解码器，未考虑分片、共享与分页损耗时：&lt;/p&gt;
+&lt;p&gt;$$
+M_{KV}=2\times L\times B\times T\times H_{KV}\times D\times s
+$$&lt;/p&gt;
+&lt;p&gt;其中，2 表示 K 与 V，&lt;code&gt;L&lt;/code&gt; 是层数，&lt;code&gt;B&lt;/code&gt; 是活跃序列数，&lt;code&gt;T&lt;/code&gt; 是每条序列缓存的 token 数，&lt;code&gt;H_KV&lt;/code&gt; 是 KV 头数，&lt;code&gt;D&lt;/code&gt; 是头维度，&lt;code&gt;s&lt;/code&gt; 是每元素字节数。不同序列长度不同时，用各自长度之和替代 &lt;code&gt;B × T&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;取 &lt;code&gt;L=32, H_KV=8, D=128, T=8192, s=2&lt;/code&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;单条序列的 KV 缓存约 &lt;strong&gt;1 GiB&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;8 条同长度序列约 &lt;strong&gt;8 GiB&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;若其他条件不变，KV 头数改为 32，则单条序列约 &lt;strong&gt;4 GiB&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这解释了 GQA 为什么会影响部署容量，也解释了“模型权重放得下”与“服务能承载目标并发”之间的差距。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;必须警惕的架构边界&lt;/strong&gt;：MLA 的低秩压缩状态、滑动窗口、跨请求前缀共享、不同层异构结构、混合 Mamba 状态以及张量并行都会重塑这个估算。不要试图用一个标准 Transformer 公式机械套用所有模型。&lt;a class="link" href="https://arxiv.org/abs/2405.04434" target="_blank" rel="noopener"
+ &gt;DeepSeek-V2 论文&lt;/a&gt;、&lt;a class="link" href="https://docs.vllm.ai/en/latest/design/hybrid_kv_cache_manager/" target="_blank" rel="noopener"
+ &gt;vLLM 混合 KV 管理设计&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="53-roofline-性能模型为什么-tops-不等于-tokens"&gt;5.3 Roofline 性能模型：为什么 TOPS 不等于 token/s
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Roofline 性能模型&lt;/strong&gt;常译作“屋顶线模型”，用于联合分析算力与内存带宽对性能的限制。TOPS 表示每秒万亿次运算（Tera Operations per Second），比较时还要对齐数值精度与运算计数口径。一个简化的单设备性能上界是：&lt;/p&gt;
+&lt;p&gt;$$
+P_{achievable}\leq\min(P_{peak},\ BW_{effective}\times I)
+$$&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;I&lt;/code&gt; 是&lt;strong&gt;算术强度（arithmetic intensity）&lt;/strong&gt;，即每搬运一字节完成多少次运算；&lt;code&gt;P_peak&lt;/code&gt; 是计算性能峰值，&lt;code&gt;BW_effective&lt;/code&gt; 是有效内存带宽，两项的运算计数口径需一致。实际可达性能还会受到并行度、形状、数值格式、片上容量和软件调度限制。&lt;a class="link" href="https://developer.nvidia.com/blog/accelerating-hpc-applications-with-nsight-compute-roofline-analysis/" target="_blank" rel="noopener"
+ &gt;NVIDIA 的 Roofline 分析说明&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;假设一次小批量 decode 必须从设备的片外内存读取 4 GB 权重，而有效带宽是 100 GB/s，那么&lt;strong&gt;仅权重读取&lt;/strong&gt;的理想时间下界就是 40 ms。它没有包含 KV、计算、量化解包、同步和采样，不能作为实测预测；但足以说明，增加理论 TOPS 未必能解决问题。&lt;/p&gt;
+&lt;p&gt;优化应先按证据归类：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;瓶颈&lt;/th&gt;
+					&lt;th&gt;典型迹象&lt;/th&gt;
+					&lt;th&gt;优先验证&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;计算&lt;/td&gt;
+					&lt;td&gt;大 GEMM 占主导；计算单元忙&lt;/td&gt;
+					&lt;td&gt;tile、矩阵指令、合适精度、批次形状&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;片外内存带宽&lt;/td&gt;
+					&lt;td&gt;运算量不大，搬运量很高&lt;/td&gt;
+					&lt;td&gt;权重/KV 压缩、融合、访问连续性、复用&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;片上容量/布局&lt;/td&gt;
+					&lt;td&gt;大量切片、重复搬运、转置&lt;/td&gt;
+					&lt;td&gt;tile 与 SRAM 预算、布局、双缓冲&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;主机端与启动&lt;/td&gt;
+					&lt;td&gt;设备任务之间有空闲间隙，大量耗时很短的计算内核&lt;/td&gt;
+					&lt;td&gt;CUDA Graph 等图执行机制、批量提交、融合、减少同步&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;跨设备通信&lt;/td&gt;
+					&lt;td&gt;集合通信（collective communication）或数据传输占关键路径&lt;/td&gt;
+					&lt;td&gt;并行策略、拓扑、通信与计算重叠&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;调度与排队&lt;/td&gt;
+					&lt;td&gt;单请求快，服务 p99 延迟高&lt;/td&gt;
+					&lt;td&gt;准入控制、每轮 token 预算、分块预填充、优先级&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;性能分析（profiling，也称性能剖析）的目标是建立因果链。&lt;/strong&gt; 执行轨迹（trace）记录任务、算子或事件的时间顺序，用来观察等待与重叠；性能分析还需要结合计数器、采样和负载实验。仅看到某个“利用率”不高，不能直接确定瓶颈。例如，减少计算内核数可能更快，也可能因为融合后寄存器/片上存储不足而更慢。&lt;/p&gt;
+&lt;h2 id="六核心优化方法解决不同问题可以组合使用"&gt;六、核心优化方法：解决不同问题，可以组合使用
+&lt;/h2&gt;&lt;h3 id="61-注意力kv-和调度不是同一个优化层"&gt;6.1 注意力、KV 和调度不是同一个优化层
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;技术&lt;/th&gt;
+					&lt;th&gt;主要解决什么&lt;/th&gt;
+					&lt;th&gt;为什么有用&lt;/th&gt;
+					&lt;th&gt;必须知道的代价或边界&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;FlashAttention&lt;/td&gt;
+					&lt;td&gt;注意力计算中的数据搬运&lt;/td&gt;
+					&lt;td&gt;分块计算，避免把完整中间注意力矩阵写回片外内存&lt;/td&gt;
+					&lt;td&gt;标准稠密注意力的二次计算复杂度并未因此消失；适配依赖硬件&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;PagedAttention / KV 缓存分页管理&lt;/td&gt;
+					&lt;td&gt;KV 分配、碎片和共享&lt;/td&gt;
+					&lt;td&gt;按块管理逻辑序列，避免大块连续预留&lt;/td&gt;
+					&lt;td&gt;需要页表/块表与配套计算内核；不是 KV 数值压缩&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;前缀缓存（prefix caching）&lt;/td&gt;
+					&lt;td&gt;不同请求重复的 prefill&lt;/td&gt;
+					&lt;td&gt;复用相同前缀对应的有效 KV 状态&lt;/td&gt;
+					&lt;td&gt;不直接省去后续 decode；收益取决于命中长度与复用频率&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;连续批处理（continuous batching）&lt;/td&gt;
+					&lt;td&gt;请求长短不一造成的空转&lt;/td&gt;
+					&lt;td&gt;每轮调整活跃请求，让结束的请求及时退出&lt;/td&gt;
+					&lt;td&gt;需要动态调整批次及其状态；与固定请求批次不同&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;分块预填充（chunked prefill）&lt;/td&gt;
+					&lt;td&gt;长 prefill 干扰 decode&lt;/td&gt;
+					&lt;td&gt;将输入处理拆成块，与 decode 共享每轮 token 预算（token budget）&lt;/td&gt;
+					&lt;td&gt;预算限制每轮调度的 token 总量；块大小影响首 token 延迟、token 间延迟和计算效率&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;KV 量化/压缩&lt;/td&gt;
+					&lt;td&gt;长上下文的状态容量与带宽&lt;/td&gt;
+					&lt;td&gt;减少每 token 的状态存储&lt;/td&gt;
+					&lt;td&gt;要验证长上下文质量、格式支持和转换开销&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;CUDA Graph 等图执行机制&lt;/td&gt;
+					&lt;td&gt;重复提交与主机端提交开销&lt;/td&gt;
+					&lt;td&gt;重放一组设备操作，减少逐次调度&lt;/td&gt;
+					&lt;td&gt;形状、地址、状态更新有约束；占用额外资源；各 NPU 有不同机制&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;上述机制分别可以从 &lt;a class="link" href="https://arxiv.org/abs/2205.14135" target="_blank" rel="noopener"
+ &gt;FlashAttention 论文&lt;/a&gt;、&lt;a class="link" href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener"
+ &gt;PagedAttention 论文&lt;/a&gt;、&lt;a class="link" href="https://www.usenix.org/conference/osdi22/presentation/yu" target="_blank" rel="noopener"
+ &gt;Orca&lt;/a&gt;、&lt;a class="link" href="https://docs.vllm.ai/en/latest/features/automatic_prefix_caching/" target="_blank" rel="noopener"
+ &gt;vLLM 前缀缓存说明&lt;/a&gt;、&lt;a class="link" href="https://docs.vllm.ai/en/latest/configuration/optimization/" target="_blank" rel="noopener"
+ &gt;调优指南&lt;/a&gt;和&lt;a class="link" href="https://docs.vllm.ai/en/latest/design/cuda_graphs/" target="_blank" rel="noopener"
+ &gt;图执行设计&lt;/a&gt;继续深入。&lt;/p&gt;
+&lt;p&gt;一个实用的判断顺序是：&lt;strong&gt;先确认瓶颈，再选择机制，最后检查组合后的相互影响&lt;/strong&gt;。例如，分页管理增加了可容纳的请求数，但更高并发也可能使 decode 的计算或通信变成新瓶颈。&lt;/p&gt;
+&lt;p&gt;还有两种“缓存”必须分清：&lt;strong&gt;精确前缀 KV 复用（exact prefix KV reuse）&lt;/strong&gt; 要求状态语义一致；&lt;strong&gt;语义缓存（semantic caching）&lt;/strong&gt; 根据相似问题复用回答，是应用层策略。它们的正确性条件完全不同，不能把命中率混在一起比较。&lt;/p&gt;
+&lt;h3 id="62-量化需要同时讨论算法格式和执行内核"&gt;6.2 量化需要同时讨论算法、格式和执行内核
+&lt;/h3&gt;&lt;p&gt;量化讨论中，&lt;strong&gt;数值精度（numerical precision）&lt;/strong&gt; 描述数值表示和计算方式，&lt;strong&gt;模型质量&lt;/strong&gt;描述任务上的实际效果。INT4 表示 4 比特整数格式；降低位宽不等于质量必然按比例下降，也不保证计算更快。“用了 INT4”不足以描述一个部署方案，至少要补齐：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;权重（weight）、激活（activation）、KV 分别采用何种数值格式。例如 W4A16 仅界定了存储精度，关键还需明确计算时是反量化为 16 比特后走 Tensor Core 计算（Weight-Only），还是原生低比特 GEMM；同时还需标明 KV 缓存的具体精度。&lt;/li&gt;
+&lt;li&gt;对称/非对称量化（symmetric/asymmetric quantization）；量化粒度是逐张量（per-tensor）、逐通道（per-channel）还是分组（per-group），以及分组大小（group size）。&lt;/li&gt;
+&lt;li&gt;缩放因子（scale）、零点（zero point）、数据打包（packing）、累加精度和敏感层保留策略。&lt;/li&gt;
+&lt;li&gt;目标硬件是原生低比特计算，还是先解包/反量化再执行。&lt;/li&gt;
+&lt;li&gt;校准数据与业务数据的分布差异，以及质量回归标准。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;方法/对象&lt;/th&gt;
+					&lt;th&gt;应如何理解&lt;/th&gt;
+					&lt;th&gt;学习深度建议&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;RTN（Round-to-Nearest）&lt;/td&gt;
+					&lt;td&gt;舍入到最近可表示值的量化基线&lt;/td&gt;
+					&lt;td&gt;必须会做基线&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;GPTQ&lt;/td&gt;
+					&lt;td&gt;利用近似二阶信息降低权重量化误差的 PTQ 方法&lt;/td&gt;
+					&lt;td&gt;理解目标与校准流程，不必先重写求解器&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;AWQ（Activation-aware Weight Quantization）&lt;/td&gt;
+					&lt;td&gt;激活感知权重量化：利用激活信息选择缩放，改善低比特权重表示&lt;/td&gt;
+					&lt;td&gt;掌握动机，理解校准与计算内核的衔接&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;SmoothQuant&lt;/td&gt;
+					&lt;td&gt;通过等价缩放把激活量化难点迁移到权重侧，服务 W8A8 等路径&lt;/td&gt;
+					&lt;td&gt;理解离群值（outlier）与权重/激活协同&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;量化感知训练（QAT）&lt;/td&gt;
+					&lt;td&gt;在训练中模拟量化影响，提高模型对目标数值格式的适应能力&lt;/td&gt;
+					&lt;td&gt;PTQ 达不到质量要求时深入，计入训练成本&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;FP8/FP4、MX 等格式&lt;/td&gt;
+					&lt;td&gt;数值表示和缩放规范；不是与 AWQ 同层的算法&lt;/td&gt;
+					&lt;td&gt;按芯片支持和误差预算选择，不能只看比特数&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;GGUF / 量化模型检查点（checkpoint）&lt;/td&gt;
+					&lt;td&gt;承载张量、元数据及格式约定的产物&lt;/td&gt;
+					&lt;td&gt;确认加载工具与执行后端兼容，不把格式当作完整算法&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;训练后量化（Post-Training Quantization，PTQ）&lt;/strong&gt; 基于已训练模型进行量化；&lt;strong&gt;量化感知训练（Quantization-Aware Training，QAT）&lt;/strong&gt; 在训练或微调中模拟量化影响。二者是流程类别，GPTQ、AWQ 等是具体方法。算法依据见 &lt;a class="link" href="https://arxiv.org/abs/2210.17323" target="_blank" rel="noopener"
+ &gt;GPTQ&lt;/a&gt;、&lt;a class="link" href="https://arxiv.org/abs/2306.00978" target="_blank" rel="noopener"
+ &gt;AWQ&lt;/a&gt;、&lt;a class="link" href="https://arxiv.org/abs/2211.10438" target="_blank" rel="noopener"
+ &gt;SmoothQuant&lt;/a&gt;；工具选择可从 &lt;a class="link" href="https://docs.vllm.ai/projects/llm-compressor/en/latest/steps/choosing-algo/" target="_blank" rel="noopener"
+ &gt;LLM Compressor 的算法选择指南&lt;/a&gt;开始。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;低比特不必然低延迟。&lt;/strong&gt; 若芯片没有对应的高效计算内核，或者按分组解包、重排、反量化消耗很大，低比特模型可能只是更省内存。量化选型要比较“质量、权重容量、KV 容量、prefill、decode、能耗”六项，不能只比较模型文件大小。&lt;/p&gt;
+&lt;p&gt;评估时，先用小规模逐层/逐算子对齐定位实现错误，再用任务集评估真实退化。困惑度（perplexity）可以作为信号，不能替代中文任务、代码、长上下文和视觉理解等目标能力测试。&lt;a class="link" href="https://github.com/EleutherAI/lm-evaluation-harness" target="_blank" rel="noopener"
+ &gt;LM Evaluation Harness&lt;/a&gt; 可复用标准评测流程，但仍需固定分词器、模板、任务版本、少样本示例（few-shot examples）和生成设置，并加入业务样本。&lt;/p&gt;
+&lt;h3 id="63-投机解码额外计算能否换来更少的串行等待"&gt;6.3 投机解码：额外计算能否换来更少的串行等待
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;投机解码（Speculative Decoding，也称推测解码）&lt;/strong&gt; 的经典思路是：草稿模型（draft model）提出若干 token，目标模型（target model）一次验证，按接受规则保留候选前缀，再继续生成。在正确的拒绝采样（rejection sampling）算法与相应假设下，可以保持目标模型的输出分布；这不等于任意实现都与普通路径逐 token、逐比特相同。&lt;a class="link" href="https://arxiv.org/abs/2211.17192" target="_blank" rel="noopener"
+ &gt;原始论文&lt;/a&gt;。“投机解码”也是&lt;a class="link" href="https://paddlepaddle.github.io/FastDeploy/zh/features/speculative_decoding/" target="_blank" rel="noopener"
+ &gt;飞桨官方文档&lt;/a&gt;采用的译名。&lt;/p&gt;
+&lt;p&gt;可以用下面的简化式理解收益，而不把“接受率”当成唯一指标：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;投机路径的平均每 token 时间
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;≈ (草稿时间 + 目标验证时间 + 调度/状态管理时间)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; / 每轮平均实际提交的 token 数
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;路线&lt;/th&gt;
+					&lt;th&gt;代表思路&lt;/th&gt;
+					&lt;th&gt;主要工程权衡&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;独立小模型&lt;/td&gt;
+					&lt;td&gt;草稿模型 + 目标模型&lt;/td&gt;
+					&lt;td&gt;多一份权重与状态；要匹配分词器和验证流程&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;模型内/附加预测模块&lt;/td&gt;
+					&lt;td&gt;多 token 预测（Multi-Token Prediction，MTP）、EAGLE 系列等&lt;/td&gt;
+					&lt;td&gt;依赖模型或训练好的预测模块；不是打开开关就普遍适用&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;输入/历史查找&lt;/td&gt;
+					&lt;td&gt;基于 n-gram（连续 n 个 token 的片段）等的无额外神经草稿模型方案&lt;/td&gt;
+					&lt;td&gt;重复内容可能受益；泛化能力与草稿质量不同&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;扩散式草稿&lt;/td&gt;
+					&lt;td&gt;DFlash 等&lt;/td&gt;
+					&lt;td&gt;新的草稿生成并行方式；仍需完整的成本与质量验证&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;a class="link" href="https://arxiv.org/abs/2503.01840" target="_blank" rel="noopener"
+ &gt;EAGLE-3&lt;/a&gt;与 &lt;a class="link" href="https://arxiv.org/abs/2602.06036" target="_blank" rel="noopener"
+ &gt;DFlash&lt;/a&gt;展示了这一方向的演进。对于 NPU，验证阶段的多 token 形状可能更有利于矩阵单元，但额外 KV、回滚、同步和草稿端放在哪里，都可能抵消收益。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;学习顺序：先理解正确性与收益条件，再阅读一种实现。&lt;/strong&gt; 当基础 decode 已经在高并发下充分利用算力时，投机执行还可能争抢资源；不要直接迁移论文中的加速倍数。&lt;/p&gt;
+&lt;h2 id="七推理引擎地图深入一个能够比较其余"&gt;七、推理引擎地图：深入一个，能够比较其余
+&lt;/h2&gt;&lt;h3 id="71-六个常见项目的架构侧重点"&gt;7.1 六个常见项目的架构侧重点
+&lt;/h3&gt;&lt;p&gt;下表按架构侧重点组织，不代表性能排行榜。各项目都在扩展能力，选型应落到具体负载、版本、目标模型与硬件上。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;项目&lt;/th&gt;
+					&lt;th&gt;核心定位与适合场景&lt;/th&gt;
+					&lt;th&gt;最值得学的部分&lt;/th&gt;
+					&lt;th&gt;选择时重点验证&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://docs.vllm.ai/en/latest/design/arch_overview/" target="_blank" rel="noopener"
+ &gt;vLLM&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;通用 LLM 服务引擎；调度、KV 管理、模型与硬件适配生态&lt;/td&gt;
+					&lt;td&gt;调度器（scheduler）、KV 缓存管理器（KV cache manager）、模型执行器（model runner）、后端（backend）接口&lt;/td&gt;
+					&lt;td&gt;目标插件成熟度；模型与优化特性的组合支持&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/sgl-project/sglang" target="_blank" rel="noopener"
+ &gt;SGLang&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;从结构化生成与前缀复用出发，发展为覆盖稠密模型/MoE 等的高性能服务栈&lt;/td&gt;
+					&lt;td&gt;RadixAttention、调度、结构化输出、分布式执行&lt;/td&gt;
+					&lt;td&gt;具体模型/硬件路径；缓存与通信在自身负载下的收益&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://nvidia.github.io/TensorRT-LLM/latest/legacy/tensorrt-backend-removal.html" target="_blank" rel="noopener"
+ &gt;TensorRT-LLM&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;NVIDIA 平台的深度推理优化与硬件协同&lt;/td&gt;
+					&lt;td&gt;专用计算内核、量化、并行执行和性能调优&lt;/td&gt;
+					&lt;td&gt;GPU 代际、版本绑定、后端迁移和功能支持矩阵&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener"
+ &gt;llama.cpp&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;C/C++ 推理、低比特、本地和多种设备后端&lt;/td&gt;
+					&lt;td&gt;模型执行、ggml 后端、GGUF、CPU/设备分工&lt;/td&gt;
+					&lt;td&gt;目标后端的实际算子覆盖；端到端内存与延迟&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://llm.mlc.ai/docs/get_started/introduction.html" target="_blank" rel="noopener"
+ &gt;MLC LLM&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;基于 TVM 的编译与部署路径，覆盖多种平台&lt;/td&gt;
+					&lt;td&gt;模型表示 → 编译优化 → 模型库 → 运行时&lt;/td&gt;
+					&lt;td&gt;新模型/新硬件的编译支持；不能假设任意 NPU 自动可用&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/ml-explore/mlx" target="_blank" rel="noopener"
+ &gt;MLX&lt;/a&gt; / MLX-LM&lt;/td&gt;
+					&lt;td&gt;Apple Silicon 上的数组计算与 LLM 工具生态&lt;/td&gt;
+					&lt;td&gt;统一内存、CPU/GPU 执行和本地实验&lt;/td&gt;
+					&lt;td&gt;目标是否就是 Apple 平台；不要把它等同于苹果神经网络引擎（Apple Neural Engine，ANE）后端&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;建议采用“一主一对照”的学习方式：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在线服务路线：在 &lt;strong&gt;vLLM 与 SGLang&lt;/strong&gt; 中选一个主引擎，使用同样的请求集比较另一个；硬件采用插件时，继续检查插件的能力边界。&lt;/li&gt;
+&lt;li&gt;端侧与本地路线：以 &lt;strong&gt;llama.cpp、MLC LLM 或平台原生方案&lt;/strong&gt; 中的一条为主，围绕转换成本、内存与功耗比较另一条路径。&lt;/li&gt;
+&lt;li&gt;NVIDIA 深度优化路线：选 &lt;strong&gt;vLLM 或 TensorRT-LLM&lt;/strong&gt; 作为主工程，通过性能分析工具、计算内核和真实负载判断另一条路径的收益。&lt;/li&gt;
+&lt;li&gt;Apple 平台实验：用 &lt;strong&gt;llama.cpp/MLX&lt;/strong&gt; 建立模型、量化和测量能力；需要不同设备后端时，再分别验证对应的转换与运行链。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;需要破除两点常见的刻板认知：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第一，llama.cpp 不能再被概括为“纯 CPU/Mac 本地工具”。&lt;/strong&gt; 当前官方仓库已涵盖 CANN、Hexagon 等异构后端，并将 OpenVINO 标为进行中；具体能力应结合目标后端文档核验。&lt;strong&gt;Metal GPU 执行也不等于 ANE 执行。&lt;/strong&gt; &lt;a class="link" href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener"
+ &gt;llama.cpp 后端列表&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第二，SGLang 也绝非仅仅是“结构化输出前端”。&lt;/strong&gt; 它当前覆盖高性能连续批处理、&lt;strong&gt;预填充/解码分离（PD 分离）&lt;/strong&gt; 、MoE 并行等全栈服务能力；但需注意，项目主页列出支持某种硬件，并不意味着所有高级优化在该硬件上都已具备同等的生产成熟度。&lt;a class="link" href="https://github.com/sgl-project/sglang" target="_blank" rel="noopener"
+ &gt;SGLang 仓库&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="72-哪些工具只需要了解不必同时深入"&gt;7.2 哪些工具只需要了解，不必同时深入
+&lt;/h3&gt;&lt;p&gt;还应知道两类补充选项：&lt;a class="link" href="https://github.com/InternLM/lmdeploy" target="_blank" rel="noopener"
+ &gt;LMDeploy&lt;/a&gt; 提供压缩、部署和服务能力，包含 TurboMind 与 PyTorch 执行路径，适合与主服务引擎进行目标模型上的比较；&lt;a class="link" href="https://github.com/alibaba/MNN" target="_blank" rel="noopener"
+ &gt;MNN&lt;/a&gt; 偏向轻量端侧推理，并有 LLM 能力，适合移动/嵌入式路线考察模型转换、运行时与应用集成。二者都值得放入选型地图，但没有理由在尚未完成一条主线之前同时精读全部实现。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;对象&lt;/th&gt;
+					&lt;th&gt;初期投入建议&lt;/th&gt;
+					&lt;th&gt;原因&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第二个、第三个通用服务引擎&lt;/td&gt;
+					&lt;td&gt;跑相同负载，比较关键路径即可&lt;/td&gt;
+					&lt;td&gt;调度、KV、模型执行等基础知识高度复用&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;本地模型管理器、聊天 UI、API 包装层&lt;/td&gt;
+					&lt;td&gt;会使用、知道底层依赖&lt;/td&gt;
+					&lt;td&gt;对产品验证有价值，但不能替代芯片后端能力&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;多种模型导出格式与转换 CLI&lt;/td&gt;
+					&lt;td&gt;围绕实际部署链掌握一种&lt;/td&gt;
+					&lt;td&gt;核心是张量语义、形状和数值一致性&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;多套计算内核 DSL&lt;/td&gt;
+					&lt;td&gt;先深学一种，再看差异&lt;/td&gt;
+					&lt;td&gt;数据搬运、布局、tile 和同步知识更持久&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;所有分布式推理平台&lt;/td&gt;
+					&lt;td&gt;有明确规模问题再深入&lt;/td&gt;
+					&lt;td&gt;单设备实验通常还没有相同的调度和运维约束&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="73-2026-年需要特别留意的维护与迁移状态"&gt;7.3 2026 年需要特别留意的维护与迁移状态
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;TGI 已进入维护模式&lt;/strong&gt;，官方说明以小修复、文档和轻量维护为主，并推荐新选择考虑 vLLM、SGLang 或本地运行方案。对于新学习路线，不宜再默认把它作为主要投入对象。&lt;a class="link" href="https://huggingface.co/docs/text-generation-inference/en/index" target="_blank" rel="noopener"
+ &gt;TGI 官方说明&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AutoAWQ 已弃用&lt;/strong&gt;，相关功能迁入 vLLM 生态的 LLM Compressor。这里变化的是工具维护路径，&lt;strong&gt;AWQ 算法仍然值得理解&lt;/strong&gt;。&lt;a class="link" href="https://docs.vllm.ai/en/latest/features/quantization/auto_awq/" target="_blank" rel="noopener"
+ &gt;vLLM AutoAWQ 文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;FasterTransformer 官方不再继续开发该项目，并将方向转向 TensorRT-LLM&lt;/strong&gt;。它仍可作为历史实现参考，但不适合作为新部署主线。&lt;a class="link" href="https://github.com/NVIDIA/FasterTransformer" target="_blank" rel="noopener"
+ &gt;FasterTransformer 仓库说明&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TensorRT-LLM 的 latest 文档与 v1.3.0rc27 预发布分支发生后端变化&lt;/strong&gt;：旧 TensorRT 执行引擎（engine） 后端移除，PyTorch 成为执行后端，基于它的 AutoDeploy 保留；新路径直接加载 Hugging Face 模型检查点，不再经过旧的引擎构建流程（engine build）。&lt;strong&gt;这不是说所有已发布旧版本都如此，也不是 TensorRT 产品被取消。&lt;/strong&gt; 阅读旧教程时先核对版本。&lt;a class="link" href="https://nvidia.github.io/TensorRT-LLM/latest/legacy/tensorrt-backend-removal.html" target="_blank" rel="noopener"
+ &gt;迁移指南&lt;/a&gt;、&lt;a class="link" href="https://github.com/NVIDIA/TensorRT-LLM/releases/tag/v1.3.0rc27" target="_blank" rel="noopener"
+ &gt;预发布记录&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;因此，建立学习路线时应追踪&lt;strong&gt;问题与接口&lt;/strong&gt;；具体命令、目录和后端名称则跟随所固定的版本。&lt;/p&gt;
+&lt;h2 id="八编译器与算子模型怎样变成高效的设备执行"&gt;八、编译器与算子：模型怎样变成高效的设备执行
+&lt;/h2&gt;&lt;p&gt;推理引擎最终要调用设备能够执行的计算。编译器和算子层决定模型如何表示、哪些操作可以融合、数据放在哪里以及怎样映射到硬件。所有路线都值得理解这一层的作用；只有需要改变其行为时，才需要深入特定编译器或计算内核实现。&lt;/p&gt;
+&lt;h3 id="81-先理解编译链中的动作"&gt;8.1 先理解编译链中的动作
+&lt;/h3&gt;&lt;figure class="inference-figure" aria-labelledby="inference-compiler-caption"&gt;
+&lt;figcaption id="inference-compiler-caption"&gt;&lt;span class="inference-figure-title"&gt;图 3 · 模型编译与设备执行流程&lt;/span&gt;&lt;/figcaption&gt;
+&lt;pre class="mermaid" style="visibility:hidden"&gt;flowchart TB
+ A[模型语义与权重] --&gt; B[图捕获或导出&lt;br/&gt;算子 · 形状 · 状态约束]
+ B --&gt; C[算子合法化与图优化&lt;br/&gt;分解 · 融合 · 量化]
+ C --&gt; D[图分区&lt;br/&gt;子图与设备边界]
+ D --&gt; E[Lowering 与代码生成&lt;br/&gt;布局 · 分块 · 内存规划]
+ E --&gt; F[编译产物与运行时&lt;br/&gt;加载 · 提交 · 同步]
+ F --&gt; G[正确性与性能验证]
+ G -. 反馈 .-&gt; C&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;中间表示（Intermediate Representation，IR）&lt;/strong&gt; 是编译器能分析与变换的程序表示。&lt;strong&gt;lowering&lt;/strong&gt; 在本文保留英文，指将高层表示逐步转换为更低层表示，在保持程序语义的同时落实循环、内存布局、并行和设备指令等细节。&lt;a class="link" href="https://mlir.llvm.org/docs/Tutorials/Toy/Ch-5/" target="_blank" rel="noopener"
+ &gt;MLIR 的逐级转换示例&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;算子合法化（operator legalization）&lt;/strong&gt; 指将不符合目标约束的操作改写为合法操作；这里的“合法”由转换目标定义。&lt;strong&gt;图分区（graph partitioning）&lt;/strong&gt; 决定哪些节点或子图交给哪个后端执行。这些步骤可能在不同层次反复发生，图 3 表示概念流程，不限定编译器必须采用这一顺序。&lt;a class="link" href="https://mlir.llvm.org/docs/DialectConversion/" target="_blank" rel="noopener"
+ &gt;MLIR Dialect Conversion&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;MLIR 中的&lt;strong&gt;方言（dialect）&lt;/strong&gt; 组织某类操作、类型和属性；&lt;strong&gt;编译 pass&lt;/strong&gt; 是编译流水线中的处理单元，可以执行分析或转换。中文也会称 pass 为“编译遍”，本文保留 pass，便于对照源码。&lt;/p&gt;
+&lt;p&gt;深入编译路径时，需要能回答：一个算子的 lowering 为什么失败？是缺实现、形状不受支持、数据类型（dtype）不匹配，还是状态/控制流无法表达？某次融合为什么没有发生？编译器怎样证明缓冲区（buffer）可以复用？&lt;/p&gt;
+&lt;h3 id="82-编译相关项目不是一组平行竞品"&gt;8.2 编译相关项目不是一组平行竞品
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;对象&lt;/th&gt;
+					&lt;th&gt;所处层次与作用&lt;/th&gt;
+					&lt;th&gt;与其他对象的关系&lt;/th&gt;
+					&lt;th&gt;建议深度&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;torch.compile&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;在 PyTorch 执行中捕获并优化计算，接入编译后端&lt;/td&gt;
+					&lt;td&gt;常与推理引擎一起使用；不是完整服务系统&lt;/td&gt;
+					&lt;td&gt;掌握 graph break、guard、重编译和后端边界&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;torch.export&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;捕获可供后续转换的完整图及约束&lt;/td&gt;
+					&lt;td&gt;是 ExecuTorch 等部署路径的入口之一&lt;/td&gt;
+					&lt;td&gt;NPU/端侧方向重点掌握&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;ONNX + ONNX Runtime EP&lt;/td&gt;
+					&lt;td&gt;图表示 + 执行提供程序（Execution Provider，EP）&lt;/td&gt;
+					&lt;td&gt;EP 根据能力接管节点或子图；与厂商 SDK 对接&lt;/td&gt;
+					&lt;td&gt;适合学习通用分区与后端接入&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;TVM&lt;/td&gt;
+					&lt;td&gt;模型/算子编译、调度与运行时基础设施&lt;/td&gt;
+					&lt;td&gt;MLC LLM 建立在相关编译能力上&lt;/td&gt;
+					&lt;td&gt;适合需要较完整编译链的路线&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;MLIR&lt;/td&gt;
+					&lt;td&gt;多层 IR、方言、编译 pass 与转换基础设施&lt;/td&gt;
+					&lt;td&gt;可用于构建自研编译器；自身不是现成 LLM 服务&lt;/td&gt;
+					&lt;td&gt;理解概念；工作需要时深入方言/pass&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;IREE&lt;/td&gt;
+					&lt;td&gt;基于 MLIR 的编译器与运行时栈&lt;/td&gt;
+					&lt;td&gt;提供具体编译、设备抽象与执行路径&lt;/td&gt;
+					&lt;td&gt;目标栈使用它时深入，其余了解设计&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;ExecuTorch&lt;/td&gt;
+					&lt;td&gt;PyTorch 模型面向端侧的导出、后端委托执行和轻量运行时&lt;/td&gt;
+					&lt;td&gt;可连接不同硬件 delegate&lt;/td&gt;
+					&lt;td&gt;移动端/嵌入式路线优先比较&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;依据：&lt;a class="link" href="https://docs.pytorch.org/tutorials/intermediate/torch_compile_tutorial" target="_blank" rel="noopener"
+ &gt;PyTorch compile 教程&lt;/a&gt;、&lt;a class="link" href="https://docs.pytorch.org/tutorials/intermediate/torch_export_tutorial.html" target="_blank" rel="noopener"
+ &gt;export 教程&lt;/a&gt;、&lt;a class="link" href="https://onnxruntime.ai/docs/execution-providers/" target="_blank" rel="noopener"
+ &gt;ORT Execution Providers&lt;/a&gt;、&lt;a class="link" href="https://tvm.apache.org/docs/" target="_blank" rel="noopener"
+ &gt;TVM 文档&lt;/a&gt;、&lt;a class="link" href="https://mlir.llvm.org/" target="_blank" rel="noopener"
+ &gt;MLIR&lt;/a&gt;、&lt;a class="link" href="https://iree.dev/" target="_blank" rel="noopener"
+ &gt;IREE&lt;/a&gt;、&lt;a class="link" href="https://docs.pytorch.org/executorch/stable/getting-started-architecture" target="_blank" rel="noopener"
+ &gt;ExecuTorch 架构&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;后端委托执行（delegation）&lt;/strong&gt; 是把图或子图交给专用后端编译和运行；ExecuTorch 等项目把承担这一工作的后端组件称为 &lt;strong&gt;delegate&lt;/strong&gt;，本文保留该名称。它与 ONNX Runtime 的 EP 都涉及后端接入，但具体接口并不相同。“执行提供程序”沿用微软中文文档中的称呼。&lt;a class="link" href="https://docs.pytorch.org/executorch/stable/compiler-delegate-and-partitioner.html" target="_blank" rel="noopener"
+ &gt;ExecuTorch delegate 说明&lt;/a&gt;、&lt;a class="link" href="https://learn.microsoft.com/zh-cn/windows/ai/new-windows-ml/select-execution-providers" target="_blank" rel="noopener"
+ &gt;微软 EP 文档&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;阅读 &lt;code&gt;torch.compile&lt;/code&gt; 时，还应区分&lt;strong&gt;图中断（graph break）&lt;/strong&gt; 与&lt;strong&gt;守卫条件（guard）&lt;/strong&gt;：前者使计算无法连续捕获为同一张图，后者检查输入或运行状态是否满足复用已编译结果的条件。&lt;/p&gt;
+&lt;p&gt;“图捕获（graph capture）”也有上下文差异：TorchDynamo 捕获的是供编译器处理的程序计算图；CUDA Graph 捕获的是待重放的设备操作及其依赖。二者处于不同层次，可以配合使用。&lt;/p&gt;
+&lt;p&gt;两个容易踩到的版本问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;torch.compile&lt;/code&gt; 默认路径可在 graph break 后回到 Python 执行，再继续捕获；&lt;code&gt;torch.export&lt;/code&gt; 要求得到完整图，不能靠这种方式保留未捕获代码。&lt;code&gt;fullgraph=True&lt;/code&gt; 又会改变 compile 对 graph break 的处理。不能只说“两个 API 都是导出模型”。&lt;/li&gt;
+&lt;li&gt;TVM 旧文章常以 Relay 为中心，当前文档则需要关注 Relax、TensorIR 等新的组织与表示。阅读教程前固定 TVM 版本，别把不同年代的 API 拼成一条部署流水线。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;架构选择建议&lt;/strong&gt;：若厂商已有稳定编译器，先围绕其接口完成模型适配；若缺少特定算子，增加计算内核或子图后端；只有现有接口无法满足关键模型与性能目标、且团队有长期维护能力时，才考虑大范围自研编译基础设施。&lt;/p&gt;
+&lt;h3 id="83-算子技术栈先掌握硬件映射再选择表达方式"&gt;8.3 算子技术栈：先掌握硬件映射，再选择表达方式
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;项目/技术&lt;/th&gt;
+					&lt;th&gt;主要价值&lt;/th&gt;
+					&lt;th&gt;适合在哪条路线深入&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;CUDA C++&lt;/td&gt;
+					&lt;td&gt;NVIDIA 的设备编程、内存与同步基础&lt;/td&gt;
+					&lt;td&gt;GPU 优化基础；很多性能思维可迁移，API 不可直接迁移到 NPU&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://triton-lang.org/main/index.html" target="_blank" rel="noopener"
+ &gt;Triton language&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;用块级张量表达计算内核，降低部分 GPU 内核开发门槛&lt;/td&gt;
+					&lt;td&gt;适合做融合与算子实验；目标后端支持仍需检查&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://docs.nvidia.com/cutlass/latest/overview.html" target="_blank" rel="noopener"
+ &gt;CUTLASS / CuTe DSL&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;高性能线性代数、布局与 NVIDIA 硬件映射&lt;/td&gt;
+					&lt;td&gt;极致 GPU 计算内核路线再深入&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://flashinfer.ai/" target="_blank" rel="noopener"
+ &gt;FlashInfer&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;面向 LLM 推理的注意力等计算内核库&lt;/td&gt;
+					&lt;td&gt;理解引擎如何调用专用算子库&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/tile-ai/tilelang" target="_blank" rel="noopener"
+ &gt;TileLang&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;用 tile 表达高性能计算的 DSL&lt;/td&gt;
+					&lt;td&gt;可作为另一种表达方式，初期不必与所有 DSL 同时学&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/deepseek-ai/DeepGEMM" target="_blank" rel="noopener"
+ &gt;DeepGEMM&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;特定低精度和形状下的 GEMM 实现&lt;/td&gt;
+					&lt;td&gt;理解 MoE/稠密模型的计算部分&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/deepseek-ai/DeepEP" target="_blank" rel="noopener"
+ &gt;DeepEP&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;专家并行中的 token 分发（dispatch）与结果合并（combine）通信&lt;/td&gt;
+					&lt;td&gt;解决的是 MoE 数据交换，与 GEMM 互补&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;厂商计算内核 API，例如 Ascend C&lt;/td&gt;
+					&lt;td&gt;显式表达目标 NPU 的计算、片上内存与数据搬运&lt;/td&gt;
+					&lt;td&gt;对应芯片的算子开发与性能优化&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;领域专用语言（Domain-Specific Language，DSL）&lt;/strong&gt; 针对特定计算方式提供表达能力。这里的 &lt;strong&gt;tile&lt;/strong&gt; 指计算分块，&lt;strong&gt;tiling&lt;/strong&gt; 指分块策略，&lt;strong&gt;数据布局（data layout）&lt;/strong&gt; 描述张量元素怎样映射到内存或线程。GEMM 指通用矩阵乘（General Matrix Multiplication），GEMV 指通用矩阵向量乘（General Matrix-Vector Multiplication）。&lt;/p&gt;
+&lt;p&gt;在硬件优化路线中，优先掌握这些可迁移概念：&lt;strong&gt;计算分块、数据布局、向量/矩阵单元、片上存储、数据搬运、流水线（pipeline）、同步、双缓冲（double buffering）、边界处理与数值累加。&lt;/strong&gt; 片上 SRAM 是静态随机存取存储器（Static Random-Access Memory），具体用途随硬件而异。Ascend C 的 CopyIn/Compute/CopyOut 与队列示例，是理解显式搬运和流水线的一个公开入口；它与 GPU 或其他 NPU 的具体存储、调度机制仍有差别。&lt;a class="link" href="https://www.hiascend.com/developer/techArticles/20230830-1" target="_blank" rel="noopener"
+ &gt;官方编程介绍&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="84-系统语言不是附属技能"&gt;8.4 系统语言不是附属技能
+&lt;/h3&gt;&lt;p&gt;Python 常承担模型描述、转换、实验、调度与系统集成；C++ 常出现在运行时、内存管理、设备接口和性能关键路径。需要掌握的工程能力包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;C++ 的对象生命周期、缓冲区所有权、并发与异步回调；掌握 RAII（Resource Acquisition Is Initialization，资源获取即初始化），通过对象生命周期管理资源。&lt;/li&gt;
+&lt;li&gt;Python/C++ 边界、外部函数接口（Foreign Function Interface，FFI）、零拷贝（zero-copy）的实际条件，以及错误传播。&lt;/li&gt;
+&lt;li&gt;CMake、交叉编译、应用二进制接口（Application Binary Interface，ABI）与动态库依赖、目标板部署。&lt;/li&gt;
+&lt;li&gt;Linux 进程/线程、非统一内存访问（Non-Uniform Memory Access，NUMA）、CPU 亲和性、调试器与内存检查工具。&lt;/li&gt;
+&lt;li&gt;基准实验设计、日志/执行轨迹分析和最小复现。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;“会写一个计算内核”和“能把它长期稳定地接入推理引擎”，中间往往隔着这些系统工程工作。&lt;/p&gt;
+&lt;h2 id="九部署工程链从模型产物到稳定运行"&gt;九、部署工程链：从模型产物到稳定运行
+&lt;/h2&gt;&lt;h3 id="91-选硬件时也在选择软件栈"&gt;9.1 选硬件时，也在选择软件栈
+&lt;/h3&gt;&lt;p&gt;设备选型要同时考虑算力、内存、带宽、互联和软件成熟度。GPU 不同代际的精度支持会影响计算内核选择；NPU 的矩阵/向量单元、片上存储、指令和 SDK 开放程度也有很大差异。数据中心加速器与手机 SoC 更不能只按同一个“TOPS”数字比较。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;硬件方向&lt;/th&gt;
+					&lt;th&gt;应优先观察的约束&lt;/th&gt;
+					&lt;th&gt;典型软件路线&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;CPU&lt;/td&gt;
+					&lt;td&gt;内存带宽、向量指令、NUMA、线程开销&lt;/td&gt;
+					&lt;td&gt;C/C++ 运行时、向量化算子；也常承担预处理与控制&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;GPU&lt;/td&gt;
+					&lt;td&gt;显存、带宽、矩阵指令、计算内核启动、互联&lt;/td&gt;
+					&lt;td&gt;通用引擎 + 专用计算内核 + 多卡通信&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;数据中心 NPU&lt;/td&gt;
+					&lt;td&gt;编译器/算子覆盖、设备内存、互联、软件版本耦合&lt;/td&gt;
+					&lt;td&gt;厂商运行时 + 引擎插件/图后端&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;移动/嵌入式 NPU、DSP&lt;/td&gt;
+					&lt;td&gt;功耗、热约束、共享内存、静态编译边界、算子覆盖&lt;/td&gt;
+					&lt;td&gt;delegate、预编译模型、厂商 SDK&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;FPGA&lt;/td&gt;
+					&lt;td&gt;数据通路设计、片上资源、带宽、开发周期&lt;/td&gt;
+					&lt;td&gt;可重构硬件与专用编译/运行时；通常是另一条深入路线&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;这张表表达常见关注点，不是给硬件类别下固定性能结论。某个端侧后端可能支持动态形状，某个高性能计算内核也可能只支持一组固定形状；要看实际支持范围与接口约定。&lt;/p&gt;
+&lt;h3 id="92-观察不同生态怎样连接模型与设备"&gt;9.2 观察不同生态怎样连接模型与设备
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;生态&lt;/th&gt;
+					&lt;th&gt;值得观察的适配方式&lt;/th&gt;
+					&lt;th&gt;需要确认的边界&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://docs.vllm.ai/en/latest/getting_started/installation/gpu/" target="_blank" rel="noopener"
+ &gt;vLLM 的 GPU 安装与后端路径&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;引擎连接 CUDA、ROCm 等 GPU 软件栈&lt;/td&gt;
+					&lt;td&gt;GPU 架构、驱动、软件构建和各优化特性的支持条件&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://docs.vllm.ai/projects/ascend/en/latest/user_guide/" target="_blank" rel="noopener"
+ &gt;vLLM Ascend&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;通过硬件插件将引擎与昇腾执行能力连接&lt;/td&gt;
+					&lt;td&gt;对齐 vLLM、插件、CANN、PyTorch/torch_npu 等版本；查看功能矩阵&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://docs.pytorch.org/executorch/stable/backends-qualcomm.html" target="_blank" rel="noopener"
+ &gt;ExecuTorch Qualcomm 后端&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;导出图、分区、委托给 Qualcomm AI Engine Direct/QNN&lt;/td&gt;
+					&lt;td&gt;算子、形状、设备与 SDK 的支持条件&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://docs.openvino.ai/2025/openvino-workflow-generative/inference-with-genai/inference-with-genai-on-npu.html" target="_blank" rel="noopener"
+ &gt;OpenVINO GenAI NPU 路径&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;从模型转换、编译到设备执行的完整样本&lt;/td&gt;
+					&lt;td&gt;此处引用为 2025 文档；动态形状与配置能力要按安装版本核对&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/airockchip/rknn-llm" target="_blank" rel="noopener"
+ &gt;RKLLM&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;PC 侧转换/量化工具 + 板端 C/C++ 运行时 + 驱动&lt;/td&gt;
+					&lt;td&gt;RKLLM 与通用 RKNN 路线有区别；检查芯片与模型列表&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://apple.github.io/coremltools/docs-guides/source/stateful-models.html" target="_blank" rel="noopener"
+ &gt;Core ML stateful models&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;将 KV 等持久状态纳入模型执行接口&lt;/td&gt;
+					&lt;td&gt;可配置的计算单元（compute units）不保证所有节点实际运行在 ANE&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://developers.google.com/edge" target="_blank" rel="noopener"
+ &gt;LiteRT / LiteRT-LM&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;端侧模型运行时与 LLM 执行层协作&lt;/td&gt;
+					&lt;td&gt;不同平台、加速后端与模型格式的具体支持&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;这些项目展示了两类典型路径：&lt;strong&gt;通过成熟引擎及其后端执行模型&lt;/strong&gt;，或&lt;strong&gt;把模型编译为设备可执行的图/子图，由运行时驱动&lt;/strong&gt;。实际系统可以混合使用。前者更关注引擎的模型覆盖、调度和集成，后者更需要显式管理转换、形状、编译产物与运行时接口。&lt;/p&gt;
+&lt;p&gt;厂商在 GitHub 上发布 SDK、示例或二进制包，也不代表编译器、驱动与固件全部开源。选型时要逐层记录“可修改、可调试、可再分发”的边界，并确认实际授权条款。&lt;/p&gt;
+&lt;h3 id="93-第一步明确支持范围建立正确性基线"&gt;9.3 第一步：明确支持范围，建立正确性基线
+&lt;/h3&gt;&lt;p&gt;先选一个设备能容纳、架构清晰的模型，打通单请求推理。首次验证可以从小型稠密模型开始，再逐项加入目标模型结构、长上下文、多模态或并行特性。已有成熟引擎时优先复用其正确路径，避免同时改动模型语义、数值精度和执行后端。&lt;/p&gt;
+&lt;p&gt;支持范围与接口约定至少写明：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;模型与分词器：具体版本、权重校验、对话模板（chat template）
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;模型语义：层数、头数、位置编码、掩码、缓存更新方式
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;输入范围：批量大小、上下文长度、预填充分块大小、图像尺寸/数量
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;数值格式：权重/激活/KV 格式、累加精度、量化元数据
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;设备环境：芯片、驱动、固件、SDK、编译器、运行时
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;允许行为：动态形状范围、容量超限处理、回退设备、最大并发
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;验收标准：质量、TTFT/ITL、峰值内存、功耗、稳定性
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;以高精度参考实现为基准，依次比较 词嵌入、单层注意力、MLP、logits 和生成行为。检查长短序列、不同位置索引、填充、缓存命中与未命中、缓存追加和截断等边界。&lt;/p&gt;
+&lt;p&gt;不要只对比一段“看起来通顺”的输出。浮点误差可能先出现在某层，经过多步采样放大；固定输入下的中间结果和 logits 更适合定位问题。&lt;/p&gt;
+&lt;h3 id="94-第二步打通执行路径确认隐藏的回退"&gt;9.4 第二步：打通执行路径，确认隐藏的回退
+&lt;/h3&gt;&lt;p&gt;在成熟引擎中，应先确认预期的量化计算内核、注意力后端和图执行路径实际生效；“配置了”不等于“使用了”。在图编译或异构部署路径中，还要检查子图分区。一个不支持的算子可能导致：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;加速器子图 → 同步 → 拷贝/布局转换 → CPU 算子
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; → 拷贝/布局转换 → 同步 → 加速器子图
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;回退本身可以帮助先获得正确结果，但若该边界在&lt;strong&gt;每层、每个解码步&lt;/strong&gt;都触发，就可能成为主要瓶颈。统一内存也不自动消除布局转换、缓存一致性和同步成本。&lt;/p&gt;
+&lt;p&gt;因此，适配优先级应看&lt;strong&gt;关键路径时间与边界开销&lt;/strong&gt;，不只是“还剩几个算子没支持”。一个非常小的缺失算子可能切碎整张图；一个较大的预处理算子留在 CPU 上，反而未必影响逐 token 路径。&lt;/p&gt;
+&lt;p&gt;一种可操作的分区评估是：&lt;/p&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;子图迁移收益 = 原路径耗时 − 新设备计算耗时 − 数据转换/传输耗时 − 新增同步和调度耗时。&lt;/p&gt;
+
+ &lt;/blockquote&gt;
+&lt;p&gt;ONNX Runtime 的 &lt;code&gt;GetCapability()&lt;/code&gt; 和 ExecuTorch 的 delegate 机制提供了公开的分区设计样本。开发新设备后端时，还要和相应编译器对齐状态输入输出、布局和内存所有权。&lt;a class="link" href="https://onnxruntime.ai/docs/execution-providers/" target="_blank" rel="noopener"
+ &gt;ORT EP&lt;/a&gt;、&lt;a class="link" href="https://docs.pytorch.org/executorch/stable/getting-started-architecture" target="_blank" rel="noopener"
+ &gt;ExecuTorch 架构&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="95-第三步分别处理动态形状布局与状态内存"&gt;9.5 第三步：分别处理动态形状、布局与状态内存
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;动态形状策略&lt;/strong&gt;通常需要在以下方案之间取舍：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;真正的动态执行：灵活，但优化和运行时成本需要验证。&lt;/li&gt;
+&lt;li&gt;形状分桶（shape bucketing）：按常见批量大小和序列长度划分若干组并预编译，未精确命中时选择能够容纳输入的更大桶。&lt;/li&gt;
+&lt;li&gt;填充（padding）与分块：换取规则形状，代价是额外计算或状态管理。&lt;/li&gt;
+&lt;li&gt;编译特化（specialization）与产物缓存：针对特定形状、数据类型等生成优化版本；热点路径快，但首次编译成本和产物数量可能增长。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;对每种方案，同时记录冷启动、编译时间、稳态性能与内存。&lt;strong&gt;prefill 和 decode 可以采用不同编译策略&lt;/strong&gt;，不必强求用一张完全相同的图覆盖所有情况。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;布局规划&lt;/strong&gt;要同时满足矩阵单元、向量算子、量化打包和 KV 访问需求。某次局部布局变换让一个 GEMM 更快，却可能使后续注意力多做一次完整转置。因此，应沿子图传播布局，再核算整体成本。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;内存规划（memory planning）&lt;/strong&gt; 要区分两类对象：临时激活和工作区（workspace，即计算所需的临时存储）可根据生命周期复用；权重、KV 缓存和请求状态则跨迭代存活。一次前向计算（forward pass）结束不意味着它们可以释放。编译器的静态内存规划与运行时的动态 KV 缓存管理必须明确责任边界。&lt;/p&gt;
+&lt;h3 id="96-第四步从关键路径优化到端到端收益"&gt;9.6 第四步：从关键路径优化到端到端收益
+&lt;/h3&gt;&lt;p&gt;先根据瓶颈选择优化层。如果主要时间花在排队，应调整准入控制与调度；如果花在预处理或同步，应优化数据路径；如果计算内核主导，再选择 GEMM/GEMV、RMSNorm、RoPE、注意力或量化解包等热点。以算子优化为例，过程应包括：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;固定形状/数据类型/布局与误差标准。&lt;/li&gt;
+&lt;li&gt;建立原始实现和性能基线。&lt;/li&gt;
+&lt;li&gt;分析 tile、片上容量、数据复用、同步和搬运。&lt;/li&gt;
+&lt;li&gt;逐项优化，保存实验记录。&lt;/li&gt;
+&lt;li&gt;接回完整模型，检查端到端延迟、内存和质量。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;用 Amdahl 定律检查预期：若某计算内核只占总耗时 20%，把它加速到 2 倍，其他部分不变，整体加速约为 &lt;code&gt;1 / (0.8 + 0.2 / 2) = 1.11 倍&lt;/code&gt;。这仍可能值得做，但必须知道收益上限。&lt;/p&gt;
+&lt;p&gt;性能分析工具（profiler）应关联主机端（host）、运行时、设备任务、内存和通信的数据；昇腾的公开文档就提供了框架层与 CANN 数据联动的样本。&lt;a class="link" href="https://www.hiascend.com/document/detail/en/mindstudio/2600/TITools/ascend_pytorch_profiler/docs/en/ascend_pytorch_profiler/ascend_pytorch_profiler_user_guide.md" target="_blank" rel="noopener"
+ &gt;Ascend PyTorch Profiler&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="97-第五步把推理单元变成稳定的产品能力"&gt;9.7 第五步：把推理单元变成稳定的产品能力
+&lt;/h3&gt;&lt;p&gt;在线服务需要处理流式响应、请求截止时间、取消、准入控制、健康检查和扩缩容；端侧产品需要管理模型加载、内存压力、前后台状态、温升和离线更新。两者都要能观察错误、固定版本并回退。&lt;/p&gt;
+&lt;p&gt;如果进一步深入运行时与后端，至少要处理以下问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;请求取消后，设备上的异步任务尚未结束时，谁持有缓冲区？&lt;/li&gt;
+&lt;li&gt;KV 页何时回收？缓存条目被共享时如何避免提前释放？&lt;/li&gt;
+&lt;li&gt;发生内存不足（Out of Memory，OOM）时，是拒绝新请求、缩小批次，还是导致整个进程退出？&lt;/li&gt;
+&lt;li&gt;设备重置、模型切换、SDK 错误如何暴露与恢复？&lt;/li&gt;
+&lt;li&gt;编译产物、量化权重与运行时 ABI 是否一致？&lt;/li&gt;
+&lt;li&gt;长时间运行会不会泄漏、碎片化或因温升持续降速？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;一个可交付的推理系统，要同时具备清晰的支持范围、可定位的问题和可回退的升级路径。&lt;/strong&gt; 现成引擎可以承担其中很多工作，但系统的使用者仍需验证这些行为是否满足自身要求。&lt;/p&gt;
+&lt;h2 id="十进阶方向规模扩大以后主要瓶颈怎样变化"&gt;十、进阶方向：规模扩大以后，主要瓶颈怎样变化
+&lt;/h2&gt;&lt;h3 id="101-并行策略先决定切什么再讨论用几张卡"&gt;10.1 并行策略：先决定切什么，再讨论用几张卡
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;策略&lt;/th&gt;
+					&lt;th&gt;切分对象&lt;/th&gt;
+					&lt;th&gt;主要收益&lt;/th&gt;
+					&lt;th&gt;主要代价&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;数据并行（Data Parallelism，DP）&lt;/td&gt;
+					&lt;td&gt;将不同请求分配给模型副本&lt;/td&gt;
+					&lt;td&gt;增加服务容量、隔离故障&lt;/td&gt;
+					&lt;td&gt;每副本持有权重；路由和负载均衡&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;张量并行（Tensor Parallelism，TP）&lt;/td&gt;
+					&lt;td&gt;层内矩阵/张量&lt;/td&gt;
+					&lt;td&gt;跨设备容纳模型，增加层内并行&lt;/td&gt;
+					&lt;td&gt;每层通信频繁，对互联敏感&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;流水线并行（Pipeline Parallelism，PP）&lt;/td&gt;
+					&lt;td&gt;模型层&lt;/td&gt;
+					&lt;td&gt;分摊权重内存&lt;/td&gt;
+					&lt;td&gt;流水线气泡（pipeline bubble）、分阶段调度和尾延迟&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;专家并行（Expert Parallelism，EP）&lt;/td&gt;
+					&lt;td&gt;MoE 专家&lt;/td&gt;
+					&lt;td&gt;分摊专家权重与计算&lt;/td&gt;
+					&lt;td&gt;token 分发/结果合并、负载不均、跨节点通信&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;上下文并行（Context Parallelism，CP）&lt;/td&gt;
+					&lt;td&gt;序列/上下文及相关计算&lt;/td&gt;
+					&lt;td&gt;支持长上下文、分摊部分状态与计算&lt;/td&gt;
+					&lt;td&gt;注意力协调与通信；依具体实现而定&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;这里的 &lt;strong&gt;EP 指专家并行&lt;/strong&gt;，与第八节 ONNX Runtime 的执行提供程序（Execution Provider）同缩写、不同含义。流水线气泡是阶段间依赖或任务不足导致的设备空闲时段。&lt;/p&gt;
+&lt;p&gt;这些策略可以组合，但组合空间越大，测试与运维复杂度越高。参考引擎的具体实现和支持矩阵，而不是仅凭缩写设计系统。&lt;a class="link" href="https://nvidia.github.io/TensorRT-LLM/" target="_blank" rel="noopener"
+ &gt;TensorRT-LLM 文档入口&lt;/a&gt;、&lt;a class="link" href="https://github.com/sgl-project/sglang" target="_blank" rel="noopener"
+ &gt;SGLang&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="102-moe激活参数量小不代表部署内存和通信都少"&gt;10.2 MoE：激活参数量小，不代表部署内存和通信都少
+&lt;/h3&gt;&lt;p&gt;MoE 每个 token 只使用部分专家，减少的是一部分计算；&lt;strong&gt;完整模型仍有大量总参数需要放置、加载或按需调入&lt;/strong&gt;。路由分布还可能使不同设备负载不均。&lt;/p&gt;
+&lt;p&gt;因此，MoE 部署同时涉及：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;总参数决定的权重容量，以及每个 token 激活的参数量所对应的计算。&lt;/li&gt;
+&lt;li&gt;小批量专家 GEMM 的效率、权重精度与布局。&lt;/li&gt;
+&lt;li&gt;token 分发（dispatch）、专家结果合并（combine）、全互换通信（all-to-all）和跨机拓扑。&lt;/li&gt;
+&lt;li&gt;热门专家、冗余部署、负载均衡，以及通信与计算重叠。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这也是 &lt;a class="link" href="https://github.com/deepseek-ai/DeepGEMM" target="_blank" rel="noopener"
+ &gt;DeepGEMM&lt;/a&gt; 与 &lt;a class="link" href="https://github.com/deepseek-ai/DeepEP" target="_blank" rel="noopener"
+ &gt;DeepEP&lt;/a&gt; 需要分开理解的原因：前者关注计算，后者关注专家通信。新模型采用 MoE，不意味着必须一开始就上复杂多机 EP；先根据容量和负载验证最简单可行方案。&lt;/p&gt;
+&lt;h3 id="103-pd-分离与-kv-基础设施收益来自负载成本来自数据流"&gt;10.3 PD 分离与 KV 基础设施：收益来自负载，成本来自数据流
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;预填充/解码分离（Prefill/Decode Disaggregation，简称 PD 分离）&lt;/strong&gt; 把两个阶段放到不同资源池，使它们独立调度和配置。代价是 KV 状态需要跨资源边界传递，还要处理排队、路由、失败和容量不平衡；这一架构思路最早由 &lt;a class="link" href="https://arxiv.org/abs/2401.09670" target="_blank" rel="noopener"
+ &gt;DistServe 论文&lt;/a&gt; 系统性提出并验证。&lt;/p&gt;
+&lt;figure class="inference-figure" aria-labelledby="inference-pd-caption"&gt;
+&lt;figcaption id="inference-pd-caption"&gt;&lt;span class="inference-figure-title"&gt;图 4 · 预填充/解码分离与 KV 状态流转&lt;/span&gt;&lt;/figcaption&gt;
+&lt;pre class="mermaid" style="visibility:hidden"&gt;flowchart TB
+ A[请求路由与准入控制] --&gt; B[预填充资源池&lt;br/&gt;Prefill]
+ B --&gt;|KV 状态传输| C[解码资源池&lt;br/&gt;Decode]
+ D[可选的 KV 缓存层] -. 加载复用 .-&gt; B
+ D -. 加载 .-&gt; C
+ C --&gt; E[流式输出]&lt;/pre&gt;&lt;/figure&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;项目&lt;/th&gt;
+					&lt;th&gt;更关注哪一部分&lt;/th&gt;
+					&lt;th&gt;应怎样比较&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://docs.nvidia.com/dynamo/" target="_blank" rel="noopener"
+ &gt;NVIDIA Dynamo&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;分布式推理、路由、资源规划与 KV 数据流；可连接 vLLM、SGLang、TensorRT-LLM&lt;/td&gt;
+					&lt;td&gt;与自身引擎、部署环境、硬件和扩缩容策略的适配；不是只有 NVIDIA 硬件一种路径&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/llm-d/llm-d" target="_blank" rel="noopener"
+ &gt;llm-d&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;Kubernetes 上的分布式推理与可部署方案&lt;/td&gt;
+					&lt;td&gt;已有 K8s 平台时，观察路由、调度、运行方案和维护成本&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://docs.lmcache.ai/" target="_blank" rel="noopener"
+ &gt;LMCache&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;KV 复用、分层卸载、共享与管理&lt;/td&gt;
+					&lt;td&gt;缓存命中收益、加载开销、存储层和引擎连接方式&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/kvcache-ai/Mooncake" target="_blank" rel="noopener"
+ &gt;Mooncake&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;以 KV 为中心的基础设施；传输引擎、存储等组件&lt;/td&gt;
+					&lt;td&gt;网络/存储数据路径、拓扑与具体集成模块；范围不只是一篇早期论文&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;它们存在重叠，也存在集成关系；不能把四个项目作为四个完整推理引擎逐一替换测试。尤其是缓存复用，&lt;strong&gt;读取 KV 的时间必须小于省掉的计算和等待，才有实际收益&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;这里的&lt;strong&gt;缓存卸载（cache offloading）&lt;/strong&gt; 指把 KV 状态从加速器内存迁移到 CPU 内存、SSD 等存储层，需要时再加载。缓存复用回答“能否省掉重复计算”，缓存卸载回答“状态放在哪里”，两种机制可以组合。&lt;/p&gt;
+&lt;p&gt;缓存还具有语义边界：模型权重版本、低秩适配（Low-Rank Adaptation，LoRA）的配置、位置与 token 前缀、精度/布局、租户隔离都会影响复用条件。普通因果注意力（causal attention）中，任意中间文本片段不能因为“内容相同”就直接复用为精确 KV；非前缀复用可能需要重算或质量恢复策略。&lt;a class="link" href="https://docs.lmcache.ai/" target="_blank" rel="noopener"
+ &gt;LMCache 的相关能力说明&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;对于单设备、本地交互或小规模服务，先理解机制与收益条件即可；当跨节点数据流、阶段干扰和缓存容量成为实际瓶颈时，再将其升级为需要深入的核心能力。&lt;/p&gt;
+&lt;h3 id="104-vlm把整个输入链计入推理系统"&gt;10.4 VLM：把整个输入链计入推理系统
+&lt;/h3&gt;&lt;p&gt;一种常见 VLM 路径是：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;图像/视频 → 媒体解码与预处理 → 视觉编码器 → 投影/连接模块
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;文本 → 分词器 → 多模态序列组织 → LLM prefill → decode
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;不同模型也可能采用跨注意力等结构，不能照搬同一个部署模板。架构师需要额外关注：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;图像分辨率、切图和视频帧数怎样改变视觉 token 数量。&lt;/li&gt;
+&lt;li&gt;编码器、投影层和语言模型是否使用不同设备/精度。&lt;/li&gt;
+&lt;li&gt;主机端预处理、编码器延迟、跨设备传输是否主导 TTFT。&lt;/li&gt;
+&lt;li&gt;动态形状与多图批次如何影响编译缓存和内存峰值。&lt;/li&gt;
+&lt;li&gt;量化后是否损伤 OCR、细节识别、空间关系等具体任务。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;所以，&lt;strong&gt;LLM 解码器的 tokens/s 不能代表一个视觉助手的端到端体验&lt;/strong&gt;。VLM 优化要分别测输入准备、视觉编码、prefill 和 decode，再决定优化位置。&lt;/p&gt;
+&lt;h3 id="105-当前值得跟踪的变化而不是需要全部复现的论文"&gt;10.5 当前值得跟踪的变化，而不是需要全部复现的论文
+&lt;/h3&gt;&lt;p&gt;截至资料核对日期，本文建议持续关注四条方向：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;模型状态变得多样&lt;/strong&gt;：GQA、MLA、滑动窗口与混合状态模型，使“所有层都是同一种 KV”越来越不够用。&lt;a class="link" href="https://docs.vllm.ai/en/latest/design/hybrid_kv_cache_manager/" target="_blank" rel="noopener"
+ &gt;混合 KV 管理&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;低精度向整条数据路径延伸&lt;/strong&gt;：不只权重，还包括激活、KV、通信；支持情况要与计算内核和硬件共同验证。&lt;a class="link" href="https://docs.vllm.ai/projects/llm-compressor/en/latest/steps/choosing-algo/" target="_blank" rel="noopener"
+ &gt;LLM Compressor&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;推理资源围绕状态与阶段组织&lt;/strong&gt;：长上下文、多轮对话和智能体负载使缓存、路由和阶段分离更有研究价值。&lt;a class="link" href="https://docs.nvidia.com/dynamo/" target="_blank" rel="noopener"
+ &gt;Dynamo&lt;/a&gt;、&lt;a class="link" href="https://github.com/kvcache-ai/Mooncake" target="_blank" rel="noopener"
+ &gt;Mooncake&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;草稿生成与内核表达继续演变&lt;/strong&gt;：投机方法与 Python 计算内核 DSL 都有新进展；先掌握成本模型，再选择具体实现。&lt;a class="link" href="https://arxiv.org/abs/2602.06036" target="_blank" rel="noopener"
+ &gt;DFlash&lt;/a&gt;、&lt;a class="link" href="https://docs.nvidia.com/cutlass/latest/media/docs/pythonDSL/overview.html" target="_blank" rel="noopener"
+ &gt;CuTe DSL&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这是从当前资料中提取的关注方向，不是所有部署场景都必须采用的路线。&lt;/p&gt;
+&lt;h2 id="十一架构选型四种场景四种主要瓶颈"&gt;十一、架构选型：四种场景，四种主要瓶颈
+&lt;/h2&gt;&lt;h3 id="111-在线交互服务在延迟目标内增加有效容量"&gt;11.1 在线交互服务：在延迟目标内增加有效容量
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;先验证&lt;/strong&gt;：模型质量、输入/输出长度分布、峰值到达率，以及 TTFT、ITL 和可用性要求。引擎支持、精度、单机容量与网络条件共同约束部署方案。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;初始方案&lt;/strong&gt;：选一个成熟服务引擎，从单实例建立基线，按容量需要增加副本或模型并行。先使用可观测的调度、缓存和准入控制策略，再考虑更复杂的跨节点优化。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;投入重点&lt;/strong&gt;：请求调度、KV、连续批处理、尾延迟、路由与故障隔离。NVIDIA、AMD 或 NPU 平台的差异，应落实到后端支持和完整版本组合上。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;何时引入 PD 或 KV 缓存外置&lt;/strong&gt;：测量显示 prefill/decode 互相干扰或跨请求复用有价值，且传输成本可以接受。上线前与原方案做消融实验，计入新增的故障和运维复杂度。&lt;/p&gt;
+&lt;h3 id="112-离线批处理降低固定任务集的完成成本"&gt;11.2 离线批处理：降低固定任务集的完成成本
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;先验证&lt;/strong&gt;：数据规模、长度分布、质量要求、完成期限和失败重试语义。它通常不需要与交互式服务相同的逐 token 体验，但仍有任务完成时间约束。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;初始方案&lt;/strong&gt;：使用支持离线执行的推理引擎，按长度和容量组织批次，分片处理任务，保存可恢复的进度与输出。比较单机批处理、多个独立副本与模型并行的总成本。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;投入重点&lt;/strong&gt;：吞吐量、内存利用、数据供给、长度分组、幂等重试和输出验收。这里更大的批量可能合理，但仍需核算长尾任务、OOM 与失败恢复成本。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;何时改变方案&lt;/strong&gt;：任务供给不足、长度差异导致资源空转、模型容量超出设备，或总完成时间无法达标。优化对象由固定任务集的完成成本决定，不能直接照搬聊天服务的延迟最优配置。&lt;/p&gt;
+&lt;h3 id="113-端侧与本地应用在资源边界内保证持续体验"&gt;11.3 端侧与本地应用：在资源边界内保证持续体验
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;先验证&lt;/strong&gt;：质量、可用内存、持续功耗、热稳定后的持续性能、冷启动和离线要求。多模态应用还要计入图像/音视频的预处理和编码成本。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;初始方案&lt;/strong&gt;：根据平台，在 llama.cpp、MLX、MLC、MNN、ExecuTorch、Core ML 或 LiteRT 等路线中筛选一条可行路径。先打通端到端体验，再优化量化、模型加载和设备分工。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;投入重点&lt;/strong&gt;：权重与 KV 容量、精度、冷启动、内存生命周期、异构执行和应用集成。峰值 tokens/s 只是测量项之一，长时间使用后的速度与能耗同样重要。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;何时改变方案&lt;/strong&gt;：模型容量与质量难以兼顾、热降频不可接受、平台后端覆盖不足，或转换与更新成本过高。此时需要联合调整模型、精度和执行路线，而不只是更换 UI 或 API 包装层。&lt;/p&gt;
+&lt;h3 id="114-新硬件与专用加速器控制适配边界与维护成本"&gt;11.4 新硬件与专用加速器：控制适配边界与维护成本
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;先验证&lt;/strong&gt;：厂商编译器、算子、运行时、驱动和通信栈的可用性与开放边界。明确目标是接入已有引擎、委托执行子图，还是开发更完整的执行栈。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;初始方案&lt;/strong&gt;：高精度参考实现 + 最小可用后端。用一个代表模型验证数值、形状、缓存和分区，再按关键路径补充算子或融合。对有现成插件的设备，优先验证插件方案。&lt;a class="link" href="https://docs.vllm.ai/projects/ascend/en/main/community/versioning_policy.html" target="_blank" rel="noopener"
+ &gt;vLLM Ascend 的版本策略&lt;/a&gt;提供了观察全栈兼容关系的具体例子。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;投入重点&lt;/strong&gt;：编译器接口、布局、数据搬运、计算内核、状态内存和目标设备性能分析。性能成果必须回到完整模型上验证。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;何时扩大自研范围&lt;/strong&gt;：现有接口无法表达关键模型语义、频繁回退造成不可接受的成本，或模型演进长期受阻。扩大范围之前，应确认团队能够承担测试矩阵、编译器升级和长期回归维护。&lt;/p&gt;
+&lt;h3 id="115-一份够用的技术选型记录"&gt;11.5 一份够用的技术选型记录
+&lt;/h3&gt;&lt;p&gt;每次重要选型可以写一页&lt;strong&gt;架构决策记录（Architecture Decision Record，ADR）&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;问题：什么负载或交付要求促成这次决策？
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;约束：质量、SLO、内存、功耗、设备、团队与时间。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;候选：当前方案、最小改动方案、替代方案。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;证据：固定版本、代表负载、原始测量、正确性检查。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;决定：采用什么，为什么收益足以覆盖复杂度？
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;代价：适配、模型更新、编译、运维、许可与供应商依赖。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;退出条件：什么变化会触发重新评估？如何回退？
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;架构能力体现在边界与取舍上。&lt;/strong&gt; 一条可持续增加模型、定位退化并可靠升级的部署链，才具备长期演进的基础。&lt;/p&gt;
+&lt;h2 id="十二怎样做可信的比较让每个结论都能被复查"&gt;十二、怎样做可信的比较：让每个结论都能被复查
+&lt;/h2&gt;&lt;h3 id="121-基准测试必须覆盖负载分布"&gt;12.1 基准测试必须覆盖负载分布
+&lt;/h3&gt;&lt;p&gt;至少分开测量：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;负载&lt;/th&gt;
+					&lt;th&gt;想回答的问题&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;短输入、短输出、低并发&lt;/td&gt;
+					&lt;td&gt;系统的交互延迟与固定开销是多少？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;长输入、短输出&lt;/td&gt;
+					&lt;td&gt;prefill、注意力、视觉/文本预处理是否成为瓶颈？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;短输入、长输出&lt;/td&gt;
+					&lt;td&gt;decode 的带宽、权重读取与持续功耗如何？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;长输入、长输出&lt;/td&gt;
+					&lt;td&gt;KV 容量、长上下文质量与持续稳定性如何？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;多请求、长短混合、突发到达&lt;/td&gt;
+					&lt;td&gt;调度、公平性、准入控制与尾延迟如何？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;重复前缀与冷缓存两组&lt;/td&gt;
+					&lt;td&gt;缓存到底贡献了多少？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;VLM 的分辨率/图片数分组&lt;/td&gt;
+					&lt;td&gt;动态多模态输入怎样改变成本？&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;并发数与到达率不是同一个控制变量。&lt;/strong&gt; 固定并发的闭环压测，会在请求变慢时自然减少新请求；固定到达率的开环压测更容易观察排队和过载。两种方式都可以使用，但要写清楚，并检查压测客户端自身是否先遇到 CPU、连接或流式解析瓶颈。&lt;/p&gt;
+&lt;h3 id="122-比较前固定这些条件"&gt;12.2 比较前固定这些条件
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;模型与分词器版本标识、模板、输入集、输出长度分布、采样和停止条件。&lt;/li&gt;
+&lt;li&gt;权重/激活/KV 精度、量化算法与校准集、质量评测口径。&lt;/li&gt;
+&lt;li&gt;芯片、数量、频率/功率设置、内存、互联，以及完整软件版本。&lt;/li&gt;
+&lt;li&gt;批量大小/每轮 token 预算、并行策略、上下文上限、缓存、图执行和投机设置。&lt;/li&gt;
+&lt;li&gt;预热、首次编译是否计入，测试时长、重复次数与测量窗口。&lt;/li&gt;
+&lt;li&gt;错误、拒绝、超时和取消请求怎样进入统计，不能从分母中悄悄消失。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;不同分词器的 token 长度也不同。跨模型比较 tokens/s 时，应额外报告任务完成时间或字符/样本层面的业务指标，避免把 token 切分差异误认为系统优化。&lt;/p&gt;
+&lt;p&gt;推荐保存如下记录，而不是只截图一行吞吐量：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;实验编号 / 日期 / 配置文件 / 源码提交标识
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;模型、分词器、量化产物与校验信息
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;硬件、系统、驱动、SDK、运行时版本
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;请求集与到达方式；输入/输出长度分布
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;质量结果与失败样本
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;TTFT p50/p95/p99；ITL 分布；TPOT；端到端延迟
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;输出吞吐量、有效吞吐量（goodput）、错误/拒绝/超时率
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;内存峰值、稳态功耗、冷启动/编译时间
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;执行轨迹与热点归因
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;相对基线的唯一变化、收益、退化场景、结论适用范围
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;最后做&lt;strong&gt;消融实验（ablation study）&lt;/strong&gt;：分别开关量化、缓存、分块、图执行、投机等机制。若同时换模型、换精度、换引擎、开缓存，就很难知道收益来自哪里。&lt;a class="link" href="https://docs.vllm.ai/en/latest/benchmarking/dashboard/" target="_blank" rel="noopener"
+ &gt;vLLM 持续基准测试说明&lt;/a&gt;可作为组织回归记录的参考。&lt;/p&gt;
+&lt;h3 id="123-稳定性与交付也是评测维度"&gt;12.3 稳定性与交付也是评测维度
+&lt;/h3&gt;&lt;p&gt;服务型部署增加长时间压力、过载、取消、OOM、设备异常、升级/回退检查；端侧增加热稳定后的性能、前后台切换、资源争用和冷启动检查。&lt;/p&gt;
+&lt;p&gt;每个发布包应尽量包含固定依赖、模型与量化产物标识、编译配置、支持矩阵和验收结果。对于编译型后端，编译产物也应视为版本化交付物：它可能绑定设备、SDK、形状和精度配置。&lt;/p&gt;
+&lt;h2 id="十三8-周学习路线课程带路每天实践项目贯穿"&gt;十三、8 周学习路线：课程带路，每天实践，项目贯穿
+&lt;/h2&gt;&lt;p&gt;前十二节回答“这一领域有哪些问题、技术和选择”。从这里开始，把它们转成可以执行的学习计划：&lt;strong&gt;每周解决一个主要问题，每天完成一个具体任务，同一个项目贯穿八周。&lt;/strong&gt; 视频建立直觉，讲义核对推导，论文解释机制，文档与源码帮助实现；学习成果用代码和实测结果检查。&lt;/p&gt;
+&lt;h3 id="131-先明确投入基础与完成目标"&gt;13.1 先明确投入、基础与完成目标
+&lt;/h3&gt;&lt;p&gt;下面按&lt;strong&gt;每天可投入约 8 小时、每周 5 个主要学习日&lt;/strong&gt;设计，共 40 个学习日，约 320 小时。第 6、7 天留作休息、补缺或复盘，不再追加必修任务。每日安排只规定材料、任务与产物，具体时间由实验难度调整。&lt;/p&gt;
+&lt;p&gt;这个投入适合在两个月内完成：&lt;strong&gt;理解通用推理原理，掌握一条主要执行路径，做出一项有证据的优化，交付可复现的部署与评测工程。&lt;/strong&gt; 编译器开发、大规模分布式推理和端侧工程各自都有较深的学习空间；本计划在共同基础之后选择一个方向深入。&lt;/p&gt;
+&lt;p&gt;开始前做三项自测：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;能用 PyTorch 创建张量，解释矩阵乘、广播、维度变换和 softmax。&lt;/li&gt;
+&lt;li&gt;能读懂模型前向代码，区分参数、激活、训练模式与推理模式。&lt;/li&gt;
+&lt;li&gt;能创建 Python 环境、安装依赖、用 Git 保存代码，并定位一段报错。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;缺少这些基础时，用 &lt;a class="link" href="https://docs.pytorch.org/tutorials/beginner/basics/intro.html" target="_blank" rel="noopener"
+ &gt;PyTorch 官方基础教程&lt;/a&gt;中的张量、模型与自动求导内容补齐，再做第 1 周实验。C++ 按方向补充，运行时与硬件后端方向尤其需要理解对象生命周期、内存和异步执行。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;每天采用同一种学习顺序：先回顾昨日结果，再带着当天问题看课，然后实现、测量，最后记录结论。&lt;/strong&gt; 每周精选的视频通常控制在约 4—6 小时的原始播放量，允许跳过已掌握的内容；主要精力留给推导、代码、排错与复测。AI 可持续协助读代码、搭实验和分析报错，具体用法见第 13.6 节。&lt;/p&gt;
+&lt;p&gt;下文的每日实验由本文围绕课程主题设计；标注 Lab 或 Assignment 的链接才是课程原有作业。完整大学课程的作业可能需要数天，不要求同时完成几门课的全部作业。&lt;/p&gt;
+&lt;h3 id="132-课程怎样选三项主资源按方向补充"&gt;13.2 课程怎样选：三项主资源，按方向补充
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;课程与链接核对于 2026 年 9 月 21 日。&lt;/strong&gt; 讲次必须和年份一起记录：本文采用 MIT 2024 秋季版、CS336 2026 春季版，以及下表注明的其他版本。课程适合讲原理，实际安装与命令仍应对照所用软件版本的官方文档。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;资源&lt;/th&gt;
+					&lt;th&gt;在路线中的用途&lt;/th&gt;
+					&lt;th&gt;精选内容与入口&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;MIT 6.5940&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;量化、部署与长上下文的主要理论来源；Song Han 主讲&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://hanlab.mit.edu/courses/2024-fall-65940" target="_blank" rel="noopener"
+ &gt;EfficientML.ai（2024）：视频、讲义和实验&lt;/a&gt;。重点为第 5、6、12、13、15 讲；第 3、4 讲稀疏与剪枝按需补充&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;Stanford CS336&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;补模型计算、资源核算、硬件和系统直觉；Percy Liang、Tatsunori Hashimoto 主讲&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://cs336.stanford.edu/" target="_blank" rel="noopener"
+ &gt;Language Modeling from Scratch（2026）：课表与讲义&lt;/a&gt;、&lt;a class="link" href="https://www.youtube.com/playlist?list=PLoROMvodv4rMqXOcazWaTUHhq-yembLCV" target="_blank" rel="noopener"
+ &gt;官方视频列表&lt;/a&gt;。主选第 2、5、6、10 讲的相关部分；模型基础不足补第 3 讲，多卡方向选第 7、8 讲，评测补第 12 讲&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;vLLM 短课&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;把模型压缩、服务和评测连起来；实践主线&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://www.deeplearning.ai/courses/fast-and-efficient-llm-inference-with-vllm" target="_blank" rel="noopener"
+ &gt;DeepLearning.AI：Fast &amp;amp; Efficient LLM Inference with vLLM&lt;/a&gt;。Cedric Clyburn 主讲，页面标注 1 小时 38 分钟、9 节视频、3 个代码示例；学习时间还需加上调试和实验&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;CMU ML Systems&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;查清服务调度、投机解码、并行和编译机制&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://mlsyscourse.org/schedule" target="_blank" rel="noopener"
+ &gt;15-442/15-642 课表与讲义&lt;/a&gt;，Tianqi Chen、Zhihao Jia 授课。这里使用公开讲义，不将其当作已核实的完整公开视频课&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;NVIDIA 工程回放&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;学习从性能证据到优化方案的推理过程；后期选看&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=ndGOaG2CC1A" target="_blank" rel="noopener"
+ &gt;DeepSeek-R1 延迟优化，2025-06-04&lt;/a&gt;、&lt;a class="link" href="https://www.youtube.com/watch?v=Pybhjg_pRkY" target="_blank" rel="noopener"
+ &gt;MTP 实现与优化，2025-06-25&lt;/a&gt;，均来自 NVIDIA Developer；配合 &lt;a class="link" href="https://nvidia.github.io/TensorRT-LLM/latest/overview.html" target="_blank" rel="noopener"
+ &gt;TensorRT-LLM 官方文档&lt;/a&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;MLC 中文课程&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;编译方向的补充主课；需要中文讲解时尤其有用&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://mlc.ai/summer22-zh/schedule" target="_blank" rel="noopener"
+ &gt;2022 中文日程&lt;/a&gt;提供视频、中文笔记与练习。重点为第 1、3、9 课；旧版 TVM 示例应使用课程环境，或按当前文档迁移&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;SGLang 短课&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;补 KV 缓存实现，或在后期比较第二个引擎&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://www.deeplearning.ai/courses/efficient-inference-with-sglang-text-and-image-generation" target="_blank" rel="noopener"
+ &gt;DeepLearning.AI：Efficient Inference with SGLang: Text and Image Generation&lt;/a&gt;。重点看推理基础、KV 缓存和跨请求缓存；图像生成部分按方向选修&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;这份组合的分工是：&lt;strong&gt;MIT 解释优化原理，CS336 补计算与系统基础，vLLM 短课提供可操作流程。&lt;/strong&gt; 其他资源只在对应周次或技术分支中使用。同一主题已经理解并完成实验，就不必再完整刷一门相似课程。&lt;/p&gt;
+&lt;p&gt;几个直接影响执行的选择：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;量化实验入口&lt;/strong&gt;：MIT &lt;a class="link" href="https://colab.research.google.com/drive/11IBla1q1McoZ2oCANCGHns8VtzG5nCMP" target="_blank" rel="noopener"
+ &gt;Lab 2：量化&lt;/a&gt;、&lt;a class="link" href="https://colab.research.google.com/drive/16H9RvSg4XIF35X3fLGQUVwAE9ccvDj14" target="_blank" rel="noopener"
+ &gt;Lab 4：LLM 压缩&lt;/a&gt;。先读说明，选取符合当周目标的一部分；第 3 周也提供本地最小实验。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;系统实验入口&lt;/strong&gt;：CS336 &lt;a class="link" href="https://github.com/stanford-cs336/assignment2-systems" target="_blank" rel="noopener"
+ &gt;Assignment 2：Systems&lt;/a&gt;包含基准测试、性能分析等任务。第 2 周只选相关部分，完整 FlashAttention 与分布式训练作业放到后续深入阶段。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;获取方式&lt;/strong&gt;：DeepLearning.AI 的部分代码、项目或评分功能可能受登录和订阅条件限制，以课程页为准。本文的验收以自己的脚本和实验记录为依据，也可使用项目公开文档完成。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;中文与付费资源&lt;/strong&gt;：优先使用有明确版本、代码和练习的中文材料，例如上述 MLC 课程。其他付费课可以补充讲解与答疑；本路线不以购买某门课作为前提。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;NVIDIA 材料的迁移边界&lt;/strong&gt;：学习瓶颈分析、量化和状态管理的方法；移植到 NPU 时，需重新确认内存层次、编译接口和运行时机制。2025 年回放中的命令也要结合第 7.3 节的后端迁移情况理解。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="133-用同一个小项目串起-8-周"&gt;13.3 用同一个小项目串起 8 周
+&lt;/h3&gt;&lt;p&gt;贯穿项目是：&lt;strong&gt;为固定任务集部署一个小型文本生成模型，逐步优化质量、内存和延迟，并交付可复现的比较报告。&lt;/strong&gt; 起点可选 &lt;a class="link" href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct" target="_blank" rel="noopener"
+ &gt;Qwen2.5-0.5B-Instruct&lt;/a&gt;这类小型稠密模型；它在这里承担低成本实验载体的作用，后续换模型时重新建立基线。&lt;/p&gt;
+&lt;p&gt;第 1 周固定以下内容，后续持续沿用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;模型身份&lt;/strong&gt;：权重版本、分词器、对话模板、参考数值格式和生成配置。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;质量样本&lt;/strong&gt;：先整理约 30 个可核对答案的样本，包含信息抽取、简单问答、格式约束等；与量化校准文本分开。这个规模只用于学习和快速回归，产品验收仍需扩充。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;性能负载&lt;/strong&gt;：保存生成请求集的方法和随机种子，按实际 token 数控制输入长度、输出长度与到达方式；质量样本和性能请求集各司其职。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;比较约定&lt;/strong&gt;：同一硬件、同一模型、同一工作负载下比较；跨硬件或跨格式时标明变化，保留原始记录。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;建议给学习项目建立如下目录，逐周添加自己的实现：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;inference-study/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; configs/ # 模型、环境、量化与服务配置
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; data/ # 校准集、质量集、性能请求集及生成脚本
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; experiments/ # w01 至 w08 的可运行实验
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; results/ # 原始结果、执行轨迹和测量元数据
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; reports/ # 周报、性能基线、最终 ADR
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;先选设备，再决定哪些结果可以亲自测出来：&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;条件&lt;/th&gt;
+					&lt;th&gt;可以执行的路径&lt;/th&gt;
+					&lt;th&gt;需要调整的任务&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Linux + 受支持的 NVIDIA GPU&lt;/td&gt;
+					&lt;td&gt;按下文 vLLM 示例主线完成；先使用小模型和短上下文&lt;/td&gt;
+					&lt;td&gt;根据实际显存收缩批量与长度；量化格式、Triton 支持仍需核对&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Mac 或仅 CPU&lt;/td&gt;
+					&lt;td&gt;先做模型计算、容量估算、量化数值实验；服务实验可用 llama.cpp，Apple silicon 也可考察 MLX&lt;/td&gt;
+					&lt;td&gt;第 4、6 周测本地后端实际支持的服务/缓存能力；第 2 周用 CPU/平台工具分析，Triton 实测留到有适用 GPU 时&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;可使用短时云 GPU&lt;/td&gt;
+					&lt;td&gt;本地完成代码和正确性调试，集中做第 2—4 周及后半程的设备实验&lt;/td&gt;
+					&lt;td&gt;下载、编译、排错也占用时间；记录实际机型和环境，不把云上结果当成本机结果&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;有目标 NPU/开发板&lt;/td&gt;
+					&lt;td&gt;前半程用参考实现，后半程切入厂商支持的引擎或编译路径&lt;/td&gt;
+					&lt;td&gt;第 6 周选择编译/硬件分支；算子覆盖、回退和真实设备测量成为主要验收项&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;没有 GPU 不必停学，但需要区分“理解原理”“完成 CPU 模拟”和“在目标加速器上验证”三种成果。下面的端侧与编译分支会给出相应替换任务。&lt;/p&gt;
+&lt;h3 id="134-每天怎么推进八周的任务与验收"&gt;13.4 每天怎么推进：八周的任务与验收
+&lt;/h3&gt;&lt;p&gt;每周先读“本周材料”，再按五天表执行。材料按当天问题选看；选修资源只在卡住或选择对应方向时使用。&lt;strong&gt;当天的完成标准就是表格最后一列；周末用本周验收判断是否需要补缺。&lt;/strong&gt;&lt;/p&gt;
+&lt;figure class="inference-figure" aria-labelledby="inference-learning-caption"&gt;
+&lt;figcaption id="inference-learning-caption"&gt;&lt;span class="inference-figure-title"&gt;图 5 · 课程与实践衔接的 8 周学习路线&lt;/span&gt;&lt;span class="inference-figure-note"&gt;每周五个主要学习日；同一个模型、评测集与实验仓库贯穿全程。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;ol class="inference-timeline"&gt;
+&lt;li&gt;&lt;span class="phase"&gt;第 1—2 周&lt;/span&gt;&lt;div&gt;&lt;strong&gt;看懂模型，建立基线&lt;/strong&gt;&lt;p&gt;模型与 KV 状态 → 容量估算 → 性能分析。主资源：MIT 模型基础、CS336 资源核算与推理。产物：参考实现、正确性检查、性能基线。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;第 3—4 周&lt;/span&gt;&lt;div&gt;&lt;strong&gt;完成量化、服务与负载测试&lt;/strong&gt;&lt;p&gt;量化数值 → 模型压缩 → 推理服务 → 缓存与调度实验。主资源：MIT 量化、vLLM 短课。产物：可运行服务与质量、内存、性能对照报告。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;第 5—6 周&lt;/span&gt;&lt;div&gt;&lt;strong&gt;理解编译接口，选择一个方向深入&lt;/strong&gt;&lt;p&gt;图与形状约束 → 编译及运行时边界 → 一条关键调用路径。按方向使用 MLC、SGLang 或平台文档。产物：最小后端实验、源码记录与优化假设。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;第 7—8 周&lt;/span&gt;&lt;div&gt;&lt;strong&gt;验证优化，完成稳定性与交付&lt;/strong&gt;&lt;p&gt;一项改动 → 消融与退化分析 → 稳定性检查 → 环境复现与架构决策。产物：代码、配置、原始数据、ADR 与演示。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/figure&gt;
+&lt;h4 id="第-1-周理解模型前向kv-状态和内存需求"&gt;第 1 周：理解模型前向、KV 状态和内存需求
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：生成一个 token 经过哪些计算，哪些状态需要保留，内存为什么随上下文增长？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：MIT &lt;a class="link" href="https://youtu.be/EV6xb4xY708" target="_blank" rel="noopener"
+ &gt;第 12 讲：Transformer 与 LLM&lt;/a&gt;；CS336 &lt;a class="link" href="https://cs336.stanford.edu/lectures/?trace=lecture_02_recording" target="_blank" rel="noopener"
+ &gt;第 2 讲：PyTorch 与资源核算&lt;/a&gt;；&lt;a class="link" href="https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct#quickstart" target="_blank" rel="noopener"
+ &gt;模型官方运行示例&lt;/a&gt;。模型结构仍不清楚时补 CS336 第 3 讲；KV 实现卡住时选看 SGLang 短课的推理基础部分。回看本文第 5.1—5.3 节。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;完成先修自测，创建环境，运行小模型；固定权重、分词器、模板、精度与停止条件&lt;/td&gt;
+					&lt;td&gt;保存环境清单与启动脚本；重启后能生成同一组测试输入的结果&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;看 MIT 第 12 讲，跟踪 Q/K/V、注意力、MLP 与 logits 的形状；整理约 30 个质量样本&lt;/td&gt;
+					&lt;td&gt;画出一层 Transformer 的数据流，保存质量基线和判定规则&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;先用最小注意力模块，再用参考模型比较“每步重算完整前缀”与“使用 KV 缓存”；输入相同的 token 序列&lt;/td&gt;
+					&lt;td&gt;按步检查 logits、缓存长度、位置索引与掩码；用明确的绝对/相对容差报告误差&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;看 CS336 第 2 讲，从配置读取层数、KV 头数与头维度，写权重/KV 容量估算器；改变上下文长度和批量&lt;/td&gt;
+					&lt;td&gt;至少三个长度、两个批量的估算与实测表；解释额外内存来自哪里&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;检查单 token、不同前缀长度和掩码边界；刻意引入一次 KV 长度或位置错误，再定位修复&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w01-reference&lt;/code&gt;：代码、形状图、误差记录与容量表；独立解释 prefill/decode 的区别&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：能依据模型配置估算主要内存，解释 GQA 中查询头数与 KV 头数的区别，并用数值检查定位一个状态错误。这里比较的是固定输入下同一步的结果；随机生成得到不同文本，不能直接判定缓存实现错误。下周沿用这一参考实现。&lt;/p&gt;
+&lt;h4 id="第-2-周建立性能基线学会从执行轨迹定位瓶颈"&gt;第 2 周：建立性能基线，学会从执行轨迹定位瓶颈
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：时间花在计算、访存、主机开销还是同步上，怎样证明？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：CS336 &lt;a class="link" href="https://www.youtube.com/watch?v=EfM546A79aM" target="_blank" rel="noopener"
+ &gt;第 10 讲：Inference 视频&lt;/a&gt;及&lt;a class="link" href="https://cs336.stanford.edu/lectures/?trace=lecture_10" target="_blank" rel="noopener"
+ &gt;讲义&lt;/a&gt;，重点看性能模型与推理指标；第 5 讲硬件与第 6 讲性能分析部分。实验参考 &lt;a class="link" href="https://github.com/stanford-cs336/assignment2-systems" target="_blank" rel="noopener"
+ &gt;Assignment 2&lt;/a&gt;的基准测试与 profiling 任务，使用其提供的基础模型实现即可，不以完成 Assignment 1 为前提。回看本文第 2.2、5.3、12 节。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;看 CS336 第 5、10 讲的相关部分，用算术强度与 Roofline 思路分析 prefill/decode；结合设备带宽、算力估计可能瓶颈&lt;/td&gt;
+					&lt;td&gt;写下两条可被实验推翻的预测，并注明公式假设&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;给参考实现增加分阶段计时，区分加载、预热、prefill、decode；异步设备用适当同步或设备事件&lt;/td&gt;
+					&lt;td&gt;得到可重复运行的基准脚本；解释测量边界与计时开销&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;扫描输入 128/512/2048 token、输出 32/128 token、批量 1/4 的组合；容量不足时缩小并记录&lt;/td&gt;
+					&lt;td&gt;保存每组实际长度、延迟、吞吐量和内存；固定长度测试注明如何处理提前停止&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;选看 CS336 第 6 讲，使用 PyTorch Profiler 或平台工具捕获一个慢配置；沿主机、设备计算、搬运、同步寻找热点&lt;/td&gt;
+					&lt;td&gt;保存执行轨迹，做一次只改变主要变量的对照，核对第 1 天预测&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;每组配置至少重复三次，汇总曲线、波动和异常；比较理论估算与实测&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w02-baseline&lt;/code&gt;：基准脚本、原始数据、执行轨迹与一页瓶颈报告&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：能从一段轨迹解释主要耗时，并区分引擎内部时间与客户端 TTFT。数值正确性继续沿用第 1 周检查。基础扎实时，可选做 &lt;a class="link" href="https://triton-lang.org/main/getting-started/tutorials/02-fused-softmax.html" target="_blank" rel="noopener"
+ &gt;Triton 融合 softmax 教程&lt;/a&gt;；完整 FlashAttention 和分布式训练作业留到后续，主线先完成可信测量。&lt;/p&gt;
+&lt;h4 id="第-3-周做成一次真正可部署的量化"&gt;第 3 周：做成一次真正可部署的量化
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：位宽降低怎样影响误差、存储、实际执行与任务质量？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：MIT &lt;a class="link" href="https://www.youtube.com/watch?v=ymAzUz3qlIA" target="_blank" rel="noopener"
+ &gt;第 5 讲：量化 I&lt;/a&gt;、&lt;a class="link" href="https://youtu.be/wrcgWm_nUeE" target="_blank" rel="noopener"
+ &gt;第 6 讲：量化 II&lt;/a&gt;，再选看&lt;a class="link" href="https://youtu.be/sTz2tXG1T0c" target="_blank" rel="noopener"
+ &gt;第 13 讲：LLM 部署&lt;/a&gt;中量化相关内容；vLLM 短课的模型压缩示例。MIT Lab 2、Lab 4 只选与本周目标对应的部分。论文从 AWQ、SmoothQuant 中选一篇，入口见第 14 节。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;看 MIT 第 5 讲，在小张量上实现线性量化/反量化，观察 scale、zero-point、截断与累加精度&lt;/td&gt;
+					&lt;td&gt;对照手算结果，记录输入范围、量化误差及异常值影响&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;看 MIT 第 6 讲，比较按张量、按通道或分组量化；选读一篇论文的方法与局限，画出误差处理过程&lt;/td&gt;
+					&lt;td&gt;形成一页机制说明；能区分权重量化、激活量化与 KV 量化&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;跟 vLLM 短课的压缩示例，依据目标引擎和硬件选择一种受支持的 PTQ 格式，需要校准时使用独立文本，导出模型产物&lt;/td&gt;
+					&lt;td&gt;量化产物可在目标后端加载；保存算法、位宽、分组、校准集和版本配置&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;在同一后端、固定质量样本与第 2 周负载上比较参考精度模型和量化模型&lt;/td&gt;
+					&lt;td&gt;同时报告质量、文件大小、运行时内存和速度；检查实际执行内核与精度路径&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;分析失败样本，最多改一个主要因素，如校准数据或分组设置，再复测&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w03-quant-report&lt;/code&gt;：产物配置、失败样本、对照结果与采用/暂缓决定&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：模型能重新加载，质量集未混入校准集，能解释性能变化。数值模拟中的 INT4、磁盘上的压缩格式和设备真正执行的低比特内核是不同层面的结果，报告中要分别确认。设备缺少对应内核时，完成受支持格式的部署，并明确哪些低比特实验仅验证了数值误差。&lt;/p&gt;
+&lt;h4 id="第-4-周部署服务测清调度与缓存的作用"&gt;第 4 周：部署服务，测清调度与缓存的作用
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：单请求跑得快，为什么多个请求到来时仍会排队？量化和缓存怎样影响可服务容量？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：vLLM 短课的服务两节与基准测试/评测一节；&lt;a class="link" href="https://docs.vllm.ai/en/latest/getting_started/quickstart/" target="_blank" rel="noopener"
+ &gt;vLLM 官方快速开始&lt;/a&gt;；CMU &lt;a class="link" href="https://mlsyscourse.org/slides/14-LLM-serving-part1.pdf" target="_blank" rel="noopener"
+ &gt;LLM Serving Part 1 讲义&lt;/a&gt;中调度与 KV 管理；MIT &lt;a class="link" href="https://youtu.be/kgTWKjbnrBA" target="_blank" rel="noopener"
+ &gt;第 15 讲：长上下文 LLM&lt;/a&gt;中 KV 与长输入成本部分。回看本文第 6.1、12 节。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;看 vLLM 短课的服务两节，先部署参考精度模型，再部署第 3 周的兼容量化产物；实现能记录流式响应的客户端&lt;/td&gt;
+					&lt;td&gt;保存启动配置与客户端脚本，检查模板、停止条件及质量样本&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;跟课程跑通基准测试工具，再接入自己的固定请求集；在调优前写下实验用延迟目标&lt;/td&gt;
+					&lt;td&gt;定义 TTFT、ITL、吞吐量、goodput 和错误的统计口径；流式响应的一个分块未必对应一个 token&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;读 CMU 服务调度讲义，分别测固定并发 1/4/8，以及逐步提高到达率的负载；检查客户端是否成为瓶颈&lt;/td&gt;
+					&lt;td&gt;保存各负载的排队、延迟、吞吐量和错误；指出系统从何处开始过载&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;选看 MIT 第 15 讲，使用等长的共享/不同前缀请求，比较缓存关闭、冷缓存和命中；条件允许再单独测试分块预填充&lt;/td&gt;
+					&lt;td&gt;记录实际缓存命中和配置，解释谁受益、谁可能退化；每次只改变一种机制&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;重启服务后复测，整理质量、容量、缓存与量化对照，选出后半程沿用的配置&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w04-serving-report&lt;/code&gt;：可复现服务、原始结果、负载曲线和基线配置&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：每个负载点至少收集 100 个请求并重复测量，保留失败、拒绝与超时；这个起步样本量适合排查趋势，可靠的 p99 结论需要更大的样本与稳定窗口。能解释连续批处理、KV 分页与前缀复用分别解决什么问题。Mac/CPU 路径使用本地后端实际支持的功能，缺少某项机制时以讲义和状态示意补充理解，记录为未实测。&lt;/p&gt;
+&lt;h4 id="第-5-周理解导出编译与运行时的接口"&gt;第 5 周：理解导出、编译与运行时的接口
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：模型怎样成为可执行产物，形状约束、图分区与设备回退分别发生在哪里？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：&lt;a class="link" href="https://mlc.ai/summer22-zh/schedule" target="_blank" rel="noopener"
+ &gt;MLC 中文课程&lt;/a&gt;第 1 课整体介绍、第 9 课计算图优化；&lt;a class="link" href="https://docs.pytorch.org/tutorials/intermediate/torch_export_tutorial.html" target="_blank" rel="noopener"
+ &gt;torch.export 教程&lt;/a&gt;与 &lt;a class="link" href="https://docs.pytorch.org/tutorials/intermediate/torch_compile_tutorial.html" target="_blank" rel="noopener"
+ &gt;torch.compile 入门&lt;/a&gt;；&lt;a class="link" href="https://docs.pytorch.org/executorch/stable/compiler-delegate-and-partitioner.html" target="_blank" rel="noopener"
+ &gt;ExecuTorch 委托与分区说明&lt;/a&gt;。回看本文第 8 节。共同阶段只要求理解接口并完成小实验，深入编译实现留给路线 C。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;看 MLC 第 1 课，沿已用引擎区分模型加载、图处理、运行时和设备内核；确认哪些步骤实际发生&lt;/td&gt;
+					&lt;td&gt;画一张执行链，标明 eager、编译或委托执行的位置，不强行假设所有引擎都先导出整图&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;选一个小型 MLP 或无缓存的注意力模块，用 torch.export 导出并检查图与约束&lt;/td&gt;
+					&lt;td&gt;保存导出代码，对照原模块验证输出；记录图中参数、算子与输入&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;为同一模块设置静态/动态形状，测试合法范围和越界输入&lt;/td&gt;
+					&lt;td&gt;保存至少一个成功案例和一个约束失败案例，解释错误属于哪层&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;选看 MLC 第 9 课，用本机支持的 torch.compile 后端执行同一小模块，分开测首次编译与稳态；查看融合或回退信息&lt;/td&gt;
+					&lt;td&gt;保存实际编译/执行证据；不能只凭“导出成功”判定已在目标设备执行&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;增加一个合法形状复测，解释输入输出和内存归属；结合已有瓶颈选择第 6 周分支&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w05-backend-boundary&lt;/code&gt;：最小代码、图、约束、误差与执行记录&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：能区分导出、编译与设备执行，解释一次形状失败或后端回退。导出实验与 torch.compile 实验是两条用于对照的路径，后者无需先运行前者。带 KV 状态的完整 LLM 还需要处理状态传递、动态长度和内存生命周期，不能直接推断已经完成整模型适配。&lt;/p&gt;
+&lt;h4 id="第-6-周选择一个方向读通一条关键调用路径"&gt;第 6 周：选择一个方向，读通一条关键调用路径
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：已有系统的关键决策发生在哪个模块，下一步应该改什么？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：从第 13.5 节的 A/B/C 三条路线中只选一条。服务路线选 SGLang 短课和引擎文档；本地路线选 MIT 笔记本部署实验与本地引擎文档；编译路线选 MLC 第 3 课与一个后端示例。课程用于定位概念，源码以固定版本为准。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;确定一个问题与比较对象：缓存策略、本地执行路径或小模块后端；列出固定条件&lt;/td&gt;
+					&lt;td&gt;写出假设、预期收益、可能代价和最小验证范围&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;运行该方向的最小示例，复用前五周的模型、数据与测量方法&lt;/td&gt;
+					&lt;td&gt;得到可重复的方向基线；跨格式或后端时先核对数值与模板差异&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;用断点、日志或性能轨迹跟踪一次请求/模块执行；找到状态创建、使用、释放的位置&lt;/td&gt;
+					&lt;td&gt;保存带文件与函数名的调用链，标明调度、内存和设备边界&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;改一个可控参数，或在实验分支对一个小模块作最小改动；预测并观察行为&lt;/td&gt;
+					&lt;td&gt;有正确性检查和实际执行证据，能解释改动怎样传到下游&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;在常规与边界负载下复测，判断最值得继续验证的瓶颈&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w06-stack-study&lt;/code&gt;：调用链、改动记录、对照结果和第 7 周优化假设&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：能根据代码解释一个关键行为，并指出可以修改的接口和不能假设的能力。A/B 路线对第二引擎的比较仅为回答一个具体问题；主要源码精读仍集中在一套系统中。代码量可以小，解释和证据必须完整。&lt;/p&gt;
+&lt;h4 id="第-7-周完成一项优化验证收益与退化条件"&gt;第 7 周：完成一项优化，验证收益与退化条件
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：第 6 周发现的瓶颈能否被改善，新增成本是否值得？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料按问题选择&lt;/strong&gt;：调度/缓存沿用 CMU 与引擎文档；投机解码看 &lt;a class="link" href="https://mlsyscourse.org/slides/15-LLM-serving-part2.pdf" target="_blank" rel="noopener"
+ &gt;CMU Serving Part 2&lt;/a&gt;、原始论文与 &lt;a class="link" href="https://www.youtube.com/watch?v=Pybhjg_pRkY" target="_blank" rel="noopener"
+ &gt;NVIDIA MTP 回放&lt;/a&gt;；性能分析可选 &lt;a class="link" href="https://www.youtube.com/watch?v=ndGOaG2CC1A" target="_blank" rel="noopener"
+ &gt;NVIDIA DeepSeek-R1 延迟优化回放&lt;/a&gt;。需要多卡时再补 CS336 第 7、8 讲。&lt;strong&gt;这一周只实施一种优化&lt;/strong&gt;，由实测瓶颈决定，不要求把这些材料全部看完。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;选调度/缓存、加载/状态管理、算子/子图或投机解码之一；确定评价指标和停止条件&lt;/td&gt;
+					&lt;td&gt;写下预期收益、额外内存/计算/维护成本，以及可能退化的负载&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;做最小正确性实验，再决定完整改动；涉及状态检查生命周期，涉及算子检查误差&lt;/td&gt;
+					&lt;td&gt;保留可运行的正确性检查；投机解码另用小概率表验证接受、拒绝与修正分布&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;在选定项目中完成一处实现改动，或启用已有机制并补齐可观测性&lt;/td&gt;
+					&lt;td&gt;保存补丁或配置差异、触发条件与执行证据&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;在一个预期受益负载和一个可能退化负载上做开关对照；计入额外开销&lt;/td&gt;
+					&lt;td&gt;得到消融结果，解释质量、延迟、吞吐量与内存的共同变化&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;使用固定质量集复测，分析收益是否稳定，决定保留、缩小适用范围或回退&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w07-optimization-report&lt;/code&gt;：改动、原始结果、失败场景与技术决定&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：能用测量解释优化为何有效或无效，不设“必须加速多少倍”的目标。若选投机解码，先核对&lt;a class="link" href="https://docs.vllm.ai/en/latest/features/speculative_decoding/" target="_blank" rel="noopener"
+ &gt;当前引擎支持的方法&lt;/a&gt;，可从受支持的 n-gram 提议机制做小实验，再考虑额外草稿模型；记录接受率、验证开销及不同批量下的表现。小概率表只验证算法推导，不能替代完整实现的质量验证。MoE、PD 分离和 VLM 留作有对应需求后的扩展。&lt;/p&gt;
+&lt;h4 id="第-8-周稳定性复现与架构决策"&gt;第 8 周：稳定性、复现与架构决策
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：这套方案能否持续工作，另一台环境能否复现，怎样解释技术选择？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：以所选项目的部署、监控和版本文档为主，回看本文第 9.7、11.5、12.3 节。不增加新的必修课程，把时间留给验证与交付。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;整理依赖、模型与量化产物、编译/启动配置、质量集和基准脚本&lt;/td&gt;
+					&lt;td&gt;形成一份固定版本的交付清单；说明设备、形状、精度与功能支持范围&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;服务路线检查取消、超时、过载和重启；本地路线检查内存压力与重复加载；编译路线检查形状边界和资源释放&lt;/td&gt;
+					&lt;td&gt;保存失败与恢复记录，修复一项影响交付的问题，无法解决的列为限制&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;对代表负载做至少两小时连续运行，观察内存、延迟和错误趋势；端侧增加温升后的持续性能观察&lt;/td&gt;
+					&lt;td&gt;提交稳定性曲线与异常记录；有条件再延长运行时间&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;在干净环境或新工作目录中按 README 重新安装、启动和运行评测，补齐遗漏步骤&lt;/td&gt;
+					&lt;td&gt;一套可执行的复现流程，明确首次下载/编译与稳态成本&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;写一页 ADR，录制或现场做十分钟演示；脱离 AI 解释关键路径、瓶颈和取舍&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;final-adr.md&lt;/code&gt;、工程包、演示与后续四周的一个深入主题&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;最终验收&lt;/strong&gt;：形成代码、配置、质量结果、原始性能数据、稳定性记录与 ADR 的完整证据。两小时运行是学习项目的起步检查，生产稳定性需要更长时间和更完整的故障验证。报告只陈述实际测过的设备与功能，未验证的部分列出验证方案。&lt;/p&gt;
+&lt;h3 id="135-第-6-周的三条分支选一条主线深入"&gt;13.5 第 6 周的三条分支：选一条主线深入
+&lt;/h3&gt;&lt;figure class="inference-figure" aria-labelledby="inference-branches-caption"&gt;
+&lt;figcaption id="inference-branches-caption"&gt;&lt;span class="inference-figure-title"&gt;图 6 · 第 6 周的三条技术深入路线&lt;/span&gt;&lt;span class="inference-figure-note"&gt;共享前五周的基础与评测方法；选择一条主线，将发现的瓶颈交给第七周验证。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;ol class="inference-route"&gt;
+&lt;li&gt;&lt;span class="step"&gt;路线 A · 推理服务&lt;/span&gt;&lt;strong&gt;请求 → 调度 → KV 管理&lt;/strong&gt;&lt;p&gt;沿一次请求追踪队列、批次与缓存。比较一个调度或缓存行为，确定延迟与容量之间的取舍。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="step"&gt;路线 B · 端侧与本地&lt;/span&gt;&lt;strong&gt;加载 → 内存 → 设备执行&lt;/strong&gt;&lt;p&gt;沿模型加载和生成过程追踪权重、状态与设备分工。选择冷启动、内存或持续性能中的一个瓶颈。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="step"&gt;路线 C · 编译与硬件&lt;/span&gt;&lt;strong&gt;图/IR → 计算内核 → 运行时&lt;/strong&gt;&lt;p&gt;沿一个模块理解形状、布局、融合与搬运。选择一个编译变换、后端分区或内核展开实验。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/figure&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;路线&lt;/th&gt;
+					&lt;th&gt;对应课程与实现入口&lt;/th&gt;
+					&lt;th&gt;五天任务的具体落点&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;A：服务&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;SGLang 短课的推理优化与缓存部分；CMU 服务讲义；&lt;a class="link" href="https://docs.vllm.ai/en/latest/design/arch_overview/" target="_blank" rel="noopener"
+ &gt;vLLM 架构说明&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;第 1—2 天在同一设备和可比配置上准备主引擎与一个对照；第 3 天追踪主引擎的调度/KV 路径；第 4 天改变批次预算或缓存条件；第 5 天解释长短请求下的差异。第二引擎难以安装时，改为主引擎两种策略的对照&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;B：本地&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;MIT &lt;a class="link" href="https://drive.google.com/drive/folders/1MhMvxvLsyYrN-4C6eQG8Zj2JeSuyAOf0" target="_blank" rel="noopener"
+ &gt;Lab 5：笔记本上的 LLM 部署&lt;/a&gt;；&lt;a class="link" href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener"
+ &gt;llama.cpp&lt;/a&gt; 或 &lt;a class="link" href="https://github.com/ml-explore/mlx-lm" target="_blank" rel="noopener"
+ &gt;MLX LM&lt;/a&gt; 文档二选一&lt;/td&gt;
+					&lt;td&gt;第 1—2 天固定模型来源与转换配置，测冷启动和生成；第 3 天追踪权重/KV 的创建与释放；第 4 天改变加载或设备执行配置；第 5 天比较内存与持续性能。有真实功耗测量能力时再报告能耗&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;C：编译&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;MLC 中文第 3 课 TensorIR 与第 9 课图优化；按需查 CMU &lt;a class="link" href="https://mlsyscourse.org/slides/data_layout/" target="_blank" rel="noopener"
+ &gt;数据布局&lt;/a&gt;或 &lt;a class="link" href="https://mlsyscourse.org/slides/modern-gpu-gemm/" target="_blank" rel="noopener"
+ &gt;GPU GEMM&lt;/a&gt;；目标 SDK 的最小示例&lt;/td&gt;
+					&lt;td&gt;第 1—2 天选一套 IR/内核工具运行小模块；第 3 天追踪布局、数据搬运和执行；第 4 天做一次融合、调度变换或分区调整；第 5 天验证误差与性能。有 NPU 时增加设备执行及回退检查，CPU 实验只报告 CPU 结果&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;路线 A 以请求和 SLO 为中心，路线 B 以设备资源和持续体验为中心，路线 C 以编译与执行机制为中心。三条路线都沿用正确性、性能基线和版本记录；选定之后，继续深入的重点由真实瓶颈决定。&lt;/p&gt;
+&lt;h3 id="136-怎样用-ai-加快学习同时保留自己的判断"&gt;13.6 怎样用 AI 加快学习，同时保留自己的判断
+&lt;/h3&gt;&lt;p&gt;AI 最适合减少搜索、脚手架和排错成本。把前五周的固定模型、环境、指标和错误记录提供给它，得到的帮助通常比泛问“教我大模型部署”更具体。每日任务可以使用 AI，周验收要能自己解释。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;场景&lt;/th&gt;
+					&lt;th&gt;可以交给 AI 的具体请求&lt;/th&gt;
+					&lt;th&gt;自己必须完成的检查&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;看课前后&lt;/td&gt;
+					&lt;td&gt;“围绕今天的 KV 实验列出三个先修概念；根据这段讲义出三道检查题，先不要给答案。”&lt;/td&gt;
+					&lt;td&gt;先独立画数据流或算容量，再对照讲义纠错&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;读源码&lt;/td&gt;
+					&lt;td&gt;“基于这个提交，从请求入口追踪到状态释放，给出文件、函数与调用依据，标明不确定处。”&lt;/td&gt;
+					&lt;td&gt;打开对应文件，用断点或日志验证一条实际路径&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;搭实验&lt;/td&gt;
+					&lt;td&gt;“按这份负载与指标定义生成最小脚本，分离加载、预热和稳态，并保存原始结果。”&lt;/td&gt;
+					&lt;td&gt;检查输入长度、同步、停止条件、统计分母和随机性；亲自运行&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;排错&lt;/td&gt;
+					&lt;td&gt;“这是最小复现、环境与报错，请按可能性列出原因，每次给一个能区分原因的实验。”&lt;/td&gt;
+					&lt;td&gt;一次改一个主要变量，记录哪些假设被证伪&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;分析结果&lt;/td&gt;
+					&lt;td&gt;“只依据这份原始数据提出解释，再给出两个替代解释和区分实验；缺数据的地方列出来。”&lt;/td&gt;
+					&lt;td&gt;回到日志和执行轨迹核对；无法归因时继续测量，不把推测写成结论&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;每周验收&lt;/td&gt;
+					&lt;td&gt;“根据本周代码考我五个为什么，再给一个小改动或边界案例，暂不提供解答。”&lt;/td&gt;
+					&lt;td&gt;关闭提示独立解释、修改并验证，找出仍依赖 AI 的薄弱环节&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;关键代码不必全部从零手写，但至少能亲自修改其中一处，并预测它对状态、数值或性能的影响。&lt;strong&gt;用 AI 节省下来的时间，优先投入对照实验和理解失败原因。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id="137-四个检查点以及落后时怎样调整"&gt;13.7 四个检查点，以及落后时怎样调整
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;时间&lt;/th&gt;
+					&lt;th&gt;应具备的能力&lt;/th&gt;
+					&lt;th&gt;未通过时优先补什么&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 周末&lt;/td&gt;
+					&lt;td&gt;能解释模型状态与主要内存，测出一个真实瓶颈&lt;/td&gt;
+					&lt;td&gt;先修复正确性和计时；暂缓 Triton 选修&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 周末&lt;/td&gt;
+					&lt;td&gt;能交付一个服务，比较量化、缓存与负载对质量和性能的影响&lt;/td&gt;
+					&lt;td&gt;固定一种格式和一个后端，补齐基线与统计口径&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 6 周末&lt;/td&gt;
+					&lt;td&gt;能读通一条关键路径，提出可验证的优化假设&lt;/td&gt;
+					&lt;td&gt;缩小到一个状态对象、一个模块或一种策略；减少第二引擎比较范围&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 8 周末&lt;/td&gt;
+					&lt;td&gt;能复现、解释优化取舍，并说明交付边界&lt;/td&gt;
+					&lt;td&gt;优先补缺失的正确性、原始数据、失败恢复或复现步骤&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;进度落后时先削减选修与比较范围，保留模型正确性、可信测量和完整交付。设备受限时缩小模型、长度和批量，区分原理验证与目标设备实测。八周后，再根据项目瓶颈选择多卡/MoE、PD 与 KV 外置、VLM 或端侧平台集成中的一项。&lt;/p&gt;
+&lt;p&gt;如果之后确定深入 GPU 内核，可考察 &lt;a class="link" href="https://mlc.ai/modern-gpu-programming-for-mlsys/" target="_blank" rel="noopener"
+ &gt;MLC 2026 Modern GPU Programming for ML Systems&lt;/a&gt;：它面向现代 GPU、布局和流水线，涉及 Blackwell 与 TIRx 等内容，适合作为具备相应硬件和基础后的进阶材料。当前八周先完成主线，后续课程由问题与设备条件决定。&lt;/p&gt;
+&lt;h2 id="十四论文与源码怎么读配合实验按需深入"&gt;十四、论文与源码怎么读：配合实验，按需深入
+&lt;/h2&gt;&lt;p&gt;第十三节已经给出视频、讲义和实验入口。本节把论文与源码安排到对应周次：先用课程建立直觉，实验遇到具体问题时再深读。量化论文选一篇，服务机制读与当前实验相关的部分；分阶段服务和 MoE 材料放入后续选修。正文其余引用可作为遇到新问题时的索引。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;阅读目的&lt;/th&gt;
+					&lt;th&gt;建议时间&lt;/th&gt;
+					&lt;th&gt;首选资料&lt;/th&gt;
+					&lt;th&gt;第一遍需要回答的问题&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;注意力的访存开销&lt;/td&gt;
+					&lt;td&gt;第 2 周选读&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/2205.14135" target="_blank" rel="noopener"
+ &gt;FlashAttention&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;哪些中间结果不再写回？分块如何保持计算语义？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;调度与内存管理&lt;/td&gt;
+					&lt;td&gt;第 4 周&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://www.usenix.org/conference/osdi22/presentation/yu" target="_blank" rel="noopener"
+ &gt;Orca&lt;/a&gt;、&lt;a class="link" href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener"
+ &gt;PagedAttention&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;调度单位是什么？逻辑序列如何映射物理 KV？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;缓存与结构化执行&lt;/td&gt;
+					&lt;td&gt;第 6 周 A&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/2312.07104" target="_blank" rel="noopener"
+ &gt;SGLang 论文&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;缓存复用的条件是什么？前端需求怎样影响运行时？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;量化&lt;/td&gt;
+					&lt;td&gt;第 3 周，选一篇&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/2210.17323" target="_blank" rel="noopener"
+ &gt;GPTQ&lt;/a&gt;、&lt;a class="link" href="https://arxiv.org/abs/2306.00978" target="_blank" rel="noopener"
+ &gt;AWQ&lt;/a&gt;、&lt;a class="link" href="https://arxiv.org/abs/2211.10438" target="_blank" rel="noopener"
+ &gt;SmoothQuant&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;优化的误差对象不同在哪里？如何落到计算内核？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;投机解码&lt;/td&gt;
+					&lt;td&gt;第 7 周选做时&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/2211.17192" target="_blank" rel="noopener"
+ &gt;原始算法论文&lt;/a&gt;与所用引擎的实现文档&lt;/td&gt;
+					&lt;td&gt;接受/拒绝规则怎样保持目标分布？草稿与验证成本何时能摊薄？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;分阶段服务&lt;/td&gt;
+					&lt;td&gt;八周后按需&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/2401.09670" target="_blank" rel="noopener"
+ &gt;DistServe&lt;/a&gt;、&lt;a class="link" href="https://arxiv.org/abs/2407.00079" target="_blank" rel="noopener"
+ &gt;Mooncake&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;分离收益为什么可能超过传输成本？什么条件下不成立？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;模型与系统协同&lt;/td&gt;
+					&lt;td&gt;八周后按需&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/2405.04434" target="_blank" rel="noopener"
+ &gt;DeepSeek-V2&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;MLA 与 MoE 分别改变了哪些容量和计算假设？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;一个引擎的源码&lt;/td&gt;
+					&lt;td&gt;第 6 周&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://docs.vllm.ai/en/latest/design/arch_overview/" target="_blank" rel="noopener"
+ &gt;vLLM 架构&lt;/a&gt;或 &lt;a class="link" href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener"
+ &gt;llama.cpp&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;请求、状态、内存和设备执行在哪里交汇？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;编译与部署接口&lt;/td&gt;
+					&lt;td&gt;第 5 周&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://docs.pytorch.org/tutorials/intermediate/torch_export_tutorial.html" target="_blank" rel="noopener"
+ &gt;torch.export&lt;/a&gt;、&lt;a class="link" href="https://onnxruntime.ai/docs/execution-providers/" target="_blank" rel="noopener"
+ &gt;ORT EP&lt;/a&gt;或 &lt;a class="link" href="https://docs.pytorch.org/executorch/stable/getting-started-architecture" target="_blank" rel="noopener"
+ &gt;ExecuTorch&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;图的约束、分区与运行时之间有哪些接口约定？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;编译器基础&lt;/td&gt;
+					&lt;td&gt;第 5 周入门；第 6 周 C 深入&lt;/td&gt;
+					&lt;td&gt;&lt;a class="link" href="https://tvm.apache.org/docs/" target="_blank" rel="noopener"
+ &gt;TVM&lt;/a&gt;、&lt;a class="link" href="https://mlir.llvm.org/" target="_blank" rel="noopener"
+ &gt;MLIR&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;同一个算子在不同层 IR 中保留了什么信息？&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;硬件与后端分支&lt;/td&gt;
+					&lt;td&gt;第 6 周 C&lt;/td&gt;
+					&lt;td&gt;目标平台的算子、编译、运行时、性能分析文档&lt;/td&gt;
+					&lt;td&gt;能改哪一层？哪些问题需要硬件或 SDK 配合？&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;阅读源码建议从一次请求的实际路径开始，设置断点或打印形状，再回头阅读模块设计。不要从仓库第一个目录一路向下读，也不要把记住目录名当成理解架构。&lt;/p&gt;
+&lt;p&gt;长期跟踪只需维护三个小清单：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;固定环境清单&lt;/strong&gt;：当前可工作的模型、引擎、插件、SDK、驱动和编译参数。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;待解决瓶颈清单&lt;/strong&gt;：按端到端影响排序，记录证据，不按热点词排序。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;版本变化清单&lt;/strong&gt;：只关注影响自身模型、硬件、精度、状态和接口的版本说明（release notes）；将新机制先放入独立实验。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;最后，用五个问题检查自己的路线图是否真正建立起来：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;我能否根据模型与并发算出主要内存需求，并解释例外？&lt;/li&gt;
+&lt;li&gt;我能否从执行轨迹判断瓶颈位于模型、调度、编译、计算内核、搬运还是通信？&lt;/li&gt;
+&lt;li&gt;我能否说清当前选用的项目负责什么，以及替换它的代价？&lt;/li&gt;
+&lt;li&gt;我能否在新硬件上建立正确性基线，处理分区、形状、量化和状态？&lt;/li&gt;
+&lt;li&gt;我能否用质量、SLO、成本与维护证据证明一次优化值得保留？&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果能够回答这些问题，就已经拥有一套可以迁移到新模型、新框架和新芯片上的工程方法。具体项目会变化，&lt;strong&gt;理解约束、明确边界、测量瓶颈并验证取舍的能力，会长期有效。&lt;/strong&gt;&lt;/p&gt;</description></item></channel></rss>
