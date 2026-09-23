@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>性能优化 on 七月流火</title><link>https://qiyueliuhuo.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link><description>Recent content in 性能优化 on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 21 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml"/><item><title>大模型推理与部署工程图谱：技术栈、开源项目与学习路线</title><link>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</link><pubDate>Sun, 20 Sep 2026 13:13:11 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>性能优化 on 七月流火</title><link>https://qiyueliuhuo.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link><description>Recent content in 性能优化 on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 23 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/index.xml" rel="self" type="application/rss+xml"/><item><title>大模型推理与部署工程图谱：技术栈、开源项目与学习路线</title><link>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</link><pubDate>Sun, 20 Sep 2026 13:13:11 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</guid><description>
  &lt;blockquote&gt;
  &lt;p&gt;&lt;strong&gt;AI 协作说明&lt;/strong&gt;&lt;br&gt;
 本文由作者主导选题、技术判断与终稿审核；AI 工具协助完成资料检索、信息归纳、结构梳理与文字润色。文中观点、事实核验与引用准确性由作者负责。&lt;/p&gt;
 
  &lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;资料核对时间：2026 年 9 月 20—21 日。&lt;/strong&gt; 本文以官方文档、项目仓库和原始论文为依据。项目的功能、维护状态与版本变化属于这一时间段的快照；学习优先级与选型建议是本文的架构判断。文中的容量计算和案例是分析示例，不是实测跑分。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;资料核对时间：2026 年 9 月 20—21 日；数值格式与量化部分于 9 月 23 日补充核对。&lt;/strong&gt; 本文以官方文档、项目仓库和原始论文为依据。项目的功能、维护状态与版本变化属于这一时间段的快照；学习优先级与选型建议是本文的架构判断。文中的容量计算和案例是分析示例，不是实测跑分。&lt;/p&gt;
 &lt;p&gt;大模型推理与部署已经形成一套横跨模型算法、计算内核、编译器、运行时和分布式服务的技术体系。一个请求从输入到生成结果，要经过模型计算、状态读写、请求调度和设备执行；当模型变大、上下文变长、用户变多或设备资源变少时，系统的主要矛盾也会变化。&lt;/p&gt;
 &lt;p&gt;理解这一领域，需要同时建立三张地图：&lt;strong&gt;技术栈地图&lt;/strong&gt;说明每一层解决什么问题，&lt;strong&gt;开源项目地图&lt;/strong&gt;说明能力由谁实现、怎样组合，&lt;strong&gt;学习路线图&lt;/strong&gt;说明哪些原理值得深学、哪些实现按需选择。只列出 vLLM、llama.cpp、TVM、MLIR 等名字，很难回答这些问题。&lt;/p&gt;
 &lt;p&gt;本文的核心观点是：&lt;strong&gt;把“负载与约束 → 性能模型 → 系统分层 → 技术选择 → 验证与演进”串成闭环，比同时学会许多框架的启动命令更有价值。&lt;/strong&gt;&lt;/p&gt;
@@ -35,7 +35,9 @@
 &lt;/style&gt;
 &lt;h2 id="一先建立全景通用核心技术分支与学习重点"&gt;一、先建立全景：通用核心、技术分支与学习重点
 &lt;/h2&gt;&lt;h3 id="11-推理与部署分别包含什么"&gt;1.1 推理与部署分别包含什么
-&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;推理（inference）&lt;/strong&gt; 关注模型“怎样执行”：涉及数值计算、键值缓存（Key-Value Cache，简称 KV 缓存）等状态管理、生成循环、批处理与性能优化；&lt;strong&gt;部署（deployment）&lt;/strong&gt; 则关注这套能力“怎样交付”：覆盖模型产物封装、运行环境、接口规范、容量规划、可观测性、版本升级与故障恢复。两者如同车轮之两轨，共同决定一个系统能否在质量、延迟和成本约束内持续稳定工作。&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;推理（inference）&lt;/strong&gt; 关注模型“怎样执行”：涉及数值计算、键值缓存（Key-Value Cache，简称 KV 缓存）等状态管理、生成循环、批处理与性能优化；&lt;strong&gt;部署（deployment）&lt;/strong&gt; 则关注这套能力“怎样交付”：覆盖模型产物封装、运行环境、接口规范、容量规划、可观测性、版本升级与故障恢复。两者共同决定一个系统能否在质量、延迟和成本约束内持续稳定工作。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;编译（compilation）&lt;/strong&gt; 把模型的计算描述转换成适合目标设备执行的程序，是部署与推理优化中的重要技术环节。它可以提前发生，也可以在加载或运行期间发生；推理引擎也可以调用预编译算子。当前工具链常同时提供导出、编译和运行能力，分析时仍应区分程序转换、实际执行与系统交付各自负责什么。&lt;a class="link" href="https://docs.pytorch.org/executorch/stable/getting-started-architecture" target="_blank" rel="noopener"
+ &gt;ExecuTorch 的准备与执行流程&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;本文主要讨论自回归大语言模型（Large Language Model，LLM），以及包含语言生成部分的视觉语言模型（Vision-Language Model，VLM）。训练、检索增强生成（Retrieval-Augmented Generation，RAG）和智能体（agent）会在影响量化、请求分布、上下文复用与服务行为时出现；它们各自的完整工程体系需要另外展开。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;术语约定&lt;/strong&gt;：token 保留英文，也称“词元”，不直接等同于一个汉字或单词；分词器（tokenizer）决定文本如何转换为 token。预填充（prefill）和解码（decode）是生成过程的两个阶段，下文为便于对照文档，也会使用英文简称。其他概念优先采用常用中文；译法容易歧义时保留英文，并在相关章节解释。&lt;/p&gt;
 &lt;p&gt;看待整个领域，可以使用两个彼此独立的坐标：&lt;/p&gt;
@@ -58,7 +60,7 @@
 			&lt;tr&gt;
 					&lt;td&gt;&lt;strong&gt;P0：通用核心&lt;/strong&gt;&lt;/td&gt;
 					&lt;td&gt;能解释原理、建立基线、设计实验&lt;/td&gt;
-					&lt;td&gt;模型推理与张量形状；prefill/decode；KV 缓存与其他持久状态；量化基础；内存与带宽；质量、延迟、吞吐量和性能分析&lt;/td&gt;
+					&lt;td&gt;模型推理与张量形状；prefill/decode；KV 缓存与其他持久状态；数值格式、量化与存储/计算精度；内存与带宽；质量、延迟、吞吐量和性能分析&lt;/td&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
 					&lt;td&gt;&lt;strong&gt;P1：方向核心技术栈&lt;/strong&gt;&lt;/td&gt;
@@ -508,69 +510,218 @@ $$&lt;/p&gt;
  &gt;图执行设计&lt;/a&gt;继续深入。&lt;/p&gt;
 &lt;p&gt;一个实用的判断顺序是：&lt;strong&gt;先确认瓶颈，再选择机制，最后检查组合后的相互影响&lt;/strong&gt;。例如，分页管理增加了可容纳的请求数，但更高并发也可能使 decode 的计算或通信变成新瓶颈。&lt;/p&gt;
 &lt;p&gt;还有两种“缓存”必须分清：&lt;strong&gt;精确前缀 KV 复用（exact prefix KV reuse）&lt;/strong&gt; 要求状态语义一致；&lt;strong&gt;语义缓存（semantic caching）&lt;/strong&gt; 根据相似问题复用回答，是应用层策略。它们的正确性条件完全不同，不能把命中率混在一起比较。&lt;/p&gt;
-&lt;h3 id="62-量化需要同时讨论算法格式和执行内核"&gt;6.2 量化需要同时讨论算法、格式和执行内核
-&lt;/h3&gt;&lt;p&gt;量化讨论中，&lt;strong&gt;数值精度（numerical precision）&lt;/strong&gt; 描述数值表示和计算方式，&lt;strong&gt;模型质量&lt;/strong&gt;描述任务上的实际效果。INT4 表示 4 比特整数格式；降低位宽不等于质量必然按比例下降，也不保证计算更快。“用了 INT4”不足以描述一个部署方案，至少要补齐：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;权重（weight）、激活（activation）、KV 分别采用何种数值格式。例如 W4A16 仅界定了存储精度，关键还需明确计算时是反量化为 16 比特后走 Tensor Core 计算（Weight-Only），还是原生低比特 GEMM；同时还需标明 KV 缓存的具体精度。&lt;/li&gt;
-&lt;li&gt;对称/非对称量化（symmetric/asymmetric quantization）；量化粒度是逐张量（per-tensor）、逐通道（per-channel）还是分组（per-group），以及分组大小（group size）。&lt;/li&gt;
-&lt;li&gt;缩放因子（scale）、零点（zero point）、数据打包（packing）、累加精度和敏感层保留策略。&lt;/li&gt;
-&lt;li&gt;目标硬件是原生低比特计算，还是先解包/反量化再执行。&lt;/li&gt;
-&lt;li&gt;校准数据与业务数据的分布差异，以及质量回归标准。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;h3 id="numeric-formats"&gt;6.2 数值格式与量化：从数据表示到部署选择
+&lt;/h3&gt;&lt;p&gt;FP16、BF16、INT8、INT4 是理解模型容量、带宽和硬件执行的&lt;strong&gt;通用核心知识&lt;/strong&gt;。学习顺序是：一个数怎样表示 → 原值怎样映射到低比特值 → 权重与状态怎样保存 → 内核怎样计算 → 整个模型是否仍满足要求。&lt;/p&gt;
+&lt;h4 id="621-fp16bf16int8int4-分别表示什么"&gt;6.2.1 FP16、BF16、INT8、INT4 分别表示什么
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;数值格式（numeric format）&lt;/strong&gt; 规定有限比特怎样表示数值；&lt;strong&gt;模型质量&lt;/strong&gt;描述任务效果。浮点格式用符号、指数和有效数的小数字段表达不同量级；整数格式先表示离散整数，量化方案再赋予这些整数对应的实数含义。&lt;/p&gt;
 &lt;table&gt;
 	&lt;thead&gt;
 			&lt;tr&gt;
-					&lt;th&gt;方法/对象&lt;/th&gt;
-					&lt;th&gt;应如何理解&lt;/th&gt;
+					&lt;th&gt;格式&lt;/th&gt;
+					&lt;th&gt;每值原始存储&lt;/th&gt;
+					&lt;th&gt;表示特点&lt;/th&gt;
+					&lt;th&gt;应建立的直觉&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;FP32&lt;/td&gt;
+					&lt;td&gt;32 bit = 4 字节&lt;/td&gt;
+					&lt;td&gt;1 位符号、8 位指数、23 位小数字段&lt;/td&gt;
+					&lt;td&gt;常用于数值参考或部分敏感计算；参考实现也需确认实际计算模式&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;FP16&lt;/td&gt;
+					&lt;td&gt;16 bit = 2 字节&lt;/td&gt;
+					&lt;td&gt;1 位符号、5 位指数、10 位小数字段；最大有限正数 65504&lt;/td&gt;
+					&lt;td&gt;容量较小，但需要关注溢出和舍入&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;BF16&lt;/td&gt;
+					&lt;td&gt;16 bit = 2 字节&lt;/td&gt;
+					&lt;td&gt;1 位符号、8 位指数、7 位小数字段&lt;/td&gt;
+					&lt;td&gt;指数范围接近 FP32；相较 FP16，范围更大、相对精度较低&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;INT8&lt;/td&gt;
+					&lt;td&gt;8 bit = 1 字节&lt;/td&gt;
+					&lt;td&gt;有符号整数通常为 −128～127&lt;/td&gt;
+					&lt;td&gt;表示小数需要 scale 等量化信息；UINT8 的码域则为 0～255&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;INT4&lt;/td&gt;
+					&lt;td&gt;4 bit；紧凑打包后平均半字节&lt;/td&gt;
+					&lt;td&gt;有符号补码为 −8～7，UINT4 为 0～15&lt;/td&gt;
+					&lt;td&gt;只有 16 个编码，误差更依赖量化范围与分组；还有元数据成本&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;浮点表中的小数字段不包含正规数隐含的最高有效位。FP16 与 BF16 虽然都占两个字节，但不能据此判断数值行为相同：在区间 &lt;code&gt;[1, 2)&lt;/code&gt; 内，相邻正规数的间隔分别为 &lt;code&gt;2^-10&lt;/code&gt; 和 &lt;code&gt;2^-7&lt;/code&gt;；换成 BF16 可以扩大可表示范围，却可能丢失更多细微差异。格式结构与误差讨论可参考 &lt;a class="link" href="https://docs.nvidia.com/deeplearning/tensorrt/latest/inference-library/accuracy-considerations.html" target="_blank" rel="noopener"
+ &gt;TensorRT 数值精度说明&lt;/a&gt;；整数码域见 &lt;a class="link" href="https://onnx.ai/onnx/operators/onnx__QuantizeLinear.html" target="_blank" rel="noopener"
+ &gt;ONNX QuantizeLinear&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;FP32 转为 FP16/BF16，通常作为浮点精度转换或混合精度的一部分讨论。INT8/INT4 量化还需要明确原值与整数编码之间的映射。FP8、FP4 也有各自的浮点编码，例如 E4M3、E5M2、E2M1；它们与同位宽整数的取值分布不同，具体变体、缩放规则与硬件支持需另行确认。&lt;a class="link" href="https://docs.nvidia.com/deeplearning/tensorrt/latest/inference-library/quantized-types-schemes.html" target="_blank" rel="noopener"
+ &gt;低比特格式与量化方案&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id="622-一个浮点数怎样变成-int4"&gt;6.2.2 一个浮点数怎样变成 INT4
+&lt;/h4&gt;&lt;p&gt;对均匀仿射量化，设缩放因子为 $s&amp;gt;0$、整数零点为 $z$：&lt;/p&gt;
+&lt;p&gt;$$
+q=\operatorname{clip}(\operatorname{round}(x/s)+z,q_{\min},q_{\max}),
+\qquad \hat{x}=s(q-z).
+$$&lt;/p&gt;
+&lt;p&gt;$q$ 是保存的整数，$\hat{x}$ 是它代表的近似实数。假设使用 INT4 码域 &lt;code&gt;[-8, 7]&lt;/code&gt;，&lt;code&gt;s = 0.25&lt;/code&gt;、&lt;code&gt;z = 0&lt;/code&gt;，舍入到最近整数，则可表示实数为 −2.00、−1.75……1.75：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;原值 x&lt;/th&gt;
+					&lt;th&gt;量化整数 q&lt;/th&gt;
+					&lt;th&gt;反量化值 x̂&lt;/th&gt;
+					&lt;th&gt;发生了什么&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;−1.00&lt;/td&gt;
+					&lt;td&gt;−4&lt;/td&gt;
+					&lt;td&gt;−1.00&lt;/td&gt;
+					&lt;td&gt;恰好可表示&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;−0.30&lt;/td&gt;
+					&lt;td&gt;−1&lt;/td&gt;
+					&lt;td&gt;−0.25&lt;/td&gt;
+					&lt;td&gt;舍入引入误差&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;0.20&lt;/td&gt;
+					&lt;td&gt;1&lt;/td&gt;
+					&lt;td&gt;0.25&lt;/td&gt;
+					&lt;td&gt;舍入引入误差&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;0.90&lt;/td&gt;
+					&lt;td&gt;4&lt;/td&gt;
+					&lt;td&gt;1.00&lt;/td&gt;
+					&lt;td&gt;舍入引入误差&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;2.10&lt;/td&gt;
+					&lt;td&gt;7&lt;/td&gt;
+					&lt;td&gt;1.75&lt;/td&gt;
+					&lt;td&gt;超出范围，被截断到上界&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;这说明量化需要保存或约定 scale；单独把 &lt;code&gt;−0.30&lt;/code&gt; 强制转换成整数，并不能得到上述含义。反量化恢复的是近似值，也无法自动找回已经丢失的信息。某些对称量化实现只使用 &lt;code&gt;[-7, 7]&lt;/code&gt;，具体码域必须与后端一致；恰好位于两个整数中间时，还需统一舍入规则，例如 ONNX 的 ties-to-even。&lt;a class="link" href="https://onnx.ai/onnx/operators/onnx__QuantizeLinear.html" target="_blank" rel="noopener"
+ &gt;QuantizeLinear 规范&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;scale 较大时，能覆盖更宽的范围，但相邻可表示值间隔更大；scale 较小时，范围内更精细，却可能截断离群值。这正是校准和量化算法需要处理的取舍。&lt;/p&gt;
+&lt;h4 id="623-粒度量化对象与-w4a16-要分别说明"&gt;6.2.3 粒度、量化对象与 W4A16 要分别说明
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;对称量化&lt;/strong&gt;通常采用零点为零的有符号表示；&lt;strong&gt;非对称量化&lt;/strong&gt;通过非零零点平移可表示区间。量化参数还可以按不同粒度共享：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;粒度&lt;/th&gt;
+					&lt;th&gt;参数怎样共享&lt;/th&gt;
+					&lt;th&gt;主要取舍&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;逐张量（per-tensor）&lt;/td&gt;
+					&lt;td&gt;整个张量共用参数&lt;/td&gt;
+					&lt;td&gt;元数据少；局部离群值可能影响其他部分&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;逐通道/逐轴（per-channel/per-axis）&lt;/td&gt;
+					&lt;td&gt;指定轴的每个索引各有参数&lt;/td&gt;
+					&lt;td&gt;可适应通道差异；必须明确量化轴&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;分组（per-group）&lt;/td&gt;
+					&lt;td&gt;沿指定维度，每 G 个元素共享参数&lt;/td&gt;
+					&lt;td&gt;可更细致地适应分布；增加元数据、访问和内核约束&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;激活参数也可以离线校准后固定，或在运行时由当前输入统计得到。这里的“动态量化”涉及量化参数的获取时机，与“动态输入形状”是不同概念。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;W4A16&lt;/strong&gt; 表示相关计算路径中的权重采用 4 位表示、激活采用 16 位表示；仍需说明这 4 位是什么编码、16 位是 FP16 还是 BF16。&lt;strong&gt;W8A8&lt;/strong&gt; 同样需要补充 INT8、FP8 等具体类型。仅凭这些缩写，无法确定整模型所有张量的类型。&lt;/p&gt;
+&lt;p&gt;至少分别记录四项：&lt;strong&gt;权重、激活、KV 缓存、累加器&lt;/strong&gt;。例如，一个方案可以使用 INT4 权重、FP16 激活、FP16 KV，并在部分矩阵运算中使用 FP32 累加；这是可能的组合，是否支持由具体内核决定。降低权重位宽不会自动压缩 KV，累加器也不必与输入同类型。&lt;/p&gt;
+&lt;h4 id="624-模型文件为什么大于参数量乘以位宽"&gt;6.2.4 模型文件为什么大于“参数量乘以位宽”
+&lt;/h4&gt;&lt;p&gt;紧凑打包的 INT4 可以把两个数装进一个字节，但还需要量化参数、张量描述与对齐。先看一个纯粹的容量算例：假设 80 亿权重全部采用 INT4，每 128 个权重保存一个 FP16 scale，零点固定为零、不另存，并忽略其他开销：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;INT4 权重：8,000,000,000 × 4 / 8 = 4.000 GB
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;FP16 scale：8,000,000,000 / 128 × 2 = 0.125 GB
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;合计：4.125 GB，平均每个权重 4.125 bit
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;同数量 FP16 原始权重：16 GB
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;本例压缩倍数：16 / 4.125 ≈ 3.88 倍
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里使用十进制 GB。真实模型还可能包含零点、未量化层、填充、索引和不同分组方式；运行时再增加 KV、激活、工作区，以及可能重新打包或展开的副本。因此，应分别测量&lt;strong&gt;磁盘模型包、加载后常驻内存、生成过程峰值内存&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;还要区分文件容器与张量编码。例如 &lt;a class="link" href="https://github.com/ggml-org/ggml/blob/master/docs/gguf.md" target="_blank" rel="noopener"
+ &gt;GGUF&lt;/a&gt;组织模型张量和元数据，同一个容器可以承载不同编码或混合类型；看到 &lt;code&gt;.gguf&lt;/code&gt; 后缀，不能直接推断模型全为 INT4。&lt;/p&gt;
+&lt;h4 id="625-保存为低比特计算时走什么路径"&gt;6.2.5 保存为低比特，计算时走什么路径
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;仅权重量化（weight-only quantization）&lt;/strong&gt; 描述只对权重实施低比特量化的方案，并不单独规定设备指令。部分 W4A16 内核按块读取 INT4，在计算过程中解包、反量化到 FP16/BF16，再参与矩阵运算；转换可以融合在内核内部，避免先把全部权重展开成长驻浮点副本。其他路径可以利用目标硬件支持的低比特计算能力，前提是数值类型和缩放方式匹配。&lt;/p&gt;
+&lt;figure class="inference-figure" aria-labelledby="inference-quant-caption"&gt;
+&lt;figcaption id="inference-quant-caption"&gt;&lt;span class="inference-figure-title"&gt;图 3 · W4A16 的一种权重读取与计算路径&lt;/span&gt;&lt;span class="inference-figure-note"&gt;示例采用 FP16 激活与 FP32 累加；实际支持依赖内核，解包与反量化可以融合执行。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;pre class="mermaid" style="visibility:hidden"&gt;flowchart TB
+ W[紧凑 INT4 权重&lt;br/&gt;分组 scale 等元数据] --&gt; D[按块读取 · 解包 · 反量化]
+ D --&gt; M[浮点矩阵运算&lt;br/&gt;FP16 输入 · FP32 累加]
+ A[FP16 激活] --&gt; M
+ M --&gt; O[按输出约定转换与写回]&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;检查真实路径时，要同时看计算类型、反量化位置、设备执行与额外副本。Q/DQ 图表达的数值语义，需要由后端转换成受支持的执行方案；一个转换操作在图中存在，不意味着运行时必然有一次独立搬运。&lt;a class="link" href="https://docs.nvidia.com/deeplearning/tensorrt/latest/inference-library/quantized-types-explicit-quantization.html" target="_blank" rel="noopener"
+ &gt;TensorRT 显式量化与融合&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;低比特可能降低权重带宽压力，也可能因为解包、重排、转换或不合适的内核而增加延迟。量化选型要比较&lt;strong&gt;质量、权重容量、KV 容量、prefill、decode、能耗&lt;/strong&gt;，并分别观察长输入和小批量生成。&lt;/p&gt;
+&lt;h4 id="626-量化流程算法与格式怎样对应"&gt;6.2.6 量化流程、算法与格式怎样对应
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;训练后量化（Post-Training Quantization，PTQ）&lt;/strong&gt; 从已训练模型出发做量化；&lt;strong&gt;量化感知训练（Quantization-Aware Training，QAT）&lt;/strong&gt; 在训练或微调中模拟量化影响。它们是流程类别。INT4/INT8 是表示类型，下面这些方法则解决量化参数和误差分配问题：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;方法&lt;/th&gt;
+					&lt;th&gt;主要思路&lt;/th&gt;
 					&lt;th&gt;学习深度建议&lt;/th&gt;
 			&lt;/tr&gt;
 	&lt;/thead&gt;
 	&lt;tbody&gt;
 			&lt;tr&gt;
 					&lt;td&gt;RTN（Round-to-Nearest）&lt;/td&gt;
-					&lt;td&gt;舍入到最近可表示值的量化基线&lt;/td&gt;
-					&lt;td&gt;必须会做基线&lt;/td&gt;
+					&lt;td&gt;给定量化范围与参数后舍入到最近可表示值&lt;/td&gt;
+					&lt;td&gt;必须会做数值基线，检查截断和舍入&lt;/td&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
 					&lt;td&gt;GPTQ&lt;/td&gt;
-					&lt;td&gt;利用近似二阶信息降低权重量化误差的 PTQ 方法&lt;/td&gt;
-					&lt;td&gt;理解目标与校准流程，不必先重写求解器&lt;/td&gt;
+					&lt;td&gt;利用近似二阶信息降低权重量化误差&lt;/td&gt;
+					&lt;td&gt;理解目标与校准流程，按项目需要深入实现&lt;/td&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
 					&lt;td&gt;AWQ（Activation-aware Weight Quantization）&lt;/td&gt;
-					&lt;td&gt;激活感知权重量化：利用激活信息选择缩放，改善低比特权重表示&lt;/td&gt;
-					&lt;td&gt;掌握动机，理解校准与计算内核的衔接&lt;/td&gt;
+					&lt;td&gt;利用激活信息选择缩放，改善低比特权重表示&lt;/td&gt;
+					&lt;td&gt;理解激活感知的动机及其与内核的衔接&lt;/td&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
 					&lt;td&gt;SmoothQuant&lt;/td&gt;
-					&lt;td&gt;通过等价缩放把激活量化难点迁移到权重侧，服务 W8A8 等路径&lt;/td&gt;
-					&lt;td&gt;理解离群值（outlier）与权重/激活协同&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;量化感知训练（QAT）&lt;/td&gt;
-					&lt;td&gt;在训练中模拟量化影响，提高模型对目标数值格式的适应能力&lt;/td&gt;
-					&lt;td&gt;PTQ 达不到质量要求时深入，计入训练成本&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;FP8/FP4、MX 等格式&lt;/td&gt;
-					&lt;td&gt;数值表示和缩放规范；不是与 AWQ 同层的算法&lt;/td&gt;
-					&lt;td&gt;按芯片支持和误差预算选择，不能只看比特数&lt;/td&gt;
-			&lt;/tr&gt;
-			&lt;tr&gt;
-					&lt;td&gt;GGUF / 量化模型检查点（checkpoint）&lt;/td&gt;
-					&lt;td&gt;承载张量、元数据及格式约定的产物&lt;/td&gt;
-					&lt;td&gt;确认加载工具与执行后端兼容，不把格式当作完整算法&lt;/td&gt;
+					&lt;td&gt;通过等价缩放把激活量化难点迁移到权重侧&lt;/td&gt;
+					&lt;td&gt;理解离群值，以及权重/激活协同量化&lt;/td&gt;
 			&lt;/tr&gt;
 	&lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;&lt;strong&gt;训练后量化（Post-Training Quantization，PTQ）&lt;/strong&gt; 基于已训练模型进行量化；&lt;strong&gt;量化感知训练（Quantization-Aware Training，QAT）&lt;/strong&gt; 在训练或微调中模拟量化影响。二者是流程类别，GPTQ、AWQ 等是具体方法。算法依据见 &lt;a class="link" href="https://arxiv.org/abs/2210.17323" target="_blank" rel="noopener"
+&lt;p&gt;算法依据见 &lt;a class="link" href="https://arxiv.org/abs/2210.17323" target="_blank" rel="noopener"
  &gt;GPTQ&lt;/a&gt;、&lt;a class="link" href="https://arxiv.org/abs/2306.00978" target="_blank" rel="noopener"
  &gt;AWQ&lt;/a&gt;、&lt;a class="link" href="https://arxiv.org/abs/2211.10438" target="_blank" rel="noopener"
- &gt;SmoothQuant&lt;/a&gt;；工具选择可从 &lt;a class="link" href="https://docs.vllm.ai/projects/llm-compressor/en/latest/steps/choosing-algo/" target="_blank" rel="noopener"
- &gt;LLM Compressor 的算法选择指南&lt;/a&gt;开始。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;低比特不必然低延迟。&lt;/strong&gt; 若芯片没有对应的高效计算内核，或者按分组解包、重排、反量化消耗很大，低比特模型可能只是更省内存。量化选型要比较“质量、权重容量、KV 容量、prefill、decode、能耗”六项，不能只比较模型文件大小。&lt;/p&gt;
-&lt;p&gt;评估时，先用小规模逐层/逐算子对齐定位实现错误，再用任务集评估真实退化。困惑度（perplexity）可以作为信号，不能替代中文任务、代码、长上下文和视觉理解等目标能力测试。&lt;a class="link" href="https://github.com/EleutherAI/lm-evaluation-harness" target="_blank" rel="noopener"
- &gt;LM Evaluation Harness&lt;/a&gt; 可复用标准评测流程，但仍需固定分词器、模板、任务版本、少样本示例（few-shot examples）和生成设置，并加入业务样本。&lt;/p&gt;
+ &gt;SmoothQuant&lt;/a&gt;。工程工具可从 &lt;a class="link" href="https://docs.vllm.ai/projects/llm-compressor/en/latest/steps/choosing-algo/" target="_blank" rel="noopener"
+ &gt;LLM Compressor 算法选择指南&lt;/a&gt;了解。学习时先做一种格式的基线和误差分析，再选择与目标硬件相容的算法；MX 等带有特定缩放规范的格式，按所选工具链的实际需要补充。&lt;/p&gt;
+&lt;h4 id="627-部署选型与学习优先级"&gt;6.2.7 部署选型与学习优先级
+&lt;/h4&gt;&lt;p&gt;按以下顺序作出决定：&lt;strong&gt;确认芯片和引擎支持 → 建立参考精度基线 → 选择量化对象与格式 → 校准并检查误差 → 比较完整负载 → 决定采用范围&lt;/strong&gt;。权重容量不足、KV 过大和计算耗时高，可能需要不同方案；PTQ 质量不达标时，再评估混合精度或 QAT 的收益与成本。&lt;/p&gt;
+&lt;p&gt;评估时先逐层/逐算子对齐，再用任务集检查退化。困惑度（perplexity）可以作为信号，不能替代中文任务、代码、长上下文和视觉理解测试。&lt;a class="link" href="https://github.com/EleutherAI/lm-evaluation-harness" target="_blank" rel="noopener"
+ &gt;LM Evaluation Harness&lt;/a&gt;可复用标准流程，但仍需固定分词器、模板、任务版本、少样本示例与生成设置，并加入业务样本。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;P0 必须掌握&lt;/strong&gt;：常见格式、范围与精度、量化映射、参数粒度、权重/激活/KV/累加器区别、实际容量和计算路径。&lt;strong&gt;P1 按方向深入&lt;/strong&gt;：一种量化算法及其目标后端实现。&lt;strong&gt;P2 按需扩展&lt;/strong&gt;：暂不适用的特殊格式、其他同类算法与厂商位级实现。第十三节第三周的练习按这一顺序展开。&lt;/p&gt;
 &lt;h3 id="63-投机解码额外计算能否换来更少的串行等待"&gt;6.3 投机解码：额外计算能否换来更少的串行等待
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;投机解码（Speculative Decoding，也称推测解码）&lt;/strong&gt; 的经典思路是：草稿模型（draft model）提出若干 token，目标模型（target model）一次验证，按接受规则保留候选前缀，再继续生成。在正确的拒绝采样（rejection sampling）算法与相应假设下，可以保持目标模型的输出分布；这不等于任意实现都与普通路径逐 token、逐比特相同。&lt;a class="link" href="https://arxiv.org/abs/2211.17192" target="_blank" rel="noopener"
  &gt;原始论文&lt;/a&gt;。“投机解码”也是&lt;a class="link" href="https://paddlepaddle.github.io/FastDeploy/zh/features/speculative_decoding/" target="_blank" rel="noopener"
@@ -749,7 +900,7 @@ $$&lt;/p&gt;
 &lt;/h2&gt;&lt;p&gt;推理引擎最终要调用设备能够执行的计算。编译器和算子层决定模型如何表示、哪些操作可以融合、数据放在哪里以及怎样映射到硬件。所有路线都值得理解这一层的作用；只有需要改变其行为时，才需要深入特定编译器或计算内核实现。&lt;/p&gt;
 &lt;h3 id="81-先理解编译链中的动作"&gt;8.1 先理解编译链中的动作
 &lt;/h3&gt;&lt;figure class="inference-figure" aria-labelledby="inference-compiler-caption"&gt;
-&lt;figcaption id="inference-compiler-caption"&gt;&lt;span class="inference-figure-title"&gt;图 3 · 模型编译与设备执行流程&lt;/span&gt;&lt;/figcaption&gt;
+&lt;figcaption id="inference-compiler-caption"&gt;&lt;span class="inference-figure-title"&gt;图 4 · 模型编译与设备执行流程&lt;/span&gt;&lt;/figcaption&gt;
 &lt;pre class="mermaid" style="visibility:hidden"&gt;flowchart TB
  A[模型语义与权重] --&gt; B[图捕获或导出&lt;br/&gt;算子 · 形状 · 状态约束]
  B --&gt; C[算子合法化与图优化&lt;br/&gt;分解 · 融合 · 量化]
@@ -760,7 +911,7 @@ $$&lt;/p&gt;
  G -. 反馈 .-&gt; C&lt;/pre&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;strong&gt;中间表示（Intermediate Representation，IR）&lt;/strong&gt; 是编译器能分析与变换的程序表示。&lt;strong&gt;lowering&lt;/strong&gt; 在本文保留英文，指将高层表示逐步转换为更低层表示，在保持程序语义的同时落实循环、内存布局、并行和设备指令等细节。&lt;a class="link" href="https://mlir.llvm.org/docs/Tutorials/Toy/Ch-5/" target="_blank" rel="noopener"
  &gt;MLIR 的逐级转换示例&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;算子合法化（operator legalization）&lt;/strong&gt; 指将不符合目标约束的操作改写为合法操作；这里的“合法”由转换目标定义。&lt;strong&gt;图分区（graph partitioning）&lt;/strong&gt; 决定哪些节点或子图交给哪个后端执行。这些步骤可能在不同层次反复发生，图 3 表示概念流程，不限定编译器必须采用这一顺序。&lt;a class="link" href="https://mlir.llvm.org/docs/DialectConversion/" target="_blank" rel="noopener"
+&lt;p&gt;&lt;strong&gt;算子合法化（operator legalization）&lt;/strong&gt; 指将不符合目标约束的操作改写为合法操作；这里的“合法”由转换目标定义。&lt;strong&gt;图分区（graph partitioning）&lt;/strong&gt; 决定哪些节点或子图交给哪个后端执行。这些步骤可能在不同层次反复发生，图 4 表示概念流程，不限定编译器必须采用这一顺序。&lt;a class="link" href="https://mlir.llvm.org/docs/DialectConversion/" target="_blank" rel="noopener"
  &gt;MLIR Dialect Conversion&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;MLIR 中的&lt;strong&gt;方言（dialect）&lt;/strong&gt; 组织某类操作、类型和属性；&lt;strong&gt;编译 pass&lt;/strong&gt; 是编译流水线中的处理单元，可以执行分析或转换。中文也会称 pass 为“编译遍”，本文保留 pass，便于对照源码。&lt;/p&gt;
 &lt;p&gt;深入编译路径时，需要能回答：一个算子的 lowering 为什么失败？是缺实现、形状不受支持、数据类型（dtype）不匹配，还是状态/控制流无法表达？某次融合为什么没有发生？编译器怎样证明缓冲区（buffer）可以复用？&lt;/p&gt;
@@ -1152,7 +1303,7 @@ $$&lt;/p&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;strong&gt;预填充/解码分离（Prefill/Decode Disaggregation，简称 PD 分离）&lt;/strong&gt; 把两个阶段放到不同资源池，使它们独立调度和配置。代价是 KV 状态需要跨资源边界传递，还要处理排队、路由、失败和容量不平衡；这一架构思路最早由 &lt;a class="link" href="https://arxiv.org/abs/2401.09670" target="_blank" rel="noopener"
  &gt;DistServe 论文&lt;/a&gt; 系统性提出并验证。&lt;/p&gt;
 &lt;figure class="inference-figure" aria-labelledby="inference-pd-caption"&gt;
-&lt;figcaption id="inference-pd-caption"&gt;&lt;span class="inference-figure-title"&gt;图 4 · 预填充/解码分离与 KV 状态流转&lt;/span&gt;&lt;/figcaption&gt;
+&lt;figcaption id="inference-pd-caption"&gt;&lt;span class="inference-figure-title"&gt;图 5 · 预填充/解码分离与 KV 状态流转&lt;/span&gt;&lt;/figcaption&gt;
 &lt;pre class="mermaid" style="visibility:hidden"&gt;flowchart TB
  A[请求路由与准入控制] --&gt; B[预填充资源池&lt;br/&gt;Prefill]
  B --&gt;|KV 状态传输| C[解码资源池&lt;br/&gt;Decode]
@@ -1516,7 +1667,7 @@ $$&lt;/p&gt;
 &lt;h3 id="134-每天怎么推进八周的任务与验收"&gt;13.4 每天怎么推进：八周的任务与验收
 &lt;/h3&gt;&lt;p&gt;每周先读“本周材料”，再按五天表执行。材料按当天问题选看；选修资源只在卡住或选择对应方向时使用。&lt;strong&gt;当天的完成标准就是表格最后一列；周末用本周验收判断是否需要补缺。&lt;/strong&gt;&lt;/p&gt;
 &lt;figure class="inference-figure" aria-labelledby="inference-learning-caption"&gt;
-&lt;figcaption id="inference-learning-caption"&gt;&lt;span class="inference-figure-title"&gt;图 5 · 课程与实践衔接的 8 周学习路线&lt;/span&gt;&lt;span class="inference-figure-note"&gt;每周五个主要学习日；同一个模型、评测集与实验仓库贯穿全程。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;figcaption id="inference-learning-caption"&gt;&lt;span class="inference-figure-title"&gt;图 6 · 课程与实践衔接的 8 周学习路线&lt;/span&gt;&lt;span class="inference-figure-note"&gt;每周五个主要学习日；同一个模型、评测集与实验仓库贯穿全程。&lt;/span&gt;&lt;/figcaption&gt;
 &lt;ol class="inference-timeline"&gt;
 &lt;li&gt;&lt;span class="phase"&gt;第 1—2 周&lt;/span&gt;&lt;div&gt;&lt;strong&gt;看懂模型，建立基线&lt;/strong&gt;&lt;p&gt;模型与 KV 状态 → 容量估算 → 性能分析。主资源：MIT 模型基础、CS336 资源核算与推理。产物：参考实现、正确性检查、性能基线。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;&lt;span class="phase"&gt;第 3—4 周&lt;/span&gt;&lt;div&gt;&lt;strong&gt;完成量化、服务与负载测试&lt;/strong&gt;&lt;p&gt;量化数值 → 模型压缩 → 推理服务 → 缓存与调度实验。主资源：MIT 量化、vLLM 短课。产物：可运行服务与质量、内存、性能对照报告。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
@@ -1628,13 +1779,13 @@ $$&lt;/p&gt;
 	&lt;tbody&gt;
 			&lt;tr&gt;
 					&lt;td&gt;第 1 天&lt;/td&gt;
-					&lt;td&gt;看 MIT 第 5 讲，在小张量上实现线性量化/反量化，观察 scale、zero-point、截断与累加精度&lt;/td&gt;
-					&lt;td&gt;对照手算结果，记录输入范围、量化误差及异常值影响&lt;/td&gt;
+					&lt;td&gt;读第 6.2.1—6.2.2 节，看 MIT 第 5 讲；比较 FP16/BF16 的表示，在小张量上实现 INT8/INT4 量化与反量化&lt;/td&gt;
+					&lt;td&gt;复现正文 INT4 算例，增加中点舍入与超范围输入；解释数值范围、舍入和截断&lt;/td&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
 					&lt;td&gt;第 2 天&lt;/td&gt;
-					&lt;td&gt;看 MIT 第 6 讲，比较按张量、按通道或分组量化；选读一篇论文的方法与局限，画出误差处理过程&lt;/td&gt;
-					&lt;td&gt;形成一页机制说明；能区分权重量化、激活量化与 KV 量化&lt;/td&gt;
+					&lt;td&gt;看 MIT 第 6 讲，比较逐张量、逐通道和分组；计算权重与元数据容量，选读一篇算法论文的方法部分&lt;/td&gt;
+					&lt;td&gt;保存包含权重、激活、KV、累加器、scale/zero-point 与 group size 的格式说明；复算 4.125 GB 示例&lt;/td&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
 					&lt;td&gt;第 3 天&lt;/td&gt;
@@ -1643,8 +1794,8 @@ $$&lt;/p&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
 					&lt;td&gt;第 4 天&lt;/td&gt;
-					&lt;td&gt;在同一后端、固定质量样本与第 2 周负载上比较参考精度模型和量化模型&lt;/td&gt;
-					&lt;td&gt;同时报告质量、文件大小、运行时内存和速度；检查实际执行内核与精度路径&lt;/td&gt;
+					&lt;td&gt;在同一后端、固定质量样本与第 2 周负载上比较参考精度模型和量化模型；确认反量化和实际计算发生在哪里&lt;/td&gt;
+					&lt;td&gt;分别报告模型文件、加载后内存、生成峰值、质量与速度；记录实际内核及可确认的累加类型&lt;/td&gt;
 			&lt;/tr&gt;
 			&lt;tr&gt;
 					&lt;td&gt;第 5 天&lt;/td&gt;
@@ -1867,7 +2018,7 @@ $$&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;最终验收&lt;/strong&gt;：形成代码、配置、质量结果、原始性能数据、稳定性记录与 ADR 的完整证据。两小时运行是学习项目的起步检查，生产稳定性需要更长时间和更完整的故障验证。报告只陈述实际测过的设备与功能，未验证的部分列出验证方案。&lt;/p&gt;
 &lt;h3 id="135-第-6-周的三条分支选一条主线深入"&gt;13.5 第 6 周的三条分支：选一条主线深入
 &lt;/h3&gt;&lt;figure class="inference-figure" aria-labelledby="inference-branches-caption"&gt;
-&lt;figcaption id="inference-branches-caption"&gt;&lt;span class="inference-figure-title"&gt;图 6 · 第 6 周的三条技术深入路线&lt;/span&gt;&lt;span class="inference-figure-note"&gt;共享前五周的基础与评测方法；选择一条主线，将发现的瓶颈交给第七周验证。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;figcaption id="inference-branches-caption"&gt;&lt;span class="inference-figure-title"&gt;图 7 · 第 6 周的三条技术深入路线&lt;/span&gt;&lt;span class="inference-figure-note"&gt;共享前五周的基础与评测方法；选择一条主线，将发现的瓶颈交给第七周验证。&lt;/span&gt;&lt;/figcaption&gt;
 &lt;ol class="inference-route"&gt;
 &lt;li&gt;&lt;span class="step"&gt;路线 A · 推理服务&lt;/span&gt;&lt;strong&gt;请求 → 调度 → KV 管理&lt;/strong&gt;&lt;p&gt;沿一次请求追踪队列、批次与缓存。比较一个调度或缓存行为，确定延迟与容量之间的取舍。&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;span class="step"&gt;路线 B · 端侧与本地&lt;/span&gt;&lt;strong&gt;加载 → 内存 → 设备执行&lt;/strong&gt;&lt;p&gt;沿模型加载和生成过程追踪权重、状态与设备分工。选择冷启动、内存或持续性能中的一个瓶颈。&lt;/p&gt;&lt;/li&gt;
