@@ -1,4 +1,1858 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 七月流火</title><link>https://qiyueliuhuo.github.io/posts/</link><description>Recent content in Posts on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 23 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>大模型推理与部署工程图谱：技术栈、开源项目与学习路线</title><link>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</link><pubDate>Sun, 20 Sep 2026 13:13:11 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</guid><description>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 七月流火</title><link>https://qiyueliuhuo.github.io/posts/</link><description>Recent content in Posts on 七月流火</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 23 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://qiyueliuhuo.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>大模型编译工程图谱：面向端侧 NPU 的技术栈、工具链与学习路线</title><link>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BC%96%E8%AF%91%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E9%9D%A2%E5%90%91%E7%AB%AF%E4%BE%A7-npu-%E7%9A%84%E6%8A%80%E6%9C%AF%E6%A0%88%E5%B7%A5%E5%85%B7%E9%93%BE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</link><pubDate>Tue, 22 Sep 2026 22:23:59 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BC%96%E8%AF%91%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E9%9D%A2%E5%90%91%E7%AB%AF%E4%BE%A7-npu-%E7%9A%84%E6%8A%80%E6%9C%AF%E6%A0%88%E5%B7%A5%E5%85%B7%E9%93%BE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</guid><description>
+ &lt;blockquote&gt;
+ &lt;p&gt;&lt;strong&gt;AI 协作说明&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;本文由作者主导选题、技术判断与终稿审核；AI 工具协助完成资料检索、信息归纳、结构梳理与文字润色。文中观点、事实核验与引用准确性由作者负责。&lt;/p&gt;
+
+ &lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;资料核对时间：2026 年 9 月 23 日。&lt;/strong&gt; 本文以官方文档、项目仓库、原始论文和课程主页为主要依据。工具链能力是这一时间点的资料快照，实际使用时应固定版本；学习优先级与选型建议是本文的判断。容量、延迟和分块数字均为分析示例，不代表设备实测。&lt;/p&gt;
+&lt;p&gt;一个大模型在 PyTorch 中生成了正确的结果，距离在端侧神经网络处理器（Neural Processing Unit，NPU）上高效执行，还有一系列问题需要解决：怎样表达随解码更新的状态，怎样把高层算子转换成硬件能接受的计算，怎样安排有限的片上存储，以及怎样让编译结果与设备运行时正确配合。&lt;/p&gt;
+&lt;p&gt;这些问题共同构成&lt;strong&gt;大模型编译工程&lt;/strong&gt;。它既包含 IR 和编译变换，也包含量化表示、内存布局、设备接口与验证方法。对技术架构师而言，关键是识别每一层能决定什么、需要向下一层传递什么，以及一个局部优化能否改善完整生成过程。&lt;/p&gt;
+&lt;p&gt;本文与&lt;a class="link" href="https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/" &gt;《大模型推理与部署工程图谱：技术栈、开源项目与学习路线》&lt;/a&gt;组成同一系列。上一篇建立推理与部署全景；本篇沿着&lt;strong&gt;模型语义 → 图与 IR → 编译优化 → 硬件映射 → 有状态执行 → 验证交付&lt;/strong&gt;展开，把端侧 NPU 的约束放进每一步。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;阅读建议&lt;/strong&gt;：第一至四节建立全景与发展脉络，第五至七节理解编译核心，第八至十节比较工具链与运行边界，第十一、十二节学习选型和验证，第十三节执行 8 周课程与实践路线，第十四节按问题深读资料。想先决定学习投入，可先看第一、八、十三节。窄屏上的多列表格可以横向滚动。&lt;/p&gt;
+&lt;style&gt;
+.article-content .compiler-figure{width:100%;max-width:100%;margin:2.4rem auto;padding:1.6rem 0;border-top:1px solid var(--card-separator-color);border-bottom:1px solid var(--card-separator-color);color:var(--card-text-color-main);text-align:left}
+.article-content .compiler-figure figcaption{font-size:.9em;color:var(--card-text-color-secondary);margin:0 0 1.6rem;line-height:1.7;text-align:center;text-wrap:balance}
+.compiler-figure-title{display:block;font-weight:600;color:var(--card-text-color-main)}
+.compiler-figure-note{display:block;margin-top:.5rem;font-size:.94em}
+.article-content .compiler-figure .mermaid-wrapper{margin:0}
+.article-content .compiler-figure .mermaid{width:100%;margin:0;padding:2.4rem 1rem;box-sizing:border-box}
+.article-content:has(.compiler-figure)&gt;.table-wrapper&gt;table:has(th:nth-child(3)){min-width:64rem}
+.article-content:has(.compiler-figure)&gt;.table-wrapper&gt;table:has(th:nth-child(4)){min-width:76rem}
+.article-content:has(.compiler-figure)&gt;.table-wrapper th:first-child,.article-content:has(.compiler-figure)&gt;.table-wrapper td:first-child{white-space:nowrap}
+.compiler-timeline{list-style:none!important;padding:0!important;margin:0!important}
+.compiler-timeline&gt;li{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:1.6rem;margin:0!important;padding:1.5rem 0;border-top:1px solid var(--card-separator-color)}
+.compiler-timeline&gt;li:first-child{border-top:0;padding-top:0}
+.compiler-timeline time,.compiler-timeline .phase{font-variant-numeric:tabular-nums;font-weight:700;color:var(--accent-color);font-size:.9em}
+.compiler-timeline p{margin:.5rem 0 0!important;font-size:.94em;line-height:1.8}
+.compiler-timeline strong{display:block}
+.compiler-timeline a{overflow-wrap:anywhere}
+.compiler-route{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.8rem;margin:0;padding:0;list-style:none!important}
+.compiler-route li{margin:0!important;padding:0!important;min-width:0}
+.compiler-route .step{display:block;font-size:.8em;font-weight:700;color:var(--accent-color);margin-bottom:.5rem}
+.compiler-route p{font-size:.9em;line-height:1.8;margin:.6rem 0 0!important}
+@media(max-width:600px){.compiler-timeline&gt;li{grid-template-columns:1fr;gap:.3rem}.compiler-route{grid-template-columns:1fr;gap:1.4rem}.compiler-route li+li{border-top:1px solid var(--card-separator-color);padding-top:1.4rem!important}}
+&lt;/style&gt;
+&lt;h2 id="一先建立全景大模型编译究竟要掌握什么"&gt;一、先建立全景：大模型编译究竟要掌握什么
+&lt;/h2&gt;&lt;h3 id="11-从数学运算走到可执行程序"&gt;1.1 从数学运算走到可执行程序
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;机器学习编译（machine learning compilation）&lt;/strong&gt; 将模型程序转换为适合目标环境执行的形式，同时保持约定的计算语义。其输出可能是机器码、设备命令、厂商图对象、序列化上下文，或包含多个子图和执行计划的模型包。&lt;/p&gt;
+&lt;p&gt;因此，“模型转换成功”“编译成功”“设备执行成功”“端到端更快”是四个需要分别验证的结果。编译也可能发生在不同时间：&lt;strong&gt;提前编译（Ahead-of-Time Compilation，AOT）&lt;/strong&gt; 在运行前完成目标编译，常用于发布或部署准备阶段；&lt;strong&gt;即时编译（Just-in-Time Compilation，JIT）&lt;/strong&gt; 在运行期间按需生成可执行代码或设备可加载的编译产物。编译之后仍需执行程序，才能得到推理结果。端侧可以采用两者组合。&lt;a class="link" href="https://developers.googleblog.com/litert-the-universal-framework-for-on-device-ai/" target="_blank" rel="noopener"
+ &gt;LiteRT 的 NPU 集成说明&lt;/a&gt;就同时提供 AOT 和设备端编译路径。&lt;/p&gt;
+&lt;p&gt;部署关注完整系统怎样交付，推理关注输入怎样经过模型生成结果，编译关注计算描述怎样转换为执行程序。三者在量化、形状、内存和状态上紧密衔接，工具链也经常同时覆盖这些环节。本篇以程序转换和硬件映射为观察重点：既检查产物本身，也回到实际推理验证它的效果。&lt;/p&gt;
+&lt;p&gt;本文主要讨论自回归大语言模型（Large Language Model，LLM）及其视觉语言模型（Vision-Language Model，VLM）扩展，设备包括移动片上系统（System-on-Chip，SoC）、嵌入式计算平台和带 NPU 的个人电脑。微控制器上的 TinyML、数据中心加速器和 FPGA 只在帮助比较机制时出现，具体容量与软件接口需要分别判断。&lt;/p&gt;
+&lt;h3 id="12-三种学习深度"&gt;1.2 三种学习深度
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;优先级&lt;/th&gt;
+					&lt;th&gt;应掌握的内容&lt;/th&gt;
+					&lt;th&gt;可以检验的能力&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;P0：通用核心&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;张量语义、形状与状态；IR；图变换合法性；数值格式、量化表示与存储/计算精度；分块与布局；张量存活期与缓冲区生命周期；正确性与性能分析&lt;/td&gt;
+					&lt;td&gt;看懂编译前后的程序，解释某次转换为什么正确、为什么可能更快&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;P1：方向主线&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;一套可修改的编译框架，加上一条目标硬件工具链；或一个导出/分区/运行时接入路径&lt;/td&gt;
+					&lt;td&gt;定位失败、修改一个 pass 或适配模块，并验证完整链路&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;strong&gt;P2：比较与扩展&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;同层其他框架、暂不适用的领域专用语言（Domain-Specific Language，DSL）、自动调优新方法、其他厂商 SDK&lt;/td&gt;
+					&lt;td&gt;说明解决的问题、依赖条件和替换代价，遇到需要时再深入&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;编译方向应把 IR、程序变换、形状与内存提升为主要学习对象。&lt;/strong&gt; 推理服务中的路由、集群调度和多机通信，在这条路线中通常只需先理解接口；它们是否成为重点，取决于实际系统边界。&lt;/p&gt;
+&lt;h3 id="13-三条工作主线共享同一套基础"&gt;1.3 三条工作主线，共享同一套基础
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;主线&lt;/th&gt;
+					&lt;th&gt;主要问题&lt;/th&gt;
+					&lt;th&gt;深入位置&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;模型接入与图编译&lt;/td&gt;
+					&lt;td&gt;新模型怎样导出，哪些算子需要分解，怎样量化和分区&lt;/td&gt;
+					&lt;td&gt;前端、图 IR、模式匹配、后端接入&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;编译器与硬件映射&lt;/td&gt;
+					&lt;td&gt;怎样把计算组织成目标芯片能高效执行的程序&lt;/td&gt;
+					&lt;td&gt;编译 pass、分块、布局、内存规划、代码生成&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;编译与运行时集成&lt;/td&gt;
+					&lt;td&gt;多份编译产物怎样共享状态，怎样加载、执行和升级&lt;/td&gt;
+					&lt;td&gt;KV 接口、缓冲区、异步执行、产物兼容与性能分析&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;熟练使用厂商转换工具，可以完成很有价值的模型接入工作。若目标进一步深入编译器，就需要选择具有源码、IR 输出和测试入口的实现，练习修改与验证。两种能力可以在同一个项目中逐步衔接。&lt;/p&gt;
+&lt;h2 id="二端侧-npu-的约束怎样改变编译问题"&gt;二、端侧 NPU 的约束，怎样改变编译问题
+&lt;/h2&gt;&lt;h3 id="21-npu-是一类硬件具体能力来自芯片与软件组合"&gt;2.1 NPU 是一类硬件，具体能力来自芯片与软件组合
+&lt;/h3&gt;&lt;p&gt;不同 NPU 的矩阵单元、向量单元、片上 SRAM、数据搬运机制、原生数值格式和可编程接口可能差异很大。名称相同的 INT4，也可能对应不同打包方式、缩放粒度或执行路径。&lt;/p&gt;
+&lt;p&gt;先为项目建立一张约束表：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;维度&lt;/th&gt;
+					&lt;th&gt;需要确认的事实&lt;/th&gt;
+					&lt;th&gt;对编译的影响&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;模型与输入&lt;/td&gt;
+					&lt;td&gt;模型结构、批大小（batch size）、上下文上限、图像尺寸与数量&lt;/td&gt;
+					&lt;td&gt;算子覆盖、形状特化（shape specialization）、编译产物数量&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;数值格式&lt;/td&gt;
+					&lt;td&gt;权重、激活、KV、累加器实际支持的类型&lt;/td&gt;
+					&lt;td&gt;量化路径、混合精度与转换成本&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;片上存储&lt;/td&gt;
+					&lt;td&gt;可用容量、分区、对齐、访问约束&lt;/td&gt;
+					&lt;td&gt;分块、层组（layer group）、双缓冲与临时空间&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;外部内存&lt;/td&gt;
+					&lt;td&gt;有效带宽、共享方式、可访问缓冲区&lt;/td&gt;
+					&lt;td&gt;权重与 KV 搬运、布局转换、状态复用&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;调度与同步&lt;/td&gt;
+					&lt;td&gt;提交开销、队列、事件、并发执行能力&lt;/td&gt;
+					&lt;td&gt;融合粒度、异步生命周期、设备切换&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;交付环境&lt;/td&gt;
+					&lt;td&gt;操作系统、驱动、SDK、运行时和编译器版本&lt;/td&gt;
+					&lt;td&gt;可构建性、产物兼容、调试与升级成本&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;实际支持范围应写成：&lt;strong&gt;模型结构 × 输入形状 × 数值格式 × 芯片 × 软件版本 × 执行特性&lt;/strong&gt;。某个 NPU 支持矩阵乘，并不足以证明它能高效执行任意模型的注意力、状态更新和完整生成循环。&lt;/p&gt;
+&lt;h3 id="22-prefill-与-decode-给编译器不同的工作负载"&gt;2.2 Prefill 与 decode 给编译器不同的工作负载
+&lt;/h3&gt;&lt;p&gt;预填充（prefill）处理一段输入；解码（decode）利用已有的键值缓存（key-value cache，KV cache），逐步生成新 token。对常见稠密 Transformer，小批量 decode 往往更受权重/KV 访存和固定开销影响；较长 prefill 则通常提供更大的矩阵计算规模。具体瓶颈仍需测量。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;方面&lt;/th&gt;
+					&lt;th&gt;Prefill&lt;/th&gt;
+					&lt;th&gt;Decode&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;本次输入长度&lt;/td&gt;
+					&lt;td&gt;一个或多个 token，长输入可分块&lt;/td&gt;
+					&lt;td&gt;常见为每序列一个 token；投机解码的候选验证（speculative verification）可一次处理多个 token&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;主要形状变化&lt;/td&gt;
+					&lt;td&gt;输入块长度、历史长度&lt;/td&gt;
+					&lt;td&gt;本次长度较小，历史 KV 持续增长&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;编译关注&lt;/td&gt;
+					&lt;td&gt;大矩阵映射、注意力临时量、输入形状分桶（shape bucketing）&lt;/td&gt;
+					&lt;td&gt;小矩阵效率、KV 访问、提交与边界开销&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;接口要求&lt;/td&gt;
+					&lt;td&gt;首次或带历史状态的批量写入&lt;/td&gt;
+					&lt;td&gt;追加、长度维护、会话隔离与状态复用&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;两阶段采用不同执行图或编译策略很常见。2026 年公开的 &lt;a class="link" href="https://arxiv.org/abs/2607.15865" target="_blank" rel="noopener"
+ &gt;TPU-MLIR 大模型编译论文&lt;/a&gt;进一步区分首次 prefill、携带历史 KV 的 prefill 和 decode，给出了将生成流程映射成多个编译入口的具体例子。&lt;/p&gt;
+&lt;h3 id="23-先估算容量再讨论优化"&gt;2.3 先估算容量，再讨论优化
+&lt;/h3&gt;&lt;p&gt;对各层配置相同、缓存完整历史 K/V 的稠密 Transformer，可以先做以下近似：&lt;/p&gt;
+&lt;p&gt;$$
+M_{\mathrm{weights}} \approx P\frac{b_w}{8},\qquad
+M_{\mathrm{KV}} \approx 2LBT H_{kv}d_h\frac{b_{kv}}{8}.
+$$&lt;/p&gt;
+&lt;p&gt;其中，$P$ 是参数量，$L$ 是层数，$B$ 是批大小，$T$ 是保存的历史长度，$H_{kv}$ 是 KV 头数，$d_h$ 是头维度，$b_w$、$b_{kv}$ 是位宽；此处假设 K/V 的头维度与位宽相同。分组查询注意力（Grouped-Query Attention，GQA）应代入 KV 头数，而非查询头数。多头潜在注意力（Multi-head Latent Attention，MLA）、滑动窗口注意力，以及混合注意力与状态空间模块的模型，需要按实际保存的状态另外计算。&lt;/p&gt;
+&lt;p&gt;例如，假设一个模型有 30 亿参数，权重全部以 4 bit 保存，原始权重约为 &lt;strong&gt;1.5 GB，约 1.40 GiB&lt;/strong&gt;。另假设 28 层、8 个 KV 头、头维度 128、单请求、8192 token 历史、FP16 KV，则 KV 约为 &lt;strong&gt;896 MiB&lt;/strong&gt;。这些是假设配置的容量计算，尚未计入量化元数据、未量化层、激活、工作区、重复打包和运行时预留。&lt;/p&gt;
+&lt;p&gt;更实用的总预算是：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;常驻权重 + 持久状态 + 激活峰值 + 内核工作区
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; + 格式转换/重复副本 + 运行时与系统开销
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;编译器能复用部分临时存储，但不能把仍在使用的 KV 当成普通临时激活回收。模型包的磁盘大小，也不能直接当作加载后的内存需求。&lt;/p&gt;
+&lt;h3 id="24-优化目标要同时包含启动与持续运行"&gt;2.4 优化目标要同时包含启动与持续运行
+&lt;/h3&gt;&lt;p&gt;端侧需要至少同时观察：编译时间与主机内存、安装包/产物大小、冷启动、首 token 延迟（Time to First Token，TTFT）、相邻输出 token 的间隔（Inter-Token Latency，ITL）、峰值内存，以及设备热稳定后的持续性能。TTFT 应注明从请求到达、模型调用还是其他时点开始计时。&lt;/p&gt;
+&lt;p&gt;TOPS（每秒万亿次运算，tera operations per second）是运算速率单位；厂商公布的峰值还取决于数值格式、稀疏性和运算计数口径。若 decode 的主要时间消耗在权重读取或图边界上，进一步提高矩阵乘峰值算力可能作用有限。架构选择应依据&lt;strong&gt;约定质量与资源限制下的完整生成成本&lt;/strong&gt;，并把编译、模型更新和多设备维护计入其中。&lt;/p&gt;
+&lt;h2 id="三把编译栈分层表示优化执行各负其责"&gt;三、把编译栈分层：表示、优化、执行各负其责
+&lt;/h2&gt;&lt;figure class="compiler-figure" aria-labelledby="compiler-stack-caption"&gt;
+&lt;figcaption id="compiler-stack-caption"&gt;&lt;span class="compiler-figure-title"&gt;图 1 · 从模型语义到端侧 NPU 执行的编译链路&lt;/span&gt;&lt;span class="compiler-figure-note"&gt;两条后端路径可以组合；每个边界都需要保存语义、形状、精度与状态约定。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;pre class="mermaid" style="visibility:hidden"&gt;flowchart TB
+ A[模型与参考结果&lt;br/&gt;结构 · 权重 · 生成语义] --&gt; B[捕获与导出&lt;br/&gt;图 · 类型 · 形状约束]
+ B --&gt; C[图优化与分区&lt;br/&gt;分解 · 量化 · 融合]
+ C --&gt; D[可扩展编译后端&lt;br/&gt;张量 IR · 分块 · 内存规划]
+ C --&gt; E[厂商编译接口&lt;br/&gt;SDK 图 · 图上下文]
+ D --&gt; F[编译产物&lt;br/&gt;目标代码或设备命令&lt;br/&gt;序列化图上下文]
+ E --&gt; F
+ F --&gt; G[运行时与驱动&lt;br/&gt;加载 · 状态 · 缓冲区 · 同步]
+ G --&gt; H[CPU / GPU / NPU 协同执行]&lt;/pre&gt;&lt;/figure&gt;
+&lt;h3 id="31-ir-保存的是程序信息层级取决于要做的决策"&gt;3.1 IR 保存的是程序信息，层级取决于要做的决策
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;中间表示（Intermediate Representation，IR）&lt;/strong&gt; 是编译过程中用来表达和变换程序的数据结构。高层表示保留模型算子与张量关系，较低层表示逐渐明确循环、内存和设备操作。&lt;strong&gt;Lowering&lt;/strong&gt; 指向更低层表示的转换；本文保留英文，并用“逐层转换”解释其含义。它本身不表示降低数值精度。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;表示层次&lt;/th&gt;
+					&lt;th&gt;常见对象&lt;/th&gt;
+					&lt;th&gt;这一层保留或决定什么&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;模型/图表示&lt;/td&gt;
+					&lt;td&gt;包含 ATen 算子的 FX 图、ONNX、Relax、StableHLO、TOSA&lt;/td&gt;
+					&lt;td&gt;算子语义、类型、形状、常量和数据依赖&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;结构化张量计算&lt;/td&gt;
+					&lt;td&gt;MLIR Linalg、TensorIR&lt;/td&gt;
+					&lt;td&gt;迭代空间、归约、分块、数据复用&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;循环与存储&lt;/td&gt;
+					&lt;td&gt;SCF/Affine、Vector、MemRef 等&lt;/td&gt;
+					&lt;td&gt;显式循环、向量化、缓冲区、访问方式&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;低层通用表示&lt;/td&gt;
+					&lt;td&gt;LLVM IR 等&lt;/td&gt;
+					&lt;td&gt;类型化低层操作、控制流、地址与调用约定；仍需后端生成目标指令&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;目标相关表示&lt;/td&gt;
+					&lt;td&gt;专用 dialect、厂商图与命令&lt;/td&gt;
+					&lt;td&gt;目标操作、执行单元、设备地址与同步&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;交付产物&lt;/td&gt;
+					&lt;td&gt;机器码、设备二进制、图上下文、模型包&lt;/td&gt;
+					&lt;td&gt;运行时可加载的程序及其依赖&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;这些对象并不构成必须逐个经过的统一流水线。其中 ATen 提供张量算子，FX 提供图表示与变换工具，导出图可以使用 ATen 算子集。&lt;a class="link" href="https://docs.pytorch.org/docs/2.14/user_guide/torch_compiler/export/ir_spec.html" target="_blank" rel="noopener"
+ &gt;PyTorch Export IR 规范&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;LLVM IR 也不等同于目标指令集，但可携带目标的数据布局、调用约定和内建函数（intrinsic）等信息。&lt;a class="link" href="https://llvm.org/docs/LangRef.html" target="_blank" rel="noopener"
+ &gt;LLVM IR 语言参考&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;StableHLO、TOSA 与 ONNX 有不同的语义和生态定位；一个厂商后端也可能直接接收子图，内部完成剩余编译。&lt;a class="link" href="https://openxla.org/stablehlo" target="_blank" rel="noopener"
+ &gt;StableHLO 的定位&lt;/a&gt;和 &lt;a class="link" href="https://iree.dev/developers/general/developer-tips/" target="_blank" rel="noopener"
+ &gt;IREE 的编译阶段&lt;/a&gt;提供了两个不同层面的观察入口。&lt;/p&gt;
+&lt;h3 id="32-理解-mlir先理解少量结构"&gt;3.2 理解 MLIR，先理解少量结构
+&lt;/h3&gt;&lt;p&gt;MLIR 的**方言（dialect）**组织相关操作、类型和属性的定义。**操作（operation）**可以表示算术、函数、内存访问等不同语义；**值（value）**由操作结果或块参数产生；**块（block）&lt;strong&gt;和&lt;/strong&gt;区域（region）**组织程序结构，操作还可以包含区域。&lt;/p&gt;
+&lt;p&gt;在**静态单赋值形式（Static Single Assignment，SSA）**中，每个 SSA 值只定义一次，便于追踪定义与使用关系。但一个值可以引用可变缓冲区，SSA 并不禁止修改其中的内存内容。&lt;a class="link" href="https://mlir.llvm.org/docs/LangRef/" target="_blank" rel="noopener"
+ &gt;MLIR 语言参考&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Pass&lt;/strong&gt; 是编译器中的一个处理阶段，可执行分析或变换；多个 pass 组成编译流水线（pass pipeline），本文保留英文 pass。编写 pass 时不仅需要找到某种图结构模式，还要检查类型、属性、副作用和使用关系。MLIR 的接口（interface）、描述可复用性质与约束的 trait、验证器（verifier）和模式重写（pattern rewriting）机制帮助表达这些条件。&lt;a class="link" href="https://mlir.llvm.org/docs/Tutorials/Toy/" target="_blank" rel="noopener"
+ &gt;MLIR Toy 教程&lt;/a&gt;适合从小程序逐步建立这些概念。&lt;/p&gt;
+&lt;h3 id="33-导出分区与代码生成是不同扩展点"&gt;3.3 导出、分区与代码生成是不同扩展点
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;前端导入&lt;/strong&gt;解决“模型怎样进入编译器”，需要正确表达模型的算子、常量、形状和状态。&lt;/li&gt;
+&lt;li&gt;**图分区（graph partitioning）**解决“哪些操作组成子图、交给哪个后端”，还要考虑精度、形状、依赖与边界成本。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;代码生成&lt;/strong&gt;解决“这段计算最终怎样执行”，可以生成内核，也可以调用已有库或厂商编译器。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;运行时接入&lt;/strong&gt;解决“产物怎样被加载和调用”，涉及缓冲区、生命周期、同步和错误传播。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例如，ExecuTorch 的分区器（partitioner）标记待委托给后端的图节点，后端处理编译信息，运行时再执行相应产物；这些责任可以分别扩展。&lt;a class="link" href="https://docs.pytorch.org/executorch/stable/compiler-delegate-and-partitioner.html" target="_blank" rel="noopener"
+ &gt;ExecuTorch 后端与分区设计&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="四发展脉络从算子优化走向有状态的大模型程序"&gt;四、发展脉络：从算子优化走向有状态的大模型程序
+&lt;/h2&gt;&lt;p&gt;下面选择公开论文、产品能力和框架发布作为时间节点；年份表示该条事件的公开时间，不表示相关思想第一次出现。不同路线长期并行发展。&lt;/p&gt;
+&lt;figure class="compiler-figure" aria-labelledby="compiler-history-caption"&gt;
+&lt;figcaption id="compiler-history-caption"&gt;&lt;span class="compiler-figure-title"&gt;图 2 · 机器学习编译到端侧大模型编译的发展时间线&lt;/span&gt;&lt;span class="compiler-figure-note"&gt;关注每一阶段扩展了哪些可表达、可优化和可交付的能力。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;ol class="compiler-timeline"&gt;
+&lt;li&gt;&lt;time&gt;2018&lt;/time&gt;&lt;div&gt;&lt;strong&gt;TVM：连接图优化与硬件相关优化&lt;/strong&gt;&lt;p&gt;&lt;a href="https://arxiv.org/abs/1802.04799"&gt;TVM 论文&lt;/a&gt;将模型图、算子实现和硬件映射放进统一编译框架，推动跨设备部署与性能可移植性的研究。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;time&gt;2020&lt;/time&gt;&lt;div&gt;&lt;strong&gt;MLIR 与 Ansor：可扩展表示与自动程序搜索&lt;/strong&gt;&lt;p&gt;&lt;a href="https://arxiv.org/abs/2002.11054"&gt;MLIR 论文&lt;/a&gt;讨论多层表示和可复用编译基础设施；&lt;a href="https://arxiv.org/abs/2006.06762"&gt;Ansor&lt;/a&gt;探索自动生成、搜索与测量张量程序。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;time&gt;2022&lt;/time&gt;&lt;div&gt;&lt;strong&gt;TensorIR 与 TPU-MLIR：更明确地表达专用硬件&lt;/strong&gt;&lt;p&gt;&lt;a href="https://arxiv.org/abs/2207.04296"&gt;TensorIR&lt;/a&gt;强化张量计算原语与调度表达；&lt;a href="https://arxiv.org/abs/2210.15016"&gt;TPU-MLIR&lt;/a&gt;展示图 dialect、目标 dialect 与逐阶段验证如何组织成编译器。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;time&gt;2023&lt;/time&gt;&lt;div&gt;&lt;strong&gt;ExecuTorch：框架导出与端侧后端协作&lt;/strong&gt;&lt;p&gt;&lt;a href="https://pytorch.org/blog/pytorch-edge-enabling-on-device-inference-across-mobile-and-edge-devices-with-executorch/"&gt;ExecuTorch 公开发布&lt;/a&gt;，围绕端侧运行时、硬件后端扩展与部署流程建立共同接口。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;time&gt;2024&lt;/time&gt;&lt;div&gt;&lt;strong&gt;可移植表示与状态接口进一步明确&lt;/strong&gt;&lt;p&gt;&lt;a href="https://openxla.org/stablehlo/roadmap"&gt;StableHLO 1.0&lt;/a&gt;完善语义与兼容机制；&lt;a href="https://developer.apple.com/videos/play/wwdc2024/10161/"&gt;Core ML 的状态模型能力&lt;/a&gt;把 KV 等持续状态纳入部署接口。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;time&gt;2025—2026&lt;/time&gt;&lt;div&gt;&lt;strong&gt;NPU 集成覆盖编译、运行与模型分发&lt;/strong&gt;&lt;p&gt;LiteRT 与 &lt;a href="https://developers.googleblog.com/unlocking-peak-performance-on-qualcomm-npu-with-litert/"&gt;Qualcomm&lt;/a&gt;、&lt;a href="https://developers.googleblog.com/mediatek-npu-and-litert-powering-the-next-generation-of-on-device-ai/"&gt;MediaTek&lt;/a&gt; 的集成，将厂商编译、设备执行和 AOT/JIT 路径连接起来。具体模型覆盖仍依赖后端与版本。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;time&gt;2026&lt;/time&gt;&lt;div&gt;&lt;strong&gt;TPU-MLIR：面向 LLM 的分阶段编译实践&lt;/strong&gt;&lt;p&gt;&lt;a href="https://arxiv.org/abs/2607.15865"&gt;面向 LLM 的 MLIR 编译方法&lt;/a&gt;给出首次 prefill、带历史 KV 的 prefill 和 decode 的分阶段组织，并讨论历史状态、层组与设备内存优化。这是该项目的一项公开实践，不表示这些思想始于 2026 年。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/figure&gt;
+&lt;p&gt;从这些节点可以看到一条持续发展的脉络：&lt;strong&gt;算子实现 → 跨层表示与优化 → 硬件后端协作 → 有状态程序与交付接口&lt;/strong&gt;。新阶段并没有消除旧问题；矩阵乘、布局和内存仍然重要，但它们需要放回完整生成流程里评估。&lt;/p&gt;
+&lt;h2 id="五前端与形状先把模型语义完整带进编译器"&gt;五、前端与形状：先把模型语义完整带进编译器
+&lt;/h2&gt;&lt;h3 id="51-torchcompiletorchexport-与-onnx-的职责"&gt;5.1 torch.compile、torch.export 与 ONNX 的职责
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;工具/机制&lt;/th&gt;
+					&lt;th&gt;主要用途&lt;/th&gt;
+					&lt;th&gt;接入时需要确认&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;torch.compile&lt;/td&gt;
+					&lt;td&gt;优化 Python/PyTorch 程序中的可捕获区域&lt;/td&gt;
+					&lt;td&gt;图中断（graph break）、重编译、后端覆盖与运行时依赖&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;torch.export&lt;/td&gt;
+					&lt;td&gt;得到可交给下游处理的张量程序与约束&lt;/td&gt;
+					&lt;td&gt;输入范围、控制流表达、状态与图签名（graph signature）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;ONNX 导出&lt;/td&gt;
+					&lt;td&gt;生成使用 ONNX 算子集表达的模型&lt;/td&gt;
+					&lt;td&gt;算子集版本（opset version）、动态维度、外部权重文件、下游算子语义&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;厂商专用转换器&lt;/td&gt;
+					&lt;td&gt;将受支持模型转成厂商中间或交付格式&lt;/td&gt;
+					&lt;td&gt;模型注册、转换约束、量化方式与实际目标芯片&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;code&gt;torch.export&lt;/code&gt; 会记录保证导出图成立所需的形状约束；若声明的动态范围与程序推导出的约束冲突，导出可能失败。基于一组示例输入成功导出，不代表导出图适用于任意输入；还要遵守形状范围、被特化的参数及其他导出约束。&lt;a class="link" href="https://docs.pytorch.org/docs/stable/user_guide/torch_compiler/export/api_reference.html" target="_blank" rel="noopener"
+ &gt;torch.export API&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;工程上先导出一层或一个小模块，更容易定位问题。完整 &lt;code&gt;generate()&lt;/code&gt; 还包含采样、停止条件和循环；有的系统保留这些控制在主机侧，有的将一部分下沉，不能从“模型已导出”推断控制逻辑的位置。&lt;/p&gt;
+&lt;h3 id="52-动态形状是一组决策不只是一个开关"&gt;5.2 动态形状是一组决策，不只是一个开关
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;策略&lt;/th&gt;
+					&lt;th&gt;适合的条件&lt;/th&gt;
+					&lt;th&gt;主要代价&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;固定形状&lt;/td&gt;
+					&lt;td&gt;输入规格稳定，后端特化收益明显&lt;/td&gt;
+					&lt;td&gt;超出形状的输入需要其他处理路径&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;形状分桶&lt;/td&gt;
+					&lt;td&gt;长度分布有可利用的常见区间&lt;/td&gt;
+					&lt;td&gt;填充计算、路由与多份产物&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;有界动态形状（bounded dynamic shapes）&lt;/td&gt;
+					&lt;td&gt;后端可处理一定范围的符号维度&lt;/td&gt;
+					&lt;td&gt;可能按上界预留内存，部分静态优化受限&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;分块执行&lt;/td&gt;
+					&lt;td&gt;长输入可拆成固定或受限长度块&lt;/td&gt;
+					&lt;td&gt;调用次数、掩码与历史状态衔接&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;按需特化&lt;/td&gt;
+					&lt;td&gt;热点形状反复出现，可承受首次编译&lt;/td&gt;
+					&lt;td&gt;编译延迟、缓存空间、失效与版本管理&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;例如把输入长度分成 128/512/2048 三个形状桶时，一个实际长度为 129 的输入可能填充到 512 桶。填充占比容易计算，但耗时比例还取决于后端是否跳过无效区域、注意力实现和 KV 访问范围。应分别统计&lt;strong&gt;逻辑有效长度、实际执行形状和预留容量&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;“接受可变长度输入”也不等于“所有底层内核都按完全动态形状执行”。&lt;a class="link" href="https://docs.openvino.ai/2026/openvino-workflow-generative/inference-with-genai/inference-with-genai-on-npu.html" target="_blank" rel="noopener"
+ &gt;OpenVINO GenAI 的 NPU 文档&lt;/a&gt;同时讨论静态形状策略、上下文容量配置及新增的动态输入支持，正好说明这些概念需要分层理解。&lt;/p&gt;
+&lt;h3 id="53-把状态接口写清楚"&gt;5.3 把状态接口写清楚
+&lt;/h3&gt;&lt;p&gt;对一个带 KV 缓存的完整语言模型前向入口，至少要明确下列信息；它们可以作为显式参数，也可以由运行时的状态对象管理：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;输入：本次 token ID（或嵌入）、已有 KV、有效历史长度、位置索引、掩码
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;输出：词表上的 logits、更新后的 KV 或状态更新约定
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;约束：本次长度 + 历史长度 ≤ 容量；会话与缓冲区归属明确
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里的 &lt;strong&gt;logits&lt;/strong&gt; 是语言模型输出头（LM head）产生的未归一化词表分数。单独的注意力模块通常接收隐藏状态或 Q/K/V 张量，输出注意力计算结果；验证它时应比较相同位置的输出张量。只有接回模型其余层与输出头，才应比较词表 logits。编译器也可能只保留所需位置的 logits，接口应注明输出范围。&lt;/p&gt;
+&lt;p&gt;图上的“返回更新后 KV”，既可能实现为一次完整复制，也可能通过别名（aliasing）和原地更新（in-place update）复用存储。前端必须正确表达语义，后端和运行时才有机会选择低成本实现。过早抹掉写入关系，或误把状态当成常量，都会使后续优化失去依据。&lt;/p&gt;
+&lt;h3 id="54-控制流数值与算子分解需要一起检查"&gt;5.4 控制流、数值与算子分解需要一起检查
+&lt;/h3&gt;&lt;p&gt;常见接入问题包括：依赖张量值的 Python 分支、不可导出的自定义操作、旋转位置编码（Rotary Position Embedding，RoPE）的位置处理、掩码广播、GQA 中查询头与 KV 头的映射、归一化精度以及采样配置。GQA 的 KV 共享不一定需要把数据物理复制到每个查询头，应检查后端的实现方式。对每个问题，先定位是表达能力不足，还是后端没有覆盖对应操作。&lt;/p&gt;
+&lt;p&gt;算子分解可以把高层操作改写成通用原语，也可能破坏后端对专用融合算子的识别。因此，应先知道后端接受什么，再决定在哪一层分解。&lt;strong&gt;表达得更细，不一定更容易优化。&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id="六图优化与量化变换必须保持哪些约定"&gt;六、图优化与量化：变换必须保持哪些约定
+&lt;/h2&gt;&lt;h3 id="61-优化先检查合法性再估计收益"&gt;6.1 优化先检查合法性，再估计收益
+&lt;/h3&gt;&lt;p&gt;常量折叠（constant folding）、公共子表达式消除（Common Subexpression Elimination，CSE）、死代码消除（Dead Code Elimination，DCE）、算子分解与融合，都是常见图变换。但一次变换是否成立，取决于类型、形状、数值规则、副作用及结果的使用方式；合法之后，还需单独评估收益。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;变换&lt;/th&gt;
+					&lt;th&gt;可能收益&lt;/th&gt;
+					&lt;th&gt;必须检查的条件&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;合并线性投影&lt;/td&gt;
+					&lt;td&gt;减少读取和启动次数，获得较大矩阵&lt;/td&gt;
+					&lt;td&gt;权重组织、输出切分、量化参数与后端支持&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;消除连续转置&lt;/td&gt;
+					&lt;td&gt;减少布局转换&lt;/td&gt;
+					&lt;td&gt;两次置换确实互逆；后续对步长/布局的要求仍满足&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;MatMul 与后处理融合&lt;/td&gt;
+					&lt;td&gt;减少中间结果写回&lt;/td&gt;
+					&lt;td&gt;广播、精度、舍入位置、额外使用者与片上容量&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;删除无用结果&lt;/td&gt;
+					&lt;td&gt;减少计算和存储&lt;/td&gt;
+					&lt;td&gt;操作没有需要保留的状态写入或其他副作用&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;公共子表达式复用&lt;/td&gt;
+					&lt;td&gt;避免重复计算&lt;/td&gt;
+					&lt;td&gt;输入、属性与依赖状态一致，副作用允许复用；再评估结果存活期变长的成本&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;调整计算顺序&lt;/td&gt;
+					&lt;td&gt;改善数据复用和流水线&lt;/td&gt;
+					&lt;td&gt;数据依赖、同步和数值误差符合约定&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;以“融合矩阵乘和残差相加”为例，数学表达可以合并，但融合实现可能改变中间舍入精度。另一个消费者若仍需要矩阵乘的原始结果，也会影响能否完全消除中间写回。优化收益需要针对完整子图测量。&lt;/p&gt;
+&lt;h3 id="62-模式重写与合法化各自解决什么"&gt;6.2 模式重写与合法化各自解决什么
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;模式重写（pattern rewriting）&lt;/strong&gt; 匹配一段程序并替换它；&lt;strong&gt;合法化（legalization）&lt;/strong&gt; 将程序转换到目标允许的操作和类型集合。目标集合可以同时包含多个 dialect，合法也不等于已经生成硬件代码。&lt;/p&gt;
+&lt;p&gt;一个可维护的变换应记录四件事：匹配条件、拒绝条件、替换结果和验证方法。比如对连续转置，只在置换互逆、张量语义允许且相关属性一致时消除；对不满足条件的案例，应该保持原图或明确报错。&lt;/p&gt;
+&lt;p&gt;MLIR 的 &lt;a class="link" href="https://mlir.llvm.org/docs/DialectConversion/" target="_blank" rel="noopener"
+ &gt;Dialect Conversion&lt;/a&gt;组织转换目标、重写规则与类型转换。学习时要特别区分“规则没有匹配”“流水线仍有非法操作”和“转换后的程序数值错误”，这三种问题的排查入口不同。&lt;/p&gt;
+&lt;p&gt;以 Toy 教程的二维张量转置为例，下面的片段保留了显式类型，便于观察 SSA 使用关系：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-mlir" data-lang="mlir"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c"&gt;// 变换前：同一二维张量连续转置两次。
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;%0&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#34;toy.transpose&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;%input&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;tensor&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="m"&gt;2x3x&lt;/span&gt;&lt;span class="k"&gt;f64&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;)&lt;/span&gt; &lt;span class="p"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kt"&gt;tensor&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="m"&gt;3x2x&lt;/span&gt;&lt;span class="k"&gt;f64&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nv"&gt;%1&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#34;toy.transpose&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;%0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;tensor&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="m"&gt;3x2x&lt;/span&gt;&lt;span class="k"&gt;f64&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;)&lt;/span&gt; &lt;span class="p"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="kt"&gt;tensor&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="m"&gt;2x3x&lt;/span&gt;&lt;span class="k"&gt;f64&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;func&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="kt"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;%1&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;tensor&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="m"&gt;2x3x&lt;/span&gt;&lt;span class="k"&gt;f64&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-mlir" data-lang="mlir"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c"&gt;// 变换后：返回原输入，结果的类型与数值语义保持一致。
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;func&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="kt"&gt;return&lt;/span&gt; &lt;span class="nv"&gt;%input&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;tensor&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="m"&gt;2x3x&lt;/span&gt;&lt;span class="k"&gt;f64&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里利用的是 Toy 操作的纯张量语义。若 &lt;code&gt;%0&lt;/code&gt; 还有其他使用者，第一条转置仍需保留；若换成带任意排列属性的高维转置，则必须检查两次排列是否互逆。张量层的等价改写，接入有可变别名、布局或状态副作用的更低层表示时，也需要重新审视前提。&lt;a class="link" href="https://mlir.llvm.org/docs/Tutorials/Toy/" target="_blank" rel="noopener"
+ &gt;Toy 的模式重写示例&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="quantized-representation"&gt;6.3 数值格式怎样进入 IR 与执行约定
+&lt;/h3&gt;&lt;p&gt;编译器需要区分&lt;strong&gt;数值含义、逻辑类型、物理存储与计算类型&lt;/strong&gt;。FP16、BF16 都是 16 位浮点，分配给指数和尾数小数部分（fraction field）的位数不同；INT8、INT4 是整数表示，量化后还需由缩放因子（scale）、零点（zero-point）等参数说明它们代表什么数值。基础格式对比与误差算例见&lt;a class="link" href="https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/#numeric-formats" &gt;推理与部署篇第 6.2 节&lt;/a&gt;。本节继续追踪这些信息怎样变成可执行程序。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;层面&lt;/th&gt;
+					&lt;th&gt;一个量化权重的例子&lt;/th&gt;
+					&lt;th&gt;编译器需要保持的约定&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;数值含义&lt;/td&gt;
+					&lt;td&gt;整数 −4，在 scale=0.25、zero-point=0 时代表 −1.0&lt;/td&gt;
+					&lt;td&gt;缩放、零点、量化整数范围、舍入、饱和与允许误差&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;逻辑表示&lt;/td&gt;
+					&lt;td&gt;形状为 &lt;code&gt;[N, K]&lt;/code&gt; 的量化张量，沿 K 分组&lt;/td&gt;
+					&lt;td&gt;有符号性、量化轴、组大小、参数与元素对应关系&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;物理存储&lt;/td&gt;
+					&lt;td&gt;两个 INT4 放进一个字节，再按目标分块重排&lt;/td&gt;
+					&lt;td&gt;位顺序、字节偏移、对齐、填充与元数据位置&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;计算过程&lt;/td&gt;
+					&lt;td&gt;直接走受支持的低比特路径，或按块反量化后计算&lt;/td&gt;
+					&lt;td&gt;输入、乘法、累加与输出类型，以及转换发生的位置&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;均匀仿射量化的关系是：&lt;/p&gt;
+&lt;p&gt;$$
+q=\operatorname{clip}\left(\operatorname{round}(x/s)+z,q_{\min},q_{\max}\right),
+\qquad \hat{x}=s(q-z),\quad s&amp;gt;0.
+$$&lt;/p&gt;
+&lt;p&gt;其中 $q$ 是存储整数，$\hat{x}$ 是它表达的近似实数。&lt;code&gt;round&lt;/code&gt; 表示按约定规则舍入，&lt;code&gt;clip&lt;/code&gt; 表示将超出量化整数范围的值限制到边界；这里的范围裁剪（clipping）对应饱和处理（saturation），不同于向零截断（truncation）。&lt;/p&gt;
+&lt;p&gt;MLIR 的 &lt;code&gt;i4&lt;/code&gt; 是不带有符号/无符号标记的 4 位整数类型（signless integer type），符号解释取决于操作或量化类型的约定，不能单独表达完整量化语义。&lt;a class="link" href="https://mlir.llvm.org/docs/Dialects/Builtin/#integertype" target="_blank" rel="noopener"
+ &gt;MLIR 整数类型&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;MLIR 的量化类型区分&lt;strong&gt;存储类型（storage type）&lt;strong&gt;与&lt;/strong&gt;表达类型（expressed type）&lt;/strong&gt;：前者保存量化编码，后者表示这些编码对应的数值所采用的类型，通常为浮点。表达类型并不自动决定硬件累加类型。&lt;a class="link" href="https://mlir.llvm.org/docs/Quantization/" target="_blank" rel="noopener"
+ &gt;MLIR 量化设计&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;调试时可以先把约定打印成与具体 API 无关的清单：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;storage_type: signed INT4 expressed_type: FP16
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;code_range: [-8, 7] group_axis: K
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;group_size: 128 scale_type: FP16
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;zero_point: 0 rounding: nearest, ties-to-even
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;packing/layout: 由产物和后端接口共同约定
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;compute/accumulator/output: 由已选择的执行路径明确记录
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这是一份跨层核对清单，不是可以直接解析的 MLIR 类型声明，也不代表任意 NPU 都支持这些属性组合。FP16/BF16 转换同样要保持类型语义：二者位宽相同，位重解释（bitcast）通常会改变数值，不能替代数值转换；涉及累加或量化缩放时，更需要核对数值转换和存储重排的区别。&lt;/p&gt;
+&lt;figure class="compiler-figure" aria-labelledby="compiler-quant-caption"&gt;
+&lt;figcaption id="compiler-quant-caption"&gt;&lt;span class="compiler-figure-title"&gt;图 3 · 从量化数值约定到设备执行&lt;/span&gt;&lt;span class="compiler-figure-note"&gt;每一步都传递类型与参数；物理重排应保持同一元素与量化参数的对应关系。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;pre class="mermaid" style="visibility:hidden"&gt;flowchart TB
+ A[模型数值与量化约定&lt;br/&gt;scale · 零点 · 轴 · 分组] --&gt; B[IR 类型与 Q/DQ&lt;br/&gt;形状 · 转换 · 合法化]
+ B --&gt; C[物理打包与布局&lt;br/&gt;INT4 字节 · 元数据 · 对齐]
+ C --&gt; D[内核与设备执行&lt;br/&gt;读取 · 转换 · 乘法 · 累加]
+ D --&gt; E[输出与状态写回&lt;br/&gt;输出类型 · 重量化 · KV]&lt;/pre&gt;&lt;/figure&gt;
+&lt;h3 id="64-int4-怎样装进字节怎样从内存中读回来"&gt;6.4 INT4 怎样装进字节，怎样从内存中读回来
+&lt;/h3&gt;&lt;p&gt;以有符号补码 INT4 为例，&lt;code&gt;1100&lt;/code&gt; 表示 −4，&lt;code&gt;0010&lt;/code&gt; 表示 2。ONNX 的紧凑存储规则是：连续两个元素中，第一个放在字节的低 4 位，第二个放在高 4 位；元素数为奇数时，最后补半个字节。厂商内部布局可能另外重排，不能把导出文件中的顺序直接当作设备格式。&lt;a class="link" href="https://onnx.ai/onnx/technical/int4.html" target="_blank" rel="noopener"
+ &gt;ONNX INT4 存储规范&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;假设权重 &lt;code&gt;[-1.0, 0.0, 0.5, 1.5]&lt;/code&gt; 用 &lt;code&gt;s=0.25, z=0&lt;/code&gt; 表示，得到整数 &lt;code&gt;[-4, 0, 2, 6]&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;逻辑顺序： -4 0 2 6
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;4 位补码： 1100 0000 0010 0110
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;第一个字节： 0000 1100 = 0x0C （低 4 位放 -4，高 4 位放 0）
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;第二个字节： 0110 0010 = 0x62 （低 4 位放 2，高 4 位放 6）
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;下面的小实验只依赖 Python，用于检查位序和符号恢复：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;span class="lnt"&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="c1"&gt;# 本例固定为四个有效 INT4 值&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;packed&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;bytes&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="mh"&gt;0xF&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="mh"&gt;0xF&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;codes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="n"&gt;byte&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;shift&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="mh"&gt;0xF&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;byte&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;packed&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;shift&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;restored&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;codes&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;dequantized&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;0.25&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;restored&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;packed&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hex&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;0c62&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;restored&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;assert&lt;/span&gt; &lt;span class="n"&gt;dequantized&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;1.5&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;若把取出的 &lt;code&gt;1100&lt;/code&gt; 当无符号整数 12，再乘 0.25，就会得到 3.0，而非 −1.0。这个错误来自符号解释；若把高低半字节颠倒，则是元素顺序错误。两者都不是量化算法本身的误差。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;逻辑张量形状与物理缓冲区大小需要分开记录。&lt;/strong&gt; 连续打包的 N 个 INT4 只需 &lt;code&gt;ceil(N/2)&lt;/code&gt; 字节保存编码，但仍要另外保存或约定 scale、零点、组大小和有效元素数。比如 128 个 INT4 加一个 FP16 scale，共为 &lt;code&gt;64 + 2 = 66&lt;/code&gt; 字节；若某个假设布局要求每组独立按 16 字节对齐，则这组会占 80 字节。实际是否按组、按行或按整个张量对齐，由格式决定。&lt;/p&gt;
+&lt;p&gt;因此，布局变换必须同时处理权重编码和元数据。当原来沿 K 维的分组被转置、分块或交错存储时，scale 仍需对应原来的那组元素。把 4 位值装进 &lt;code&gt;uint8&lt;/code&gt;/&lt;code&gt;int32&lt;/code&gt; 容器，也不会自动改变它们的逻辑数值类型。&lt;/p&gt;
+&lt;h3 id="65-分组量化累加类型与矩阵乘怎样配合"&gt;6.5 分组量化、累加类型与矩阵乘怎样配合
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;先明确计算路径。&lt;/strong&gt; W4A16 表示 4 位权重、16 位激活，还需说明具体编码及 FP16/BF16 的选择。一种实现是在内核中按块把权重反量化为浮点，再与浮点激活计算；另一类量化路径会让权重和激活都进入受支持的整数或低比特矩阵运算。不能只根据磁盘上的 INT4，推断乘法、累加或 KV 的类型。&lt;/p&gt;
+&lt;p&gt;下面以激活和权重都采用均匀整数量化为例。对一个分组点积，若组 g 的参数为 $s_{a,g},z_{a,g},s_{w,g},z_{w,g}$，则：&lt;/p&gt;
+&lt;p&gt;$$
+y\approx\sum_g s_{a,g}s_{w,g}
+\left[\sum_{k\in g}(q_{a,k}-z_{a,g})(q_{w,k}-z_{w,g})\right].
+$$&lt;/p&gt;
+&lt;p&gt;不同组的整数累加结果，需要按各自尺度组合。做一个简化算例：激活尺度为 1、零点全为 0，两组整数点积结果都为 4，权重尺度分别为 0.5、0.25；结果应是 &lt;code&gt;4×0.5 + 4×0.25 = 3&lt;/code&gt;。若先合并成 8，再统一乘 0.5，就变成 4。这个差异说明分组边界是计算语义的一部分。&lt;/p&gt;
+&lt;p&gt;编译器需要确认：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;分块的 K 维与量化分组是否对齐；跨组的 tile 怎样读取多个 scale。&lt;/li&gt;
+&lt;li&gt;零点修正怎样实现；若被折叠进其他项，是否仍保持同一数学关系。&lt;/li&gt;
+&lt;li&gt;整数部分和用什么类型累加，再在哪里缩放、转换或合并。&lt;/li&gt;
+&lt;li&gt;内核需要的权重布局与元数据布局是否相容，尾块怎样处理。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;累加器需要单独选择。&lt;/strong&gt; 例如 4096 项 &lt;code&gt;127×127&lt;/code&gt; 的和为 66,064,384，超过 INT16 范围，因此 INT8 输入不能推出 INT8 或 INT16 累加。INT32、FP32 等较宽类型可服务相应路径，但仍需检查归约长度、数值范围和目标指令；浮点累加更宽也无法恢复输入量化时已经丢失的信息。&lt;/p&gt;
+&lt;p&gt;AWQ、GPTQ 等方法帮助选择权重量化参数与降低误差；要落到设备，仍须匹配分组、元数据、内核与图变换。&lt;a class="link" href="https://arxiv.org/abs/2306.00978" target="_blank" rel="noopener"
+ &gt;AWQ&lt;/a&gt;、&lt;a class="link" href="https://arxiv.org/abs/2210.17323" target="_blank" rel="noopener"
+ &gt;GPTQ&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="66-castqdq重量化与融合的边界"&gt;6.6 Cast、Q/DQ、重量化与融合的边界
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;Q/DQ&lt;/strong&gt; 分别指量化与反量化（Quantize/Dequantize）。它们与普通类型转换、位重解释和内存重排有不同语义：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;操作&lt;/th&gt;
+					&lt;th&gt;对数值或存储做什么&lt;/th&gt;
+					&lt;th&gt;必须检查什么&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;数值类型转换（cast）&lt;/td&gt;
+					&lt;td&gt;用目标类型表示原来的数值，可能舍入或超范围&lt;/td&gt;
+					&lt;td&gt;转换规则、范围、特殊值；不会自动应用量化 scale&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;量化 / 反量化（Q/DQ）&lt;/td&gt;
+					&lt;td&gt;根据参数在原值与量化编码之间映射&lt;/td&gt;
+					&lt;td&gt;scale、零点、轴、量化整数范围与舍入约定&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;重量化（requantization，也称重新量化）&lt;/td&gt;
+					&lt;td&gt;将已有量化表示或整数累加结果转换到目标量化参数与类型&lt;/td&gt;
+					&lt;td&gt;输入和输出参数、中间计算类型、舍入与饱和&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;位重解释（bitcast）&lt;/td&gt;
+					&lt;td&gt;保持比特模式，用另一类型解释&lt;/td&gt;
+					&lt;td&gt;源/目标类型规则；不保证数值相同，不应用量化 scale&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;位打包 / 解包（packing/unpacking）&lt;/td&gt;
+					&lt;td&gt;组织或提取编码的比特&lt;/td&gt;
+					&lt;td&gt;位序、符号恢复、有效长度与填充&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;布局变换&lt;/td&gt;
+					&lt;td&gt;改变逻辑索引到物理位置的映射&lt;/td&gt;
+					&lt;td&gt;参数与元素的对应关系，以及是否产生复制&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;对上一节的整数 −4，普通 INT4→FP16 数值转换得到 −4.0；使用 &lt;code&gt;s=0.25, z=0&lt;/code&gt; 做反量化才得到 −1.0。编译器不能把这两种操作互换。&lt;a class="link" href="https://mlir.llvm.org/docs/Quantization/" target="_blank" rel="noopener"
+ &gt;MLIR 量化类型转换&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;再看最简单的逐张量整数乘加：忽略偏置（bias），设已完成零点修正的累加值为 &lt;code&gt;acc&lt;/code&gt;，输出需要采用尺度 $s_y$、零点 $z_y$，则理想重量化关系为：&lt;/p&gt;
+&lt;p&gt;$$
+q_y=\operatorname{clip}\left(
+\operatorname{round}\left(\frac{s_a s_w}{s_y}\operatorname{acc}\right)+z_y,
+q_{y,\min},q_{y,\max}\right).
+$$&lt;/p&gt;
+&lt;p&gt;目标实现可能用定点乘法与移位近似这一过程，因此需要检查乘法中间位宽、舍入和饱和。以整数量化为例，ONNX QuantizeLinear 采用舍入到最近值、中点取偶数（round to nearest, ties to even）；它与直接向零截断不是同一规则，例如 1.9 分别得到 2 和 1，2.5 的中点取偶结果为 2。超范围后饱和到边界，也与整数回绕（wraparound）不同。&lt;a class="link" href="https://onnx.ai/onnx/operators/onnx__QuantizeLinear.html" target="_blank" rel="noopener"
+ &gt;ONNX QuantizeLinear 的舍入与饱和约定&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Q/DQ 可以作为图上的数值边界，后端再把解包、缩放、矩阵运算和输出转换融合在一个内核中。融合可以消除独立临时缓冲区，但应保留约定的数值行为；直接删除一个有损的 Q→DQ 往返，会改变程序。若后端缺少匹配实现，则可能拒绝、回退到其他执行路径（fallback），或先展开为浮点再执行。&lt;a class="link" href="https://docs.nvidia.com/deeplearning/tensorrt/latest/inference-library/quantized-types-explicit-quantization.html" target="_blank" rel="noopener"
+ &gt;TensorRT 显式量化与 Q/DQ 融合&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;因此，检查转换后的 IR 还不够。还需确认实际执行类型、转换位置、是否生成全量展开副本，以及融合是否改善完整子图的时间与内存。&lt;/p&gt;
+&lt;h3 id="67-从量化数值验证到编译产物验证"&gt;6.7 从量化数值验证到编译产物验证
+&lt;/h3&gt;&lt;p&gt;先保存三组结果：&lt;strong&gt;原始参考计算、采用相同量化参数的数值参考、编译后执行&lt;/strong&gt;。第二组与第一组的差异帮助评估量化本身；第三组与第二组的差异帮助定位编译或后端问题，还要考虑已声明的计算精度与归约顺序。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;检查层次&lt;/th&gt;
+					&lt;th&gt;最小案例&lt;/th&gt;
+					&lt;th&gt;应确认的结果&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;编码与打包&lt;/td&gt;
+					&lt;td&gt;−8/−1/0/7、奇数长度、跨字节取值&lt;/td&gt;
+					&lt;td&gt;编码、符号、有效长度与解包一致&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;量化转换&lt;/td&gt;
+					&lt;td&gt;零、中点、范围边界、超范围输入&lt;/td&gt;
+					&lt;td&gt;参数、舍入和饱和与参考一致；非有限输入行为有约定&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;分组与布局&lt;/td&gt;
+					&lt;td&gt;跨组 tile、尾块、转置前后&lt;/td&gt;
+					&lt;td&gt;元数据仍对应正确元素，部分和使用正确尺度&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;计算与融合&lt;/td&gt;
+					&lt;td&gt;不同归约长度、敏感后处理&lt;/td&gt;
+					&lt;td&gt;累加与输出类型明确，误差符合约定&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;生成状态&lt;/td&gt;
+					&lt;td&gt;prefill、decode、长历史和会话重置&lt;/td&gt;
+					&lt;td&gt;KV 格式、状态更新与模型质量满足要求&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;只校准短输入，未必能代表长上下文、图像 token 或多轮历史下的分布。校准与质量评测集应分开，按阶段检查误差，再决定哪些层、哪些状态需要保留较高精度。KV 量化还需要独立确认量化粒度、静态或动态缩放、布局与读写约定，不能从权重量化配置直接推断。&lt;/p&gt;
+&lt;p&gt;这一部分的 &lt;strong&gt;P0&lt;/strong&gt; 是格式语义、参数传递、打包/布局、转换与累加的区别，以及逐阶段验证；&lt;strong&gt;P1&lt;/strong&gt; 是所选后端的具体实现；其他厂商编码和特殊低比特格式按需深入。第十三节第三周先用小实验建立这些约定，第五、六周再把它们接入布局与真实后端。&lt;/p&gt;
+&lt;h2 id="七张量程序布局与内存把计算映射到硬件"&gt;七、张量程序、布局与内存：把计算映射到硬件
+&lt;/h2&gt;&lt;h3 id="71-从-matmul-到分块执行"&gt;7.1 从 MatMul 到分块执行
+&lt;/h3&gt;&lt;p&gt;矩阵乘 $C_{M\times N}=A_{M\times K}B_{K\times N}$ 的计算量约为 $2MNK$ 次算术运算，一次乘加计作两次。硬件通常不能把完整矩阵都放进片上存储，因此需要&lt;strong&gt;计算分块（tiling）&lt;/strong&gt;，使读入的数据在被换出前获得足够复用。&lt;/p&gt;
+&lt;p&gt;一种分块策略至少决定：输出块大小、归约块大小、遍历顺序、数据进入哪级存储、多个执行单元怎样分工，以及何时同步。TensorIR 将块、迭代与张量计算原语组织成可变换的程序；MLIR 的 Linalg 等表示也可以保存结构化计算信息。&lt;a class="link" href="https://arxiv.org/abs/2207.04296" target="_blank" rel="noopener"
+ &gt;TensorIR 论文&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这里的**计算调度（schedule）**指张量程序的执行组织方式，包括循环顺序、分块、并行和数据搬运等安排，与推理服务的请求调度含义不同。&lt;strong&gt;张量化（tensorization）&lt;/strong&gt; 通常指把一段匹配的计算映射到硬件提供的张量/矩阵计算原语，也不同于将 Python 列表转换为 Tensor。&lt;/p&gt;
+&lt;h3 id="72-一次片上容量计算"&gt;7.2 一次片上容量计算
+&lt;/h3&gt;&lt;p&gt;设一个输出分块为 $M_t=32,N_t=64$，归约分块 $K_t=128$，A/B 使用 2 字节元素，累加器使用 4 字节：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;A 块：32 × 128 × 2 = 8 KiB
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;B 块：128 × 64 × 2 = 16 KiB
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;C 累加器：32 × 64 × 4 = 8 KiB
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;合计：32 KiB
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;A/B 都采用双缓冲：2 × (8 + 16) + 8 = 56 KiB
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;若假设 A/B 块与 C 累加缓冲区都占用同一个 48 KiB 的片上存储池，前一种组织在容量上可能可行，双缓冲（double buffering）则已经超限，尚未计入对齐、scale 和其他临时量。需要缩小分块、改变存储层级或调整流水线，不能只看“开启双缓冲可能隐藏搬运”这一收益。若累加器位于独立寄存器文件或专用存储中，应分别核算资源，不能机械地相加。&lt;/p&gt;
+&lt;p&gt;这个算例只说明资源预算，不指定某款 NPU 的原生精度或存储分配方式。实际分块还可能受矩阵单元形状、存储体（memory bank）、直接内存访问（Direct Memory Access，DMA）的传输与对齐要求，以及编译器约束影响。&lt;/p&gt;
+&lt;h3 id="73-布局是跨算子的约定"&gt;7.3 布局是跨算子的约定
+&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;数据布局（data layout）&lt;/strong&gt; 描述逻辑索引如何映射到物理存储。一个 MatMul 希望的权重块布局，可能与通用导出格式不同；注意力计算对 KV 的访问方向，又可能与追加写入最方便的方向不同。&lt;/p&gt;
+&lt;p&gt;局部布局优化要核算整条数据路径。若某个内核快了，但每一层都新增转置、打包或 CPU/NPU 往返，端到端可能退化。对低比特权重，还要确认“转置数据”之后 scale 的轴和分组语义是否同步改变。&lt;/p&gt;
+&lt;p&gt;有些 reshape/transpose 在某种表示里只是视图，在后端不接受相同步长或打包方式时却需要实际复制。分析时要查看执行后的访存和转换，不能仅凭高层算子名称估计成本。&lt;/p&gt;
+&lt;h3 id="74-bufferization内存规划与状态管理"&gt;7.4 Bufferization、内存规划与状态管理
+&lt;/h3&gt;&lt;p&gt;这三个概念彼此关联，但负责不同的问题：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;概念&lt;/th&gt;
+					&lt;th&gt;主要决策&lt;/th&gt;
+					&lt;th&gt;容易混淆之处&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;缓冲区化（bufferization，即将张量表示转换为缓冲区表示）&lt;/td&gt;
+					&lt;td&gt;把张量值上的操作转换为内存缓冲区上的读写，并分析别名与原地复用&lt;/td&gt;
+					&lt;td&gt;能否复用存储，需要确认不会覆盖仍被读取的旧值&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;内存规划（memory planning）&lt;/td&gt;
+					&lt;td&gt;根据大小、对齐和存活期安排存储区域&lt;/td&gt;
+					&lt;td&gt;临时量在图上最后一次使用，与异步任务实际完成可能不同&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;状态管理（state management）&lt;/td&gt;
+					&lt;td&gt;维护跨调用持续存在的 KV、长度、会话与版本&lt;/td&gt;
+					&lt;td&gt;前向结束后仍需保留；重置、切换和取消都要有约定&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;MLIR 的 &lt;a class="link" href="https://mlir.llvm.org/docs/Bufferization/" target="_blank" rel="noopener"
+ &gt;One-Shot Bufferize&lt;/a&gt;围绕别名和读写冲突决定原地（in-place）或非原地（out-of-place）处理；ExecuTorch 的&lt;a class="link" href="https://docs.pytorch.org/executorch/stable/compiler-memory-planning.html" target="_blank" rel="noopener"
+ &gt;内存规划&lt;/a&gt;根据张量大小与存活期安排预分配内存区（arena）内的位置。嵌入的厂商子图仍可能管理自己的内部内存，外层规划不等于掌握了全部设备占用。&lt;/p&gt;
+&lt;p&gt;这里将“存活期”用于描述值仍可能被后续计算使用的范围；活跃性分析（liveness analysis）帮助判断各程序点哪些值仍然需要保留。“缓冲区生命周期（buffer lifetime）”则涉及分配、使用到释放的完整过程，异步设备的实际使用也必须计入。&lt;/p&gt;
+&lt;p&gt;例如，一份输入被两个并行任务借用，第二个任务尚未完成时，即使主机代码已提交了后续操作，也不能立即复用该区域。&lt;strong&gt;存储复用需要同时满足数据依赖和执行完成条件。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id="75-融合层组和流水线需要共同优化"&gt;7.5 融合、层组和流水线需要共同优化
+&lt;/h3&gt;&lt;p&gt;算子融合（operator fusion）可以减少中间结果写回和任务提交；TPU-MLIR 等工具中的层组（layer group）将一组操作组织起来，结合切片与局部存储规划复用数据，不一定意味着合成一个内核；流水线（pipelining）则尝试重叠搬运和计算。它们都会影响片上资源需求与并行程度，具体语义要按工具实现理解。&lt;/p&gt;
+&lt;p&gt;“融合越多越好”并不成立。更大的融合区域可能超过片上容量，迫使中间数据反复写回片外内存，或采用重计算（recomputation）；寄存器压力过高也可能引发寄存器溢出到内存（register spilling），这些都与数值溢出（numerical overflow）不同。某个小内核单独执行反而更灵活。TPU-MLIR 的&lt;a class="link" href="https://github.com/sophgo/tpu-mlir" target="_blank" rel="noopener"
+ &gt;官方仓库视频索引&lt;/a&gt;中，LayerGroup 教学适合观察计算组织与局部内存之间的关系。&lt;/p&gt;
+&lt;p&gt;自动调优也应围绕这一成本模型。搜索空间可以包含分块、顺序、布局和并行参数，代价由实机测量或预测模型给出；测量要控制频率、温度和输入条件。较早的 &lt;a class="link" href="https://arxiv.org/abs/2006.06762" target="_blank" rel="noopener"
+ &gt;Ansor&lt;/a&gt;展示了程序生成与搜索的思路，学习概念后再对照所用版本的调优接口。&lt;/p&gt;
+&lt;h2 id="八工具链地图哪些需要深学哪些先理解定位"&gt;八、工具链地图：哪些需要深学，哪些先理解定位
+&lt;/h2&gt;&lt;h3 id="81-先分清基础设施执行栈和专用编译器"&gt;8.1 先分清基础设施、执行栈和专用编译器
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;对象&lt;/th&gt;
+					&lt;th&gt;所处位置与主要价值&lt;/th&gt;
+					&lt;th&gt;建议投入&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://mlir.llvm.org/" target="_blank" rel="noopener"
+ &gt;MLIR / LLVM&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;可扩展的表示、变换、分析和代码生成基础设施&lt;/td&gt;
+					&lt;td&gt;编译器开发主线深学；先掌握 IR、重写、转换和测试&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://tvm.apache.org/docs/" target="_blank" rel="noopener"
+ &gt;Apache TVM&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;图与张量程序协同优化、调度、代码生成及外部后端接入&lt;/td&gt;
+					&lt;td&gt;选择 TVM 路线时深入；其他路线学习其分块与跨层思路&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://iree.dev/developers/general/developer-overview/" target="_blank" rel="noopener"
+ &gt;IREE&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;基于 MLIR 的编译与运行时系统，显式处理执行、资源与后端&lt;/td&gt;
+					&lt;td&gt;适合研究编译—运行时协同，先验证所需后端是否可用&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/llvm/torch-mlir" target="_blank" rel="noopener"
+ &gt;torch-mlir&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;将 PyTorch 程序桥接到 MLIR 生态&lt;/td&gt;
+					&lt;td&gt;需要该前端路径时深入；理解输入约束和目标 dialect&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://docs.pytorch.org/executorch/stable/getting-started-architecture" target="_blank" rel="noopener"
+ &gt;ExecuTorch&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;PyTorch 模型导出、图处理、委托执行与端侧运行时&lt;/td&gt;
+					&lt;td&gt;模型接入、后端集成主线优先&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://developers.google.com/edge/litert/android" target="_blank" rel="noopener"
+ &gt;LiteRT&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;模型转换、运行时与 CPU/GPU/NPU 加速接口&lt;/td&gt;
+					&lt;td&gt;Google AI Edge 和移动 NPU 路线重点了解&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://onnxruntime.ai/docs/execution-providers/" target="_blank" rel="noopener"
+ &gt;ONNX Runtime（ORT）&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;ONNX 图执行与执行提供程序（Execution Provider，EP，可理解为执行后端）&lt;/td&gt;
+					&lt;td&gt;已采用 ONNX 的项目深入；研究分区与厂商 EP&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/sophgo/tpu-mlir" target="_blank" rel="noopener"
+ &gt;TPU-MLIR&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;面向 Sophgo 芯片的图到目标编译、量化和部署工具&lt;/td&gt;
+					&lt;td&gt;适合阅读实际 NPU 类编译器的变换与内存实现&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/openvinotoolkit/npu_compiler" target="_blank" rel="noopener"
+ &gt;Intel NPU Compiler&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;OpenVINO 体系中的 Intel NPU 编译器，有源码及开发指南&lt;/td&gt;
+					&lt;td&gt;Intel 平台或专用编译器源码研究方向深入&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/Xilinx/mlir-aie" target="_blank" rel="noopener"
+ &gt;MLIR-AIE / IRON&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;面向 AMD AI Engine 的编译基础与较低层编程接口&lt;/td&gt;
+					&lt;td&gt;具备对应硬件、需要研究数据流和计算映射时深入&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;MLIR 提供构建编译器的基础，TVM、IREE 与专用编译器则选择自己的程序组织和执行方式。ExecuTorch、LiteRT、ORT 主要承担不同的模型与执行接入路径，可能调用厂商编译器。它们不能只用一张速度排行榜比较。&lt;/p&gt;
+&lt;h3 id="82-mlir-与-tvm-怎样选"&gt;8.2 MLIR 与 TVM 怎样选
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;选择维度&lt;/th&gt;
+					&lt;th&gt;MLIR 相关路线&lt;/th&gt;
+					&lt;th&gt;TVM 相关路线&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;主要学习对象&lt;/td&gt;
+					&lt;td&gt;dialect、类型、重写、转换、分析与目标后端&lt;/td&gt;
+					&lt;td&gt;图/张量程序、调度、跨层变换与后端接入&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;实现风格&lt;/td&gt;
+					&lt;td&gt;通常要阅读 C++、TableGen 和 pass 流水线；也有 Python 接口&lt;/td&gt;
+					&lt;td&gt;Python/TVMScript 常用于表达与调度，底层仍有 C++&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;适合的问题&lt;/td&gt;
+					&lt;td&gt;构建或扩展专用编译器，明确多层语义和执行约定&lt;/td&gt;
+					&lt;td&gt;优化张量程序、组织图与内核、接入外部代码生成&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;共同难点&lt;/td&gt;
+					&lt;td&gt;语义、形状、布局、内存、成本模型、目标硬件与验证&lt;/td&gt;
+					&lt;td&gt;同左，具体 API 与工程组织不同&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;若目标是理解 NPU 编译器实现，本文建议以 &lt;strong&gt;MLIR 基础 + 一个可阅读的目标编译器&lt;/strong&gt;为主线，再用 MLC 课程中的 TVM 示例建立张量程序直觉。若已有项目使用 TVM，则可以反过来，以项目栈为主，再学习 MLIR 中相同问题的表达方式。&lt;/p&gt;
+&lt;p&gt;当前 TVM 文档以 Relax 与张量 IR 的协作为重要路径，并出现 TIRx 等较新的接口；旧课程中的 Relay、&lt;code&gt;tvm.tir&lt;/code&gt; 或早期 TVMScript 代码不能假定直接适配新版本。先固定课程环境，或明确进行版本迁移。&lt;a class="link" href="https://tvm.apache.org/docs/arch/" target="_blank" rel="noopener"
+ &gt;TVM 架构&lt;/a&gt;、&lt;a class="link" href="https://tvm.apache.org/docs/deep_dive/relax/index.html" target="_blank" rel="noopener"
+ &gt;Relax&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="83-byocdelegate-与-ep-是可比较的接入思路"&gt;8.3 BYOC、delegate 与 EP 是可比较的接入思路
+&lt;/h3&gt;&lt;p&gt;TVM 的 &lt;strong&gt;Bring Your Own Codegen（BYOC，外部代码生成后端接入）&lt;/strong&gt;、ExecuTorch 的**后端委托执行（delegate）**和 ORT 的 &lt;strong&gt;EP&lt;/strong&gt; 都允许外部后端承担一部分程序执行，但它们的 IR、生命周期和接口不同。&lt;/p&gt;
+&lt;p&gt;学习时可以用同一组问题比较：怎样声明能力，怎样选择子图，怎样序列化产物，谁分配输入输出，谁处理同步，失败后怎样恢复。共同的概念可以迁移，接口实现需要按项目重做。&lt;/p&gt;
+&lt;p&gt;一个细节很能说明验证的重要性：TVM 当前 &lt;a class="link" href="https://tvm.apache.org/docs/how_to/tutorials/bring_your_own_codegen.html" target="_blank" rel="noopener"
+ &gt;BYOC 教程&lt;/a&gt;中的示例 NPU 后端是教学用桩实现（stub），只记录调度决策，不执行实际计算，输出缓冲区也未初始化，因此该部分只检查形状。跑通教学后端，证明的是接口链路；数值正确性和 NPU 性能需要另外验证。&lt;/p&gt;
+&lt;h3 id="84-onnxstablehlo-与-tosa-要学到什么程度"&gt;8.4 ONNX、StableHLO 与 TOSA 要学到什么程度
+&lt;/h3&gt;&lt;p&gt;它们首先是语义与接口边界。需要了解支持哪些算子、类型、形状与量化方式，以及生产者和消费者的版本约定；只有编写导入器、转换器或后端时，才需要深入更多算子规范。&lt;/p&gt;
+&lt;p&gt;StableHLO 的兼容保证针对其规定的可移植产物和语义范围，不能外推为设备二进制兼容。ONNX 的算子版本也不代表某个 EP 必然实现对应操作。TOSA 可以作为专用加速器的算子接口选择，最终仍依赖具体后端。&lt;a class="link" href="https://openxla.org/stablehlo/compatibility" target="_blank" rel="noopener"
+ &gt;StableHLO 兼容说明&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="85-同名与相邻技术的边界"&gt;8.5 同名与相邻技术的边界
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;MLC&lt;/strong&gt; 可以指机器学习编译这一领域、MLC.ai 课程，或 MLC LLM 项目；阅读时明确上下文。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TPU-MLIR&lt;/strong&gt; 在本文指 Sophgo 的开源项目，不是 Google TPU 编译器。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Triton language、TileLang 等 DSL&lt;/strong&gt; 可以帮助理解计算分块和内核实现；是否能用于目标 NPU，要看具体后端支持。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CUDA/CUTLASS&lt;/strong&gt; 的优化经验可以帮助建立 GPU 性能直觉，移植到 NPU 仍需重新理解指令、存储和同步。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;运行时支持某芯片&lt;/strong&gt;与&lt;strong&gt;开放该芯片的编译器或内核开发接口&lt;/strong&gt;是不同能力，需要分别确认。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;对同类框架，先深入一套，再比较另一套怎样表达同一个问题；这样才能识别设计取舍，而不只是累积 API 名称。&lt;/p&gt;
+&lt;h2 id="九端侧-npu-生态厂商工具链怎样连接模型与设备"&gt;九、端侧 NPU 生态：厂商工具链怎样连接模型与设备
+&lt;/h2&gt;&lt;h3 id="91-按设备与开放层次比较"&gt;9.1 按设备与开放层次比较
+&lt;/h3&gt;&lt;p&gt;下表列出可进一步验证的路线，表示项目定位与公开入口，不保证任意模型、量化格式和芯片组合都能运行。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;生态&lt;/th&gt;
+					&lt;th&gt;典型编译与执行路径&lt;/th&gt;
+					&lt;th&gt;值得深入的工程问题&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Qualcomm&lt;/td&gt;
+					&lt;td&gt;ExecuTorch、LiteRT 或 ORT 的相应后端 → QNN 编译/图上下文 → 设备运行时&lt;/td&gt;
+					&lt;td&gt;量化、图分区、上下文缓存、共享缓冲区与 HTP 执行证据&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;MediaTek&lt;/td&gt;
+					&lt;td&gt;LiteRT NeuroPilot Accelerator 等接入层 → 厂商编译器与运行时&lt;/td&gt;
+					&lt;td&gt;支持的模型/形状、AOT 与设备端编译、产物分发&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Rockchip&lt;/td&gt;
+					&lt;td&gt;RKLLM-Toolkit 转换/量化 → RKLLM 模型 → 板端 C/C++ Runtime&lt;/td&gt;
+					&lt;td&gt;转换与运行版本配套、KV/上下文配置、模型覆盖与设备性能&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Sophgo&lt;/td&gt;
+					&lt;td&gt;TPU-MLIR 的图表示、量化、目标转换 → bmodel → 设备执行&lt;/td&gt;
+					&lt;td&gt;dialect 变换、层组、存储规划、LLM 分阶段编译&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Intel&lt;/td&gt;
+					&lt;td&gt;OpenVINO/GenAI → Intel NPU 编译与插件 → NPU 驱动&lt;/td&gt;
+					&lt;td&gt;形状策略、编译缓存、精度、编译器 pass 和运行时边界&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;AMD Ryzen AI&lt;/td&gt;
+					&lt;td&gt;ONNX Runtime GenAI（OGA）等模型执行路径；底层研究另有 MLIR-AIE/IRON&lt;/td&gt;
+					&lt;td&gt;NPU-only 与混合执行的区别，数据流、内存与目标映射&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Apple&lt;/td&gt;
+					&lt;td&gt;coremltools → Core ML 模型/编译产物 → 系统执行&lt;/td&gt;
+					&lt;td&gt;状态模型、计算单元选择、实际设备分配与性能工具&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;对应资料入口：&lt;a class="link" href="https://docs.pytorch.org/executorch/stable/backends-qualcomm.html" target="_blank" rel="noopener"
+ &gt;Qualcomm 后端&lt;/a&gt;、&lt;a class="link" href="https://developers.googleblog.com/mediatek-npu-and-litert-powering-the-next-generation-of-on-device-ai/" target="_blank" rel="noopener"
+ &gt;MediaTek 集成&lt;/a&gt;、&lt;a class="link" href="https://github.com/airockchip/rknn-llm" target="_blank" rel="noopener"
+ &gt;RKLLM&lt;/a&gt;、&lt;a class="link" href="https://tpumlir.org/" target="_blank" rel="noopener"
+ &gt;TPU-MLIR&lt;/a&gt;、&lt;a class="link" href="https://docs.openvino.ai/2026/openvino-workflow-generative/inference-with-genai/inference-with-genai-on-npu.html" target="_blank" rel="noopener"
+ &gt;OpenVINO NPU&lt;/a&gt;、&lt;a class="link" href="https://ryzenai.docs.amd.com/en/latest/hybrid_oga.html" target="_blank" rel="noopener"
+ &gt;Ryzen AI OGA&lt;/a&gt;、&lt;a class="link" href="https://apple.github.io/coremltools/docs-guides/source/stateful-models.html" target="_blank" rel="noopener"
+ &gt;Core ML 状态模型&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id="92-qualcomm接入层可以不同厂商编译边界仍需理解"&gt;9.2 Qualcomm：接入层可以不同，厂商编译边界仍需理解
+&lt;/h3&gt;&lt;p&gt;ExecuTorch、LiteRT 和 ORT 为 Qualcomm 设备提供了不同的接入方式。它们在模型表示、分区和运行时接口上不同，底层仍需配合目标 SDK 与设备能力。&lt;/p&gt;
+&lt;p&gt;ORT QNN EP 的公开文档给出了一条很有学习价值的路径：图经过处理和编译后，可以缓存 QNN 上下文二进制文件（context binary），以减少后续会话创建成本；还提供关闭 CPU EP 回退的配置，帮助验证图是否完整由指定 QNN 后端承接。QNN 还可选择不同执行后端，HTP（Hexagon Tensor Processor）路径与 CPU/GPU 路径应分开核对；关闭 ORT 层的 CPU 回退也不等于得到了设备内部逐指令执行轨迹。&lt;a class="link" href="https://onnxruntime.ai/docs/execution-providers/QNN-ExecutionProvider.html" target="_blank" rel="noopener"
+ &gt;QNN EP 文档&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这说明后端接入至少包含两类工作：把模型表达成可接受的图，以及管理编译后上下文的加载与生命周期。低层编译器未必全部可修改时，图改写、量化、分区、缓冲区和负载配置仍然是重要优化位置。&lt;/p&gt;
+&lt;h3 id="93-rockchip-与-sophgo交付接口与编译源码的不同观察点"&gt;9.3 Rockchip 与 Sophgo：交付接口与编译源码的不同观察点
+&lt;/h3&gt;&lt;p&gt;RKLLM 的公开工作流是 PC 侧转换/量化、板侧通过 Runtime 执行。其模型文件、转换选项和 C/C++ 接口适合研究实际部署约束；通用 RKNN 与 RKLLM 应按任务选择，不能因为都面向同一品牌芯片就互换流程。&lt;a class="link" href="https://github.com/airockchip/rknn-llm" target="_blank" rel="noopener"
+ &gt;RKLLM 官方说明&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;TPU-MLIR 则提供面向目标芯片的编译源码和开发文档，可以继续追踪从高层图到目标表示的变换。做模型部署时关注转换与运行；研究编译实现时，可选一个操作沿导入、lowering、层组和代码生成路径阅读。具体底层组件的开放范围仍需逐项检查。&lt;a class="link" href="https://tpumlir.org/" target="_blank" rel="noopener"
+ &gt;TPU-MLIR 开发入口&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;两条路线对应不同的学习抓手。已有 Rockchip 设备，可以先把状态、精度与性能测清楚；希望修改实际编译 pass，又没有既定厂商约束时，可以从具有完整示例和测试入口的编译项目着手。&lt;/p&gt;
+&lt;h3 id="94-ai-pc上层部署与底层可编程能力分开看"&gt;9.4 AI PC：上层部署与底层可编程能力分开看
+&lt;/h3&gt;&lt;p&gt;Intel NPU Compiler 提供编译器源码、MLIR 入门、构建和调试指南，使学习者有机会从 OpenVINO 的模型使用进一步进入编译实现。驱动、固件、模型执行层与编译器仍有各自的版本和接口。&lt;a class="link" href="https://github.com/openvinotoolkit/npu_compiler" target="_blank" rel="noopener"
+ &gt;Intel NPU Compiler&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;AMD Ryzen AI 的官方 OGA 文档区分 NPU-only 与 NPU/iGPU 混合模式；其可用模型与处理器组合需要查支持范围。底层的 &lt;a class="link" href="https://github.com/Xilinx/mlir-aie" target="_blank" rel="noopener"
+ &gt;MLIR-AIE/IRON&lt;/a&gt;则提供面向 AI Engine 的编程和编译入口。能够运行一个预优化模型，与能够自行编写该设备上的计算程序，应分别验证。&lt;a class="link" href="https://ryzenai.docs.amd.com/en/latest/hybrid_oga.html" target="_blank" rel="noopener"
+ &gt;Ryzen AI 执行模式&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="95-apple状态接口值得学习执行位置需要证据"&gt;9.5 Apple：状态接口值得学习，执行位置需要证据
+&lt;/h3&gt;&lt;p&gt;Core ML 的有状态模型（stateful model）能表达 KV 等跨调用状态，适合学习状态归属、模型接口和反复调用的成本。但其公开状态示例包含 CPU/GPU 配置，不能把该示例的收益直接解释为 Apple Neural Engine（ANE）收益。&lt;/p&gt;
+&lt;p&gt;配置允许的计算单元，也不是每个操作实际运行位置的证明。应使用模型分析与性能工具检查设备分配，并在同一模型、输入和精度下比较。&lt;a class="link" href="https://apple.github.io/coremltools/docs-guides/source/stateful-models.html" target="_blank" rel="noopener"
+ &gt;Core ML 状态示例&lt;/a&gt;、&lt;a class="link" href="https://developer.apple.com/videos/play/wwdc2024/10161/" target="_blank" rel="noopener"
+ &gt;WWDC24 的状态模型与性能工具讲解&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="96-当前发展值得关注的三件事"&gt;9.6 当前发展值得关注的三件事
+&lt;/h3&gt;&lt;p&gt;从上述公开资料中，可以提取三个方向：&lt;strong&gt;第一，导出与厂商后端的接口越来越完整；第二，KV 和生成阶段成为明确的编译/运行时对象；第三，部分专用 NPU 编译器提供了更深入的源码与开发入口。&lt;/strong&gt; 这是对这些项目的归纳，不意味着所有芯片的软件栈都已具备相同能力。&lt;/p&gt;
+&lt;p&gt;新的统一 API 会降低接入成本，但形状、布局、数值格式和设备内存的差异仍然存在。学习时应追踪这些约束怎样被表达和传递，而不是只跟踪 SDK 名称变化。&lt;/p&gt;
+&lt;h2 id="十编译与运行时的结合点状态边界和产物"&gt;十、编译与运行时的结合点：状态、边界和产物
+&lt;/h2&gt;&lt;h3 id="101-多个编译入口共享同一份逻辑状态"&gt;10.1 多个编译入口共享同一份逻辑状态
+&lt;/h3&gt;&lt;figure class="compiler-figure" aria-labelledby="compiler-state-caption"&gt;
+&lt;figcaption id="compiler-state-caption"&gt;&lt;span class="compiler-figure-title"&gt;图 4 · 首次 prefill、带历史 KV 的 prefill 与 decode 的状态接口&lt;/span&gt;&lt;span class="compiler-figure-note"&gt;示意同一会话中的模型前向入口；物理缓冲区复用取决于布局、接口与运行时实现。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;pre class="mermaid" style="visibility:hidden"&gt;flowchart TB
+ P[首次输入&lt;br/&gt;Prefill 入口] --&gt; K[会话 KV 状态&lt;br/&gt;布局 · 容量 · 有效长度]
+ K --&gt; D[单步 Decode 入口]
+ D --&gt; K
+ K --&gt; H[带历史的 Prefill 入口&lt;br/&gt;新一轮输入或后续输入块]
+ H --&gt; K
+ P -- 提示词已处理完成 --&gt; O[所需位置的 Logits&lt;br/&gt;选择下一 token · 停止判断]
+ H -- 提示词已处理完成 --&gt; O
+ D --&gt; O
+ O -- 继续生成：下一 token --&gt; D
+ O -- 停止或取消 --&gt; R[等待执行完成&lt;br/&gt;释放或保留会话状态]&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;常见自回归生成中，完整提示词的 prefill 结束后，利用最后一个有效位置的 logits 选择第一个输出 token。后续 decode 将上一步选出的 token 输入模型、更新 KV，再产生用于选择下一个 token 的 logits。因此，刚选出的 token 通常要到下一次前向计算才进入 KV。分块 prefill 在提示词处理完成前，只接续计算与状态，不开始生成回复。&lt;/p&gt;
+&lt;p&gt;这个接口有几个不能遗漏的条件：prefill 与 decode 使用相容的 KV 表示；有效长度与写入位置一致；容量超限行为明确；不同会话的写入互不污染；执行未结束时不能提前回收缓冲区。前缀缓存复用可以共享只读 KV 块，但共享后再写入时，需要独立缓冲区或写时复制（copy-on-write）等隔离机制，不能直接覆盖其他会话仍在使用的数据。&lt;a class="link" href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener"
+ &gt;PagedAttention 的 KV 共享与写时复制&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;固定容量的 KV 并不意味着注意力可以读取全部区域。尚未写入的位置需要通过正确的长度和掩码排除。同一模型跨形状桶切换时，要确认是继续复用、转换状态，还是重新计算；切换到不同模型或权重时，通常应重建 KV，不能仅凭形状相同复用。&lt;/p&gt;
+&lt;h3 id="102-原地更新共享内存与零拷贝"&gt;10.2 原地更新、共享内存与零拷贝
+&lt;/h3&gt;&lt;p&gt;“图中使用同一个 KV 参数”“主机与设备共享物理内存”“调用之间没有全量复制”是不同层面的事实。零拷贝（zero-copy）需要满足可访问性、对齐、地址注册、布局和生命周期等条件；即使共享物理内存，仍可能有缓存一致性维护（cache coherency maintenance）、同步和格式转换。&lt;/p&gt;
+&lt;p&gt;ExecuTorch 的 Qualcomm 示例提供了共享缓冲区接入说明，可以追踪缓冲区申请、注册、使用与释放的完整过程。&lt;a class="link" href="https://github.com/pytorch/executorch/blob/main/examples/qualcomm/README.md" target="_blank" rel="noopener"
+ &gt;Qualcomm 示例中的共享内存流程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;函数返回不一定表示设备任务已完成。&lt;/strong&gt; 异步执行时，状态和输入输出缓冲区必须保持有效，直到相应的设备任务完成；取消请求通常也需要处理已经提交的设备工作。编译器的存活期分析和运行时的完成条件，应在这一边界对齐。&lt;/p&gt;
+&lt;h3 id="103-子图覆盖率必须换算成边界成本"&gt;10.3 子图覆盖率必须换算成边界成本
+&lt;/h3&gt;&lt;figure class="compiler-figure" aria-labelledby="compiler-boundary-caption"&gt;
+&lt;figcaption id="compiler-boundary-caption"&gt;&lt;span class="compiler-figure-title"&gt;图 5 · 一个未覆盖操作怎样增加解码路径的边界开销&lt;/span&gt;&lt;span class="compiler-figure-note"&gt;示意允许回退时的路径；某些后端会直接拒绝该图，需要由调用方明确处理。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;pre class="mermaid" style="visibility:hidden"&gt;flowchart TB
+ A[NPU 子图 A] --&gt; B[等待设备完成&lt;br/&gt;转换布局或准备缓冲区]
+ B --&gt; C[CPU 上的未覆盖操作]
+ C --&gt; D[准备设备输入&lt;br/&gt;提交与同步]
+ D --&gt; E[NPU 子图 B]
+ E --&gt; F[后续模型层与解码步&lt;br/&gt;边界可能反复出现]&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;一个只占少量计算的操作，可能切断较大的融合区域，或在每层每步引发切换。因此，按“支持算子个数”或“图节点覆盖率”衡量适配进度，可能低估最重要的问题。&lt;/p&gt;
+&lt;p&gt;可以用以下估算初步排序：&lt;/p&gt;
+&lt;p&gt;$$
+T_{\mathrm{boundary/token}}\approx L n_b t_b.
+$$&lt;/p&gt;
+&lt;p&gt;假设 28 层，每层两次边界，每次平均 50 微秒，则每个 decode token 增加约 &lt;strong&gt;2.8 毫秒&lt;/strong&gt;，128 个 decode 步约增加 &lt;strong&gt;358.4 毫秒&lt;/strong&gt;。这是串行、均匀边界的分析算例；实际需要区分可重叠操作与关键路径，也要测量转换和同步的真实成本。&lt;/p&gt;
+&lt;p&gt;实际迁移收益应估为“原路径时间减去新设备计算、转换、搬运和额外同步时间”。有时候补一个小操作的覆盖，比把已有大算子再优化一点更有价值；有时候将一组操作整体留在 CPU/GPU 上更合理。&lt;/p&gt;
+&lt;h3 id="104-编译产物是有条件的执行程序"&gt;10.4 编译产物是有条件的执行程序
+&lt;/h3&gt;&lt;p&gt;产物清单至少应记录：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;源模型与权重校验、分词器与模板
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;导出器、IR/opset、编译器与优化流水线版本
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;目标芯片、精度、布局、输入范围和 KV 协议
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;运行时/驱动/SDK 依赖与已验证组合
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;权重、子图、外部常量、设备二进制及其对应关系
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;正确性结果、性能基线、冷启动和回退条件
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;AOT 产物可能减少首次启动工作，也可能增加按芯片、形状和精度维护的变体数。若针对 4 类目标、3 个形状桶、2 种精度生成独立变体，理论上就有 24 个组合；实际可通过共享权重、按需生成和减少支持范围控制规模，但要验证实现支持。&lt;/p&gt;
+&lt;p&gt;可移植图和目标二进制通常有不同的兼容边界。编译缓存的标识应包含会影响生成结果的输入，版本变化后根据兼容约定与回归结果决定复用，不能仅用“模型名称相同”作为依据。&lt;/p&gt;
+&lt;h3 id="105-prefilldecode-分图与跨设备分工要分开决策"&gt;10.5 Prefill/decode 分图与跨设备分工要分开决策
+&lt;/h3&gt;&lt;p&gt;两个阶段有不同编译入口，仍可以在同一个 NPU 上执行；跨设备分工则额外涉及 KV 可访问性、布局转换、资源争用与同步。应先分别测清两个阶段，再判断迁移收益是否覆盖状态交换成本。&lt;/p&gt;
+&lt;p&gt;端侧的 CPU/GPU/NPU 协同还要考虑应用其他负载。例如视觉编码器、语音处理或 UI 可能正在使用 GPU。最短的独立模型延迟，并不一定对应完整应用最稳定的资源安排。&lt;/p&gt;
+&lt;h2 id="十一架构选型围绕目标边界与长期成本"&gt;十一、架构选型：围绕目标、边界与长期成本
+&lt;/h2&gt;&lt;h3 id="111-三类目标对应不同起点"&gt;11.1 三类目标，对应不同起点
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;目标&lt;/th&gt;
+					&lt;th&gt;起点&lt;/th&gt;
+					&lt;th&gt;应优先投入&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;尽快交付固定设备上的模型&lt;/td&gt;
+					&lt;td&gt;厂商已支持的模型与官方执行路径&lt;/td&gt;
+					&lt;td&gt;数值、状态、内存、稳定性和版本配套&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;持续接入新模型与新形状&lt;/td&gt;
+					&lt;td&gt;成熟导出/执行栈 + 可扩展后端接口&lt;/td&gt;
+					&lt;td&gt;前端、分解/融合、量化、分区、支持矩阵&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;开发或改进编译器&lt;/td&gt;
+					&lt;td&gt;有源码与测试入口的编译项目&lt;/td&gt;
+					&lt;td&gt;IR、合法化、目标变换、布局、内存与代码生成&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;如果当前问题发生在导出和 KV 接口，先修改这一层；若热点在厂商编译结果内部，需要判断已有配置、图改写或算子扩展能否解决，再决定是否扩大自研范围。架构选择要和团队实际能维护的层次对应。&lt;/p&gt;
+&lt;h3 id="112-一个决策实例模型可加载但长输入慢"&gt;11.2 一个决策实例：模型可加载，但长输入慢
+&lt;/h3&gt;&lt;p&gt;先把现象拆开：慢的是首次编译、prefill、KV 初始化、图切换，还是每步 decode？然后逐项比较：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;增加一个更合适的输入形状桶，是否减少了填充计算。&lt;/li&gt;
+&lt;li&gt;使用分块 prefill，是否降低峰值内存，同时增加了调用与状态开销。&lt;/li&gt;
+&lt;li&gt;将一个小操作纳入后端，是否减少了反复切换。&lt;/li&gt;
+&lt;li&gt;改变 KV 格式或访问范围，是否改善访存且保持长上下文质量。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;每次只改变一个主要因素，并保留失败样例。把所有开关一起调整，即使得到了更好的最终数字，也很难形成可迁移的判断。&lt;/p&gt;
+&lt;h3 id="113-用架构决策记录固定取舍"&gt;11.3 用架构决策记录固定取舍
+&lt;/h3&gt;&lt;p&gt;可以沿用上一篇的&lt;strong&gt;架构决策记录（Architecture Decision Record，ADR）&lt;/strong&gt;，增加编译特有的信息：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;问题：哪个模型、输入范围或设备限制触发了决策？
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;基线：当前图、精度、布局、产物与设备结果。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;候选：修改前端 / 修改 pass / 调整后端配置 / 改变设备分工。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;正确性：语义约束、量化误差、状态与边界检查。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;收益：编译成本、启动、prefill/decode、内存与持续性能。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;代价：新增变体、源码维护、调试难度与模型升级成本。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;决定：采用哪条路径，在哪些条件下生效？
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;退出条件：哪些模型/版本变化触发重编译、重测或回退？
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;一份能说明“为什么只给某组形状启用融合”的记录，往往比“某编译器更先进”的概括更有工程价值。&lt;/p&gt;
+&lt;h2 id="十二怎样验证逐阶段定位最后回到完整模型"&gt;十二、怎样验证：逐阶段定位，最后回到完整模型
+&lt;/h2&gt;&lt;h3 id="121-正确性检查要沿转换链展开"&gt;12.1 正确性检查要沿转换链展开
+&lt;/h3&gt;&lt;p&gt;推荐保留以下参照：原始浮点实现、导出图、变换后图、量化数值模型、编译后的执行结果。逐层或逐模块比较，可以找出误差最早出现的位置。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;检查对象&lt;/th&gt;
+					&lt;th&gt;方法&lt;/th&gt;
+					&lt;th&gt;能发现的问题&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;IR 结构&lt;/td&gt;
+					&lt;td&gt;验证器、预期模式及反例&lt;/td&gt;
+					&lt;td&gt;非法类型、遗漏属性、错误匹配&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;数值结果&lt;/td&gt;
+					&lt;td&gt;绝对/相对误差、异常值检查、固定输入 logits&lt;/td&gt;
+					&lt;td&gt;精度、布局、量化参数或算子实现错误&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;状态更新&lt;/td&gt;
+					&lt;td&gt;对齐相同输入位置与解码步、多轮、重置、分块接续&lt;/td&gt;
+					&lt;td&gt;KV 写错位置、跨会话污染、掩码与有效长度错误&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;输入边界&lt;/td&gt;
+					&lt;td&gt;最小/最大长度、桶边缘、尾块、不合法输入&lt;/td&gt;
+					&lt;td&gt;越界、错误特化、尾部处理和错误恢复缺失&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;任务质量&lt;/td&gt;
+					&lt;td&gt;独立样本、分组评测、失败案例&lt;/td&gt;
+					&lt;td&gt;多步生成放大误差、长上下文或多模态退化&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;浮点结果未必逐位一致（bitwise identical），应先按数据类型、操作和任务要求确定容差。只比较最终生成文本，很难区分编译错误与采样分歧；逐步比较 logits 时应固定输入 token 序列，避免生成路径分叉掩盖最初误差；只比较短序列的平均误差，也可能遗漏状态和尾块问题。&lt;/p&gt;
+&lt;h3 id="122-pass-测试与数值测试互相补充"&gt;12.2 Pass 测试与数值测试互相补充
+&lt;/h3&gt;&lt;p&gt;编写图重写时，需要正例证明该匹配被改写，反例证明不符合前提的图不会被误改。&lt;code&gt;FileCheck&lt;/code&gt; 一类文本检查适合确认 IR 结构，但不能单独证明数值正确。&lt;/p&gt;
+&lt;p&gt;随后执行变换前后程序，使用多组输入验证；涉及状态时连续运行多步，涉及形状时覆盖分桶和上下界；最后再接回完整模型。测试应保护变换的语义条件，而不是只确认代码里出现过某个 pass 名称。&lt;a class="link" href="https://mlir.llvm.org/docs/Tutorials/Toy/" target="_blank" rel="noopener"
+ &gt;MLIR Toy 教程中的变换与 lowering&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="123-性能报告分清四个时间窗口"&gt;12.3 性能报告分清四个时间窗口
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;窗口&lt;/th&gt;
+					&lt;th&gt;记录什么&lt;/th&gt;
+					&lt;th&gt;典型误判&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;编译期&lt;/td&gt;
+					&lt;td&gt;导出/编译时间、主机峰值内存、产物大小&lt;/td&gt;
+					&lt;td&gt;编译更慢的代价被完全忽略&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;初始化&lt;/td&gt;
+					&lt;td&gt;权重加载、设备上下文、首次编译/预热&lt;/td&gt;
+					&lt;td&gt;把热缓存启动当作首次启动&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;稳态执行&lt;/td&gt;
+					&lt;td&gt;分阶段延迟、实际设备、搬运/同步、内存&lt;/td&gt;
+					&lt;td&gt;未同步的主机计时只测到提交时间&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;持续运行&lt;/td&gt;
+					&lt;td&gt;热稳定性能、内存趋势、错误与恢复&lt;/td&gt;
+					&lt;td&gt;只测冷机短时峰值&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;比较前固定模型、数据、生成条件、硬件与版本，分别报告输入实际长度和编译形状。跨精度或跨后端比较时，应补同后端的参考精度基线，避免把引擎差异全部归因于量化。&lt;/p&gt;
+&lt;p&gt;如果某内核占总时间 20%，把它加速到 2 倍，在其他部分不变时，端到端加速上限约为 $1/(0.8+0.2/2)=1.11$ 倍。算例可以帮助设定预期，但最终仍要检查改动是否影响融合、搬运与状态。&lt;/p&gt;
+&lt;h3 id="124-一份可复查的编译实验记录"&gt;12.4 一份可复查的编译实验记录
+&lt;/h3&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;实验编号、源码提交、配置、设备与完整软件版本
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;模型/权重、导出图、pass 流水线、形状和精度
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;每阶段 IR 或可取得的诊断产物
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;量化元数据、KV 表示、分区与回退行为
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;正确性容差、输入边界、质量结果和失败样本
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;编译/初始化/prefill/decode 时间与重复测量
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;峰值内存、布局转换、实际设备轨迹、持续性能
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;相对基线的唯一变化、收益、退化条件与决定
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;公开工具有时无法展示固件或内部内核的全部细节。此时应明确可见范围，通过分阶段计时、输入扫描和受控对照缩小原因，不把猜测描述成已经定位的硬件瓶颈。&lt;/p&gt;
+&lt;h3 id="125-把稳定性放进最后一次验收"&gt;12.5 把稳定性放进最后一次验收
+&lt;/h3&gt;&lt;p&gt;检查重复加载、会话重置、取消后资源释放、容量超限、设备错误、模型切换和版本回退。异步运行时尤其要覆盖“请求结束，但设备仍在使用缓冲区”的情况。&lt;/p&gt;
+&lt;p&gt;交付包应带上支持矩阵、编译与运行配置、模型/产物标识和复现说明。能够在已声明的条件下稳定重建和执行，才算完成这条编译工程链。&lt;/p&gt;
+&lt;h2 id="十三8-周学习路线用课程建立理解用实验贯通编译链"&gt;十三、8 周学习路线：用课程建立理解，用实验贯通编译链
+&lt;/h2&gt;&lt;h3 id="131-学习前提与投入边界"&gt;13.1 学习前提与投入边界
+&lt;/h3&gt;&lt;p&gt;这条路线面向已经能使用 Python、PyTorch，并理解矩阵乘、注意力和自回归生成的读者。修改 C++ 编译 pass 还需要基本的 C++ 阅读能力、CMake 构建与调试经验。若这些基础不足，应先补对应内容，或先选择模型接入方向。&lt;/p&gt;
+&lt;p&gt;安排采用&lt;strong&gt;每周 5 个主学习日，每天约 8 小时，共 8 周、约 320 小时&lt;/strong&gt;。每天只规定任务与产物；第 6、7 天用于休息、补漏和处理构建问题，不叠加新的必修内容。已经完成上一篇推理路线的读者，可以直接复用模型、质量样本和性能脚本，把节省的时间投入 IR、pass 与内存分析。&lt;/p&gt;
+&lt;p&gt;两个月的目标是：&lt;strong&gt;读懂一条编译链，完成一次有条件的程序变换，接入一套目标工具链，并留下能解释正确性、性能与限制的实验。&lt;/strong&gt; 独立实现完整 LLM 编译器、新芯片后端或全部设备内核，需要更长的积累。&lt;/p&gt;
+&lt;p&gt;建议采用“带着当天问题看指定章节 → 在固定版本上做小实验 → 对照 IR 与结果解释变化”的顺序。视频负责建立直觉，官方文档负责核对接口，源码和实验负责验证理解。每周至少一半投入留给代码、调试和复盘，避免把完整刷课作为完成标准。&lt;/p&gt;
+&lt;h3 id="132-课程与资料编译主线优先模型和-gpu-内容按需补齐"&gt;13.2 课程与资料：编译主线优先，模型和 GPU 内容按需补齐
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;资源&lt;/th&gt;
+					&lt;th&gt;本文中的角色&lt;/th&gt;
+					&lt;th&gt;优先学习内容&lt;/th&gt;
+					&lt;th&gt;使用方式&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://mlc.ai/summer22-zh/schedule" target="_blank" rel="noopener"
+ &gt;MLC 机器学习编译中文课程，2022&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;strong&gt;编译全景主课&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;第 1、2、3、4、6、9 课：编译层次、张量程序、TensorIR、框架整合、图与内存优化&lt;/td&gt;
+					&lt;td&gt;视频、中文讲义与 notebook 配合；精选实验即可&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://www.youtube.com/watch?v=Y4SvqTtOIDk" target="_blank" rel="noopener"
+ &gt;MLIR 官方入门视频&lt;/a&gt;与 &lt;a class="link" href="https://mlir.llvm.org/docs/Tutorials/Toy/" target="_blank" rel="noopener"
+ &gt;Toy 教程&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;strong&gt;IR 与 pass 实作主线&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;IR 结构、模式重写、接口、逐层 lowering&lt;/td&gt;
+					&lt;td&gt;先跟 Toy 第 2、3 章，再借第 5、6 章已有实现贯通 CPU 路径&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://github.com/sophgo/tpu-mlir" target="_blank" rel="noopener"
+ &gt;TPU-MLIR 官方资料与视频索引&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;strong&gt;NPU 编译案例&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;MLIR 语法、Pattern Rewriting、Dialect Conversion、LayerGroup&lt;/td&gt;
+					&lt;td&gt;结合&lt;a class="link" href="https://tpumlir.org/developer_manual_en/index.html" target="_blank" rel="noopener"
+ &gt;开发手册&lt;/a&gt;读源码；只精读选定链路&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://hanlab.mit.edu/courses/2024-fall-65940" target="_blank" rel="noopener"
+ &gt;MIT 6.5940，2024 Fall&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;量化与高效模型补课&lt;/td&gt;
+					&lt;td&gt;第 5、6 讲量化；按需补第 12 讲 Transformer、第 13 讲 LLM 部署&lt;/td&gt;
+					&lt;td&gt;量化部分列为主修，其他内容按已有基础跳过&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://cs336.stanford.edu/" target="_blank" rel="noopener"
+ &gt;Stanford CS336，2026&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;模型与系统基础补课&lt;/td&gt;
+					&lt;td&gt;第 2 讲资源核算，第 5、6 讲硬件与内核，第 10 讲推理&lt;/td&gt;
+					&lt;td&gt;只补不熟悉的问题；训练、分布式作业不进入本路线必做项&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://mlsyscourse.org/schedule" target="_blank" rel="noopener"
+ &gt;CMU 15-442/15-642，2026&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;现代编译与硬件补充&lt;/td&gt;
+					&lt;td&gt;Data Layouts、GEMM、ML Compilation&lt;/td&gt;
+					&lt;td&gt;使用公开讲义补布局和性能直觉；这里不把它列为已核验的完整公开视频课&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://developer.apple.com/videos/play/wwdc2024/10161/" target="_blank" rel="noopener"
+ &gt;Apple WWDC24：部署大模型&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;状态与产物接口案例&lt;/td&gt;
+					&lt;td&gt;约 8:30 起的状态模型、约 15:27 起的性能部分&lt;/td&gt;
+					&lt;td&gt;配合 &lt;a class="link" href="https://apple.github.io/coremltools/docs-guides/source/stateful-models.html" target="_blank" rel="noopener"
+ &gt;Core ML 状态模型示例&lt;/a&gt;，迁移接口设计思路&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;所选厂商的当前版本教程&lt;/td&gt;
+					&lt;td&gt;&lt;strong&gt;设备落地材料&lt;/strong&gt;&lt;/td&gt;
+					&lt;td&gt;导出、编译、加载、设备诊断与限制&lt;/td&gt;
+					&lt;td&gt;在第 1 周确认环境，第 6 周集中深入；具体入口见第 13.5 节&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本篇建议的顺序是 MLC 精选 → MLIR 实作 → 一个真实 NPU 工具链。&lt;/strong&gt; MIT 量化课穿插在第三周；vLLM 服务短课和 NVIDIA 推理直播可以补部署视角，但在这条编译路线中排在 IR、变换与内存之后。&lt;/p&gt;
+&lt;p&gt;两条版本说明需要提前记住：MLC 2022 notebook 与当前 TVM API 存在差异，优先保留课程环境复现实验，再对照当前文档理解演进；MLIR 视频用于学习机制，构建教程和源码应取同一个版本。不要为了追上所有仓库的最新提交，把第一周耗在依赖迁移上。&lt;/p&gt;
+&lt;p&gt;上述视频入口来自课程或项目官方索引；TPU-MLIR 的 B 站入口可能受登录或访问限制，无法播放时使用同主题手册与源码。课程选择以公开教学内容和实验衔接为依据，不要求额外购买付费课程。&lt;/p&gt;
+&lt;h3 id="133-先固定一个实验仓库和一条设备路径"&gt;13.3 先固定一个实验仓库和一条设备路径
+&lt;/h3&gt;&lt;p&gt;准备两类实验对象，并让它们共享形状、精度、状态和测量约定：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;小模块&lt;/strong&gt;：矩阵乘、MLP 或单层注意力。用来观察 IR、写重写规则、检查布局与缓冲区；尺寸小，错误容易定位。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;小型完整 LLM&lt;/strong&gt;：选目标后端明确支持、当前设备能容纳的模型。用来验证分阶段生成、量化质量和真实运行边界；模型、权重版本与 tokenizer 在第一周固定。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;小模块可以从参考模型中提取；Toy 程序只承担编译机制练习。不要把 Toy 的 CPU lowering 直接描述成完整 LLM 到 NPU 的编译路径。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;compiler-study/
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; configs/ # 源码版本、模型、设备、形状、精度与环境
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; models/ # 小模块与完整模型的导出入口
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ir/ # 关键阶段 IR、分区与诊断信息
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; transforms/ # pass、重写规则或后端适配改动
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; tests/ # 数值、形状、状态、重写反例
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; runtime/ # 加载、执行、状态与测量脚本
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; reports/ # 原始数据、每周结论与最终复现说明
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;可用条件&lt;/th&gt;
+					&lt;th&gt;可执行的主线&lt;/th&gt;
+					&lt;th&gt;结论边界&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;普通 Linux 主机、Mac 或 CPU 环境&lt;/td&gt;
+					&lt;td&gt;模型导出、MLIR/Toy、图重写、量化数值、状态与内存实验；选兼容的 CPU 后端执行&lt;/td&gt;
+					&lt;td&gt;可以验证程序变换和功能；不能给出 NPU 加速、功耗或热稳定结论&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;受支持的 Android 设备&lt;/td&gt;
+					&lt;td&gt;选择 ExecuTorch + Qualcomm、ORT QNN 或 LiteRT 中的一条&lt;/td&gt;
+					&lt;td&gt;提前核对 SoC、OS、SDK、ABI、开发主机与模型；同品牌手机不代表能力相同&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Rockchip / Sophgo 开发板&lt;/td&gt;
+					&lt;td&gt;RKLLM 模型工具链，或 TPU-MLIR + 对应设备运行时&lt;/td&gt;
+					&lt;td&gt;板卡、驱动、模型支持和主机工具需配套；RKLLM 接口实验与编译器源码实验分别记录&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;受支持的 Intel / AMD AI PC&lt;/td&gt;
+					&lt;td&gt;OpenVINO NPU / Intel NPU Compiler，或 Ryzen AI / MLIR-AIE 中的一条&lt;/td&gt;
+					&lt;td&gt;先确认具体处理器与工具版本；上层模型部署成功不代表底层编译接口全部开放&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;第一周就完成目标 SDK 的可用性检查和最小示例准备。&lt;/strong&gt; 如果工具包获取、主机环境或设备调试不可行，立即沿 CPU 路径完成共同基础，并把上板实验明确列为待补。模拟器可辅助功能检查，其耗时不能替代真实设备性能。&lt;/p&gt;
+&lt;h3 id="134-八周安排每天有动作每周有验收"&gt;13.4 八周安排：每天有动作，每周有验收
+&lt;/h3&gt;&lt;figure class="compiler-figure" aria-labelledby="compiler-learning-caption"&gt;
+&lt;figcaption id="compiler-learning-caption"&gt;&lt;span class="compiler-figure-title"&gt;图 6 · 8 周编译工程学习路线&lt;/span&gt;&lt;span class="compiler-figure-note"&gt;从语义与 IR 出发，逐步增加状态、硬件与交付约束；每周留下可复查的产物。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;ol class="compiler-timeline"&gt;
+&lt;li&gt;&lt;span class="phase"&gt;第 1—2 周&lt;/span&gt;&lt;div&gt;&lt;strong&gt;建立语义与 IR 基础&lt;/strong&gt;&lt;p&gt;固定参考模型与环境，导出小模块，读懂形状约束，完成一个有反例保护的 IR 重写。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;第 3—4 周&lt;/span&gt;&lt;div&gt;&lt;strong&gt;保持量化与状态约定&lt;/strong&gt;&lt;p&gt;验证量化表示，建立 prefill/decode 的 KV 接口，覆盖带历史 KV 的输入追加、分桶边界与会话重置。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;第 5—6 周&lt;/span&gt;&lt;div&gt;&lt;strong&gt;连接内存组织与目标后端&lt;/strong&gt;&lt;p&gt;观察分块、布局和缓冲区，读通一条后端路径，明确实际执行位置与回退行为。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="phase"&gt;第 7—8 周&lt;/span&gt;&lt;div&gt;&lt;strong&gt;完成一次优化与可复现交付&lt;/strong&gt;&lt;p&gt;验证一个性能假设，记录收益和退化条件，补稳定性与重建说明，形成完整工程报告。&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/figure&gt;
+&lt;h4 id="第-1-周固定模型语义导出可检查的程序"&gt;第 1 周：固定模型语义，导出可检查的程序
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：从 Python 模型到导出图，哪些输入、状态和形状约束必须保持？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：&lt;a class="link" href="https://mlc.ai/summer22-zh/schedule" target="_blank" rel="noopener"
+ &gt;MLC 中文课程&lt;/a&gt;第 1、4 课的概览部分；&lt;a class="link" href="https://docs.pytorch.org/tutorials/intermediate/torch_export_tutorial.html" target="_blank" rel="noopener"
+ &gt;torch.export 官方教程&lt;/a&gt;。注意力基础不足时选看 MIT 第 12 讲；资源核算不足时补 CS336 第 2 讲。回看本文第二、五节。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;固定参考模型、环境与仓库；按第 13.3 节选择一条设备路径，检查 SDK 获取、主机支持与最小示例条件&lt;/td&gt;
+					&lt;td&gt;保存环境和模型标识；列出可运行设备、可用诊断工具及未满足条件&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;运行小模型的固定输入推理；画出单层注意力和生成流程，计算权重与 KV 容量&lt;/td&gt;
+					&lt;td&gt;保存输入、关键张量形状和参考 logits；解释 prefill 与 decode 的维度差异&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;提取小型 MLP 或注意力模块，用 torch.export 导出；检查参数、输入输出、常量与图签名&lt;/td&gt;
+					&lt;td&gt;导出结果能独立加载并与参考模块对照；保存可阅读的图&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;为同一模块定义静态或有界动态形状，运行合法输入、边界输入和违反约束的输入&lt;/td&gt;
+					&lt;td&gt;每类至少一个案例；说明限制来自导出契约、操作语义还是后端&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;分开记录首次准备与重复执行；整理固定输入、数值容差和设备路径；复跑最小例子&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w01-export-baseline&lt;/code&gt;：代码、导出图、约束、参考结果与环境记录&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：能解释每个输入与输出的含义，并从图中找到一个具体形状约束。性能数据只是后续对照的起点；目标 SDK 暂不可用时，第一周就注明采用 CPU 实验路径。&lt;/p&gt;
+&lt;h4 id="第-2-周读懂-mlir写一个能证明条件的重写"&gt;第 2 周：读懂 MLIR，写一个能证明条件的重写
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：一个图变换为什么合法，编译器通过什么结构表达并检查它？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：&lt;a class="link" href="https://www.youtube.com/watch?v=Y4SvqTtOIDk" target="_blank" rel="noopener"
+ &gt;MLIR 入门视频&lt;/a&gt;与 &lt;a class="link" href="https://mlir.llvm.org/docs/Tutorials/Toy/" target="_blank" rel="noopener"
+ &gt;Toy 第 2、3、5、6 章&lt;/a&gt;。重点是 IR、模式与 lowering；语法解析器沿用教程实现。回看本文第三、六节。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;跟入门材料阅读一个短程序，标出 operation、SSA value、type、attribute、block 与 region&lt;/td&gt;
+					&lt;td&gt;给一份 IR 添加自己的解释；区分张量值与可变缓冲区&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;按同一版本构建教程所需的最小工具目标，运行 Toy 第 2 章，查看打印与验证器错误&lt;/td&gt;
+					&lt;td&gt;保存构建说明、正常 IR 和一个非法类型或属性案例&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;跟第 3 章完成模式重写，如消除语义上互逆的两次转置；写清张量阶数（rank，即轴的数量）、维度置换与副作用前提&lt;/td&gt;
+					&lt;td&gt;保存变换前后 IR，指出匹配条件以及替换后的结果来源&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;增加正例、不可匹配反例和数值对照；覆盖多个形状，不直接套用未经检查的浮点代数恒等式&lt;/td&gt;
+					&lt;td&gt;结构检查与数值检查均通过；失败时能定位到具体规则&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;使用第 5、6 章已有代码贯通逐层 lowering 与 CPU 执行，追踪本周规则处在什么阶段&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w02-ir-rewrite&lt;/code&gt;：规则、反例、数值结果与一张转换链图&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：能够解释一个规则为什么不应匹配某个反例。构建资源有限时，限定目标和并行度，使用匹配版本的开发环境；本周无需编译 LLVM 的全部项目，也不要求从零实现所有 Toy 章节。&lt;/p&gt;
+&lt;h4 id="第-3-周把图优化与量化约定接起来"&gt;第 3 周：把图优化与量化约定接起来
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：量化参数如何进入图，优化怎样保持轴、类型和误差约定？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：MLC 第 9 课图优化；MIT &lt;a class="link" href="https://www.youtube.com/watch?v=ymAzUz3qlIA" target="_blank" rel="noopener"
+ &gt;第 5 讲：量化 I&lt;/a&gt;、&lt;a class="link" href="https://youtu.be/wrcgWm_nUeE" target="_blank" rel="noopener"
+ &gt;第 6 讲：量化 II&lt;/a&gt;；&lt;a class="link" href="https://mlir.llvm.org/docs/Quantization/" target="_blank" rel="noopener"
+ &gt;MLIR 量化表示&lt;/a&gt;。论文从第十四节 AWQ 或 SmoothQuant 中选一篇，先读与本周实验对应的方法。回看本文第六节。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;读第 6.3 节及推理篇的格式基础；观察图中类型、Q/DQ 与融合候选，构造不能直接删除 Q/DQ 的反例&lt;/td&gt;
+					&lt;td&gt;写出存储、表达、计算与输出类型；解释普通 cast 与反量化的区别&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;复现第 6.4 节 INT4 打包；补负数、边界值与奇数长度；在小矩阵上比较逐张量/分组参数&lt;/td&gt;
+					&lt;td&gt;保存字节与解包结果；核对符号、位序、元数据大小及 scale 对应关系&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;按已选后端支持矩阵选一种精度方案；需要校准时固定校准集并隔离质量评测集；导出可检查的量化图&lt;/td&gt;
+					&lt;td&gt;保存 Q/DQ 或相应 IR 表示、权重格式、参数与工具版本&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;用不同 scale 的两组点积复现第 6.5 节；对照浮点参考、量化数值参考与编译结果，再检查完整模型样本&lt;/td&gt;
+					&lt;td&gt;记录误差最早出现的阶段；核对累加、输出转换和 Q/DQ 融合后的实际执行&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;只改变一个因素，如校准样本、分组设置或敏感操作精度，复测并解释结果&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w03-quant-contract&lt;/code&gt;：图、参数、误差、质量与采用条件&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：换一个布局或分组方案时，知道哪些量化元数据也要变。设备尚不可用时完成图与数值验证；没有受支持的低比特内核时，性能项明确留待上板验证，不能用模拟量化的速度代表 NPU 低比特性能。&lt;/p&gt;
+&lt;h4 id="第-4-周让-prefilldecode-与-kv-状态保持一致"&gt;第 4 周：让 prefill、decode 与 KV 状态保持一致
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：不同入口与形状变体怎样更新同一份逻辑会话状态？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：&lt;a class="link" href="https://apple.github.io/coremltools/docs-guides/source/stateful-models.html" target="_blank" rel="noopener"
+ &gt;Core ML 状态模型指南&lt;/a&gt;、&lt;a class="link" href="https://developer.apple.com/videos/play/wwdc2024/10161/" target="_blank" rel="noopener"
+ &gt;WWDC24 状态模型片段&lt;/a&gt;；按所选路径参考 &lt;a class="link" href="https://docs.pytorch.org/executorch/stable/llm/export-llm.html" target="_blank" rel="noopener"
+ &gt;ExecuTorch LLM 导出&lt;/a&gt;或 &lt;a class="link" href="https://github.com/sophgo/LLM-TPU" target="_blank" rel="noopener"
+ &gt;LLM-TPU 示例&lt;/a&gt;。示例用于理解接口，实验仍沿用本周可执行的后端。回看本文第五、十节。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;给小注意力模块补显式 KV 输入输出，用同一隐藏状态序列对照无缓存与有缓存计算；再接回完整小模型&lt;/td&gt;
+					&lt;td&gt;先比较模块在相同位置的输出张量，再用固定 token 序列比较模型 logits；保存有效长度、位置索引（position）与掩码（mask）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;实现固定容量状态缓冲区或后端支持的状态接口，明确读写范围与重置方式&lt;/td&gt;
+					&lt;td&gt;写出状态协议；区分有效 KV、预留容量和本轮新增内容&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;选择少量容量可承受的形状桶，如 128/512/2048；测试桶边缘及超出容量的输入&lt;/td&gt;
+					&lt;td&gt;保存实际长度与编译形状；解释填充、容量、产物数和错误行为&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;对照一次完整 prefill 与分块接续；再测试已有历史时追加新输入，然后进入 decode&lt;/td&gt;
+					&lt;td&gt;在相同输入和生成条件下比较状态与输出；定位跨入口的不一致&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;增加多轮、状态重置、最大长度、不同会话交替执行的检查&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w04-state-shape&lt;/code&gt;：状态接口、边界用例、数值结果与内存估算&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：至少能复现并修正一个刻意引入的状态错误，例如 KV 写入偏移或掩码错误。后端不支持某种状态机制时，用显式缓冲区验证语义，并记录真实设备接口还缺什么；不要为完成全部案例而更换多套引擎。&lt;/p&gt;
+&lt;h4 id="第-5-周从张量程序走到布局与缓冲区"&gt;第 5 周：从张量程序走到布局与缓冲区
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：同一个数学计算，为什么不同分块、布局与存储安排会产生不同成本？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：MLC 第 2、3 课，按需回看第 9 课；&lt;a class="link" href="https://mlir.llvm.org/docs/Bufferization/" target="_blank" rel="noopener"
+ &gt;MLIR Bufferization&lt;/a&gt;；CMU &lt;a class="link" href="https://mlsyscourse.org/slides/data_layout/" target="_blank" rel="noopener"
+ &gt;Data Layouts&lt;/a&gt;讲义；TPU-MLIR 官方索引中的 LayerGroup 教学。回看本文第七节。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;用 MLC TensorIR 练习或已选工具表示一个 MatMul，标出迭代域、归约轴与读写区域&lt;/td&gt;
+					&lt;td&gt;将数学式、张量程序和输入输出对应起来；固定正确性基线&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;比较三个合法分块方案，先估算工作集，再运行；包含不能整除分块的尾部形状&lt;/td&gt;
+					&lt;td&gt;保存分块参数、理论容量、误差与重复计时，解释尾块处理&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;在最小 MLIR 程序上观察 bufferization，构造仍需读取旧值的别名冲突案例&lt;/td&gt;
+					&lt;td&gt;对比原地与非原地处理，指出产生复制或新缓冲区的原因&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;只改变一次布局传播、融合范围或所选编译器支持的层组配置，检查中间张量的存活期与缓冲区复用&lt;/td&gt;
+					&lt;td&gt;保存可取得的 IR、内存计划或诊断信息；未暴露的内部细节标为未知&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;对照小模块与较大子图的耗时、临时内存和搬运，选择继续使用的方案&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w05-layout-memory&lt;/code&gt;：容量推导、编译表示、测量与取舍说明&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：能够解释“局部更快而子图更慢”的一种可能原因，并用受控实验验证。MLC notebook 作为独立小练习即可，不要求同时深改 TVM 和 MLIR 两套编译器；CPU 分块实验建立机制理解，实际 NPU tile 与 DMA 结论仍由对应后端和设备验证。&lt;/p&gt;
+&lt;h4 id="第-6-周读通一条目标后端确认真实执行边界"&gt;第 6 周：读通一条目标后端，确认真实执行边界
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：一个模型操作在哪一层被接受、改写、拒绝或交给其他设备？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：从第 13.5 节 A/B/C 中选一条；沿用第一周选定的设备与 SDK。厂商指南用于完成运行，源码与诊断信息用于定位决策。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;重跑所选工具链的最小官方示例，固定编译与运行版本，保存目标产物&lt;/td&gt;
+					&lt;td&gt;明确产物类型、目标设备、加载方式以及模型支持条件&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;沿小模块追踪一条路径：导入/分区、编译、产物加载到执行&lt;/td&gt;
+					&lt;td&gt;保存带文件和函数名的调用链；指出能修改的代码与封闭接口&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;构造一个不受支持的操作、形状或精度案例，观察拒绝、回退或子图切分&lt;/td&gt;
+					&lt;td&gt;保存实际诊断与执行位置；不能仅凭模型有输出判定全图在 NPU&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;修改一个小规则、能力判断、状态适配或受支持配置，覆盖符合与不符合条件的输入&lt;/td&gt;
+					&lt;td&gt;改动有语义理由、正反例和执行证据；记录边界数量是否变化&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;在后端明确支持的完整小模型上接回生成流程，检查量化、状态与分阶段耗时&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w06-backend-path&lt;/code&gt;：产物、调用链、改动、数值与设备记录&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：能根据证据说明哪些阶段在什么设备执行。没有真实 NPU 时，以可运行后端完成接入和编译机制实验，另附 NPU 适配差距清单；此时产出是可复现的编译学习项目，上板性能验收仍未完成。&lt;/p&gt;
+&lt;h4 id="第-7-周围绕一个瓶颈做优化而后决定是否保留"&gt;第 7 周：围绕一个瓶颈做优化，而后决定是否保留
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：哪一项编译决策值得改变，怎样证明收益来自这项变化？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：围绕已经观察到的瓶颈查对应 pass、内存、分区或厂商文档。自动调优有实际需求时再选看 MLC 第 5 课；新课程只用于解决当前问题。回看本文第十一、十二节。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;从轨迹或输入扫描中选择一个问题：形状桶、融合、布局、边界、KV 搬运或编译成本&lt;/td&gt;
+					&lt;td&gt;写出可被推翻的假设、影响范围、正确性风险与预期代价&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;实现一个最小改动，复用前六周的结构、数值、状态和边界检查&lt;/td&gt;
+					&lt;td&gt;保留独立配置或提交，能够恢复基线；先通过正确性检查&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;在同设备、同版本、同输入条件下比较基线与改动，分开统计编译、初始化与稳态&lt;/td&gt;
+					&lt;td&gt;每组至少重复三次，保留原始结果、计时边界和诊断产物&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;做消融对照，测试预计受益的形状，也测可能退化的短输入、尾块或容量边缘&lt;/td&gt;
+					&lt;td&gt;解释收益来自哪里，哪些条件下收益消失，以及内存或编译代价&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;写一份架构决策记录，决定采用、限定条件启用或恢复基线&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w07-optimization&lt;/code&gt;：改动、反例、对照数据与最终决定&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：结果不要求达到某个加速倍数。能用证据推翻最初假设、解释编译器为何已经做过某项优化，或者发现一个明确的退化条件，都是合格的工程结论。&lt;/p&gt;
+&lt;h4 id="第-8-周补稳定性完成可复现交付"&gt;第 8 周：补稳定性，完成可复现交付
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;本周问题&lt;/strong&gt;：另一位开发者能否在声明的条件下重建、运行并理解你的结果？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本周材料&lt;/strong&gt;：所选工具链的产物兼容、运行时与测试说明；回看本文第十、十二节。停止新增大方向，把时间留给复现和解释。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;学习日&lt;/th&gt;
+					&lt;th&gt;当天任务&lt;/th&gt;
+					&lt;th&gt;完成标准与产物&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 1 天&lt;/td&gt;
+					&lt;td&gt;整理模型、配置、工具版本、形状、精度、状态协议与产物标识，固定最终基线&lt;/td&gt;
+					&lt;td&gt;形成环境清单和支持矩阵；删除实验说明中的过期步骤&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 天&lt;/td&gt;
+					&lt;td&gt;检查重复加载、多会话交替、重置、容量超限；接口支持时补取消与资源释放&lt;/td&gt;
+					&lt;td&gt;保存通过与失败结果；不存在的接口写清边界，不虚构已验证能力&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 3 天&lt;/td&gt;
+					&lt;td&gt;在已声明负载下持续运行至少两小时，记录内存趋势、错误与性能变化&lt;/td&gt;
+					&lt;td&gt;真实设备记录可取得的温度/功耗信息；两小时作为起步验收，不代表覆盖长期可靠性&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 天&lt;/td&gt;
+					&lt;td&gt;从干净工作目录按说明重建，使用固定 SDK 与依赖重新运行核心检查&lt;/td&gt;
+					&lt;td&gt;记录实际操作和产物差异；要求功能可复现，字节级一致性按工具能力另外判断&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 5 天&lt;/td&gt;
+					&lt;td&gt;完成技术报告和约十分钟演示：解释编译链、一次变换、一个错误和一个取舍&lt;/td&gt;
+					&lt;td&gt;提交 &lt;code&gt;w08-compiler-delivery&lt;/code&gt;：代码、配置、测试、数据、复现说明与限制&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;本周验收&lt;/strong&gt;：读者可以按说明重现关键行为，并知道哪些结论来自真实 NPU、哪些来自 CPU 或数值模拟。最终报告应同时保留失败尝试、未解决问题和下一步最值得投入的技术点。&lt;/p&gt;
+&lt;h3 id="135-第六周的三个深入方向只选一条"&gt;13.5 第六周的三个深入方向，只选一条
+&lt;/h3&gt;&lt;figure class="compiler-figure" aria-labelledby="compiler-branches-caption"&gt;
+&lt;figcaption id="compiler-branches-caption"&gt;&lt;span class="compiler-figure-title"&gt;图 7 · 共同基础之后的三条深入方向&lt;/span&gt;&lt;span class="compiler-figure-note"&gt;围绕一个可修改的边界积累深度，再把产物接回同一套验证方法。&lt;/span&gt;&lt;/figcaption&gt;
+&lt;ol class="compiler-route"&gt;
+&lt;li&gt;&lt;span class="step"&gt;A · 模型与前端&lt;/span&gt;&lt;strong&gt;导出、分解、量化、分区&lt;/strong&gt;&lt;p&gt;精读一个模型接入路径。交付：一项有条件的适配、数值对照，以及子图与设备执行记录。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="step"&gt;B · 编译器内部&lt;/span&gt;&lt;strong&gt;IR、pass、布局、内存&lt;/strong&gt;&lt;p&gt;精读一个可修改的编译器。交付：一个重写或配置改动，配套 IR、反例与执行结果。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="step"&gt;C · 硬件映射与执行&lt;/span&gt;&lt;strong&gt;张量程序、数据流、状态接口&lt;/strong&gt;&lt;p&gt;精读一个目标设备的小计算路径。交付：可运行的内核或缓冲区适配，以及局部与整体成本说明。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;A：模型接入与图编译。&lt;/strong&gt; 优先从 &lt;a class="link" href="https://docs.pytorch.org/executorch/stable/llm/build-run-llama3-qualcomm-ai-engine-direct-backend.html" target="_blank" rel="noopener"
+ &gt;ExecuTorch Qualcomm LLM 示例&lt;/a&gt;、&lt;a class="link" href="https://onnxruntime.ai/docs/execution-providers/QNN-ExecutionProvider.html" target="_blank" rel="noopener"
+ &gt;ORT QNN EP&lt;/a&gt;或 &lt;a class="link" href="https://developers.google.com/edge/litert/android" target="_blank" rel="noopener"
+ &gt;LiteRT Android&lt;/a&gt;中选一个。先运行已有模型，再研究一个分解、量化参数或能力判断；对照修改前后的分区和执行位置。RKLLM 用户可以采用同样的接口分析方法，但厂商工具未开放的内部 pass 不能作为可修改范围。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;B：编译器与硬件映射。&lt;/strong&gt; 希望阅读较完整的 NPU 编译流程，可以选择 &lt;a class="link" href="https://github.com/sophgo/tpu-mlir" target="_blank" rel="noopener"
+ &gt;TPU-MLIR&lt;/a&gt;，沿导入、Top/Tpu IR、局部内存与代码生成中的一小段深入；使用 Intel 平台可先读 &lt;a class="link" href="https://github.com/openvinotoolkit/npu_compiler/blob/develop/src/vpux_compiler/docs/guides/primer_mlir.md" target="_blank" rel="noopener"
+ &gt;NPU Compiler 的 MLIR 入门&lt;/a&gt;和&lt;a class="link" href="https://github.com/openvinotoolkit/npu_compiler/blob/develop/src/vpux_compiler/docs/guides/project_structure.md" target="_blank" rel="noopener"
+ &gt;项目结构&lt;/a&gt;。具体改动限于一个可执行、可测试的规则，不以读完仓库为目标。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;C：张量程序与运行时。&lt;/strong&gt; 有受支持 AMD 设备和底层编程兴趣时，可以从 &lt;a class="link" href="https://github.com/Xilinx/mlir-aie" target="_blank" rel="noopener"
+ &gt;MLIR-AIE / IRON&lt;/a&gt;官方小示例研究计算、数据流和缓冲区；选择集成方向时，则在既定运行时中追踪状态创建、注册、执行和释放。前者深入硬件映射，后者深入执行接口，二者选一个具体问题即可。完整 LLM 的效果需要接回模型流程验证，小 GEMM 成功只能证明这条计算路径。&lt;/p&gt;
+&lt;h3 id="136-ai-怎样参与才能真正缩短学习周期"&gt;13.6 AI 怎样参与，才能真正缩短学习周期
+&lt;/h3&gt;&lt;p&gt;适合交给 AI 的工作包括：解释已提供的 IR、导航固定版本源码、生成重复性测试输入、整理实验配置、比较两份 pass 输出，以及根据现有日志提出排查顺序。把当前版本、实际代码、完整错误和硬件条件一起提供，通常比泛泛要求“写一个 NPU 编译器”更有效。&lt;/p&gt;
+&lt;p&gt;三个可复用的提问模板：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;阅读这份变换前后 IR：逐项说明形状、类型、量化参数和状态变化。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;列出该重写保持语义的前提，并给出至少一个不应匹配的反例。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;对材料中不能确认的内容，明确指出需要继续查看哪处定义。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;这是固定提交的 pass 与测试入口：请追踪匹配、合法性检查和替换。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;提出最小改动及对应测试；不要使用该版本不存在的 API。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;这是基线与改动的原始数据、设备和计时方法：
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;检查比较条件是否一致，区分事实、推测和仍缺少的测量，
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;并提出一次能够区分主要原因的后续实验。
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;每周最后一天，关掉 AI 辅助，用自己的话解释一次 IR 变化、一个失败输入和一项取舍。AI 生成的规则必须经过正反例与数值检查；没有运行过的命令、没有采集过的设备数据，不写成实验结果。&lt;/p&gt;
+&lt;h3 id="137-进度落后时保护核心顺序"&gt;13.7 进度落后时，保护核心顺序
+&lt;/h3&gt;&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;检查点&lt;/th&gt;
+					&lt;th&gt;必须留下的能力&lt;/th&gt;
+					&lt;th&gt;可以暂缓的内容&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 2 周结束&lt;/td&gt;
+					&lt;td&gt;能读 IR，解释并测试一个合法重写&lt;/td&gt;
+					&lt;td&gt;自定义完整前端、读完全部 dialect&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 4 周结束&lt;/td&gt;
+					&lt;td&gt;量化元数据清楚，状态与形状边界可验证&lt;/td&gt;
+					&lt;td&gt;同时比较多种量化算法、复杂多模态模型&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 6 周结束&lt;/td&gt;
+					&lt;td&gt;一条后端路径与执行边界清楚&lt;/td&gt;
+					&lt;td&gt;同时接入第二厂商、实现完整新后端&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第 8 周结束&lt;/td&gt;
+					&lt;td&gt;一项受控实验和可复现交付&lt;/td&gt;
+					&lt;td&gt;大规模自动调优、全部新论文复现&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;如果某周卡住，先缩小模型、图和形状集合，再减少选修内容；不要省略正确性、状态与真实执行位置检查来维持表面进度。学习路线的价值来自知识之间能互相解释，以及每一步都留下可检验的结果。&lt;/p&gt;
+&lt;h2 id="十四进一步阅读按工程问题选择论文和源码"&gt;十四、进一步阅读：按工程问题选择论文和源码
+&lt;/h2&gt;&lt;h3 id="141-核心材料与选读顺序"&gt;14.1 核心材料与选读顺序
+&lt;/h3&gt;&lt;p&gt;前面的课程负责搭起概念，下面的材料用于回答已经遇到的问题。每次阅读写下四件事：&lt;strong&gt;它解决什么约束、采用什么表示、依赖什么假设、怎样验证有效&lt;/strong&gt;。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;材料&lt;/th&gt;
+					&lt;th&gt;适合深入的问题&lt;/th&gt;
+					&lt;th&gt;建议顺序&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/2002.11054" target="_blank" rel="noopener"
+ &gt;MLIR: Scaling Compiler Infrastructure for Domain Specific Computation，2020&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;多层 IR 为什么存在，基础设施怎样容纳不同语义&lt;/td&gt;
+					&lt;td&gt;第 2 周后核心阅读，对照一次实际 lowering&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://mlir.llvm.org/docs/DialectConversion/" target="_blank" rel="noopener"
+ &gt;MLIR Dialect Conversion&lt;/a&gt;与 &lt;a class="link" href="https://mlir.llvm.org/docs/Bufferization/" target="_blank" rel="noopener"
+ &gt;Bufferization&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;合法化怎样结束，别名与读写冲突怎样决定存储处理&lt;/td&gt;
+					&lt;td&gt;第 2、5 周按实验查阅，比泛读所有 dialect 更优先&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/2207.04296" target="_blank" rel="noopener"
+ &gt;TensorIR，2022 预印本&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;张量程序怎样支持变换，计算语义与调度怎样结合&lt;/td&gt;
+					&lt;td&gt;第 5 周核心阅读，配合小型分块实验&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/1802.04799" target="_blank" rel="noopener"
+ &gt;TVM，2018&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;图、算子优化与硬件后端怎样组成完整系统&lt;/td&gt;
+					&lt;td&gt;第一轮建立全景；历史架构与当前 API 分开看&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/2306.00978" target="_blank" rel="noopener"
+ &gt;AWQ&lt;/a&gt;或 &lt;a class="link" href="https://arxiv.org/abs/2211.10438" target="_blank" rel="noopener"
+ &gt;SmoothQuant&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;量化算法怎样重新分配误差，怎样约束后端实现&lt;/td&gt;
+					&lt;td&gt;第 3 周按所用格式选一篇，另一篇先理解差别&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/2210.15016" target="_blank" rel="noopener"
+ &gt;TPU-MLIR，2022&lt;/a&gt;与&lt;a class="link" href="https://arxiv.org/abs/2607.15865" target="_blank" rel="noopener"
+ &gt;面向 LLM 的编译方法，2026&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;一个具体 NPU 编译体系如何处理多层表示、有限存储和生成阶段&lt;/td&gt;
+					&lt;td&gt;B 路线重点，结合当前源码核对；其他路线选读&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://iree.dev/developers/general/developer-overview/" target="_blank" rel="noopener"
+ &gt;IREE 开发者概览&lt;/a&gt;与 &lt;a class="link" href="https://iree.dev/reference/mlir-dialects/Stream/" target="_blank" rel="noopener"
+ &gt;Stream IR&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;异步执行、资源与设备边界怎样进入编译表示&lt;/td&gt;
+					&lt;td&gt;状态与运行时方向选读，不要求额外迁移全部实验&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://arxiv.org/abs/2006.06762" target="_blank" rel="noopener"
+ &gt;Ansor，2020&lt;/a&gt;&lt;/td&gt;
+					&lt;td&gt;为什么搜索空间与代价模型比穷举更重要&lt;/td&gt;
+					&lt;td&gt;第 7 周确实需要自动调优时再读&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;a class="link" href="https://openxla.org/stablehlo/compatibility" target="_blank" rel="noopener"
+ &gt;StableHLO 兼容性&lt;/a&gt;及目标 SDK 的产物说明&lt;/td&gt;
+					&lt;td&gt;程序表示、序列化格式与设备产物分别承诺什么兼容性&lt;/td&gt;
+					&lt;td&gt;第 8 周结合交付清单阅读&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;论文中的速度与模型范围依赖其设备、软件和评测条件。读过一种方法以后，先在自己的负载上找出对应约束，再决定是否复现；不要把发表年份或单项加速数字当作选型排序。&lt;/p&gt;
+&lt;h3 id="142-后续跟踪什么暂时放下什么"&gt;14.2 后续跟踪什么，暂时放下什么
+&lt;/h3&gt;&lt;p&gt;建议持续跟踪四类变化：&lt;strong&gt;目标设备的模型/精度支持矩阵、所选编译器的 IR 与 pass 变化、状态和动态形状能力、编译产物与运行时兼容性&lt;/strong&gt;。这些信息直接影响模型升级、性能和维护成本；遇到版本变化时，重跑已经建立的小模块、状态边界和完整模型检查。&lt;/p&gt;
+&lt;p&gt;当基础链路稳定后，再按真实需要扩展：长上下文和 KV 压缩、多模态前端、稀疏计算或混合专家（Mixture of Experts，MoE）的动态执行、自动调优和更高层的调度表达。它们各有价值，但进入学习主线的依据应是目标硬件与当前瓶颈，而非同时追逐所有新名词。&lt;/p&gt;
+&lt;p&gt;归纳起来，这张图谱的核心是：&lt;strong&gt;保留模型语义，表达硬件约束，验证程序变换，让编译产物与有状态执行正确衔接。&lt;/strong&gt; 深入一套能修改、能观察、能验证的工具链，再用共同的问题比较其他实现，就能逐步形成面向端侧 NPU 的编译工程判断力。&lt;/p&gt;</description></item><item><title>大模型推理与部署工程图谱：技术栈、开源项目与学习路线</title><link>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</link><pubDate>Sun, 20 Sep 2026 13:13:11 +0800</pubDate><guid>https://qiyueliuhuo.github.io/posts/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2%E5%B7%A5%E7%A8%8B%E5%9B%BE%E8%B0%B1%E6%8A%80%E6%9C%AF%E6%A0%88%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E4%B8%8E%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/</guid><description>
  &lt;blockquote&gt;
  &lt;p&gt;&lt;strong&gt;AI 协作说明&lt;/strong&gt;&lt;br&gt;
 本文由作者主导选题、技术判断与终稿审核；AI 工具协助完成资料检索、信息归纳、结构梳理与文字润色。文中观点、事实核验与引用准确性由作者负责。&lt;/p&gt;
