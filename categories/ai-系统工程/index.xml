@@ -262,15 +262,15 @@ $$&lt;/p&gt;
  &gt;StableHLO 的定位&lt;/a&gt;和 &lt;a class="link" href="https://iree.dev/developers/general/developer-tips/" target="_blank" rel="noopener"
  &gt;IREE 的编译阶段&lt;/a&gt;提供了两个不同层面的观察入口。&lt;/p&gt;
 &lt;h3 id="32-理解-mlir先理解少量结构"&gt;3.2 理解 MLIR，先理解少量结构
-&lt;/h3&gt;&lt;p&gt;MLIR 的**方言（dialect）**组织相关操作、类型和属性的定义。**操作（operation）**可以表示算术、函数、内存访问等不同语义；**值（value）**由操作结果或块参数产生；**块（block）&lt;strong&gt;和&lt;/strong&gt;区域（region）**组织程序结构，操作还可以包含区域。&lt;/p&gt;
-&lt;p&gt;在**静态单赋值形式（Static Single Assignment，SSA）**中，每个 SSA 值只定义一次，便于追踪定义与使用关系。但一个值可以引用可变缓冲区，SSA 并不禁止修改其中的内存内容。&lt;a class="link" href="https://mlir.llvm.org/docs/LangRef/" target="_blank" rel="noopener"
+&lt;/h3&gt;&lt;p&gt;MLIR 的&lt;strong&gt;方言（dialect）&lt;/strong&gt; 组织相关操作、类型和属性的定义。&lt;strong&gt;操作（operation）&lt;/strong&gt; 可以表示算术、函数、内存访问等不同语义；&lt;strong&gt;值（value）&lt;/strong&gt; 由操作结果或块参数产生；&lt;strong&gt;块（block）&lt;/strong&gt; 和&lt;strong&gt;区域（region）&lt;/strong&gt; 组织程序结构，操作还可以包含区域。&lt;/p&gt;
+&lt;p&gt;在&lt;strong&gt;静态单赋值形式（Static Single Assignment，SSA）&lt;/strong&gt; 中，每个 SSA 值只定义一次，便于追踪定义与使用关系。但一个值可以引用可变缓冲区，SSA 并不禁止修改其中的内存内容。&lt;a class="link" href="https://mlir.llvm.org/docs/LangRef/" target="_blank" rel="noopener"
  &gt;MLIR 语言参考&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Pass&lt;/strong&gt; 是编译器中的一个处理阶段，可执行分析或变换；多个 pass 组成编译流水线（pass pipeline），本文保留英文 pass。编写 pass 时不仅需要找到某种图结构模式，还要检查类型、属性、副作用和使用关系。MLIR 的接口（interface）、描述可复用性质与约束的 trait、验证器（verifier）和模式重写（pattern rewriting）机制帮助表达这些条件。&lt;a class="link" href="https://mlir.llvm.org/docs/Tutorials/Toy/" target="_blank" rel="noopener"
  &gt;MLIR Toy 教程&lt;/a&gt;适合从小程序逐步建立这些概念。&lt;/p&gt;
 &lt;h3 id="33-导出分区与代码生成是不同扩展点"&gt;3.3 导出、分区与代码生成是不同扩展点
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;前端导入&lt;/strong&gt;解决“模型怎样进入编译器”，需要正确表达模型的算子、常量、形状和状态。&lt;/li&gt;
-&lt;li&gt;**图分区（graph partitioning）**解决“哪些操作组成子图、交给哪个后端”，还要考虑精度、形状、依赖与边界成本。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;图分区（graph partitioning）&lt;/strong&gt; 解决“哪些操作组成子图、交给哪个后端”，还要考虑精度、形状、依赖与边界成本。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;代码生成&lt;/strong&gt;解决“这段计算最终怎样执行”，可以生成内核，也可以调用已有库或厂商编译器。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;运行时接入&lt;/strong&gt;解决“产物怎样被加载和调用”，涉及缓冲区、生命周期、同步和错误传播。&lt;/li&gt;
 &lt;/ul&gt;
@@ -504,7 +504,7 @@ $$&lt;/p&gt;
 &lt;p&gt;其中 $q$ 是存储整数，$\hat{x}$ 是它表达的近似实数。&lt;code&gt;round&lt;/code&gt; 表示按约定规则舍入，&lt;code&gt;clip&lt;/code&gt; 表示将超出量化整数范围的值限制到边界；这里的范围裁剪（clipping）对应饱和处理（saturation），不同于向零截断（truncation）。&lt;/p&gt;
 &lt;p&gt;MLIR 的 &lt;code&gt;i4&lt;/code&gt; 是不带有符号/无符号标记的 4 位整数类型（signless integer type），符号解释取决于操作或量化类型的约定，不能单独表达完整量化语义。&lt;a class="link" href="https://mlir.llvm.org/docs/Dialects/Builtin/#integertype" target="_blank" rel="noopener"
  &gt;MLIR 整数类型&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;MLIR 的量化类型区分&lt;strong&gt;存储类型（storage type）&lt;strong&gt;与&lt;/strong&gt;表达类型（expressed type）&lt;/strong&gt;：前者保存量化编码，后者表示这些编码对应的数值所采用的类型，通常为浮点。表达类型并不自动决定硬件累加类型。&lt;a class="link" href="https://mlir.llvm.org/docs/Quantization/" target="_blank" rel="noopener"
+&lt;p&gt;MLIR 的量化类型区分&lt;strong&gt;存储类型（storage type）&lt;/strong&gt; 与&lt;strong&gt;表达类型（expressed type）&lt;/strong&gt; ：前者保存量化编码，后者表示这些编码对应的数值所采用的类型，通常为浮点。表达类型并不自动决定硬件累加类型。&lt;a class="link" href="https://mlir.llvm.org/docs/Quantization/" target="_blank" rel="noopener"
  &gt;MLIR 量化设计&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;调试时可以先把约定打印成与具体 API 无关的清单：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
@@ -698,10 +698,10 @@ $$&lt;/p&gt;
 &lt;p&gt;这一部分的 &lt;strong&gt;P0&lt;/strong&gt; 是格式语义、参数传递、打包/布局、转换与累加的区别，以及逐阶段验证；&lt;strong&gt;P1&lt;/strong&gt; 是所选后端的具体实现；其他厂商编码和特殊低比特格式按需深入。第十三节第三周先用小实验建立这些约定，第五、六周再把它们接入布局与真实后端。&lt;/p&gt;
 &lt;h2 id="七张量程序布局与内存把计算映射到硬件"&gt;七、张量程序、布局与内存：把计算映射到硬件
 &lt;/h2&gt;&lt;h3 id="71-从-matmul-到分块执行"&gt;7.1 从 MatMul 到分块执行
-&lt;/h3&gt;&lt;p&gt;矩阵乘 $C_{M\times N}=A_{M\times K}B_{K\times N}$ 的计算量约为 $2MNK$ 次算术运算，一次乘加计作两次。硬件通常不能把完整矩阵都放进片上存储，因此需要&lt;strong&gt;计算分块（tiling）&lt;/strong&gt;，使读入的数据在被换出前获得足够复用。&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;矩阵乘 $C_{M\times N}=A_{M\times K}B_{K\times N}$ 的计算量约为 $2MNK$ 次算术运算，一次乘加计作两次。硬件通常不能把完整矩阵都放进片上存储，因此需要&lt;strong&gt;计算分块（tiling）&lt;/strong&gt; ，使读入的数据在被换出前获得足够复用。&lt;/p&gt;
 &lt;p&gt;一种分块策略至少决定：输出块大小、归约块大小、遍历顺序、数据进入哪级存储、多个执行单元怎样分工，以及何时同步。TensorIR 将块、迭代与张量计算原语组织成可变换的程序；MLIR 的 Linalg 等表示也可以保存结构化计算信息。&lt;a class="link" href="https://arxiv.org/abs/2207.04296" target="_blank" rel="noopener"
  &gt;TensorIR 论文&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;这里的**计算调度（schedule）**指张量程序的执行组织方式，包括循环顺序、分块、并行和数据搬运等安排，与推理服务的请求调度含义不同。&lt;strong&gt;张量化（tensorization）&lt;/strong&gt; 通常指把一段匹配的计算映射到硬件提供的张量/矩阵计算原语，也不同于将 Python 列表转换为 Tensor。&lt;/p&gt;
+&lt;p&gt;这里的&lt;strong&gt;计算调度（schedule）&lt;/strong&gt; 指张量程序的执行组织方式，包括循环顺序、分块、并行和数据搬运等安排，与推理服务的请求调度含义不同。&lt;strong&gt;张量化（tensorization）&lt;/strong&gt; 通常指把一段匹配的计算映射到硬件提供的张量/矩阵计算原语，也不同于将 Python 列表转换为 Tensor。&lt;/p&gt;
 &lt;h3 id="72-一次片上容量计算"&gt;7.2 一次片上容量计算
 &lt;/h3&gt;&lt;p&gt;设一个输出分块为 $M_t=32,N_t=64$，归约分块 $K_t=128$，A/B 使用 2 字节元素，累加器使用 4 字节：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
@@ -878,7 +878,7 @@ $$&lt;/p&gt;
  &gt;TVM 架构&lt;/a&gt;、&lt;a class="link" href="https://tvm.apache.org/docs/deep_dive/relax/index.html" target="_blank" rel="noopener"
  &gt;Relax&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id="83-byocdelegate-与-ep-是可比较的接入思路"&gt;8.3 BYOC、delegate 与 EP 是可比较的接入思路
-&lt;/h3&gt;&lt;p&gt;TVM 的 &lt;strong&gt;Bring Your Own Codegen（BYOC，外部代码生成后端接入）&lt;/strong&gt;、ExecuTorch 的**后端委托执行（delegate）**和 ORT 的 &lt;strong&gt;EP&lt;/strong&gt; 都允许外部后端承担一部分程序执行，但它们的 IR、生命周期和接口不同。&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;TVM 的 &lt;strong&gt;Bring Your Own Codegen（BYOC，外部代码生成后端接入）&lt;/strong&gt; 、ExecuTorch 的&lt;strong&gt;后端委托执行（delegate）&lt;/strong&gt; 和 ORT 的 &lt;strong&gt;EP&lt;/strong&gt; 都允许外部后端承担一部分程序执行，但它们的 IR、生命周期和接口不同。&lt;/p&gt;
 &lt;p&gt;学习时可以用同一组问题比较：怎样声明能力，怎样选择子图，怎样序列化产物，谁分配输入输出，谁处理同步，失败后怎样恢复。共同的概念可以迁移，接口实现需要按项目重做。&lt;/p&gt;
 &lt;p&gt;一个细节很能说明验证的重要性：TVM 当前 &lt;a class="link" href="https://tvm.apache.org/docs/how_to/tutorials/bring_your_own_codegen.html" target="_blank" rel="noopener"
  &gt;BYOC 教程&lt;/a&gt;中的示例 NPU 后端是教学用桩实现（stub），只记录调度决策，不执行实际计算，输出缓冲区也未初始化，因此该部分只检查形状。跑通教学后端，证明的是接口链路；数值正确性和 NPU 性能需要另外验证。&lt;/p&gt;
@@ -1081,7 +1081,7 @@ $$&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;每次只改变一个主要因素，并保留失败样例。把所有开关一起调整，即使得到了更好的最终数字，也很难形成可迁移的判断。&lt;/p&gt;
 &lt;h3 id="113-用架构决策记录固定取舍"&gt;11.3 用架构决策记录固定取舍
-&lt;/h3&gt;&lt;p&gt;可以沿用上一篇的&lt;strong&gt;架构决策记录（Architecture Decision Record，ADR）&lt;/strong&gt;，增加编译特有的信息：&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;可以沿用上一篇的&lt;strong&gt;架构决策记录（Architecture Decision Record，ADR）&lt;/strong&gt; ，增加编译特有的信息：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
